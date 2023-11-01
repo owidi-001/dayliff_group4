@@ -1,4 +1,4 @@
-import 'package:dayliff/auth/login.dart';
+import 'package:dayliff/features/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {
@@ -23,6 +23,16 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text(""),),);
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+            height: 100,
+            width: 100,
+            child: Image.asset(
+              "assets/logo.png",
+              fit: BoxFit.contain,
+            )),
+      ),
+    );
   }
 }
