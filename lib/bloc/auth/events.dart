@@ -14,7 +14,7 @@ class LoginEvent extends AuthEvent {
   const LoginEvent({required this.email, required this.password});
   @override
   // TODO: implement props
-  List<Object?> get props => [email,password];
+  List<Object?> get props => [email, password];
 }
 
 class LocalLogin extends AuthEvent {
@@ -26,3 +26,5 @@ class LocalLogin extends AuthEvent {
   // TODO: implement props
   List<Object?> get props => [data];
 }
+
+class LogoutEvent extends AuthEvent {}
