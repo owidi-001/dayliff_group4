@@ -1,5 +1,9 @@
+import 'package:dayliff/bloc/auth/bloc.dart';
+import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/login.dart';
+import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -11,14 +15,13 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _checkUser();
+  }
 
-    Future.delayed(
-      const Duration(seconds: 2),
-      () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const Login())),
-    );
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -34,5 +37,19 @@ class _SplashState extends State<Splash> {
             )),
       ),
     );
+  }
+
+  void _checkUser() async {
+    final userData = await AppUtility().getUserData();
+    if (userData != null && mounted) {
+      print(userData.toJson());
+      context.read<AuthBloc>().add(LocalLogin(data: userData));
+      // Navigate to dashboard
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const Dashboard()));
+    } else if (mounted) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const Login()));
+    }
   }
 }

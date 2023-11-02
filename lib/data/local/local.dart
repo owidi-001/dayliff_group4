@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +18,6 @@ import 'dart:ui' as ui;
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUtility {
-  ///Gets user data from local storage
-  Future<Driver?> getUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString(USER_DATA);
-    if (data != null) {
-      return Driver.fromJson(jsonDecode(data));
-    }
-    return null;
-  }
-
 // Launch maps navigation intent
   static void realTimeNavigation(LatLng destination) {
     final intent = AndroidIntent(
@@ -105,6 +96,11 @@ class AppUtility {
     return parts.join('.');
   }
 
+  // Capitalize text
+  static String capitalize(String text) {
+    return "${text[0].toUpperCase()}${text.substring(1)}";
+  }
+
   static Color getStatusColor(OrderStatus status, context) {
     switch (status) {
       case OrderStatus.PENDING:
@@ -113,6 +109,8 @@ class AppUtility {
         return Theme.of(context).colorScheme.primary;
       case OrderStatus.COMPLETED:
         return Colors.green;
+      case OrderStatus.PARTIAL:
+        return Colors.brown;
       case OrderStatus.CANCELLED:
         return Colors.red;
       default:
@@ -130,7 +128,7 @@ class AppUtility {
   }
 
   // Format date
-    static List months = [
+  static List months = [
     'January',
     'February',
     'March',
@@ -149,5 +147,27 @@ class AppUtility {
     String month = months[dateTime.month - 1];
     String date = "${dateTime.day}-$month-${dateTime.year}";
     return date;
+  }
+
+  // Shared prefs
+  Future<void> storeUserData(LoginResponse res) async {
+    await SharedPreferences.getInstance().then(
+      (value) => value.setString(USER_DATA_KEY, jsonEncode(res.toJson())),
+    );
+  }
+
+  ///Gets user data from local storage
+  Future<LoginResponse?> getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString(USER_DATA_KEY);
+    if (data != null) {
+      return LoginResponse.fromJson(jsonDecode(data));
+    }
+    return null;
+  }
+
+  void clearUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 }

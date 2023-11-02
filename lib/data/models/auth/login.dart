@@ -6,7 +6,7 @@ part 'login.g.dart';
 @freezed
 class LoginData with _$LoginData {
   factory LoginData({
-    required String phone,
+    @JsonKey(name: "email") required String email,
     required String password,
   }) = _LoginData;
 
@@ -14,13 +14,41 @@ class LoginData with _$LoginData {
       _$LoginDataFromJson(json);
 }
 
-
 @freezed
 class AuthToken with _$AuthToken {
   factory AuthToken({
-    required String accessToken,
+    @JsonKey(name: "token") required String accessToken,
+    @JsonKey(name: "message") String? message,
   }) = _AuthToken;
 
   factory AuthToken.fromJson(Map<String, dynamic> json) =>
       _$AuthTokenFromJson(json);
+}
+
+
+@freezed
+class LoginResponse with _$LoginResponse {
+  factory LoginResponse({
+    required String token,
+    required User user,
+  }) = _LoginResponse;
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
+}
+
+@freezed
+class User with _$User {
+  factory User({
+    required int id,
+    required String name,
+    @JsonKey(name:"phone_number") required String phoneNumber,
+    required String email,
+    @JsonKey(name: 'email_verified_at') String? emailVerifiedAt,
+    required String status,
+    String? role,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

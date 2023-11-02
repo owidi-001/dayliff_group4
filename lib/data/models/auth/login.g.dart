@@ -8,22 +8,61 @@ part of 'login.dart';
 
 _$LoginDataImpl _$$LoginDataImplFromJson(Map<String, dynamic> json) =>
     _$LoginDataImpl(
-      phone: json['phone'] as String,
+      email: json['email'] as String,
       password: json['password'] as String,
     );
 
 Map<String, dynamic> _$$LoginDataImplToJson(_$LoginDataImpl instance) =>
     <String, dynamic>{
-      'phone': instance.phone,
+      'email': instance.email,
       'password': instance.password,
     };
 
 _$AuthTokenImpl _$$AuthTokenImplFromJson(Map<String, dynamic> json) =>
     _$AuthTokenImpl(
-      accessToken: json['accessToken'] as String,
+      accessToken: json['token'] as String,
+      message: json['message'] as String?,
     );
 
 Map<String, dynamic> _$$AuthTokenImplToJson(_$AuthTokenImpl instance) =>
     <String, dynamic>{
-      'accessToken': instance.accessToken,
+      'token': instance.accessToken,
+      'message': instance.message,
+    };
+
+_$LoginResponseImpl _$$LoginResponseImplFromJson(Map<String, dynamic> json) =>
+    _$LoginResponseImpl(
+      token: json['token'] as String,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$LoginResponseImplToJson(_$LoginResponseImpl instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'user': instance.user,
+    };
+
+_$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      phoneNumber: json['phone_number'] as String,
+      email: json['email'] as String,
+      emailVerifiedAt: json['email_verified_at'] as String?,
+      status: json['status'] as String,
+      role: json['role'] as String?,
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+    );
+
+Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'phone_number': instance.phoneNumber,
+      'email': instance.email,
+      'email_verified_at': instance.emailVerifiedAt,
+      'status': instance.status,
+      'role': instance.role,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
     };

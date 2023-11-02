@@ -179,11 +179,8 @@ class AddressService {
     );
   }
 
-  HttpResult<List<Polyline>> polyline(
-    LatLng origin,
-    LatLng destination,
-    {Color? color}
-  ) async {
+  HttpResult<List<Polyline>> polyline(LatLng origin, LatLng destination,
+      {Color? color}) async {
     try {
       List<LatLng> polylineCoordinates = [];
       List<Polyline> polylines = [];

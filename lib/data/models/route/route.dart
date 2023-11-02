@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { PENDING, TRANSIT, COMPLETED, CANCELLED }
+enum OrderStatus { PENDING, TRANSIT, PARTIAL, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
@@ -16,6 +16,8 @@ extension OrderStatusExtension on OrderStatus {
         return 'Pending';
       case OrderStatus.TRANSIT:
         return 'On Transit';
+      case OrderStatus.PARTIAL:
+        return 'Partially Completed';
       case OrderStatus.COMPLETED:
         return 'Completed';
       case OrderStatus.CANCELLED:
@@ -39,7 +41,7 @@ class RoutePool with _$RoutePool {
       @Default(0) @JsonKey(name: "route_cost") double cost,
       @JsonKey(name: "created_at") required DateTime createdAt,
       @JsonKey(name: "updated_at") required DateTime updatedAt,
-      Driver? driver,
+      // Driver? driver,
       @Default(<Order>[]) List<Order> orders}) = _RoutePool;
 
   factory RoutePool.fromJson(Map<String, Object?> json) =>
@@ -49,27 +51,27 @@ class RoutePool with _$RoutePool {
 @freezed
 class Address with _$Address {
   const factory Address({
-    String? name,
-    @JsonKey(name: "longitude") double? lat,
-    @JsonKey(name: "latitude") double? long,
+    @JsonKey(name: "address_name") String? name,
+    @JsonKey(name: "lat") double? lat,
+    @JsonKey(name: "long") double? long,
   }) = _Address;
 
   factory Address.fromJson(Map<String, Object?> json) =>
       _$AddressFromJson(json);
 }
 
-@freezed
-class Driver with _$Driver {
-  const factory Driver({
-    @JsonKey(name: "driver_id") int? driverId,
-    @JsonKey(name: "name") String? firstName,
-    @JsonKey(name: "email") String? email,
-    @JsonKey(name: "phone_number") String? phone,
-    @JsonKey(name: "license_number") String? license,
-  }) = _Driver;
+// @freezed
+// class Driver with _$Driver {
+//   const factory Driver({
+//     @JsonKey(name: "name") String? firstName,
+//     @JsonKey(name: "_id") int? driverId,
+//     @JsonKey(name: "email") String? email,
+//     @JsonKey(name: "phone_number") String? phone,
+//     @JsonKey(name: "license_number") String? license,
+//   }) = _Driver;
 
-  factory Driver.fromJson(Map<String, Object?> json) => _$DriverFromJson(json);
-}
+//   factory Driver.fromJson(Map<String, Object?> json) => _$DriverFromJson(json);
+// }
 
 @freezed
 class DriverUpdate with _$DriverUpdate {
@@ -87,12 +89,12 @@ class DriverUpdate with _$DriverUpdate {
 @freezed
 class Order with _$Order {
   const factory Order(
-      {@JsonKey(name: "order_id") int? orderId,
+      {@JsonKey(name: "_id") String? orderId,
+      @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") required String customerName,
       @JsonKey(name: "customer_phone") required String customerPhone,
       @JsonKey(name: "order_date") required DateTime orderDate,
       @JsonKey(name: "delivery_date") DateTime? deliveryDate,
-      @JsonKey(name: "destination_address") Address? destination,
       required OrderStatus status,
       @JsonKey(name: "route_id") required int route,
       @JsonKey(name: "created_at") required DateTime createdAt,
@@ -109,16 +111,15 @@ class Order with _$Order {
 @freezed
 class DeliveryConfirmation with _$DeliveryConfirmation {
   const factory DeliveryConfirmation(
-      {@JsonKey(name: "confirmation_id") int? confirmationId,
-      @JsonKey(name: "order_id") int? orderId,
+      {@JsonKey(name: "_id") int? confirmationId,
       @JsonKey(name: "confirmation_date") DateTime? dateConfirmed,
+      @JsonKey(name: "order_id") required String orderId,
       @JsonKey(name: "recipient_name") required String recipient,
-      @JsonKey(name: "signature_image", includeFromJson: false) File? signature,
       @JsonKey(name: "order_image", includeFromJson: false) File? orderImage,
       @JsonKey(name: "comments") String? comments,
-      @JsonKey(name: "created_at") required DateTime createdAt,
+      @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at")
-      required DateTime updatedAt}) = _DeliveryConfirmation;
+      DateTime? updatedAt}) = _DeliveryConfirmation;
 
   factory DeliveryConfirmation.fromJson(Map<String, Object?> json) =>
       _$DeliveryConfirmationFromJson(json);

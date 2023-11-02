@@ -1,6 +1,7 @@
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 
 class LoadingIllustrator extends StatelessWidget {
   const LoadingIllustrator({super.key});
@@ -184,6 +185,36 @@ class _LottieLoaderState extends State<LottieLoader>
           ..duration = composition.duration
           ..forward();
       },
+    );
+  }
+}
+
+// Shimmer box
+class SkeletonLoader extends StatefulWidget {
+  const SkeletonLoader({super.key});
+
+  @override
+  State<SkeletonLoader> createState() => _SkeletonLoaderState();
+}
+
+class _SkeletonLoaderState extends State<SkeletonLoader> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 200.0,
+      height: 100.0,
+      child: Shimmer.fromColors(
+        baseColor: Theme.of(context).colorScheme.primary,
+        highlightColor: Theme.of(context).colorScheme.tertiary,
+        child: const Text(
+          'Shimmer',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 40.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

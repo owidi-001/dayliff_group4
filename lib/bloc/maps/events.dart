@@ -18,6 +18,7 @@ class StartMapsEvent extends MapsEvent {
 }
 
 class PopulateCompanyLocations extends MapsEvent {}
+class PopulateWarehouseLocations extends MapsEvent {}
 
 class PopulateOrdersLocations extends MapsEvent {
   final List<Order> orders;
@@ -26,17 +27,9 @@ class PopulateOrdersLocations extends MapsEvent {
   List<Object?> get props => [orders];
 }
 
-class PopulateWarehouseLocations extends MapsEvent {}
-
 class DrawMarkerPolylines extends MapsEvent {}
 
 class ResetMaps extends MapsEvent {}
-
-// class ToggleMapView extends MapsEvent {
-//   final List<Order> orders;
-//   const ToggleMapView(this.orders);
-//   List<Object?> get props => [orders];
-// }
 
 // Marker tapped
 class MarkerTapped extends MapsEvent {

@@ -1,101 +1,140 @@
+import 'package:dayliff/bloc/auth/bloc.dart';
+import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
 import 'package:dayliff/utils/info_messages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            // background image and bottom contents
-            Column(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Stack(
+              alignment: Alignment.center,
               children: <Widget>[
-                Container(
-                  height: 200.0,
-                  color: Theme.of(context).colorScheme.primary.withOpacity(.4),
-                  // child: const Placeholder(),
-                ),
-                Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: AppBar().preferredSize.height * 1.5,
-                        ),
-                        SectionContainer(
-                          title: "Account",
+                // background image and bottom contents
+                Column(
+                  children: <Widget>[
+                    Container(
+                      height: 200.0,
+                      color:
+                          Theme.of(context).colorScheme.primary.withOpacity(.4),
+                      // child: const Placeholder(),
+                    ),
+                    Container(
+                        color: Colors.white,
+                        child: Column(
                           children: [
-                            SettingsTabs(
-                              text: "Update details",
-                              icon: Icons.person,
-                              press: () {
-                                showInfo("Coming soon");
-                              },
+                            SizedBox(
+                              height: AppBar().preferredSize.height * 1.5,
+                            ),
+                            SectionContainer(
+                              title: "Account",
+                              children: [
+                                SettingsTabs(
+                                  text: "Update details",
+                                  icon: Icons.person,
+                                  press: () {
+                                    // showInfo("Coming soon");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text("Coming soon")));
+                                  },
+                                ),
+                              ],
+                            ),
+                            SectionContainer(title: "Orders", children: [
+                              SettingsTabs(
+                                text: "Active Orders",
+                                icon: Icons.card_giftcard_sharp,
+                                press: () {
+                                  // showInfo("Coming soon");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text("Coming soon")));
+                                },
+                              ),
+                              SettingsTabs(
+                                text: "Pending Orders",
+                                icon: Icons.pending,
+                                press: () {
+                                  // showInfo("Coming soon");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text("Coming soon")));
+                                },
+                              ),
+                              SettingsTabs(
+                                text: "Completed Orders",
+                                icon: Icons.check_circle,
+                                press: () {
+                                  // showInfo("Coming soon");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text("Coming soon")));
+                                },
+                              ),
+                            ]),
+                            SectionContainer(title: "Security", children: [
+                              SettingsTabs(
+                                text: "Use biometrics",
+                                icon: Icons.fingerprint,
+                                press: () {
+                                  // showInfo("Coming soon");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text("Coming soon")));
+                                },
+                                isSwitch: true,
+                              ),
+                            ]),
+                            SizedBox(
+                              height: AppBar().preferredSize.height,
                             ),
                           ],
-                        ),
-                        SectionContainer(title: "Orders", children: [
-                          SettingsTabs(
-                            text: "Active Orders",
-                            icon: Icons.card_giftcard_sharp,
-                            press: () {
-                              showInfo("Coming soon");
-                            },
-                          ),
-                          SettingsTabs(
-                            text: "Pending Orders",
-                            icon: Icons.pending,
-                            press: () {
-                              showInfo("Coming soon");
-                            },
-                          ),
-                          SettingsTabs(
-                            text: "Completed Orders",
-                            icon: Icons.check_circle,
-                            press: () {
-                              showInfo("Coming soon");
-                            },
-                          ),
-                        ]),
-                        SectionContainer(title: "Security", children: [
-                          SettingsTabs(
-                            text: "Use biometrics",
-                            icon: Icons.fingerprint,
-                            press: () {
-                              showInfo("Coming soon");
-                            },
-                            isSwitch: true,
-                          ),
-                        ]),
-                        SizedBox(
-                          height: AppBar().preferredSize.height,
-                        ),
-                      ],
-                    ))
+                        ))
+                  ],
+                ),
+                // Profile image
+                const Positioned(
+                  top:
+                      130.0, // (background container size) - (circle height / 2)
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/avatar.jpeg"),
+                    radius: 70.0,
+                  ),
+                  // Container(
+                  //   height: 100.0,
+                  //   width: 100.0,
+                  //   decoration:
+                  //       BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+                  // ),
+                ),
+                Positioned(
+                  top: AppBar().preferredSize.height,
+                  left: 16,
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      return Text(
+                        AppUtility.capitalize(state.user?.name ?? ''),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
-            // Profile image
-            const Positioned(
-              top: 130.0, // (background container size) - (circle height / 2)
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/avatar.jpeg"),
-                radius: 70.0,
-              ),
-              // Container(
-              //   height: 100.0,
-              //   width: 100.0,
-              //   decoration:
-              //       BoxDecoration(shape: BoxShape.circle, color: Colors.green),
-              // ),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

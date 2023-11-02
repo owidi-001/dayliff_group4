@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/models/error/error_handler.dart';
 import 'package:dayliff/data/models/multiple_results/multiple_results.dart';
@@ -21,7 +22,8 @@ setUpService() {
   service.registerLazySingleton<OrderService>(() => OrderService());
   service.registerLazySingleton<AddressService>(() => AddressService());
   service.registerLazySingleton<MapsService>(() => MapsService());
-  service.registerLazySingleton<ProfileService>(() => ProfileService());
+  service.registerLazySingleton<OrderConfirmationService>(
+      () => OrderConfirmationService());
 }
 
 enum ServiceStatus {

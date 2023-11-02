@@ -38,8 +38,8 @@ mixin _$RoutePool {
   @JsonKey(name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_at")
-  DateTime get updatedAt => throw _privateConstructorUsedError;
-  Driver? get driver => throw _privateConstructorUsedError;
+  DateTime get updatedAt =>
+      throw _privateConstructorUsedError; // Driver? driver,
   List<Order> get orders => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,12 +64,10 @@ abstract class $RoutePoolCopyWith<$Res> {
       @JsonKey(name: "route_cost") double cost,
       @JsonKey(name: "created_at") DateTime createdAt,
       @JsonKey(name: "updated_at") DateTime updatedAt,
-      Driver? driver,
       List<Order> orders});
 
   $AddressCopyWith<$Res>? get origin;
   $AddressCopyWith<$Res>? get destination;
-  $DriverCopyWith<$Res>? get driver;
 }
 
 /// @nodoc
@@ -95,7 +93,6 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
     Object? cost = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? driver = freezed,
     Object? orders = null,
   }) {
     return _then(_value.copyWith(
@@ -139,10 +136,6 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      driver: freezed == driver
-          ? _value.driver
-          : driver // ignore: cast_nullable_to_non_nullable
-              as Driver?,
       orders: null == orders
           ? _value.orders
           : orders // ignore: cast_nullable_to_non_nullable
@@ -173,18 +166,6 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
       return _then(_value.copyWith(destination: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DriverCopyWith<$Res>? get driver {
-    if (_value.driver == null) {
-      return null;
-    }
-
-    return $DriverCopyWith<$Res>(_value.driver!, (value) {
-      return _then(_value.copyWith(driver: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -206,15 +187,12 @@ abstract class _$$RoutePoolImplCopyWith<$Res>
       @JsonKey(name: "route_cost") double cost,
       @JsonKey(name: "created_at") DateTime createdAt,
       @JsonKey(name: "updated_at") DateTime updatedAt,
-      Driver? driver,
       List<Order> orders});
 
   @override
   $AddressCopyWith<$Res>? get origin;
   @override
   $AddressCopyWith<$Res>? get destination;
-  @override
-  $DriverCopyWith<$Res>? get driver;
 }
 
 /// @nodoc
@@ -238,7 +216,6 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
     Object? cost = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? driver = freezed,
     Object? orders = null,
   }) {
     return _then(_$RoutePoolImpl(
@@ -282,10 +259,6 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      driver: freezed == driver
-          ? _value.driver
-          : driver // ignore: cast_nullable_to_non_nullable
-              as Driver?,
       orders: null == orders
           ? _value._orders
           : orders // ignore: cast_nullable_to_non_nullable
@@ -308,7 +281,6 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
       @JsonKey(name: "route_cost") this.cost = 0,
       @JsonKey(name: "created_at") required this.createdAt,
       @JsonKey(name: "updated_at") required this.updatedAt,
-      this.driver,
       final List<Order> orders = const <Order>[]})
       : _orders = orders;
 
@@ -344,9 +316,9 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
   @override
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
-  @override
-  final Driver? driver;
+// Driver? driver,
   final List<Order> _orders;
+// Driver? driver,
   @override
   @JsonKey()
   List<Order> get orders {
@@ -357,7 +329,7 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RoutePool(routeId: $routeId, name: $name, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, cost: $cost, createdAt: $createdAt, updatedAt: $updatedAt, driver: $driver, orders: $orders)';
+    return 'RoutePool(routeId: $routeId, name: $name, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, cost: $cost, createdAt: $createdAt, updatedAt: $updatedAt, orders: $orders)';
   }
 
   @override
@@ -375,7 +347,6 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
       ..add(DiagnosticsProperty('cost', cost))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
-      ..add(DiagnosticsProperty('driver', driver))
       ..add(DiagnosticsProperty('orders', orders));
   }
 
@@ -399,7 +370,6 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.driver, driver) || other.driver == driver) &&
             const DeepCollectionEquality().equals(other._orders, _orders));
   }
 
@@ -417,7 +387,6 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
       cost,
       createdAt,
       updatedAt,
-      driver,
       const DeepCollectionEquality().hash(_orders));
 
   @JsonKey(ignore: true)
@@ -446,7 +415,6 @@ abstract class _RoutePool implements RoutePool {
       @JsonKey(name: "route_cost") final double cost,
       @JsonKey(name: "created_at") required final DateTime createdAt,
       @JsonKey(name: "updated_at") required final DateTime updatedAt,
-      final Driver? driver,
       final List<Order> orders}) = _$RoutePoolImpl;
 
   factory _RoutePool.fromJson(Map<String, dynamic> json) =
@@ -481,9 +449,7 @@ abstract class _RoutePool implements RoutePool {
   @override
   @JsonKey(name: "updated_at")
   DateTime get updatedAt;
-  @override
-  Driver? get driver;
-  @override
+  @override // Driver? driver,
   List<Order> get orders;
   @override
   @JsonKey(ignore: true)
@@ -497,10 +463,11 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Address {
+  @JsonKey(name: "address_name")
   String? get name => throw _privateConstructorUsedError;
-  @JsonKey(name: "longitude")
+  @JsonKey(name: "lat")
   double? get lat => throw _privateConstructorUsedError;
-  @JsonKey(name: "latitude")
+  @JsonKey(name: "long")
   double? get long => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -514,9 +481,9 @@ abstract class $AddressCopyWith<$Res> {
       _$AddressCopyWithImpl<$Res, Address>;
   @useResult
   $Res call(
-      {String? name,
-      @JsonKey(name: "longitude") double? lat,
-      @JsonKey(name: "latitude") double? long});
+      {@JsonKey(name: "address_name") String? name,
+      @JsonKey(name: "lat") double? lat,
+      @JsonKey(name: "long") double? long});
 }
 
 /// @nodoc
@@ -561,9 +528,9 @@ abstract class _$$AddressImplCopyWith<$Res> implements $AddressCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? name,
-      @JsonKey(name: "longitude") double? lat,
-      @JsonKey(name: "latitude") double? long});
+      {@JsonKey(name: "address_name") String? name,
+      @JsonKey(name: "lat") double? lat,
+      @JsonKey(name: "long") double? long});
 }
 
 /// @nodoc
@@ -602,20 +569,21 @@ class __$$AddressImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AddressImpl with DiagnosticableTreeMixin implements _Address {
   const _$AddressImpl(
-      {this.name,
-      @JsonKey(name: "longitude") this.lat,
-      @JsonKey(name: "latitude") this.long});
+      {@JsonKey(name: "address_name") this.name,
+      @JsonKey(name: "lat") this.lat,
+      @JsonKey(name: "long") this.long});
 
   factory _$AddressImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddressImplFromJson(json);
 
   @override
+  @JsonKey(name: "address_name")
   final String? name;
   @override
-  @JsonKey(name: "longitude")
+  @JsonKey(name: "lat")
   final double? lat;
   @override
-  @JsonKey(name: "latitude")
+  @JsonKey(name: "long")
   final double? long;
 
   @override
@@ -663,269 +631,24 @@ class _$AddressImpl with DiagnosticableTreeMixin implements _Address {
 
 abstract class _Address implements Address {
   const factory _Address(
-      {final String? name,
-      @JsonKey(name: "longitude") final double? lat,
-      @JsonKey(name: "latitude") final double? long}) = _$AddressImpl;
+      {@JsonKey(name: "address_name") final String? name,
+      @JsonKey(name: "lat") final double? lat,
+      @JsonKey(name: "long") final double? long}) = _$AddressImpl;
 
   factory _Address.fromJson(Map<String, dynamic> json) = _$AddressImpl.fromJson;
 
   @override
+  @JsonKey(name: "address_name")
   String? get name;
   @override
-  @JsonKey(name: "longitude")
+  @JsonKey(name: "lat")
   double? get lat;
   @override
-  @JsonKey(name: "latitude")
+  @JsonKey(name: "long")
   double? get long;
   @override
   @JsonKey(ignore: true)
   _$$AddressImplCopyWith<_$AddressImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Driver _$DriverFromJson(Map<String, dynamic> json) {
-  return _Driver.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Driver {
-  @JsonKey(name: "driver_id")
-  int? get driverId => throw _privateConstructorUsedError;
-  @JsonKey(name: "name")
-  String? get firstName => throw _privateConstructorUsedError;
-  @JsonKey(name: "email")
-  String? get email => throw _privateConstructorUsedError;
-  @JsonKey(name: "phone_number")
-  String? get phone => throw _privateConstructorUsedError;
-  @JsonKey(name: "license_number")
-  String? get license => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $DriverCopyWith<Driver> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DriverCopyWith<$Res> {
-  factory $DriverCopyWith(Driver value, $Res Function(Driver) then) =
-      _$DriverCopyWithImpl<$Res, Driver>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "driver_id") int? driverId,
-      @JsonKey(name: "name") String? firstName,
-      @JsonKey(name: "email") String? email,
-      @JsonKey(name: "phone_number") String? phone,
-      @JsonKey(name: "license_number") String? license});
-}
-
-/// @nodoc
-class _$DriverCopyWithImpl<$Res, $Val extends Driver>
-    implements $DriverCopyWith<$Res> {
-  _$DriverCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? driverId = freezed,
-    Object? firstName = freezed,
-    Object? email = freezed,
-    Object? phone = freezed,
-    Object? license = freezed,
-  }) {
-    return _then(_value.copyWith(
-      driverId: freezed == driverId
-          ? _value.driverId
-          : driverId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      license: freezed == license
-          ? _value.license
-          : license // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
-  factory _$$DriverImplCopyWith(
-          _$DriverImpl value, $Res Function(_$DriverImpl) then) =
-      __$$DriverImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "driver_id") int? driverId,
-      @JsonKey(name: "name") String? firstName,
-      @JsonKey(name: "email") String? email,
-      @JsonKey(name: "phone_number") String? phone,
-      @JsonKey(name: "license_number") String? license});
-}
-
-/// @nodoc
-class __$$DriverImplCopyWithImpl<$Res>
-    extends _$DriverCopyWithImpl<$Res, _$DriverImpl>
-    implements _$$DriverImplCopyWith<$Res> {
-  __$$DriverImplCopyWithImpl(
-      _$DriverImpl _value, $Res Function(_$DriverImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? driverId = freezed,
-    Object? firstName = freezed,
-    Object? email = freezed,
-    Object? phone = freezed,
-    Object? license = freezed,
-  }) {
-    return _then(_$DriverImpl(
-      driverId: freezed == driverId
-          ? _value.driverId
-          : driverId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      license: freezed == license
-          ? _value.license
-          : license // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$DriverImpl with DiagnosticableTreeMixin implements _Driver {
-  const _$DriverImpl(
-      {@JsonKey(name: "driver_id") this.driverId,
-      @JsonKey(name: "name") this.firstName,
-      @JsonKey(name: "email") this.email,
-      @JsonKey(name: "phone_number") this.phone,
-      @JsonKey(name: "license_number") this.license});
-
-  factory _$DriverImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DriverImplFromJson(json);
-
-  @override
-  @JsonKey(name: "driver_id")
-  final int? driverId;
-  @override
-  @JsonKey(name: "name")
-  final String? firstName;
-  @override
-  @JsonKey(name: "email")
-  final String? email;
-  @override
-  @JsonKey(name: "phone_number")
-  final String? phone;
-  @override
-  @JsonKey(name: "license_number")
-  final String? license;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Driver(driverId: $driverId, firstName: $firstName, email: $email, phone: $phone, license: $license)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Driver'))
-      ..add(DiagnosticsProperty('driverId', driverId))
-      ..add(DiagnosticsProperty('firstName', firstName))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('phone', phone))
-      ..add(DiagnosticsProperty('license', license));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DriverImpl &&
-            (identical(other.driverId, driverId) ||
-                other.driverId == driverId) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.license, license) || other.license == license));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, driverId, firstName, email, phone, license);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DriverImplCopyWith<_$DriverImpl> get copyWith =>
-      __$$DriverImplCopyWithImpl<_$DriverImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DriverImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Driver implements Driver {
-  const factory _Driver(
-      {@JsonKey(name: "driver_id") final int? driverId,
-      @JsonKey(name: "name") final String? firstName,
-      @JsonKey(name: "email") final String? email,
-      @JsonKey(name: "phone_number") final String? phone,
-      @JsonKey(name: "license_number") final String? license}) = _$DriverImpl;
-
-  factory _Driver.fromJson(Map<String, dynamic> json) = _$DriverImpl.fromJson;
-
-  @override
-  @JsonKey(name: "driver_id")
-  int? get driverId;
-  @override
-  @JsonKey(name: "name")
-  String? get firstName;
-  @override
-  @JsonKey(name: "email")
-  String? get email;
-  @override
-  @JsonKey(name: "phone_number")
-  String? get phone;
-  @override
-  @JsonKey(name: "license_number")
-  String? get license;
-  @override
-  @JsonKey(ignore: true)
-  _$$DriverImplCopyWith<_$DriverImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1161,8 +884,10 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Order {
-  @JsonKey(name: "order_id")
-  int? get orderId => throw _privateConstructorUsedError;
+  @JsonKey(name: "_id")
+  String? get orderId => throw _privateConstructorUsedError;
+  @JsonKey(name: "destination_address")
+  Address? get destination => throw _privateConstructorUsedError;
   @JsonKey(name: "customer_name")
   String get customerName => throw _privateConstructorUsedError;
   @JsonKey(name: "customer_phone")
@@ -1171,8 +896,6 @@ mixin _$Order {
   DateTime get orderDate => throw _privateConstructorUsedError;
   @JsonKey(name: "delivery_date")
   DateTime? get deliveryDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "destination_address")
-  Address? get destination => throw _privateConstructorUsedError;
   OrderStatus get status => throw _privateConstructorUsedError;
   @JsonKey(name: "route_id")
   int get route => throw _privateConstructorUsedError;
@@ -1199,12 +922,12 @@ abstract class $OrderCopyWith<$Res> {
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
   $Res call(
-      {@JsonKey(name: "order_id") int? orderId,
+      {@JsonKey(name: "_id") String? orderId,
+      @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
       @JsonKey(name: "order_date") DateTime orderDate,
       @JsonKey(name: "delivery_date") DateTime? deliveryDate,
-      @JsonKey(name: "destination_address") Address? destination,
       OrderStatus status,
       @JsonKey(name: "route_id") int route,
       @JsonKey(name: "created_at") DateTime createdAt,
@@ -1232,11 +955,11 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @override
   $Res call({
     Object? orderId = freezed,
+    Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
     Object? orderDate = null,
     Object? deliveryDate = freezed,
-    Object? destination = freezed,
     Object? status = null,
     Object? route = null,
     Object? createdAt = null,
@@ -1249,7 +972,11 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
       orderId: freezed == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
+      destination: freezed == destination
+          ? _value.destination
+          : destination // ignore: cast_nullable_to_non_nullable
+              as Address?,
       customerName: null == customerName
           ? _value.customerName
           : customerName // ignore: cast_nullable_to_non_nullable
@@ -1266,10 +993,6 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.deliveryDate
           : deliveryDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      destination: freezed == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Address?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1335,12 +1058,12 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "order_id") int? orderId,
+      {@JsonKey(name: "_id") String? orderId,
+      @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
       @JsonKey(name: "order_date") DateTime orderDate,
       @JsonKey(name: "delivery_date") DateTime? deliveryDate,
-      @JsonKey(name: "destination_address") Address? destination,
       OrderStatus status,
       @JsonKey(name: "route_id") int route,
       @JsonKey(name: "created_at") DateTime createdAt,
@@ -1368,11 +1091,11 @@ class __$$OrderImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? orderId = freezed,
+    Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
     Object? orderDate = null,
     Object? deliveryDate = freezed,
-    Object? destination = freezed,
     Object? status = null,
     Object? route = null,
     Object? createdAt = null,
@@ -1385,7 +1108,11 @@ class __$$OrderImplCopyWithImpl<$Res>
       orderId: freezed == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
+      destination: freezed == destination
+          ? _value.destination
+          : destination // ignore: cast_nullable_to_non_nullable
+              as Address?,
       customerName: null == customerName
           ? _value.customerName
           : customerName // ignore: cast_nullable_to_non_nullable
@@ -1402,10 +1129,6 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.deliveryDate
           : deliveryDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      destination: freezed == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Address?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1442,12 +1165,12 @@ class __$$OrderImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   const _$OrderImpl(
-      {@JsonKey(name: "order_id") this.orderId,
+      {@JsonKey(name: "_id") this.orderId,
+      @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "customer_name") required this.customerName,
       @JsonKey(name: "customer_phone") required this.customerPhone,
       @JsonKey(name: "order_date") required this.orderDate,
       @JsonKey(name: "delivery_date") this.deliveryDate,
-      @JsonKey(name: "destination_address") this.destination,
       required this.status,
       @JsonKey(name: "route_id") required this.route,
       @JsonKey(name: "created_at") required this.createdAt,
@@ -1460,8 +1183,11 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
       _$$OrderImplFromJson(json);
 
   @override
-  @JsonKey(name: "order_id")
-  final int? orderId;
+  @JsonKey(name: "_id")
+  final String? orderId;
+  @override
+  @JsonKey(name: "destination_address")
+  final Address? destination;
   @override
   @JsonKey(name: "customer_name")
   final String customerName;
@@ -1474,9 +1200,6 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   @override
   @JsonKey(name: "delivery_date")
   final DateTime? deliveryDate;
-  @override
-  @JsonKey(name: "destination_address")
-  final Address? destination;
   @override
   final OrderStatus status;
   @override
@@ -1500,7 +1223,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Order(orderId: $orderId, customerName: $customerName, customerPhone: $customerPhone, orderDate: $orderDate, deliveryDate: $deliveryDate, destination: $destination, status: $status, route: $route, createdAt: $createdAt, updatedAt: $updatedAt, deliveryConfirmation: $deliveryConfirmation, signature: $signature, orderImage: $orderImage)';
+    return 'Order(orderId: $orderId, destination: $destination, customerName: $customerName, customerPhone: $customerPhone, orderDate: $orderDate, deliveryDate: $deliveryDate, status: $status, route: $route, createdAt: $createdAt, updatedAt: $updatedAt, deliveryConfirmation: $deliveryConfirmation, signature: $signature, orderImage: $orderImage)';
   }
 
   @override
@@ -1509,11 +1232,11 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
     properties
       ..add(DiagnosticsProperty('type', 'Order'))
       ..add(DiagnosticsProperty('orderId', orderId))
+      ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('customerName', customerName))
       ..add(DiagnosticsProperty('customerPhone', customerPhone))
       ..add(DiagnosticsProperty('orderDate', orderDate))
       ..add(DiagnosticsProperty('deliveryDate', deliveryDate))
-      ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('status', status))
       ..add(DiagnosticsProperty('route', route))
       ..add(DiagnosticsProperty('createdAt', createdAt))
@@ -1529,6 +1252,8 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.destination, destination) ||
+                other.destination == destination) &&
             (identical(other.customerName, customerName) ||
                 other.customerName == customerName) &&
             (identical(other.customerPhone, customerPhone) ||
@@ -1537,8 +1262,6 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
                 other.orderDate == orderDate) &&
             (identical(other.deliveryDate, deliveryDate) ||
                 other.deliveryDate == deliveryDate) &&
-            (identical(other.destination, destination) ||
-                other.destination == destination) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.route, route) || other.route == route) &&
             (identical(other.createdAt, createdAt) ||
@@ -1558,11 +1281,11 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   int get hashCode => Object.hash(
       runtimeType,
       orderId,
+      destination,
       customerName,
       customerPhone,
       orderDate,
       deliveryDate,
-      destination,
       status,
       route,
       createdAt,
@@ -1587,12 +1310,12 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
 abstract class _Order implements Order {
   const factory _Order(
-      {@JsonKey(name: "order_id") final int? orderId,
+      {@JsonKey(name: "_id") final String? orderId,
+      @JsonKey(name: "destination_address") final Address? destination,
       @JsonKey(name: "customer_name") required final String customerName,
       @JsonKey(name: "customer_phone") required final String customerPhone,
       @JsonKey(name: "order_date") required final DateTime orderDate,
       @JsonKey(name: "delivery_date") final DateTime? deliveryDate,
-      @JsonKey(name: "destination_address") final Address? destination,
       required final OrderStatus status,
       @JsonKey(name: "route_id") required final int route,
       @JsonKey(name: "created_at") required final DateTime createdAt,
@@ -1606,8 +1329,11 @@ abstract class _Order implements Order {
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
   @override
-  @JsonKey(name: "order_id")
-  int? get orderId;
+  @JsonKey(name: "_id")
+  String? get orderId;
+  @override
+  @JsonKey(name: "destination_address")
+  Address? get destination;
   @override
   @JsonKey(name: "customer_name")
   String get customerName;
@@ -1620,9 +1346,6 @@ abstract class _Order implements Order {
   @override
   @JsonKey(name: "delivery_date")
   DateTime? get deliveryDate;
-  @override
-  @JsonKey(name: "destination_address")
-  Address? get destination;
   @override
   OrderStatus get status;
   @override
@@ -1655,24 +1378,22 @@ DeliveryConfirmation _$DeliveryConfirmationFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DeliveryConfirmation {
-  @JsonKey(name: "confirmation_id")
+  @JsonKey(name: "_id")
   int? get confirmationId => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_id")
-  int? get orderId => throw _privateConstructorUsedError;
   @JsonKey(name: "confirmation_date")
   DateTime? get dateConfirmed => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_id")
+  String get orderId => throw _privateConstructorUsedError;
   @JsonKey(name: "recipient_name")
   String get recipient => throw _privateConstructorUsedError;
-  @JsonKey(name: "signature_image", includeFromJson: false)
-  File? get signature => throw _privateConstructorUsedError;
   @JsonKey(name: "order_image", includeFromJson: false)
   File? get orderImage => throw _privateConstructorUsedError;
   @JsonKey(name: "comments")
   String? get comments => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_at")
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1687,15 +1408,14 @@ abstract class $DeliveryConfirmationCopyWith<$Res> {
       _$DeliveryConfirmationCopyWithImpl<$Res, DeliveryConfirmation>;
   @useResult
   $Res call(
-      {@JsonKey(name: "confirmation_id") int? confirmationId,
-      @JsonKey(name: "order_id") int? orderId,
+      {@JsonKey(name: "_id") int? confirmationId,
       @JsonKey(name: "confirmation_date") DateTime? dateConfirmed,
+      @JsonKey(name: "order_id") String orderId,
       @JsonKey(name: "recipient_name") String recipient,
-      @JsonKey(name: "signature_image", includeFromJson: false) File? signature,
       @JsonKey(name: "order_image", includeFromJson: false) File? orderImage,
       @JsonKey(name: "comments") String? comments,
-      @JsonKey(name: "created_at") DateTime createdAt,
-      @JsonKey(name: "updated_at") DateTime updatedAt});
+      @JsonKey(name: "created_at") DateTime? createdAt,
+      @JsonKey(name: "updated_at") DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -1713,36 +1433,31 @@ class _$DeliveryConfirmationCopyWithImpl<$Res,
   @override
   $Res call({
     Object? confirmationId = freezed,
-    Object? orderId = freezed,
     Object? dateConfirmed = freezed,
+    Object? orderId = null,
     Object? recipient = null,
-    Object? signature = freezed,
     Object? orderImage = freezed,
     Object? comments = freezed,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       confirmationId: freezed == confirmationId
           ? _value.confirmationId
           : confirmationId // ignore: cast_nullable_to_non_nullable
               as int?,
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as int?,
       dateConfirmed: freezed == dateConfirmed
           ? _value.dateConfirmed
           : dateConfirmed // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String,
       recipient: null == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as String,
-      signature: freezed == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as File?,
       orderImage: freezed == orderImage
           ? _value.orderImage
           : orderImage // ignore: cast_nullable_to_non_nullable
@@ -1751,14 +1466,14 @@ class _$DeliveryConfirmationCopyWithImpl<$Res,
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -1772,15 +1487,14 @@ abstract class _$$DeliveryConfirmationImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "confirmation_id") int? confirmationId,
-      @JsonKey(name: "order_id") int? orderId,
+      {@JsonKey(name: "_id") int? confirmationId,
       @JsonKey(name: "confirmation_date") DateTime? dateConfirmed,
+      @JsonKey(name: "order_id") String orderId,
       @JsonKey(name: "recipient_name") String recipient,
-      @JsonKey(name: "signature_image", includeFromJson: false) File? signature,
       @JsonKey(name: "order_image", includeFromJson: false) File? orderImage,
       @JsonKey(name: "comments") String? comments,
-      @JsonKey(name: "created_at") DateTime createdAt,
-      @JsonKey(name: "updated_at") DateTime updatedAt});
+      @JsonKey(name: "created_at") DateTime? createdAt,
+      @JsonKey(name: "updated_at") DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -1795,36 +1509,31 @@ class __$$DeliveryConfirmationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? confirmationId = freezed,
-    Object? orderId = freezed,
     Object? dateConfirmed = freezed,
+    Object? orderId = null,
     Object? recipient = null,
-    Object? signature = freezed,
     Object? orderImage = freezed,
     Object? comments = freezed,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$DeliveryConfirmationImpl(
       confirmationId: freezed == confirmationId
           ? _value.confirmationId
           : confirmationId // ignore: cast_nullable_to_non_nullable
               as int?,
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as int?,
       dateConfirmed: freezed == dateConfirmed
           ? _value.dateConfirmed
           : dateConfirmed // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String,
       recipient: null == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as String,
-      signature: freezed == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as File?,
       orderImage: freezed == orderImage
           ? _value.orderImage
           : orderImage // ignore: cast_nullable_to_non_nullable
@@ -1833,14 +1542,14 @@ class __$$DeliveryConfirmationImplCopyWithImpl<$Res>
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -1851,34 +1560,30 @@ class _$DeliveryConfirmationImpl
     with DiagnosticableTreeMixin
     implements _DeliveryConfirmation {
   const _$DeliveryConfirmationImpl(
-      {@JsonKey(name: "confirmation_id") this.confirmationId,
-      @JsonKey(name: "order_id") this.orderId,
+      {@JsonKey(name: "_id") this.confirmationId,
       @JsonKey(name: "confirmation_date") this.dateConfirmed,
+      @JsonKey(name: "order_id") required this.orderId,
       @JsonKey(name: "recipient_name") required this.recipient,
-      @JsonKey(name: "signature_image", includeFromJson: false) this.signature,
       @JsonKey(name: "order_image", includeFromJson: false) this.orderImage,
       @JsonKey(name: "comments") this.comments,
-      @JsonKey(name: "created_at") required this.createdAt,
-      @JsonKey(name: "updated_at") required this.updatedAt});
+      @JsonKey(name: "created_at") this.createdAt,
+      @JsonKey(name: "updated_at") this.updatedAt});
 
   factory _$DeliveryConfirmationImpl.fromJson(Map<String, dynamic> json) =>
       _$$DeliveryConfirmationImplFromJson(json);
 
   @override
-  @JsonKey(name: "confirmation_id")
+  @JsonKey(name: "_id")
   final int? confirmationId;
-  @override
-  @JsonKey(name: "order_id")
-  final int? orderId;
   @override
   @JsonKey(name: "confirmation_date")
   final DateTime? dateConfirmed;
   @override
+  @JsonKey(name: "order_id")
+  final String orderId;
+  @override
   @JsonKey(name: "recipient_name")
   final String recipient;
-  @override
-  @JsonKey(name: "signature_image", includeFromJson: false)
-  final File? signature;
   @override
   @JsonKey(name: "order_image", includeFromJson: false)
   final File? orderImage;
@@ -1887,14 +1592,14 @@ class _$DeliveryConfirmationImpl
   final String? comments;
   @override
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DeliveryConfirmation(confirmationId: $confirmationId, orderId: $orderId, dateConfirmed: $dateConfirmed, recipient: $recipient, signature: $signature, orderImage: $orderImage, comments: $comments, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DeliveryConfirmation(confirmationId: $confirmationId, dateConfirmed: $dateConfirmed, orderId: $orderId, recipient: $recipient, orderImage: $orderImage, comments: $comments, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -1903,10 +1608,9 @@ class _$DeliveryConfirmationImpl
     properties
       ..add(DiagnosticsProperty('type', 'DeliveryConfirmation'))
       ..add(DiagnosticsProperty('confirmationId', confirmationId))
-      ..add(DiagnosticsProperty('orderId', orderId))
       ..add(DiagnosticsProperty('dateConfirmed', dateConfirmed))
+      ..add(DiagnosticsProperty('orderId', orderId))
       ..add(DiagnosticsProperty('recipient', recipient))
-      ..add(DiagnosticsProperty('signature', signature))
       ..add(DiagnosticsProperty('orderImage', orderImage))
       ..add(DiagnosticsProperty('comments', comments))
       ..add(DiagnosticsProperty('createdAt', createdAt))
@@ -1920,13 +1624,11 @@ class _$DeliveryConfirmationImpl
             other is _$DeliveryConfirmationImpl &&
             (identical(other.confirmationId, confirmationId) ||
                 other.confirmationId == confirmationId) &&
-            (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.dateConfirmed, dateConfirmed) ||
                 other.dateConfirmed == dateConfirmed) &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.recipient, recipient) ||
                 other.recipient == recipient) &&
-            (identical(other.signature, signature) ||
-                other.signature == signature) &&
             (identical(other.orderImage, orderImage) ||
                 other.orderImage == orderImage) &&
             (identical(other.comments, comments) ||
@@ -1939,17 +1641,8 @@ class _$DeliveryConfirmationImpl
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      confirmationId,
-      orderId,
-      dateConfirmed,
-      recipient,
-      signature,
-      orderImage,
-      comments,
-      createdAt,
-      updatedAt);
+  int get hashCode => Object.hash(runtimeType, confirmationId, dateConfirmed,
+      orderId, recipient, orderImage, comments, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -1969,37 +1662,32 @@ class _$DeliveryConfirmationImpl
 
 abstract class _DeliveryConfirmation implements DeliveryConfirmation {
   const factory _DeliveryConfirmation(
-          {@JsonKey(name: "confirmation_id") final int? confirmationId,
-          @JsonKey(name: "order_id") final int? orderId,
+          {@JsonKey(name: "_id") final int? confirmationId,
           @JsonKey(name: "confirmation_date") final DateTime? dateConfirmed,
+          @JsonKey(name: "order_id") required final String orderId,
           @JsonKey(name: "recipient_name") required final String recipient,
-          @JsonKey(name: "signature_image", includeFromJson: false)
-          final File? signature,
           @JsonKey(name: "order_image", includeFromJson: false)
           final File? orderImage,
           @JsonKey(name: "comments") final String? comments,
-          @JsonKey(name: "created_at") required final DateTime createdAt,
-          @JsonKey(name: "updated_at") required final DateTime updatedAt}) =
+          @JsonKey(name: "created_at") final DateTime? createdAt,
+          @JsonKey(name: "updated_at") final DateTime? updatedAt}) =
       _$DeliveryConfirmationImpl;
 
   factory _DeliveryConfirmation.fromJson(Map<String, dynamic> json) =
       _$DeliveryConfirmationImpl.fromJson;
 
   @override
-  @JsonKey(name: "confirmation_id")
+  @JsonKey(name: "_id")
   int? get confirmationId;
-  @override
-  @JsonKey(name: "order_id")
-  int? get orderId;
   @override
   @JsonKey(name: "confirmation_date")
   DateTime? get dateConfirmed;
   @override
+  @JsonKey(name: "order_id")
+  String get orderId;
+  @override
   @JsonKey(name: "recipient_name")
   String get recipient;
-  @override
-  @JsonKey(name: "signature_image", includeFromJson: false)
-  File? get signature;
   @override
   @JsonKey(name: "order_image", includeFromJson: false)
   File? get orderImage;
@@ -2008,10 +1696,10 @@ abstract class _DeliveryConfirmation implements DeliveryConfirmation {
   String? get comments;
   @override
   @JsonKey(name: "created_at")
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(name: "updated_at")
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$DeliveryConfirmationImplCopyWith<_$DeliveryConfirmationImpl>

@@ -1,11 +1,14 @@
+import 'package:dayliff/bloc/auth/bloc.dart';
 import 'package:dayliff/bloc/dashboard/bloc.dart';
 import 'package:dayliff/bloc/maps/bloc.dart';
 import 'package:dayliff/bloc/order/bloc.dart';
+import 'package:dayliff/bloc/order_confirmation/bloc.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   setUpService();
@@ -21,9 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => DashboardControllerBloc()),
           BlocProvider(create: (context) => MapsControllerBloc()),
           BlocProvider(create: (context) => OrderBloc()),
+          BlocProvider(create: (context) => OrderConfirmationBloc())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -32,6 +37,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           home: const Splash(),
+          builder: EasyLoading.init(),
         ));
   }
 }

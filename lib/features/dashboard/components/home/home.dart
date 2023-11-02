@@ -1,21 +1,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dayliff/bloc/auth/bloc.dart';
 import 'package:dayliff/bloc/dashboard/bloc.dart';
 import 'package:dayliff/bloc/order/bloc.dart';
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/pool_card.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/return_card.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     if (context.read<OrderBloc>().state.status == ServiceStatus.initial) {
       context.read<OrderBloc>().add(StartOrderBloc());
     }
+
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
@@ -36,9 +44,13 @@ class Home extends StatelessWidget {
                 const SizedBox(
                   height: 16 / 4,
                 ),
-                Text(
-                  "John Doe",
-                  style: Theme.of(context).textTheme.titleMedium!,
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return Text(
+                      AppUtility.capitalize(state.user?.name ?? ''),
+                      style: Theme.of(context).textTheme.titleMedium!,
+                    );
+                  },
                 )
               ],
             ),
@@ -103,53 +115,23 @@ class ReturnOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderBloc, OrderState>(
-      builder: (context, state) {
-        if (state.status == ServiceStatus.loading) {
-          return Container(); // TODO: Use shimmers
-        }
-        if (state.status == ServiceStatus.loadingFailure) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              RetryContainer(
-                  description: "Failed to load orders",
-                  onTap: () {
-                    context.read<OrderBloc>().add(
-                        StartOrderBloc()); // TODO! Update to refresh instead
-                  },
-                  title: "Loading error"),
-            ],
-          );
-        }
-        return state.pools.isNotEmpty
-            ? SingleChildScrollView(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: state.pools.length,
-                  itemBuilder: (context, index) => AnimateInEffect(
-                      keepAlive: true,
-                      intervalStart: index / state.pools.length,
-                      child: RoutePoolCard(
-                        pool: state.pools[index],
-                      )),
-                ),
-              )
-            : const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LottieLoader(name: "empty"),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text("No pending returns for now")
-                ],
-              );
-      },
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemCount: 5,
+            itemBuilder: (context, index) => AnimateInEffect(
+              keepAlive: true,
+              intervalStart: index / 5,
+              child: const ReturnCard(),
+            ),
+          ),
+          SizedBox(height: AppBar().preferredSize.height,)
+        ],
+      ),
     );
   }
 }
@@ -163,7 +145,18 @@ class PickUps extends StatelessWidget {
     return BlocBuilder<OrderBloc, OrderState>(
       builder: (context, state) {
         if (state.status == ServiceStatus.loading) {
-          return Container(); // TODO: Use shimmers
+          return SingleChildScrollView(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: 8,
+              itemBuilder: (context, index) => AnimateInEffect(
+                  keepAlive: true,
+                  intervalStart: index / 8,
+                  child: const RoutePoolShimmer()),
+            ),
+          );
         }
         if (state.status == ServiceStatus.loadingFailure) {
           return Column(
@@ -171,12 +164,12 @@ class PickUps extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               RetryContainer(
-                  description: "Failed to load orders",
+                  description: state.message ?? "Failed to load orders",
                   onTap: () {
                     context.read<OrderBloc>().add(
                         StartOrderBloc()); // TODO! Update to refresh instead
                   },
-                  title: "Loading error"),
+                  title: "An error occurred"),
             ],
           );
         }

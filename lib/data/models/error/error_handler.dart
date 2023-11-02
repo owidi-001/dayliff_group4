@@ -7,8 +7,8 @@ class ErrorHandler {
   ErrorHandler(this.error);
 
   Failure handle() {
-    if (error.response?.data['error'] != null) {
-      return Failure(error: error.response!.data['error']);
+    if (error.response?.data['message'] != null) {
+      return Failure(error: error.response!.data['message']);
     } else {
       switch (error.type) {
         case DioExceptionType.connectionTimeout:

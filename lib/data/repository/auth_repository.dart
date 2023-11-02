@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:dayliff/data/local/local.dart';
-import 'package:dayliff/data/models/multiple_results/multiple_results.dart';
-import 'package:dayliff/data/models/route/route.dart';
-import 'package:dayliff/data/service/service.dart';
+import 'package:dayliff/data/models/auth/login.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -14,8 +12,8 @@ class AuthenticationRepository {
 
   AuthenticationStatus _status = AuthenticationStatus.unknown;
   String? authToken;
-  Driver? _user;
-  Driver? get user => _user;
+  User? _user;
+  User? get user => _user;
 
   Stream<AuthenticationStatus> get stream async* {
     yield _status;
@@ -24,52 +22,17 @@ class AuthenticationRepository {
 
   AuthenticationStatus get status => _status;
 
-  Future<void> login(String authToken) async {
-    this.authToken = authToken;
-    await getUser();
+  Future<void> login(LoginResponse loginResponse) async {
+    authToken = loginResponse.token;
+    _user = loginResponse.user;
     _status = AuthenticationStatus.authenticated;
     _controller.add(_status);
-  }
-
-  // HttpResult<Rider> updateUser(RiderUpdateData data) {
-  //   final res = service<ProfileService>().updateProfile(data).then((result) {
-  //     result.when(
-  //       onError: (error) => {},
-  //       onSuccess: (data) {
-  //         _user = data.user;
-  //         storeUserData(data.user!);
-  //       },
-  //     );
-  //     return result;
-  //   });
-  //   return res;
-  // }
-
-  HttpResult<Driver> getUser() async {
-    if (_user != null) {
-      return MultipleResult.onSuccess(data: _user!);
-    }
-    final localUserData = await AppUtility().getUserData();
-    if (localUserData != null) {
-      _user = localUserData;
-      return MultipleResult.onSuccess(data: localUserData);
-    }
-    final res = await service<ProfileService>().fetchProfile();
-    res.when(
-        onError: (error) {
-          if (error.code == 401) {
-            // Let the user login
-            logout();
-          }
-        },
-        onSuccess: (user) => _user = user);
-    return res;
   }
 
   void logout() {
     _status = AuthenticationStatus.unauthenticated;
     _controller.add(_status);
     // Clear data
-    // clearUserData();
+    AppUtility().clearUserData();
   }
 }

@@ -70,16 +70,16 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
 
 // Initialize state
     on<StartMapsEvent>((event, emit) async {
-      // final startPointMarker = _buildMarker(
-      //     LatLng(event.pool.origin!.lat!, event.pool.origin!.long!), () {
-      //   // Do nothing
-      // }, state.warehouseIcon);
-      // // Create start point marker for warehouse
-      // emit(
-      //   state.copyWith(
-      //       startPoint: startPointMarker,
-      //       markers: [startPointMarker, ...state.markers]),
-      // );
+      final startPointMarker = _buildMarker(
+          LatLng(event.pool.origin!.lat!, event.pool.origin!.long!), () {
+        // Do nothing
+      }, state.warehouseIcon);
+      // Create start point marker for warehouse
+      emit(
+        state.copyWith(
+            startPoint: startPointMarker,
+            markers: [startPointMarker, ...state.markers]),
+      );
 
       // Get driver location
       _LocationResult? currentLocation = await _getLocation();
@@ -106,46 +106,6 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
           pickedRoute: event.pool,
         ),
       );
-      // Create icons
-      // Warehouse
-      // if (state.warehouseIcon == BitmapDescriptor.defaultMarker) {
-      //   await AppUtility()
-      //       .getBytesFromAsset('assets/warehouse.png', 80)
-      //       .then((value) {
-      //     emit(
-      //         state.copyWith(warehouseIcon: BitmapDescriptor.fromBytes(value)));
-      //   });
-      // }
-
-      // if (state.destinationIcon == BitmapDescriptor.defaultMarker) {
-      //   // Destinations
-      //   await AppUtility()
-      //       .getBytesFromAsset('assets/destination.png', 80)
-      //       .then((value) {
-      //     emit(state.copyWith(
-      //         destinationIcon: BitmapDescriptor.fromBytes(value)));
-      //   });
-      // }
-
-      // if (state.companyIcon == BitmapDescriptor.defaultMarker) {
-      //   // Company marker
-      //   await AppUtility()
-      //       .getBytesFromAsset('assets/logo.png', 80)
-      //       .then((value) {
-      //     emit(state.copyWith(companyIcon: BitmapDescriptor.fromBytes(value)));
-      //   });
-      // }
-
-      // TODO: Uncomment when endpoints are availed
-      // // Populate company markers
-      // if (state.companyMarkers.isEmpty) {
-      //   add(PopulateCompanyLocations());
-      // }
-
-      // // Populate company warehouse
-      // if (state.companyMarkers.isEmpty) {
-      //   add(PopulateWarehouseLocations());
-      // }
 
       // Add orders to maps
       add(PopulateOrdersLocations(orders: event.pool.orders));
@@ -155,60 +115,6 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
     });
 
     on<ResetMaps>((event, emit) => emit(const MapsState()));
-
-    // Adds subsidiaries to map
-    on<PopulateCompanyLocations>((event, emit) async {
-      // Ftech company locations
-      final response = await _mapsService.getCompanyLocations();
-
-      response.when(onError: (error) {
-        showError("Failed to get company coordinates");
-      }, onSuccess: (data) {
-        final markers = data
-            .map(
-              (e) => _buildMarker(LatLng(e.lat!, e.long!), () {
-                // TODO! Display info window for the subsidiary
-              }, state.companyIcon),
-            )
-            .toList();
-        // Update state
-        emit(
-          state.copyWith(companyMarkers: markers, markers: [
-            state.startPoint!,
-            ...state.companyMarkers,
-            ...state.warehouseMarkers,
-            ...state.orderMarkers
-          ]),
-        );
-      });
-    });
-
-    // Adds warehouses to map
-    on<PopulateWarehouseLocations>((event, emit) async {
-      // Ftech warehouse locations
-      final response = await _mapsService.getWarehouseLocations();
-
-      response.when(onError: (error) {
-        showError("Failed to get warehouse coordinates");
-      }, onSuccess: (data) {
-        final markers = data
-            .map(
-              (e) => _buildMarker(LatLng(e.lat!, e.long!), () {
-                // TODO! Display info window for the warehouse
-              }, state.warehouseIcon),
-            )
-            .toList();
-        // Update state
-        emit(
-          state.copyWith(warehouseMarkers: markers, markers: [
-            // state.startPoint!,
-            ...state.companyMarkers,
-            ...state.warehouseMarkers,
-            ...state.orderMarkers
-          ]),
-        );
-      });
-    });
 
     on<PopulateOrdersLocations>((event, emit) async {
       final markers = event.orders
@@ -220,6 +126,9 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
             }, state.destinationIcon),
           )
           .toList();
+
+      // Add start point
+      markers.add(state.startPoint!);
 
       print("Markers generated: $markers");
       // Update state
