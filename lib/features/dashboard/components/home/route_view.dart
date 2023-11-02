@@ -21,6 +21,121 @@ class RouteView extends StatefulWidget {
 }
 
 class _RouteViewState extends State<RouteView> {
+  void ordersDialog(String value) {
+    switch (value) {
+      case 'Orders':
+        showModalBottomSheet(
+            showDragHandle: true,
+            enableDrag: true,
+            useSafeArea: true,
+            useRootNavigator: true,
+            context: context,
+            builder: (context) => Container(
+                  constraints: const BoxConstraints(minHeight: 100),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "${widget.route.name} orders",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      ListView.separated(
+                        itemCount: widget.route.orders.length,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) => ListTile(
+                          // isThreeLine: true,
+                          title: Text(
+                              "Order: ${widget.route.orders[index].orderId}"),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  text: "Name: ",
+                                  children: [
+                                    TextSpan(
+                                        text: widget
+                                            .route.orders[index].customerName,
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor))
+                                  ],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                              ),
+                              RichText(
+                                  text: TextSpan(
+                                text: "Phone: ",
+                                children: [
+                                  TextSpan(
+                                      text: widget
+                                          .route.orders[index].customerPhone,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary))
+                                ],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              )),
+                              RichText(
+                                  text: TextSpan(
+                                text: "To: ",
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          '${widget.route.orders[index].destination?.name}',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary))
+                                ],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              )),
+                            ],
+                          ),
+                          trailing: InkWell(
+                            onTap: () {
+                              // Close the dialog
+                              Navigator.of(context).pop();
+                              // Do the same thing when an icon is tapped
+                              context.read<MapsControllerBloc>().add(
+                                  MarkerTapped(widget.route.orders[index]));
+                            },
+                            child: const CircleAvatar(
+                                child: Icon(Icons.chevron_right)),
+                          ),
+                        ),
+                        separatorBuilder: (context, index) => Divider(),
+                      ),
+                    ],
+                  ),
+                ));
+        break;
+      case 'Close':
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Completer<GoogleMapController> _controller =
@@ -100,6 +215,19 @@ class _RouteViewState extends State<RouteView> {
                       color: Theme.of(context).primaryColor),
                 ),
                 centerTitle: true,
+                actions: [
+                  PopupMenuButton<String>(
+                    onSelected: ordersDialog,
+                    itemBuilder: (BuildContext context) {
+                      return {'Orders', 'Close'}.map((String choice) {
+                        return PopupMenuItem<String>(
+                          value: choice,
+                          child: Text(choice),
+                        );
+                      }).toList();
+                    },
+                  ),
+                ],
               ),
               body: GoogleMap(
                 initialCameraPosition: CameraPosition(
