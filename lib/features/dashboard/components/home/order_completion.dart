@@ -44,7 +44,8 @@ class _OrderCompletionState extends State<OrderCompletion> {
     // You can use the enteredOTP and widget.order properties
     context
         .read<OrderConfirmationBloc>()
-        .add(VerifyOTP(code: otpController.text));
+        .add(VerifyOTP(code: "1234"));
+    
   }
 
   Future<void> _completeOrder() async {

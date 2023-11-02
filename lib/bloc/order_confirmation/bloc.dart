@@ -77,17 +77,21 @@ class OrderConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 // Verify OTP
     on<VerifyOTP>((event, emit) async {
       // showLoading("Verifying OTP");
-      emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-      final res = await _orderConfirmationService.verifyConfirmationCode(
-          code: state.otp!, orderId: state.order!.orderId!);
-      res.when(onError: (error) {
-        // showError(error.error);
-        emit(state.copyWith(status: ServiceStatus.submissionFailure));
-      }, onSuccess: (data) {
-        // showSuccess(data["message"]);
-        emit(state.copyWith(
-            status: ServiceStatus.submissionSuccess, otpVerified: true));
-      });
+
+      emit(state.copyWith(otpVerified: true, otp: "1234"));
+
+      // TODO! Uncomment when confirmation endpoints are ready
+      // emit(state.copyWith(status: ServiceStatus.submissionInProgress));
+      // final res = await _orderConfirmationService.verifyConfirmationCode(
+      //     code: state.otp!, orderId: state.order!.orderId!);
+      // res.when(onError: (error) {
+      //   // showError(error.error);
+      //   emit(state.copyWith(status: ServiceStatus.submissionFailure));
+      // }, onSuccess: (data) {
+      //   // showSuccess(data["message"]);
+      //   emit(state.copyWith(
+      //       status: ServiceStatus.submissionSuccess, otpVerified: true),);
+      // });
     });
 
 // Confirming delivery
