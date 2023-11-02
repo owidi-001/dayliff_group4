@@ -138,70 +138,100 @@ class ReturnOrders extends StatelessWidget {
   }
 }
 
-// Pick ups
 class PickUps extends StatelessWidget {
   const PickUps({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderBloc, OrderState>(
-      builder: (context, state) {
-        if (state.status == ServiceStatus.loading) {
-          return SingleChildScrollView(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: 8,
-              itemBuilder: (context, index) => AnimateInEffect(
-                  keepAlive: true,
-                  intervalStart: index / 8,
-                  child: const RoutePoolShimmer()),
-            ),
-          );
-        }
-        if (state.status == ServiceStatus.loadingFailure) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              RetryContainer(
-                  description: state.message ?? "Failed to load orders",
-                  onTap: () {
-                    context.read<OrderBloc>().add(
-                        StartOrderBloc()); // TODO! Update to refresh instead
-                  },
-                  title: "An error occurred"),
-            ],
-          );
-        }
-        return state.pools.isNotEmpty
-            ? SingleChildScrollView(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: state.pools.length,
-                  itemBuilder: (context, index) => AnimateInEffect(
-                      keepAlive: true,
-                      intervalStart: index / state.pools.length,
-                      child: RoutePoolCard(
-                        pool: state.pools[index],
-                      )),
-                ),
-              )
-            : const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LottieLoader(name: "empty"),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text("No pending trips for now")
-                ],
-              );
+    final routes = List.generate(
+      5,
+      (index) {
+        return dummyRoute;
       },
+    );
+    return SingleChildScrollView(
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        itemCount: 5,
+        itemBuilder: (context, index) => AnimateInEffect(
+            keepAlive: true,
+            intervalStart: index / 5,
+            child: RoutePoolCard(
+              pool: routes[index],
+            )),
+      ),
     );
   }
 }
+
+
+// TODO! Uncomment when routes apis work
+// Pick ups
+// class PickUps extends StatelessWidget {
+//   const PickUps({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<OrderBloc, OrderState>(
+//       builder: (context, state) {
+//         if (state.status == ServiceStatus.loading) {
+//           return SingleChildScrollView(
+//             child: ListView.builder(
+//               scrollDirection: Axis.vertical,
+//               shrinkWrap: true,
+//               physics: const BouncingScrollPhysics(),
+//               itemCount: 8,
+//               itemBuilder: (context, index) => AnimateInEffect(
+//                   keepAlive: true,
+//                   intervalStart: index / 8,
+//                   child: const RoutePoolShimmer()),
+//             ),
+//           );
+//         }
+//         if (state.status == ServiceStatus.loadingFailure) {
+//           return Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               RetryContainer(
+//                   description: state.message ?? "Failed to load orders",
+//                   onTap: () {
+//                     context.read<OrderBloc>().add(
+//                         StartOrderBloc()); // TODO! Update to refresh instead
+//                   },
+//                   title: "An error occurred"),
+//             ],
+//           );
+//         }
+//         return state.pools.isNotEmpty
+//             ? SingleChildScrollView(
+//                 child: ListView.builder(
+//                   scrollDirection: Axis.vertical,
+//                   shrinkWrap: true,
+//                   physics: const BouncingScrollPhysics(),
+//                   itemCount: state.pools.length,
+//                   itemBuilder: (context, index) => AnimateInEffect(
+//                       keepAlive: true,
+//                       intervalStart: index / state.pools.length,
+//                       child: RoutePoolCard(
+//                         pool: state.pools[index],
+//                       )),
+//                 ),
+//               )
+//             : const Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   LottieLoader(name: "empty"),
+//                   SizedBox(
+//                     height: 8,
+//                   ),
+//                   Text("No pending trips for now")
+//                 ],
+//               );
+//       },
+//     );
+//   }
+// }

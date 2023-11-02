@@ -61,49 +61,49 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 }
 
-// final dummyRoute = RoutePool(
-//     routeId: -1,
-//     createdAt: DateTime.now(),
-//     updatedAt: DateTime.now(),
-//     status: OrderStatus.PENDING,
-//     distance: 10,
-//     duration: 20,
-//     origin:
-//         const Address(lat: -1.167778, long: 36.973333, name: "Ruiru Warehouse"),
-//     destination:
-//         const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
-//     name: "Mombasa RD",
-//     orders: [
-//       Order(
-//         customerName: "John Doe",
-//         customerPhone: "0791381653",
-//         orderDate: DateTime.now(),
-//         status: OrderStatus.PENDING,
-//         route: -1,
-//         createdAt: DateTime.now(),
-//         updatedAt: DateTime.now(),
-//         destination:
-//             const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
-//       ),
-//       Order(
-//         customerName: "John Doe",
-//         customerPhone: "0791381653",
-//         orderDate: DateTime.now(),
-//         status: OrderStatus.PENDING,
-//         route: -1,
-//         createdAt: DateTime.now(),
-//         updatedAt: DateTime.now(),
-//         destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
-//       ),
-//       Order(
-//         customerName: "John Doe",
-//         customerPhone: "0791381653",
-//         orderDate: DateTime.now(),
-//         status: OrderStatus.PENDING,
-//         route: -1,
-//         createdAt: DateTime.now(),
-//         updatedAt: DateTime.now(),
-//         destination:
-//             const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
-//       ),
-//     ]);
+final dummyRoute = RoutePool(
+    routeId: -1,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    status: OrderStatus.PENDING,
+    distance: 10,
+    duration: 20,
+    origin:
+        const Address(lat: -1.167778, long: 36.973333, name: "Ruiru Warehouse"),
+    destination:
+        const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
+    name: "Mombasa RD",
+    orders: [
+      Order(
+        customerName: "John Doe",
+        customerPhone: "0791381653",
+        orderDate: DateTime.now(),
+        status: OrderStatus.PENDING,
+        route: -1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        destination:
+            const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
+      ),
+      Order(
+        customerName: "John Doe",
+        customerPhone: "0791381653",
+        orderDate: DateTime.now(),
+        status: OrderStatus.PENDING,
+        route: -1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
+      ),
+      Order(
+        customerName: "John Doe",
+        customerPhone: "0791381653",
+        orderDate: DateTime.now(),
+        status: OrderStatus.PENDING,
+        route: -1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        destination:
+            const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
+      ),
+    ]);
