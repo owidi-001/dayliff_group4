@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
         slivers: [
           // Appbar
           SliverAppBar(
-            expandedHeight: 160.0,
+            expandedHeight: 180.0,
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -111,21 +111,31 @@ class _HomeState extends State<Home> {
               background: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  const SizedBox(
+                    height: 16,
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     constraints: const BoxConstraints(maxHeight: 100),
-                    child: DatePicker(
-                      DateTime.now(),
-                      height: AppBar().preferredSize.height * 1.5,
-                      initialSelectedDate: DateTime.now(),
-                      selectionColor: Colors.black,
-                      selectedTextColor: Colors.white,
-                      onDateChange: (date) {
-                        // New date selected
-                        setState(() {
-                          _selectedValue = date;
-                        });
-                      },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: DatePicker(
+                            DateTime.now(),
+                            height: AppBar().preferredSize.height * 1.5,
+                            initialSelectedDate: DateTime.now(),
+                            selectionColor: Colors.black,
+                            selectedTextColor: Colors.white,
+                            onDateChange: (date) {
+                              // New date selected
+                              setState(() {
+                                _selectedValue = date;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
@@ -136,25 +146,6 @@ class _HomeState extends State<Home> {
             ),
           ),
 
-          // // date picker
-          // SliverToBoxAdapter(
-          //   child: Container(
-          //     constraints: const BoxConstraints(maxHeight: 100),
-          //     child: DatePicker(
-          //       DateTime.now(),
-          //       height: AppBar().preferredSize.height * 1.5,
-          //       initialSelectedDate: DateTime.now(),
-          //       selectionColor: Colors.black,
-          //       selectedTextColor: Colors.white,
-          //       onDateChange: (date) {
-          //         // New date selected
-          //         setState(() {
-          //           _selectedValue = date;
-          //         });
-          //       },
-          //     ),
-          //   ),
-          // ),
           SliverPadding(
             padding: const EdgeInsets.only(left: 16.0, top: 16),
             sliver: SliverToBoxAdapter(
