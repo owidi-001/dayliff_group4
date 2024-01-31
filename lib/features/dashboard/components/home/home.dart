@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dayliff/bloc/auth/bloc.dart';
-import 'package:dayliff/bloc/dashboard/bloc.dart';
-import 'package:dayliff/bloc/order/bloc.dart';
+import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/service/service.dart';
+import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/pool_card.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/return_card.dart';
 import 'package:dayliff/utils/widgets.dart';

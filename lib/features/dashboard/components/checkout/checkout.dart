@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:dayliff/bloc/order_confirmation/bloc.dart';
 import 'package:dayliff/data/local/local.dart';
-import 'package:dayliff/data/models/route/route.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
+import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +30,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       // Add image captured to state
-      context.read<OrderConfirmationBloc>().add(
+      context.read<CheckOutBloc>().add(
             SaveCapturedImage(
               image: File(image.path),
             ),
@@ -42,17 +42,14 @@ class _OrderCompletionState extends State<OrderCompletion> {
     // TODO!
     // Implement OTP verification logic
     // You can use the enteredOTP and widget.order properties
-    context
-        .read<OrderConfirmationBloc>()
-        .add(VerifyOTP(code: "1234"));
-    
+    context.read<CheckOutBloc>().add(VerifyOTP(code: "1234"));
   }
 
   Future<void> _completeOrder() async {
     // TODO!
     // Implement logic to complete the order
     // You can use the widget.order and commentsController.text
-    context.read<OrderConfirmationBloc>().add(ConfirmDelivery());
+    context.read<CheckOutBloc>().add(ConfirmDelivery());
   }
 
   @override
@@ -61,7 +58,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
       appBar: AppBar(
         title: const Text('Complete Delivery'),
       ),
-      body: BlocBuilder<OrderConfirmationBloc, ConfirmationState>(
+      body: BlocBuilder<CheckOutBloc, CheckoutState>(
         builder: (context, state) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -254,10 +251,10 @@ class _OrderCompletionState extends State<OrderCompletion> {
                               onCompleted: (v) {
                                 print("Completed");
                               },
-                              
+
                               onChanged: (value) {
                                 context
-                                    .read<OrderConfirmationBloc>()
+                                    .read<CheckOutBloc>()
                                     .add(OtpChanged(otp: value));
                               },
                               beforeTextPaste: (text) {
@@ -316,8 +313,8 @@ class _OrderCompletionState extends State<OrderCompletion> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              BlocBuilder<OrderConfirmationBloc,
-                                  ConfirmationState>(
+                              BlocBuilder<CheckOutBloc,
+                                  CheckoutState>(
                                 builder: (context, state) {
                                   if (state.orderImages.isNotEmpty) {
                                     return SizedBox(
@@ -389,7 +386,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                             maxLines: 3,
                             onChanged: (value) {
                               context
-                                  .read<OrderConfirmationBloc>()
+                                  .read<CheckOutBloc>()
                                   .add(CommentsChanged(comment: value));
                             },
                             decoration: const InputDecoration(

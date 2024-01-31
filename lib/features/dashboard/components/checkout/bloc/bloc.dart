@@ -1,20 +1,22 @@
 import 'dart:io';
 
-import 'package:dayliff/data/models/route/route.dart';
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/utils/info_messages.dart';
+import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part "events.dart";
 part 'state.dart';
 
-class OrderConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
-  late OrderConfirmationService _orderConfirmationService;
-  OrderConfirmationBloc() : super(const ConfirmationState()) {
-    _orderConfirmationService = service<OrderConfirmationService>();
+class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
+  late OrderCheckoutService _orderCheckoutService;
+  final OrderBloc _orderBloc;
 
-    on<StartOrderConfirmationBloc>(
+  CheckOutBloc(this._orderBloc) : super(const CheckoutState()) {
+    _orderCheckoutService = service<OrderCheckoutService>();
+
+    on<StartCheckOutBloc>(
       (event, emit) async {
         // TODO! Remove this when endpoints are ready
         emit(state.copyWith(
@@ -30,7 +32,7 @@ class OrderConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
         //     );
         //     showLoading("Please wait");
 
-        //     final orders = await _orderConfirmationService.all();
+        //     final orders = await _orderCheckoutService.all();
         //     orders.when(
         //       onError: (error) {
         //         showError(error.error);
@@ -80,9 +82,9 @@ class OrderConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 
       emit(state.copyWith(otpVerified: true, otp: "1234"));
 
-      // TODO! Uncomment when confirmation endpoints are ready
+      // TODO! Uncomment when Checkout endpoints are ready
       // emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-      // final res = await _orderConfirmationService.verifyConfirmationCode(
+      // final res = await _orderCheckoutService.verifyCheckoutCode(
       //     code: state.otp!, orderId: state.order!.orderId!);
       // res.when(onError: (error) {
       //   // showError(error.error);
@@ -96,13 +98,13 @@ class OrderConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 
 // Confirming delivery
     on<ConfirmDelivery>((event, emit) {
-      // Create new instance of Delivery confirmation
+      // Create new instance of Delivery Checkout
       if (state.comment?.isEmpty ??
           false || state.orderImages.isNotEmpty || !state.otpVerified) {
         // showError("Please ensure all fields are not empty!");
       } else {
         // Send data to backend
-        _orderConfirmationService.confirmDelivery(
+        _orderCheckoutService.confirmDelivery(
             deliveryConfirmation: DeliveryConfirmation(
                 recipient: state.order!.customerName,
                 orderId: state.order!.orderId!,

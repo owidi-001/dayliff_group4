@@ -1,5 +1,6 @@
-import 'package:dayliff/bloc/auth/bloc.dart';
+
 import 'package:dayliff/data/local/local.dart';
+import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
 import 'package:flutter/material.dart';

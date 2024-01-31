@@ -25,7 +25,6 @@ class AuthToken with _$AuthToken {
       _$AuthTokenFromJson(json);
 }
 
-
 @freezed
 class LoginResponse with _$LoginResponse {
   factory LoginResponse({
@@ -33,7 +32,8 @@ class LoginResponse with _$LoginResponse {
     required User user,
   }) = _LoginResponse;
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
 }
 
 @freezed
@@ -41,7 +41,7 @@ class User with _$User {
   factory User({
     required int id,
     required String name,
-    @JsonKey(name:"phone_number") required String phoneNumber,
+    @JsonKey(name: "phone_number") required String phoneNumber,
     required String email,
     @JsonKey(name: 'email_verified_at') String? emailVerifiedAt,
     required String status,

@@ -1,6 +1,5 @@
 import 'package:dayliff/data/local/local.dart';
-import 'package:dayliff/data/models/route/route.dart';
-import 'package:dayliff/utils/info_messages.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:flutter/material.dart';
 
 class ReturnCard extends StatelessWidget {
@@ -165,7 +164,8 @@ class ReturnCard extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  showInfo("Return feature coming soon");
+                  // TODO! snack messages
+                  // showInfo("Return feature coming soon");
                 },
                 child: const CircleAvatar(
                   child: Icon(Icons.chevron_right),

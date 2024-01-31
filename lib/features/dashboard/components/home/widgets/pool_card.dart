@@ -1,7 +1,7 @@
-import 'package:dayliff/bloc/maps/bloc.dart';
 import 'package:dayliff/data/local/local.dart';
-import 'package:dayliff/data/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/route_view.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -38,7 +38,7 @@ class RoutePoolCard extends StatelessWidget {
           // Open maps view
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => RouteView(route: pool),
+              builder: (context) => RouteView(routeId: pool.routeId),
             ),
           );
         },
@@ -189,13 +189,14 @@ class RoutePoolCard extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       // Update state
-                      context
-                          .read<MapsControllerBloc>()
-                          .add(StartMapsEvent(pool: pool));
+                      // context
+                      //     .read<MapsControllerBloc>()
+                      //     .add(StartMapsEvent(pool: pool));
                       // Open maps view
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => RouteView(route: pool),
+                          builder: (context) =>
+                              RouteView(routeId: pool.routeId),
                         ),
                       );
                     },

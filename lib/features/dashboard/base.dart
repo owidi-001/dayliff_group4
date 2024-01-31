@@ -1,8 +1,4 @@
-import 'package:dayliff/bloc/auth/bloc.dart';
-import 'package:dayliff/bloc/dashboard/bloc.dart';
-import 'package:dayliff/data/models/auth/login.dart';
-import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/auth/login.dart';
+import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/home.dart';
 import 'package:dayliff/features/dashboard/components/settings/settings.dart';
 import 'package:flutter/material.dart';

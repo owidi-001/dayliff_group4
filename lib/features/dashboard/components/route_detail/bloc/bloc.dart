@@ -1,7 +1,6 @@
-import 'package:dayliff/data/models/route/route.dart';
 import 'package:dayliff/data/service/maps.dart';
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/utils/info_messages.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -158,7 +157,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
             .polyline(state.startPoint!.position, destination.position)
             .then((value) {
           value.when(onError: (error) {
-            showError("Can't determine route for _ to _");
+            // showError("Can't determine route for _ to _");
           }, onSuccess: (data) {
             polylines.addAll(data);
           });
@@ -171,7 +170,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
               color: Colors.black)
           .then((value) {
         value.when(onError: (error) {
-          showError("Can't determine route for _ to _");
+          // showError("Can't determine route for _ to _");
         }, onSuccess: (data) {
           polylines.addAll(data);
         });

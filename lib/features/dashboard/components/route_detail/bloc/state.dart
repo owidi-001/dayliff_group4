@@ -76,7 +76,7 @@ class MapsState extends Equatable {
       orderMarkers: orderMarkers ?? this.orderMarkers,
       permission: permission ?? this.permission,
       pickedRoute: pickedRoute ?? this.pickedRoute,
-      pickedOrder: pickedOrder ?? this.pickedOrder,
+      pickedOrder: pickedOrder,
     );
   }
 

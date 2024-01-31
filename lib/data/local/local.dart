@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:dayliff/data/models/auth/login.dart';
-import 'package:dayliff/data/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

@@ -1,15 +1,15 @@
 part of "bloc.dart";
 
-abstract class ConfirmationEvent extends Equatable {
-  const ConfirmationEvent();
+abstract class CheckoutEvent extends Equatable {
+  const CheckoutEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class StartOrderConfirmationBloc extends ConfirmationEvent {}
+class StartCheckOutBloc extends CheckoutEvent {}
 
-class SaveCapturedImage extends ConfirmationEvent {
+class SaveCapturedImage extends CheckoutEvent {
   final File image;
 
   const SaveCapturedImage({required this.image});
@@ -18,7 +18,7 @@ class SaveCapturedImage extends ConfirmationEvent {
   List<Object?> get props => [image];
 }
 
-class RemoveCaptured extends ConfirmationEvent {
+class RemoveCaptured extends CheckoutEvent {
   final int index;
 
   const RemoveCaptured({required this.index});
@@ -27,19 +27,19 @@ class RemoveCaptured extends ConfirmationEvent {
   List<Object?> get props => [index];
 }
 
-class OtpChanged extends ConfirmationEvent {
+class OtpChanged extends CheckoutEvent {
   final String? otp;
 
   const OtpChanged({this.otp});
 }
 
-class CommentsChanged extends ConfirmationEvent {
+class CommentsChanged extends CheckoutEvent {
   final String? comment;
 
   const CommentsChanged({this.comment});
 }
 
-class VerifyOTP extends ConfirmationEvent {
+class VerifyOTP extends CheckoutEvent {
   final String code;
 
   const VerifyOTP({required this.code});
@@ -48,4 +48,4 @@ class VerifyOTP extends ConfirmationEvent {
   List<Object?> get props => [code];
 }
 
-class ConfirmDelivery extends ConfirmationEvent {}
+class ConfirmDelivery extends CheckoutEvent {}

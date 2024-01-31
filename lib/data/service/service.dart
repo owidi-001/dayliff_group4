@@ -5,9 +5,9 @@ import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/models/error/error_handler.dart';
 import 'package:dayliff/data/models/multiple_results/multiple_results.dart';
-import 'package:dayliff/data/models/route/route.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/data/service/maps.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dio_http_formatter/dio_http_formatter.dart';
 import 'package:get_it/get_it.dart';
@@ -22,8 +22,8 @@ setUpService() {
   service.registerLazySingleton<OrderService>(() => OrderService());
   service.registerLazySingleton<AddressService>(() => AddressService());
   service.registerLazySingleton<MapsService>(() => MapsService());
-  service.registerLazySingleton<OrderConfirmationService>(
-      () => OrderConfirmationService());
+  service.registerLazySingleton<OrderCheckoutService>(
+      () => OrderCheckoutService());
 }
 
 enum ServiceStatus {

@@ -1,7 +1,6 @@
 import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/utils/info_messages.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,13 +19,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             status: ServiceStatus.submissionInProgress,
           ),
         );
-        showLoading("Authenticating...");
+        // todo! emit message
+        // showLoading("Authenticating...");
+        
 
         final res = await _authService
             .login(LoginData(email: event.email, password: event.password));
         res.when(
           onError: (error) {
-            showError(error.error);
+            // showError(error.error);
             emit(
               state.copyWith(
                 status: ServiceStatus.submissionFailure,
@@ -34,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             );
           },
           onSuccess: (data) {
-            showSuccess("Welcome ${data.user.name}");
+            // showSuccess("Welcome ${data.user.name}");
             add(LocalLogin(data: data));
             // // Save user data to repository
             // print("Login data saved: ${data.toJson()}");

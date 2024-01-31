@@ -351,7 +351,7 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoutePoolImpl &&
@@ -602,7 +602,7 @@ class _$AddressImpl with DiagnosticableTreeMixin implements _Address {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddressImpl &&
@@ -819,7 +819,7 @@ class _$DriverUpdateImpl with DiagnosticableTreeMixin implements _DriverUpdate {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DriverUpdateImpl &&
@@ -1247,7 +1247,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
@@ -1618,7 +1618,7 @@ class _$DeliveryConfirmationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeliveryConfirmationImpl &&

@@ -1,4 +1,5 @@
-import 'package:dayliff/bloc/auth/bloc.dart';
+import 'package:dayliff/data/models/auth/login.dart';
+import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
@@ -54,25 +55,38 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: AppBar().preferredSize.height,
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: const ClipRRect(
+                    child: Image(
+                      image: AssetImage('assets/logo.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                Center(
-                  child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Image.asset(
-                        "assets/logo.png",
-                        fit: BoxFit.contain,
-                      )),
+                const SizedBox(
+                  height: 16,
                 ),
-                SizedBox(
-                  height: AppBar().preferredSize.height,
+                Text(
+                  "Welcome!",
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  "Validate credentials to get started",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 20),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.email),
+                      suffix: const Icon(Icons.clear),
                       contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Email",
                       border: OutlineInputBorder(
@@ -86,14 +100,29 @@ class _LoginState extends State<Login> {
                   controller: passwordController,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.password),
+                      suffix: const Icon(Icons.remove_red_eye),
                       contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Password",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-                SizedBox(
-                  height: AppBar().preferredSize.height,
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Coming soon")));
+                        },
+                        child: const Text("Forgot password?"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
                 ),
                 Row(
                   children: [
@@ -101,13 +130,27 @@ class _LoginState extends State<Login> {
                       child: AppButton(
                         hint: "Login",
                         onTap: () {
-                          // TODO verify form data
                           context.read<AuthBloc>().add(
-                                LoginEvent(
-                                  email: emailController.text,
-                                  password: passwordController.text.trim(),
+                                LocalLogin(
+                                  data: LoginResponse(
+                                    token: "",
+                                    user: User(
+                                        id: -1,
+                                        name: "John doe",
+                                        phoneNumber: "0791381653",
+                                        email: "owidi@dayliff.com",
+                                        status: "Active"),
+                                  ),
                                 ),
                               );
+
+                          // TODO verify form data
+                          // context.read<AuthBloc>().add(
+                          //       LoginEvent(
+                          //         email: emailController.text,
+                          //         password: passwordController.text.trim(),
+                          //       ),
+                          //     );
                         },
                       ),
                     ),

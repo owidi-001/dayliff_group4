@@ -26,7 +26,7 @@ class OrderService {
       );
 }
 
-class OrderConfirmationService {
+class OrderCheckoutService {
   // Verify OTP
   HttpResult<Map<String, dynamic>> verifyConfirmationCode(
       {required String code, required String orderId}) async {

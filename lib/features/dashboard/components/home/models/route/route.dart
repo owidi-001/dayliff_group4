@@ -60,19 +60,6 @@ class Address with _$Address {
       _$AddressFromJson(json);
 }
 
-// @freezed
-// class Driver with _$Driver {
-//   const factory Driver({
-//     @JsonKey(name: "name") String? firstName,
-//     @JsonKey(name: "_id") int? driverId,
-//     @JsonKey(name: "email") String? email,
-//     @JsonKey(name: "phone_number") String? phone,
-//     @JsonKey(name: "license_number") String? license,
-//   }) = _Driver;
-
-//   factory Driver.fromJson(Map<String, Object?> json) => _$DriverFromJson(json);
-// }
-
 @freezed
 class DriverUpdate with _$DriverUpdate {
   const factory DriverUpdate({
@@ -124,3 +111,50 @@ class DeliveryConfirmation with _$DeliveryConfirmation {
   factory DeliveryConfirmation.fromJson(Map<String, Object?> json) =>
       _$DeliveryConfirmationFromJson(json);
 }
+
+final dummyRoute = RoutePool(
+    routeId: -1,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    status: OrderStatus.PENDING,
+    distance: 10,
+    duration: 20,
+    origin:
+        const Address(lat: -1.167778, long: 36.973333, name: "Ruiru Warehouse"),
+    destination:
+        const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
+    name: "Mombasa RD",
+    orders: [
+      Order(
+        customerName: "John Doe",
+        customerPhone: "0791381653",
+        orderDate: DateTime.now(),
+        status: OrderStatus.PENDING,
+        route: -1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        destination:
+            const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
+      ),
+      Order(
+        customerName: "John Doe",
+        customerPhone: "0791381653",
+        orderDate: DateTime.now(),
+        status: OrderStatus.PENDING,
+        route: -1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
+      ),
+      Order(
+        customerName: "John Doe",
+        customerPhone: "0791381653",
+        orderDate: DateTime.now(),
+        status: OrderStatus.PENDING,
+        route: -1,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        destination:
+            const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
+      ),
+    ]);

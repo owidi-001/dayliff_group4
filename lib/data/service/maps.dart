@@ -1,8 +1,8 @@
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/models/error/error_handler.dart';
 import 'package:dayliff/data/models/multiple_results/multiple_results.dart';
-import 'package:dayliff/data/models/route/route.dart';
 import 'package:dayliff/data/service/service.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
