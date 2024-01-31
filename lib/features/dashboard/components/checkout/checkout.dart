@@ -323,7 +323,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                           itemCount: state.orderImages.length,
                                           scrollDirection: Axis.horizontal,
                                           physics:
-                                              const BouncingScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemBuilder: (context, index) =>
                                               Container(

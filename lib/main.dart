@@ -13,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   setUpService();
   await dotenv.load(fileName: ".env");
+
   runApp(const MyApp());
 }
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'Dayliff cargoflow',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
             useMaterial3: true,

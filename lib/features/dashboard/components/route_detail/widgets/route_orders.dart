@@ -26,7 +26,7 @@ class RouteOrders extends StatelessWidget {
             ListView.separated(
               itemCount: pool.orders.length,
               shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => ListTile(
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
