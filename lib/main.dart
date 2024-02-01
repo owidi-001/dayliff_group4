@@ -35,10 +35,33 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Dayliff cargoflow',
           debugShowCheckedModeBanner: false,
+          // theme: ThemeData(
+          //   colorScheme:
+          //       ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
+          //   useMaterial3: true,
+          // ),
           theme: ThemeData(
             colorScheme:
                 ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
-            useMaterial3: true,
+            primaryColor: const Color(0xff0082d6),
+            appBarTheme: AppBarTheme(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary),
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              selectedItemColor: Color(0xff0082d6),
+            ),
+            buttonTheme: ButtonThemeData(
+              buttonColor: Theme.of(context).colorScheme.primary,
+              textTheme: ButtonTextTheme.primary,
+            ),
+            navigationBarTheme: NavigationBarThemeData(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              labelTextStyle: MaterialStatePropertyAll(
+                TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            ),
           ),
           home: const Splash(),
         ));

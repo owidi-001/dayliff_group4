@@ -124,7 +124,7 @@ class ReturnCard extends StatelessWidget {
                       "From:",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                     Text(
                       "Donholm",
@@ -153,7 +153,7 @@ class ReturnCard extends StatelessWidget {
                       "Dest:",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                     Text(
                       "Warehouse",

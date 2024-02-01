@@ -48,6 +48,8 @@ class _LoginState extends State<Login> {
           previous.loginSuccess != current.loginSuccess,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text("Login"),
         ),
         body: SingleChildScrollView(

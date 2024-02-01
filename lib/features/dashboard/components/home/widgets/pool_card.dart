@@ -140,7 +140,7 @@ class RoutePoolCard extends StatelessWidget {
                         "From:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                       Text(
                         "${pool.origin!.name}",
@@ -154,6 +154,8 @@ class RoutePoolCard extends StatelessWidget {
                               Expanded(
                                 child: ListView.builder(
                                     itemCount: 16,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     scrollDirection: Axis.vertical,
                                     itemBuilder: (context, index) => Icon(
                                           Icons.circle,
@@ -169,7 +171,7 @@ class RoutePoolCard extends StatelessWidget {
                         "Dest:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                       Text(
                         "${pool.destination!.name}",
@@ -191,8 +193,10 @@ class RoutePoolCard extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const CircleAvatar(
-                    child: Icon(Icons.chevron_right),
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    child: const Icon(Icons.chevron_right),
                   ),
                 )
               ],
@@ -205,7 +209,7 @@ class RoutePoolCard extends StatelessWidget {
                   "Cost:",
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).colorScheme.primary),
                 ),
                 RichText(
                     text: TextSpan(children: [
@@ -214,8 +218,8 @@ class RoutePoolCard extends StatelessWidget {
                     children: [
                       TextSpan(
                           text: AppUtility.formattingAmount(pool.cost),
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor))
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary))
                     ],
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold,

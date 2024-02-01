@@ -1,6 +1,7 @@
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -30,6 +31,11 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -46,6 +52,8 @@ class _ResetPasswordState extends State<ResetPassword> {
           previous.loginSuccess != current.loginSuccess,
       child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
             title: const Text("Reset Password"),
           ),
           body: SizedBox(

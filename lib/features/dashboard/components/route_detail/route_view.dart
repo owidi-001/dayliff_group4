@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dayliff/data/service/maps.dart';
 import 'package:dayliff/data/service/service.dart';
@@ -14,6 +15,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart' as locator;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+final AddressService addressService = AddressService();
 
 class RouteView extends StatefulWidget {
   const RouteView({super.key, required this.routeId});
@@ -47,7 +50,6 @@ class _RouteViewState extends State<RouteView> {
   Set<Marker> _markers = <Marker>{};
   Set<Polyline> polylines = {};
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPiKey = dotenv.env["MAPS_KEY"]!;
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
     final coordinates = pool.orders
@@ -71,25 +73,49 @@ class _RouteViewState extends State<RouteView> {
     });
   }
 
-  _getPolylines() async {
-    pool.orders.map((order) async {
-      final point = LatLng(order.destination!.lat!, order.destination!.long!);
+  Future<void> _getPolylines() async {
+    List<LatLng> polylineCoordinates = [];
+    List<Polyline> polylines = [];
 
-      final res = await service<AddressService>()
-          .polyline(LatLng(pool.origin!.lat!, pool.origin!.long!), point);
-      res.when(onError: (error) {
-        // Maybe retry
-        print("Error: $error");
-      }, onSuccess: (data) {
-        print("Data received $data");
-        // Add lines to polys
-        polylines.addAll(data);
-      });
+    for (int i = 0; i < pool.orders.length - 1; i++) {
+      final origin = pool.orders[i].destination!;
+      final destination = pool.orders[i + 1].destination!;
+
+      final res = await addressService.polyline(
+        LatLng(origin.lat!, origin.long!),
+        LatLng(destination.lat!, destination.long!),
+      );
+
+      res.when(
+        onSuccess: (data) {
+          data.forEach((polyline) {
+            polylineCoordinates.clear();
+            for (int j = 0; j < polyline.points.length; j++) {
+              final point = polyline.points[j];
+              polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+            }
+
+            final id = PolylineId(Random().toString());
+            final newPolyline = Polyline(
+              polylineId: id,
+              color: Colors.blue,
+              points: polylineCoordinates,
+              width: 5,
+            );
+            polylines.add(newPolyline);
+          });
+        },
+        onError: (error) {
+          if (kDebugMode) {
+            print('Error fetching polylines: $error');
+          }
+        },
+      );
+    }
+    setState(() {
+      polylines = polylines;
+      loading = false;
     });
-    // remove loading
-    loading = false;
-    // Update state
-    setState(() {});
   }
 
   Future<void> _getUserLocation() async {
@@ -117,19 +143,21 @@ class _RouteViewState extends State<RouteView> {
     }
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               icon: Icon(
                 Icons.close,
-                color: Theme.of(context).colorScheme.error,
+                color: Theme.of(context).colorScheme.onPrimary,
               )),
           title: Text(
             "${pool.name} Route",
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor),
+                color: Theme.of(context).colorScheme.onPrimary),
           ),
           centerTitle: true,
           actions: [

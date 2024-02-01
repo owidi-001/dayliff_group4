@@ -13,7 +13,7 @@ class LoadingIllustrator extends StatelessWidget {
         return DecoratedBox(
           decoration: BoxDecoration(
             color: index.isEven
-                ? Theme.of(context).primaryColor
+                ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.tertiary,
           ),
         );

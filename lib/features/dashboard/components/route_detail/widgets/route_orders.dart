@@ -57,7 +57,8 @@ class RouteOrders extends StatelessWidget {
                             TextSpan(
                                 text: pool.orders[index].customerName,
                                 style: TextStyle(
-                                    color: Theme.of(context).primaryColor))
+                                    color:
+                                        Theme.of(context).colorScheme.primary))
                           ],
                           style:
                               Theme.of(context).textTheme.titleSmall!.copyWith(

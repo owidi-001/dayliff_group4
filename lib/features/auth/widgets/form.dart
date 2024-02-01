@@ -11,7 +11,7 @@ class AppButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor:
-            MaterialStatePropertyAll(Theme.of(context).primaryColorDark),
+            MaterialStatePropertyAll(Theme.of(context).colorScheme.primary),
         foregroundColor:
             MaterialStatePropertyAll(Theme.of(context).colorScheme.onPrimary),
         fixedSize: const MaterialStatePropertyAll(Size(double.maxFinite, 50)),

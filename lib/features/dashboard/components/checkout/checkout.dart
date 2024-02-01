@@ -69,7 +69,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                   "Order summary",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).colorScheme.primary),
                 ),
                 const SizedBox(
                   height: 8,
@@ -197,7 +197,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                   'Enter OTP for Verification:',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).colorScheme.primary),
                 ),
                 const SizedBox(height: 8),
                 Container(
@@ -289,7 +289,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                               .titleMedium!
                               .copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context).colorScheme.primary),
                         ),
                         Container(
                           width: double.infinity,
@@ -360,7 +360,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                               .titleMedium!
                               .copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context).colorScheme.primary),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(

@@ -141,7 +141,7 @@ class OrderDialog extends StatelessWidget {
                         "From:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                       Text(
                         routeName,
@@ -170,7 +170,7 @@ class OrderDialog extends StatelessWidget {
                         "Dest:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                       Text(
                         "${order.destination!.name}",

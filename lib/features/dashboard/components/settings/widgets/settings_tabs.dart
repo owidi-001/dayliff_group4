@@ -22,18 +22,14 @@ class SettingsTabs extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        foregroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Theme.of(context).primaryColorLight
-            : Theme.of(context).primaryColorDark,
+        foregroundColor: Theme.of(context).colorScheme.primary,
       ),
       onPressed: press,
       child: Row(
         children: [
           Icon(
             icon,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Theme.of(context).primaryColorLight
-                : Theme.of(context).primaryColorDark,
+            color: Theme.of(context).colorScheme.primary,
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -50,9 +46,7 @@ class SettingsTabs extends StatelessWidget {
                   })
               : Icon(
                   Icons.arrow_forward_ios,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Theme.of(context).primaryColorLight
-                      : Theme.of(context).primaryColorDark,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
         ],
       ),

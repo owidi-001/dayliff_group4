@@ -1,4 +1,6 @@
 // This file is "main.dart"
+// ignore_for_file: invalid_annotation_target
+
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -127,7 +129,7 @@ final dummyRoute = RoutePool(
     orders: [
       Order(
         customerName: "John Doe",
-        customerPhone: "0791381653",
+        customerPhone: "0700000000",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
         route: -1,
@@ -138,7 +140,7 @@ final dummyRoute = RoutePool(
       ),
       Order(
         customerName: "John Doe",
-        customerPhone: "0791381653",
+        customerPhone: "0700000000",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
         route: -1,
@@ -148,7 +150,7 @@ final dummyRoute = RoutePool(
       ),
       Order(
         customerName: "John Doe",
-        customerPhone: "0791381653",
+        customerPhone: "0700000000",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
         route: -1,

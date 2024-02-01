@@ -1,4 +1,3 @@
-
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
@@ -21,7 +20,7 @@ class Settings extends StatelessWidget {
               children: <Widget>[
                 Container(
                   height: 200.0,
-                  color: Theme.of(context).colorScheme.primary.withOpacity(.4),
+                  color: Theme.of(context).colorScheme.primary,
                   // child: const Placeholder(),
                 ),
                 Container(
@@ -93,8 +92,7 @@ class Settings extends StatelessWidget {
                                                           const Text("Log out"),
                                                       onPressed: () {
                                                         // Remove dialog
-                                                        Navigator.of(
-                                                                context)
+                                                        Navigator.of(context)
                                                             .pop();
                                                         // Redirect to login
                                                         Navigator.of(context)
@@ -187,10 +185,9 @@ class Settings extends StatelessWidget {
                 builder: (context, state) {
                   return Text(
                     AppUtility.capitalize(state.user?.name ?? ''),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimary),
                   );
                 },
               ),
