@@ -4,8 +4,8 @@ import 'package:dayliff/data/service/maps.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/route_detail/widgets/route_orders.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -115,85 +115,65 @@ class _RouteViewState extends State<RouteView> {
         ServiceStatus.initial) {
       context.read<MapsControllerBloc>().add(StartMapsEvent(pool: pool));
     }
-    return BlocListener<MapsControllerBloc, MapsState>(
-      listener: (context, state) {
-        // TODO: implement listener
-        if (state.pickedOrder != null) {
-          showModalBottomSheet(
-              // enableDrag: false,
-              showDragHandle: true,
-              isDismissible: true,
-              useRootNavigator: true,
-              useSafeArea: true,
-              context: context,
-              builder: (context) => OrderDialog(
-                  order: state.pickedOrder!,
-                  routeName: state.pickedRoute!.origin!.name!));
-        }
-      },
-      listenWhen: (previous, current) =>
-          current.pickedOrder != previous.pickedOrder,
-      child: Hero(
-        tag: "xyz",
-        child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    color: Theme.of(context).colorScheme.error,
-                  )),
-              title: Text(
-                "${pool.name} Route",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor),
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).colorScheme.error,
+              )),
+          title: Text(
+            "${pool.name} Route",
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      showDragHandle: true,
+                      enableDrag: true,
+                      useSafeArea: true,
+                      useRootNavigator: true,
+                      context: context,
+                      builder: (context) => RouteOrders(
+                            pool: pool,
+                          ));
+                },
+                icon: const Icon(Icons.more_vert))
+          ],
+        ),
+        body: Stack(
+          children: [
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
               ),
-              centerTitle: true,
-              actions: [
-                PopupMenuButton<String>(
-                  onSelected: (value) {},
-                  itemBuilder: (BuildContext context) {
-                    return {'Orders', 'Close'}.map((String choice) {
-                      return PopupMenuItem<String>(
-                        value: choice,
-                        child: Text(choice),
-                      );
-                    }).toList();
-                  },
+              markers: _markers.toSet(),
+              polylines: polylines.toSet(),
+              myLocationEnabled: true,
+              myLocationButtonEnabled: false,
+              rotateGesturesEnabled: true,
+              scrollGesturesEnabled: true,
+              zoomControlsEnabled: false,
+              zoomGesturesEnabled: true,
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer(),
                 ),
-              ],
+              },
             ),
-            body: Stack(
-              children: [
-                GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 11.0,
-                  ),
-                  markers: _markers.toSet(),
-                  polylines: polylines.toSet(),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  rotateGesturesEnabled: true,
-                  scrollGesturesEnabled: true,
-                  zoomControlsEnabled: false,
-                  zoomGesturesEnabled: true,
-                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                    Factory<OneSequenceGestureRecognizer>(
-                      () => EagerGestureRecognizer(),
-                    ),
-                  },
-                ),
-                loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const SizedBox.shrink()
-              ],
-            )),
-      ),
-    );
+            loading
+                ? const Center(child: CircularProgressIndicator())
+                : const SizedBox.shrink()
+          ],
+        ));
   }
 }

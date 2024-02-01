@@ -1,4 +1,5 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,84 +10,116 @@ class RouteOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: 100),
+    return SizedBox(
+      height: MediaQuery.sizeOf(context).height - AppBar().preferredSize.height,
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Text(
-            //   "${pool.name} orders",
-            //   style: Theme.of(context)
-            //       .textTheme
-            //       .titleMedium!
-            //       .copyWith(fontWeight: FontWeight.bold),
-            // ),
-            // SizedBox(height: AppBar().preferredSize.height/2,),
+            Text(
+              "${pool.name} orders",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: AppBar().preferredSize.height / 2,
+            ),
             ListView.separated(
               itemCount: pool.orders.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => ListTile(
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: "Name: ",
+              itemBuilder: (context, index) => Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: "Name: ",
+                          children: [
+                            TextSpan(
+                                text: pool.orders[index].customerName,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor))
+                          ],
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    color: Colors.black,
+                                  ),
+                        ),
+                      ),
+                      RichText(
+                          text: TextSpan(
+                        text: "Phone: ",
                         children: [
                           TextSpan(
-                              text: pool.orders[index].customerName,
+                              text: pool.orders[index].customerPhone,
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor))
+                                  color: Theme.of(context).colorScheme.primary))
                         ],
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               color: Colors.black,
                             ),
-                      ),
-                    ),
-                    RichText(
-                        text: TextSpan(
-                      text: "Phone: ",
-                      children: [
-                        TextSpan(
-                            text: pool.orders[index].customerPhone,
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary))
-                      ],
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            color: Colors.black,
-                          ),
-                    )),
-                    RichText(
-                        text: TextSpan(
-                      text: "To: ",
-                      children: [
-                        TextSpan(
-                            text: '${pool.orders[index].destination?.name}',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary))
-                      ],
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Colors.black,
-                          ),
-                    )),
-                  ],
-                ),
-                trailing: InkWell(
-                  onTap: () {
-                    // Close the dialog
-                    Navigator.of(context).pop();
-                    // Do the same thing when an icon is tapped
-                    context
-                        .read<MapsControllerBloc>()
-                        .add(MarkerTapped(pool.orders[index]));
-                  },
-                  child: const CircleAvatar(child: Icon(Icons.chevron_right)),
+                      )),
+                      RichText(
+                          text: TextSpan(
+                        text: "To: ",
+                        children: [
+                          TextSpan(
+                              text: '${pool.orders[index].destination?.name}',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary))
+                        ],
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: Colors.black,
+                            ),
+                      )),
+                    ],
+                  ),
+                  trailing: InkWell(
+                    onTap: () {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                      // Do the same thing when an icon is tapped
+                      context
+                          .read<MapsControllerBloc>()
+                          .add(MarkerTapped(pool.orders[index]));
+                      // show dialog
+                      showModalBottomSheet(
+                          // enableDrag: false,
+                          showDragHandle: true,
+                          isDismissible: true,
+                          useRootNavigator: true,
+                          useSafeArea: true,
+                          context: context,
+                          builder: (context) => OrderDialog(
+                              order: pool.orders[index],
+                              routeName: pool.origin!.name!));
+                    },
+                    child: const CircleAvatar(child: Icon(Icons.chevron_right)),
+                  ),
                 ),
               ),
-              separatorBuilder: (context, index) => Divider(),
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.transparent,
+              ),
             ),
           ],
         ),

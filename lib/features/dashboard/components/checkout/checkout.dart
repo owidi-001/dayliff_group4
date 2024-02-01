@@ -313,8 +313,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              BlocBuilder<CheckOutBloc,
-                                  CheckoutState>(
+                              BlocBuilder<CheckOutBloc, CheckoutState>(
                                 builder: (context, state) {
                                   if (state.orderImages.isNotEmpty) {
                                     return SizedBox(

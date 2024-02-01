@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
           title: 'Dayliff cargoflow',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
             useMaterial3: true,
           ),
           home: const Splash(),

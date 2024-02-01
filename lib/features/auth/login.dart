@@ -1,5 +1,6 @@
 import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class _LoginState extends State<Login> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool obsecurePass = true;
 
   @override
   void initState() {
@@ -55,6 +57,9 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: AppBar().preferredSize.height,
+                ),
                 Container(
                   height: 120,
                   width: 120,
@@ -86,7 +91,7 @@ class _LoginState extends State<Login> {
                   controller: emailController,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.email),
-                      suffix: const Icon(Icons.clear),
+                      // suffix: const Icon(Icons.clear),
                       contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Email",
                       border: OutlineInputBorder(
@@ -98,13 +103,20 @@ class _LoginState extends State<Login> {
                 ),
                 TextField(
                   controller: passwordController,
+                  obscureText: obsecurePass,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.password),
-                      suffix: const Icon(Icons.remove_red_eye),
+                      suffix: GestureDetector(
+                          onTap: () => setState(() {
+                                obsecurePass = !obsecurePass;
+                              }),
+                          child: Icon(obsecurePass
+                              ? Icons.visibility
+                              : Icons.visibility_off)),
                       contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Password",
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(16),
                       )),
                 ),
                 const SizedBox(
@@ -115,8 +127,8 @@ class _LoginState extends State<Login> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Coming soon")));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const ResetPassword()));
                         },
                         child: const Text("Forgot password?"))
                   ],

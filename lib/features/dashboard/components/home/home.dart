@@ -7,7 +7,6 @@ import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/pool_card.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/return_card.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -159,41 +158,9 @@ class _HomeState extends State<Home> {
             ),
           ),
           // Routes
-          const SliverToBoxAdapter(
-            child: PickUps(),
-          )
+          PickUps()
         ],
       )),
-    );
-  }
-}
-
-class ReturnOrders extends StatelessWidget {
-  const ReturnOrders({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: (context, index) => AnimateInEffect(
-              keepAlive: true,
-              intervalStart: index / 5,
-              child: const ReturnCard(),
-            ),
-          ),
-          SizedBox(
-            height: AppBar().preferredSize.height,
-          )
-        ],
-      ),
     );
   }
 }
@@ -209,19 +176,14 @@ class PickUps extends StatelessWidget {
         return dummyRoute;
       },
     );
-    return SingleChildScrollView(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: 5,
-        itemBuilder: (context, index) => AnimateInEffect(
-            keepAlive: true,
-            intervalStart: index / 5,
-            child: RoutePoolCard(
-              pool: routes[index],
-            )),
-      ),
+    return SliverList.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) => AnimateInEffect(
+          keepAlive: true,
+          intervalStart: index / 5,
+          child: RoutePoolCard(
+            pool: routes[index],
+          )),
     );
   }
 }
