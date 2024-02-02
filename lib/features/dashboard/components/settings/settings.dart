@@ -174,7 +174,7 @@ class Settings extends StatelessWidget {
             const Positioned(
               top: 130.0, // (background container size) - (circle height / 2)
               child: CircleAvatar(
-                backgroundImage: AssetImage("assets/avatar.jpeg"),
+                backgroundImage: AssetImage("assets/avatar.jpg"),
                 radius: 70.0,
               ),
             ),

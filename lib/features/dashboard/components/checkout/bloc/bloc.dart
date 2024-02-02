@@ -16,6 +16,9 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckOutBloc(this._orderBloc) : super(const CheckoutState()) {
     _orderCheckoutService = service<OrderCheckoutService>();
 
+// Change step
+    on<UpdateStep>((event, emit) => emit(state.copyWith(step: event.step)));
+
     on<StartCheckOutBloc>(
       (event, emit) async {
         // TODO! Remove this when endpoints are ready
@@ -128,7 +131,7 @@ final dummyRoute = RoutePool(
     name: "Mombasa RD",
     orders: [
       Order(
-        customerName: "John Doe",
+        customerName: "James Maina",
         customerPhone: "0791381653",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
@@ -139,7 +142,7 @@ final dummyRoute = RoutePool(
             const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
       ),
       Order(
-        customerName: "John Doe",
+        customerName: "Elizabeth Gisiora",
         customerPhone: "0791381653",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
@@ -149,7 +152,7 @@ final dummyRoute = RoutePool(
         destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
       ),
       Order(
-        customerName: "John Doe",
+        customerName: "Jonathan Onder",
         customerPhone: "0791381653",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,

@@ -49,3 +49,11 @@ class VerifyOTP extends CheckoutEvent {
 }
 
 class ConfirmDelivery extends CheckoutEvent {}
+
+class UpdateStep extends CheckoutEvent {
+  final int step;
+  const UpdateStep({required this.step});
+
+  @override
+  List<Object?> get props => [step];
+}

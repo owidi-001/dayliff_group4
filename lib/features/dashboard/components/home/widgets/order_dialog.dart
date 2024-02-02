@@ -48,12 +48,14 @@ class OrderDialog extends StatelessWidget {
                   backgroundImage: imageProvider,
                 ),
                 placeholder: (context, url) => CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   radius: 22,
                   child: const Icon(Icons.person),
                 ),
                 errorWidget: (context, url, error) => CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   radius: 22,
                   child: const Icon(Icons.error),
                 ),
@@ -74,8 +76,10 @@ class OrderDialog extends StatelessWidget {
                     // Call customer
                     AppUtility.makeCall(order.customerPhone);
                   },
-                  child: const CircleAvatar(
-                    child: Icon(Icons.call),
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    child: const Icon(Icons.call),
                   )),
             ),
             const Divider(),
@@ -125,7 +129,7 @@ class OrderDialog extends StatelessWidget {
                     // _circle(),
                     Icon(
                       Icons.location_on,
-                      color: Theme.of(context).disabledColor,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 28,
                     )
                   ],
@@ -186,6 +190,8 @@ class OrderDialog extends StatelessWidget {
                         order.destination!.lat!, order.destination!.long!));
                   },
                   child: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     child: Transform.rotate(
                       angle: 45 *
                           (3.141592653589793238 /

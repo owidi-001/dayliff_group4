@@ -11,7 +11,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart' as locator;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -142,66 +141,66 @@ class _RouteViewState extends State<RouteView> {
       context.read<MapsControllerBloc>().add(StartMapsEvent(pool: pool));
     }
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(
-                Icons.close,
-                color: Theme.of(context).colorScheme.onPrimary,
-              )),
-          title: Text(
-            "${pool.name} Route",
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onPrimary),
-          ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      showDragHandle: true,
-                      enableDrag: true,
-                      useSafeArea: true,
-                      useRootNavigator: true,
-                      context: context,
-                      builder: (context) => RouteOrders(
-                            pool: pool,
-                          ));
-                },
-                icon: const Icon(Icons.more_vert))
-          ],
-        ),
-        body: Stack(
-          children: [
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-              markers: _markers.toSet(),
-              polylines: polylines.toSet(),
-              myLocationEnabled: true,
-              myLocationButtonEnabled: false,
-              rotateGesturesEnabled: true,
-              scrollGesturesEnabled: true,
-              zoomControlsEnabled: false,
-              zoomGesturesEnabled: true,
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                Factory<OneSequenceGestureRecognizer>(
-                  () => EagerGestureRecognizer(),
+        // appBar: AppBar(
+        //   backgroundColor: Theme.of(context).colorScheme.primary,
+        //   foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        //   leading: IconButton(
+        //       onPressed: () {
+        //         Navigator.of(context).pop();
+        //       },
+        //       icon: Icon(
+        //         Icons.close,
+        //         color: Theme.of(context).colorScheme.onPrimary,
+        //       )),
+        //   title: Text(
+        //     "${pool.name} Route",
+        //     style: Theme.of(context).textTheme.titleMedium!.copyWith(
+        //         fontWeight: FontWeight.bold,
+        //         color: Theme.of(context).colorScheme.onPrimary),
+        //   ),
+        //   centerTitle: true,
+        //   actions: const [],
+        // ),
+        body: CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Container(
+            height: MediaQuery.sizeOf(context).height / 2,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 11.0,
+                  ),
+                  markers: _markers.toSet(),
+                  polylines: polylines.toSet(),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  rotateGesturesEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomControlsEnabled: false,
+                  zoomGesturesEnabled: true,
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  },
                 ),
-              },
+                loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : const SizedBox.shrink()
+              ],
             ),
-            loading
-                ? const Center(child: CircularProgressIndicator())
-                : const SizedBox.shrink()
-          ],
-        ));
+          ),
+        ),
+        SliverFillRemaining(
+          hasScrollBody: true,
+          child: RouteOrders(pool: pool),
+        )
+      ],
+    ));
   }
 }

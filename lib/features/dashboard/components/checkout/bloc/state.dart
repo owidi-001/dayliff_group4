@@ -8,6 +8,7 @@ class CheckoutState extends Equatable {
   final String? otp;
   final String? comment;
   final bool otpVerified;
+  final int step;
 
   const CheckoutState(
       {this.message,
@@ -16,7 +17,8 @@ class CheckoutState extends Equatable {
       this.order,
       this.otp,
       this.comment,
-      this.otpVerified = false});
+      this.otpVerified = false,
+      this.step = 0});
 
   CheckoutState copyWith(
       {List<RoutePool>? pools,
@@ -26,7 +28,8 @@ class CheckoutState extends Equatable {
       Order? order,
       String? otp,
       String? comment,
-      bool? otpVerified}) {
+      bool? otpVerified,
+      int? step}) {
     return CheckoutState(
         message: message,
         status: status ?? this.status,
@@ -34,10 +37,11 @@ class CheckoutState extends Equatable {
         order: order ?? this.order,
         otp: otp ?? this.otp,
         comment: comment ?? this.comment,
-        otpVerified: otpVerified ?? this.otpVerified);
+        otpVerified: otpVerified ?? this.otpVerified,
+        step: step ?? this.step);
   }
 
   @override
   List<Object?> get props =>
-      [message, status, orderImages, order, otp, comment, otpVerified];
+      [message, status, orderImages, order, otp, comment, otpVerified, step];
 }

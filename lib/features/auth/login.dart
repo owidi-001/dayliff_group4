@@ -25,7 +25,7 @@ class _LoginState extends State<Login> {
     super.initState();
 
     setState(() {
-      emailController.text = "nafu2@g.com";
+      emailController.text = "elijah@dayliff.com";
       passwordController.text = "password";
     });
   }
@@ -62,22 +62,22 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: AppBar().preferredSize.height,
                 ),
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  child: const ClipRRect(
-                    child: Image(
-                      image: AssetImage('assets/logo.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
+                // Container(
+                //   height: 120,
+                //   width: 120,
+                //   decoration: const BoxDecoration(
+                //     color: Colors.transparent,
+                //   ),
+                //   child: const ClipRRect(
+                //     child: Image(
+                //       image: AssetImage('assets/logo.png'),
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 16,
+                // ),
                 Text(
                   "Welcome!",
                   style: Theme.of(context).textTheme.headlineSmall,
@@ -150,9 +150,9 @@ class _LoginState extends State<Login> {
                                     token: "",
                                     user: User(
                                         id: -1,
-                                        name: "John doe",
+                                        name: "Elijah Mbugua",
                                         phoneNumber: "0791381653",
-                                        email: "owidi@dayliff.com",
+                                        email: "elijah@dayliff.com",
                                         status: "Active"),
                                   ),
                                 ),
