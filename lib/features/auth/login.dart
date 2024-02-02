@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
                 Row(
                   children: [
                     Expanded(
-                      child: AppButton(
+                      child: PrimaryButton(
                         hint: "Login",
                         onTap: () {
                           context.read<AuthBloc>().add(

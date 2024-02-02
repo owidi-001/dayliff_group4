@@ -2,6 +2,7 @@ import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
+import 'package:dayliff/features/dashboard/components/settings/widgets/stat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,6 +30,79 @@ class Settings extends StatelessWidget {
                       children: [
                         SizedBox(
                           height: AppBar().preferredSize.height * 1.5,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "My Stats",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8),
+                                // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                constraints:
+                                    const BoxConstraints(minHeight: 100),
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: GridView.count(
+                                    padding: EdgeInsets.zero,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 8,
+                                    crossAxisSpacing: 8,
+                                    childAspectRatio: 1.8,
+                                    children: const [
+                                      StatCard(
+                                        label: "Complete",
+                                        finalValue: 512,
+                                        value: 0,
+                                      ),
+                                      StatCard(
+                                        label: "Assigned",
+                                        finalValue: 700,
+                                        value: 0,
+                                      ),
+                                      StatCard(
+                                        label: "Returned",
+                                        finalValue: 100,
+                                        value: 0,
+                                      ),
+                                      StatCard(
+                                        label: "Active",
+                                        finalValue: 88,
+                                        value: 0,
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
                         ),
                         SectionContainer(
                           title: "Account",
@@ -122,35 +196,37 @@ class Settings extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SectionContainer(title: "Orders", children: [
-                          SettingsTabs(
-                            text: "Active Orders",
-                            icon: Icons.card_giftcard_sharp,
-                            press: () {
-                              // showInfo("Coming soon");
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Coming soon")));
-                            },
-                          ),
-                          SettingsTabs(
-                            text: "Pending Orders",
-                            icon: Icons.pending,
-                            press: () {
-                              // showInfo("Coming soon");
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Coming soon")));
-                            },
-                          ),
-                          SettingsTabs(
-                            text: "Completed Orders",
-                            icon: Icons.check_circle,
-                            press: () {
-                              // showInfo("Coming soon");
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Coming soon")));
-                            },
-                          ),
-                        ]),
+
+                        // SectionContainer(title: "Orders", children: [
+                        //   SettingsTabs(
+                        //     text: "Active Orders",
+                        //     icon: Icons.card_giftcard_sharp,
+                        //     press: () {
+                        //       // showInfo("Coming soon");
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //           const SnackBar(content: Text("Coming soon")));
+                        //     },
+                        //   ),
+                        //   SettingsTabs(
+                        //     text: "Pending Orders",
+                        //     icon: Icons.pending,
+                        //     press: () {
+                        //       // showInfo("Coming soon");
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //           const SnackBar(content: Text("Coming soon")));
+                        //     },
+                        //   ),
+                        //   SettingsTabs(
+                        //     text: "Completed Orders",
+                        //     icon: Icons.check_circle,
+                        //     press: () {
+                        //       // showInfo("Coming soon");
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //           const SnackBar(content: Text("Coming soon")));
+                        //     },
+                        //   ),
+                        // ]),
+
                         SectionContainer(title: "Security", children: [
                           SettingsTabs(
                             text: "Use biometrics",

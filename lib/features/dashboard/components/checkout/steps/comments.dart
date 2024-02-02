@@ -10,16 +10,40 @@ class DeliveryComments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController commentsController = TextEditingController();
-    return TextFormField(
-      controller: commentsController,
-      maxLines: 3,
-      onChanged: (value) {
-        context.read<CheckOutBloc>().add(CommentsChanged(comment: value));
-      },
-      decoration: const InputDecoration(
-        hintText: "Closing comments",
-        border: OutlineInputBorder(),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextFormField(
+          controller: commentsController,
+          maxLines: 3,
+          onChanged: (value) {
+            context.read<CheckOutBloc>().add(CommentsChanged(comment: value));
+          },
+          decoration: const InputDecoration(
+            hintText: "Closing comments",
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(
+          height: 32,
+        ),
+        Row(
+          children: [
+            ElevatedButton.icon(
+              onPressed: () {
+                // Go to next
+                context.read<CheckOutBloc>().add(StepComplete());
+                // Go back
+                Future.delayed(
+                    Duration(seconds: 3), () => Navigator.of(context).pop());
+              },
+              icon: const Icon(Icons.check),
+              label: const Text("Complete delivery"),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -54,6 +54,21 @@ class MyApp extends StatelessWidget {
               buttonColor: Theme.of(context).colorScheme.primary,
               textTheme: ButtonTextTheme.primary,
             ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: const MaterialStatePropertyAll(
+                  Color(0xff0082d6),
+                ),
+                foregroundColor: MaterialStatePropertyAll(
+                  Theme.of(context).colorScheme.onPrimary,
+                ),
+                // shape: MaterialStatePropertyAll(
+                //   RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(8),
+                //   ),
+                // ),
+              ),
+            ),
             navigationBarTheme: NavigationBarThemeData(
               backgroundColor: Theme.of(context).colorScheme.primary,
               labelTextStyle: MaterialStatePropertyAll(

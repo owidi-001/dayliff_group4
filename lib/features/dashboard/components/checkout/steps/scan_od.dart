@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,23 +44,44 @@ class ScanOD extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        
-        ElevatedButton.icon(
-          onPressed: () async {
-            // TODO
-            final XFile? image =
-                await _picker.pickImage(source: ImageSource.camera);
-            if (image != null) {
-              // Add image captured to state
-              context.read<CheckOutBloc>().add(
-                    SaveCapturedImage(
-                      image: File(image.path),
-                    ),
+        Row(
+          children: [
+            ElevatedButton.icon(
+              onPressed: () async {
+                // TODO
+                final XFile? image =
+                    await _picker.pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  // Add image captured to state
+                  context.read<CheckOutBloc>().add(
+                        SaveCapturedImage(
+                          image: File(image.path),
+                        ),
+                      );
+                }
+              },
+              icon: const Icon(Icons.document_scanner),
+              label: const Text('Scan Document'),
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+            BlocBuilder<CheckOutBloc, CheckoutState>(
+              builder: (context, state) {
+                if (state.orderImages.isNotEmpty) {
+                  return ElevatedButton.icon(
+                    onPressed: () {
+                      // Go to next
+                      context.read<CheckOutBloc>().add(StepContinue());
+                    },
+                    icon: const Icon(Icons.check),
+                    label: const Text("Submit"),
                   );
-            }
-          },
-          icon: const Icon(Icons.camera_alt),
-          label: const Text('Take a Photo'),
+                }
+                return const SizedBox.shrink();
+              },
+            )
+          ],
         ),
       ],
     );

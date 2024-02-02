@@ -128,8 +128,9 @@ final dummyRoute = RoutePool(
     name: "Mombasa RD",
     orders: [
       Order(
-        customerName: "John Doe",
-        customerPhone: "0700000000",
+        orderId: "#HDKJKDWFKHFHKW",
+        customerName: "James Maina",
+        customerPhone: "0791381653",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
         route: -1,
@@ -139,8 +140,9 @@ final dummyRoute = RoutePool(
             const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
       ),
       Order(
-        customerName: "John Doe",
-        customerPhone: "0700000000",
+        orderId: "#HDKJKDWFKHFHKW",
+        customerName: "Elizabeth Gisiora",
+        customerPhone: "0792157084",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
         route: -1,
@@ -149,8 +151,9 @@ final dummyRoute = RoutePool(
         destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
       ),
       Order(
-        customerName: "John Doe",
-        customerPhone: "0700000000",
+        orderId: "#HDKJKDWFKHFHKW",
+        customerName: "Jonathan Onder",
+        customerPhone: "0798784724",
         orderDate: DateTime.now(),
         status: OrderStatus.PENDING,
         route: -1,

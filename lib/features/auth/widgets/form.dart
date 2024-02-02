@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppButton extends StatelessWidget {
-  const AppButton({super.key, required this.hint, required this.onTap});
+class PrimaryButton extends StatelessWidget {
+  const PrimaryButton({super.key, required this.hint, required this.onTap});
 
   final String hint;
   final Function() onTap;

@@ -107,9 +107,6 @@ class RouteOrders extends StatelessWidget {
                     ),
                     trailing: InkWell(
                       onTap: () {
-                        // Close the dialog
-                        Navigator.of(context).pop();
-                        // Do the same thing when an icon is tapped
                         context
                             .read<MapsControllerBloc>()
                             .add(MarkerTapped(pool.orders[index]));

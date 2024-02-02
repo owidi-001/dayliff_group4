@@ -57,3 +57,8 @@ class UpdateStep extends CheckoutEvent {
   @override
   List<Object?> get props => [step];
 }
+
+class StepContinue extends CheckoutEvent {}
+class StepComplete extends CheckoutEvent {}
+
+class StepCancelled extends CheckoutEvent {}

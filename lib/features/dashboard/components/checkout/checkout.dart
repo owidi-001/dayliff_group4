@@ -81,34 +81,64 @@ class _OrderCompletionState extends State<OrderCompletion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Text('Complete Delivery'),
-      ),
-      body: BlocBuilder<CheckOutBloc, CheckoutState>(
-        builder: (context, state) {
-          return Stepper(
-              currentStep: state.step,
-              onStepCancel: () {
-                if (state.step > 0) {
-                  context
-                      .read<CheckOutBloc>()
-                      .add(UpdateStep(step: state.step - 1));
-                }
-              },
-              onStepContinue: () {
-                bool isLastStep = (state.step == getSteps().length - 1);
-                if (!isLastStep) {
-                  context
-                      .read<CheckOutBloc>()
-                      .add(UpdateStep(step: state.step + 1));
-                }
-              },
-              onStepTapped: null, // Do nothing
-              steps: getSteps());
-        },
+    return BlocListener<CheckOutBloc, CheckoutState>(
+      listener: (context, state) {
+        if (state.message != null) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.message!)));
+        }
+      },
+      listenWhen: (previous, current) => previous.message != current.message,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          title: const Text('Complete Delivery'),
+        ),
+        body: BlocBuilder<CheckOutBloc, CheckoutState>(
+          builder: (context, state) {
+            return Stepper(
+                controlsBuilder:
+                    (BuildContext context, ControlsDetails details) {
+                  return const SizedBox.shrink();
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: details.onStepContinue,
+                  //         child: Text('Custom Continue'),
+                  //       ),
+                  //     ),
+                  //     if (details.currentStep > 0)
+                  //       Expanded(
+                  //         child: ElevatedButton(
+                  //           onPressed: details.onStepCancel,
+                  //           child: Text('Custom Cancel'),
+                  //         ),
+                  //       ),
+                  //   ],
+                  // );
+                },
+                currentStep: state.step,
+                onStepCancel: () {
+                  if (state.step > 0) {
+                    context
+                        .read<CheckOutBloc>()
+                        .add(UpdateStep(step: state.step - 1));
+                  }
+                },
+                onStepContinue: () {
+                  bool isLastStep = (state.step == getSteps().length - 1);
+                  if (!isLastStep) {
+                    context
+                        .read<CheckOutBloc>()
+                        .add(UpdateStep(step: state.step + 1));
+                  }
+                },
+                onStepTapped: null, // Do nothing
+                steps: getSteps());
+          },
+        ),
       ),
     );
   }

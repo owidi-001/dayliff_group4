@@ -203,7 +203,7 @@ class OrderDialog extends StatelessWidget {
               ],
             ),
             const Divider(),
-            AppButton(
+            PrimaryButton(
                 hint: "Confirm order",
                 onTap: () {
                   // close dialog

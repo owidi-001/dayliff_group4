@@ -18,7 +18,23 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
 // Change step
     on<UpdateStep>((event, emit) => emit(state.copyWith(step: event.step)));
-
+    on<StepContinue>(
+      (event, emit) => emit(
+        state.copyWith(step: state.step + 1),
+      ),
+    );
+    on<StepCancelled>(
+      (event, emit) => emit(
+        state.copyWith(step: state.step - 1),
+      ),
+    );
+    on<StepComplete>((event, emit) {
+      emit(
+        state.copyWith(message: "Delivery completed successfully"),
+      );
+      // clear state
+      emit(const CheckoutState());
+    });
     on<StartCheckOutBloc>(
       (event, emit) async {
         // TODO! Remove this when endpoints are ready
@@ -116,50 +132,3 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     });
   }
 }
-
-final dummyRoute = RoutePool(
-    routeId: -1,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    status: OrderStatus.PENDING,
-    distance: 10,
-    duration: 20,
-    origin:
-        const Address(lat: -1.167778, long: 36.973333, name: "Ruiru Warehouse"),
-    destination:
-        const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
-    name: "Mombasa RD",
-    orders: [
-      Order(
-        customerName: "James Maina",
-        customerPhone: "0791381653",
-        orderDate: DateTime.now(),
-        status: OrderStatus.PENDING,
-        route: -1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        destination:
-            const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
-      ),
-      Order(
-        customerName: "Elizabeth Gisiora",
-        customerPhone: "0791381653",
-        orderDate: DateTime.now(),
-        status: OrderStatus.PENDING,
-        route: -1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
-      ),
-      Order(
-        customerName: "Jonathan Onder",
-        customerPhone: "0791381653",
-        orderDate: DateTime.now(),
-        status: OrderStatus.PENDING,
-        route: -1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        destination:
-            const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
-      ),
-    ]);
