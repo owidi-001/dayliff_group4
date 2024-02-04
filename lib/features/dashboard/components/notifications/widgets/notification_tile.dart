@@ -1,4 +1,5 @@
 import 'package:dayliff/features/dashboard/components/notifications/models/notifications.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class NotificationTile extends StatelessWidget {
@@ -12,7 +13,7 @@ class NotificationTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       constraints: const BoxConstraints(minHeight: 100),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: StaticColors.onPrimary,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(

@@ -12,7 +12,7 @@ class ScanOD extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -50,7 +50,7 @@ class ScanOD extends StatelessWidget {
               onPressed: () async {
                 // TODO
                 final XFile? image =
-                    await _picker.pickImage(source: ImageSource.camera);
+                    await picker.pickImage(source: ImageSource.camera);
                 if (image != null) {
                   // Add image captured to state
                   context.read<CheckOutBloc>().add(

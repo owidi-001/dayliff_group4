@@ -1,3 +1,4 @@
+import 'package:dayliff/utils/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,7 +14,7 @@ class LoadingIllustrator extends StatelessWidget {
         return DecoratedBox(
           decoration: BoxDecoration(
             color: index.isEven
-                ? Theme.of(context).colorScheme.primary
+                ? StaticColors.primary
                 : Theme.of(context).colorScheme.tertiary,
           ),
         );
@@ -204,7 +205,7 @@ class _SkeletonLoaderState extends State<SkeletonLoader> {
       width: 200.0,
       height: 100.0,
       child: Shimmer.fromColors(
-        baseColor: Theme.of(context).colorScheme.primary,
+        baseColor: StaticColors.primary,
         highlightColor: Theme.of(context).colorScheme.tertiary,
         child: const Text(
           'Shimmer',

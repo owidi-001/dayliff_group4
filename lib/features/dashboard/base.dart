@@ -1,6 +1,7 @@
 import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/home.dart';
 import 'package:dayliff/features/dashboard/components/settings/settings.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
     // }
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).colorScheme.primary,
+        statusBarColor: StaticColors.primary,
       ),
     );
     return BlocBuilder<DashboardControllerBloc, DashboardState>(
@@ -39,20 +40,36 @@ class _DashboardState extends State<Dashboard> {
         return Scaffold(
           body: [const Home(), const Settings()][state.position],
           bottomNavigationBar: NavigationBar(
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+              height: 50,
+              backgroundColor: StaticColors.primary,
               selectedIndex: state.position,
               onDestinationSelected: (value) {
                 context
                     .read<DashboardControllerBloc>()
                     .add(DashboardEvent(value));
               },
-              destinations: const [
+              destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.dashboard),
+                  selectedIcon: Icon(
+                    Icons.dashboard,
+                    color: StaticColors.primary,
+                  ),
+                  icon: Icon(
+                    Icons.dashboard,
+                    color: StaticColors.onPrimary,
+                  ),
                   label: "Dashboard",
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.settings),
+                  selectedIcon: Icon(
+                    Icons.settings,
+                    color: StaticColors.primary,
+                  ),
+                  icon: Icon(
+                    Icons.settings,
+                    color: StaticColors.onPrimary,
+                  ),
                   label: "Settings",
                 )
               ]),

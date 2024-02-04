@@ -6,6 +6,7 @@ import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
 import 'package:dayliff/splash.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -45,13 +46,13 @@ class MyApp extends StatelessWidget {
                 ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
             primaryColor: const Color(0xff0082d6),
             appBarTheme: AppBarTheme(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary),
+                backgroundColor: StaticColors.primary,
+                foregroundColor: StaticColors.onPrimary),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
               selectedItemColor: Color(0xff0082d6),
             ),
             buttonTheme: ButtonThemeData(
-              buttonColor: Theme.of(context).colorScheme.primary,
+              buttonColor: StaticColors.primary,
               textTheme: ButtonTextTheme.primary,
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
@@ -60,20 +61,20 @@ class MyApp extends StatelessWidget {
                   Color(0xff0082d6),
                 ),
                 foregroundColor: MaterialStatePropertyAll(
-                  Theme.of(context).colorScheme.onPrimary,
+                  StaticColors.onPrimary,
                 ),
-                // shape: MaterialStatePropertyAll(
-                //   RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(8),
-                //   ),
-                // ),
+                shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
               ),
             ),
             navigationBarTheme: NavigationBarThemeData(
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: StaticColors.primary,
               labelTextStyle: MaterialStatePropertyAll(
                 TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: StaticColors.onPrimary,
                 ),
               ),
             ),

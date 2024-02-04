@@ -1,6 +1,7 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,8 +24,7 @@ class RouteOrders extends StatelessWidget {
             Text(
               "${pool.name} Route",
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary),
+                  fontWeight: FontWeight.bold, color: StaticColors.primary),
             ),
             ListView.separated(
               itemCount: pool.orders.length,
@@ -37,7 +37,7 @@ class RouteOrders extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: StaticColors.onPrimary,
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
@@ -79,9 +79,7 @@ class RouteOrders extends StatelessWidget {
                           children: [
                             TextSpan(
                                 text: pool.orders[index].customerPhone,
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary))
+                                style: TextStyle(color: StaticColors.primary))
                           ],
                           style:
                               Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -94,9 +92,7 @@ class RouteOrders extends StatelessWidget {
                           children: [
                             TextSpan(
                                 text: '${pool.orders[index].destination?.name}',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary))
+                                style: TextStyle(color: StaticColors.primary))
                           ],
                           style:
                               Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -123,10 +119,8 @@ class RouteOrders extends StatelessWidget {
                                 routeName: pool.origin!.name!));
                       },
                       child: CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onPrimary,
+                          backgroundColor: StaticColors.primary,
+                          foregroundColor: StaticColors.onPrimary,
                           child: const Icon(Icons.chevron_right)),
                     ),
                   ),

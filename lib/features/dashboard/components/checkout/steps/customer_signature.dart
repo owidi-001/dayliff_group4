@@ -58,8 +58,9 @@ class _CustomerSignatureState extends State<CustomerSignature> {
           const SizedBox(height: 10),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
             ElevatedButton.icon(
-              icon: Icon(Icons.check),
+              icon: const Icon(Icons.check),
               onPressed: () {
+                // _handleSaveButtonPressed
                 context.read<CheckOutBloc>().add(StepContinue());
               },
               label: const Text('Continue'),
@@ -70,11 +71,11 @@ class _CustomerSignatureState extends State<CustomerSignature> {
                 child: const Text('Clear'),
               ),
             ),
-            ElevatedButton.icon(
-              icon: Icon(Icons.remove_red_eye),
-              onPressed: _handleSaveButtonPressed,
-              label: const Text('View'),
-            ),
+            // ElevatedButton.icon(
+            //   icon: const Icon(Icons.remove_red_eye),
+            //   onPressed: _handleSaveButtonPressed,
+            //   label: const Text('View'),
+            // ),
           ])
         ]);
   }

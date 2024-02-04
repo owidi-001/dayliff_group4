@@ -1,10 +1,11 @@
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-enum SingingCharacter { OTP, ID }
+enum VerificationMeans { OTP, ID }
 
 class VerifyCustomer extends StatefulWidget {
   const VerifyCustomer({super.key, required this.order});
@@ -15,7 +16,14 @@ class VerifyCustomer extends StatefulWidget {
 }
 
 class _VerifyCustomerState extends State<VerifyCustomer> {
-  SingingCharacter _character = SingingCharacter.OTP;
+  VerificationMeans _character = VerificationMeans.OTP;
+  List<DropdownMenuItem<VerificationMeans>> get dropdownItems {
+    List<DropdownMenuItem<VerificationMeans>> menuItems = [
+      const DropdownMenuItem(value: VerificationMeans.OTP, child: Text("OTP")),
+      const DropdownMenuItem(value: VerificationMeans.ID, child: Text("ID"))
+    ];
+    return menuItems;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,40 +31,33 @@ class _VerifyCustomerState extends State<VerifyCustomer> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('OTP'),
-                leading: Radio(
-                  value: SingingCharacter.OTP,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                    });
-                  },
-                ),
-              ),
+            const Text("Verify By:"),
+            const SizedBox(
+              width: 16,
             ),
-            Expanded(
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('ID'),
-                leading: Radio(
-                  value: SingingCharacter.ID,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                    });
-                  },
-                ),
-              ),
-            )
+            DropdownButton<VerificationMeans>(
+              value: _character,
+              items: dropdownItems,
+              onChanged: (value) {
+                setState(() {
+                  _character = value!;
+                });
+              },
+            ),
           ],
         ),
-        _character == SingingCharacter.OTP ? const ByOTP() : const ByID()
+        SizedBox(
+          height: AppBar().preferredSize.height / 2,
+        ),
+        AnimatedSwitcher(
+            duration: const Duration(milliseconds: 800),
+            switchInCurve: Curves.easeInCirc,
+            // switchOutCurve: Curves.easeInOutBack,
+            child: _character == VerificationMeans.OTP
+                ? const ByOTP()
+                : const ByID())
       ],
     );
   }
@@ -73,7 +74,7 @@ class ByOTP extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Validate customer by OTP",
+          "Enter receiver's OTP",
           textAlign: TextAlign.left,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
@@ -88,11 +89,15 @@ class ByOTP extends StatelessWidget {
                 obscureText: false,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
+                    shape: PinCodeFieldShape.underline,
                     borderRadius: BorderRadius.circular(8),
                     fieldHeight: 50,
+                    activeColor: StaticColors.primary,
+                    activeFillColor: StaticColors.primary.withOpacity(.2),
+                    selectedFillColor: StaticColors.primary.withOpacity(.2),
+                    selectedColor: StaticColors.primary,
                     fieldWidth: 40,
-                    activeFillColor: Colors.white,
+                    inactiveColor: Colors.grey.shade400,
                     inactiveFillColor: Theme.of(context).colorScheme.onPrimary),
                 animationDuration: const Duration(milliseconds: 300),
                 // backgroundColor: Colors.blue.shade50,
@@ -151,26 +156,30 @@ class ByID extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController idController = TextEditingController();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "Validate customer by national ID",
+          "Enter receiver's ID",
           textAlign: TextAlign.left,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 20),
-        TextField(
-          controller: idController,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.edit_document),
-              // suffix: const Icon(Icons.clear),
-              contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-              hintText: "ID number",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              )),
-        ),
+        TextFormField(
+            controller: idController,
+            textAlignVertical: TextAlignVertical.center,
+            textInputAction: TextInputAction.next,
+            validator: validateEmail,
+            onSaved: (String? val) {
+              // TODO
+            },
+            style: const TextStyle(fontSize: 18.0),
+            keyboardType: TextInputType.emailAddress,
+            cursorColor: StaticColors.primary,
+            decoration: getInputDecoration(
+                hint: 'ID number',
+                darkMode: false,
+                errorColor: Theme.of(context).colorScheme.error)),
         const SizedBox(
           height: 32,
         ),

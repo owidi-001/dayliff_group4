@@ -1,5 +1,6 @@
 import 'package:dayliff/features/dashboard/components/notifications/models/notifications.dart';
 import 'package:dayliff/features/dashboard/components/notifications/widgets/notification_tile.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,8 @@ class NotificationsScreen extends StatelessWidget {
         body: CustomScrollView(
       slivers: [
         SliverAppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: StaticColors.primary,
+          foregroundColor: StaticColors.onPrimary,
           title: const Text('Notifications'),
         ),
         SliverList.builder(

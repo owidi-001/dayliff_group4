@@ -184,7 +184,7 @@
 //               "${pool.name} Route",
 //               style: Theme.of(context).textTheme.titleMedium!.copyWith(
 //                   fontWeight: FontWeight.bold,
-//                   color: Theme.of(context).colorScheme.primary),
+//                   color: StaticColors.primary),
 //             ),
 //             centerTitle: true,
 //             actions: [

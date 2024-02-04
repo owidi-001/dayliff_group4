@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SineWaveAnimation extends StatefulWidget {
+  const SineWaveAnimation({super.key});
+
   @override
   _SineWaveAnimationState createState() => _SineWaveAnimationState();
 }
@@ -18,7 +20,7 @@ class _SineWaveAnimationState extends State<SineWaveAnimation>
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
 
     _animation = Tween<double>(
@@ -42,7 +44,7 @@ class _SineWaveAnimationState extends State<SineWaveAnimation>
   Widget build(BuildContext context) {
     return Center(
       child: CustomPaint(
-        size: Size(300, 200),
+        size: const Size(300, 200),
         painter: SineWavePainter(_animation.value),
       ),
     );
@@ -62,7 +64,7 @@ class SineWavePainter extends CustomPainter {
       ..strokeWidth = 2.0;
 
     final path = Path();
-    final amplitude = 40;
+    const amplitude = 40;
     final frequency = 2 * 3.14159 / size.width;
     final offset = size.height / 2;
 

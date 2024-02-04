@@ -3,17 +3,20 @@ import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/base.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State createState() {
+    return _Login();
+  }
 }
 
-class _LoginState extends State<Login> {
+class _Login extends State<Login> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -32,117 +35,133 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        // TODO: implement listener
-        if (state.loginSuccess) {
-          // Redirect to dashboard
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const Dashboard(),
+    return Builder(builder: (context) {
+      return BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          // TODO: implement listener
+          if (state.loginSuccess) {
+            // Redirect to dashboard
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const Dashboard(),
+              ),
+            );
+          }
+          if (state.message != null) {
+            showSnackBar(context, state.message!);
+          }
+        },
+        listenWhen: (previous, current) =>
+            previous.loginSuccess != current.loginSuccess ||
+            previous.message != current.message,
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              iconTheme: IconThemeData(color: StaticColors.primary),
+              elevation: 0.0,
+              title: Text(
+                'Sign In',
+                style: TextStyle(
+                    color: StaticColors.primary,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-          );
-        }
-      },
-      listenWhen: (previous, current) =>
-          previous.loginSuccess != current.loginSuccess,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          title: const Text("Login"),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: AppBar().preferredSize.height,
-                ),
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  child: const ClipRRect(
-                    child: Image(
-                      image: AssetImage('assets/logo.png'),
-                      fit: BoxFit.cover,
+            body: Form(
+              key: formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: AppBar().preferredSize.height,
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  "Welcome!",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Validate credentials to get started",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.email),
-                      // suffix: const Icon(Icons.clear),
-                      contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Email",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextField(
-                  controller: passwordController,
-                  obscureText: obsecurePass,
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.password),
-                      suffix: GestureDetector(
-                          onTap: () => setState(() {
-                                obsecurePass = !obsecurePass;
-                              }),
-                          child: Icon(obsecurePass
-                              ? Icons.visibility
-                              : Icons.visibility_off)),
-                      contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Password",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ResetPassword()));
-                        },
-                        child: const Text("Forgot password?"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    Expanded(
+                    Container(
+                      height: 100,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      child: const ClipRRect(
+                        child: Image(
+                          image: AssetImage('assets/logo.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 32.0, right: 24.0, left: 24.0),
+                      child: TextFormField(
+                          controller: emailController,
+                          textAlignVertical: TextAlignVertical.center,
+                          textInputAction: TextInputAction.next,
+                          validator: validateEmail,
+                          onSaved: (String? val) {
+                            // TODO
+                          },
+                          style: const TextStyle(fontSize: 18.0),
+                          keyboardType: TextInputType.emailAddress,
+                          cursorColor: StaticColors.primary,
+                          decoration: getInputDecoration(
+                              hint: 'Email Address',
+                              darkMode: false,
+                              errorColor: Theme.of(context).colorScheme.error)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 32.0, right: 24.0, left: 24.0),
+                      child: TextFormField(
+                          controller: passwordController,
+                          textAlignVertical: TextAlignVertical.center,
+                          obscureText: true,
+                          validator: validatePassword,
+                          onSaved: (String? val) {
+                            // TODO
+                          },
+                          onFieldSubmitted: (password) {
+                            // TODO
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: const TextStyle(fontSize: 18.0),
+                          cursorColor: StaticColors.primary,
+                          decoration: getInputDecoration(
+                              hint: 'Password',
+                              darkMode: false,
+                              errorColor: Theme.of(context).colorScheme.error)),
+                    ),
+
+                    /// forgot password text, navigates user to ResetPasswordScreen
+                    /// and this is only visible when logging with email and password
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, right: 24),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const ResetPassword()));
+                          },
+                          child: Text(
+                            'Forgot password?',
+                            style: TextStyle(
+                                color: StaticColors.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                letterSpacing: 1),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 16),
                       child: PrimaryButton(
-                        hint: "Login",
                         onTap: () {
                           context.read<AuthBloc>().add(
                                 LocalLogin(
@@ -166,15 +185,56 @@ class _LoginState extends State<Login> {
                           //       ),
                           //     );
                         },
+                        hint: 'Login',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Container(
+                            height: 2,
+                            width: double.infinity,
+                            decoration:
+                                BoxDecoration(color: Colors.grey.shade400),
+                          )),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            'OR',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                              child: Container(
+                            height: 2,
+                            width: double.infinity,
+                            decoration:
+                                BoxDecoration(color: Colors.grey.shade400),
+                          )),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 16),
+                      child: PrimaryOutlined(
+                        
+                        onTap: () async {
+                          //
+                        },
+                        hint: 'AD Login',
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              ),
+            )),
+      );
+    });
   }
 }

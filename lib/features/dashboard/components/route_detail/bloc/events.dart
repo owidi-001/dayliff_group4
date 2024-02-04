@@ -24,6 +24,7 @@ class PopulateOrdersLocations extends MapsEvent {
   final List<Order> orders;
 
   const PopulateOrdersLocations({required this.orders});
+  @override
   List<Object?> get props => [orders];
 }
 

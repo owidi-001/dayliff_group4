@@ -2,6 +2,7 @@ import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -45,7 +46,7 @@ class RoutePoolCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         constraints: const BoxConstraints(minHeight: 100),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: StaticColors.onPrimary,
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
@@ -140,7 +141,7 @@ class RoutePoolCard extends StatelessWidget {
                         "From:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary),
+                            color: StaticColors.primary),
                       ),
                       Text(
                         "${pool.origin!.name}",
@@ -171,7 +172,7 @@ class RoutePoolCard extends StatelessWidget {
                         "Dest:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary),
+                            color: StaticColors.primary),
                       ),
                       Text(
                         "${pool.destination!.name}",
@@ -194,8 +195,8 @@ class RoutePoolCard extends StatelessWidget {
                     );
                   },
                   child: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: StaticColors.primary,
+                    foregroundColor: StaticColors.onPrimary,
                     child: const Icon(Icons.chevron_right),
                   ),
                 )
@@ -208,8 +209,7 @@ class RoutePoolCard extends StatelessWidget {
                 Text(
                   "Cost:",
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary),
+                      fontWeight: FontWeight.bold, color: StaticColors.primary),
                 ),
                 RichText(
                     text: TextSpan(children: [
@@ -218,8 +218,7 @@ class RoutePoolCard extends StatelessWidget {
                     children: [
                       TextSpan(
                           text: AppUtility.formattingAmount(pool.cost),
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary))
+                          style: TextStyle(color: StaticColors.primary))
                     ],
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold,
@@ -249,7 +248,7 @@ class RoutePoolShimmer extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         constraints: const BoxConstraints(minHeight: 100),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: StaticColors.onPrimary,
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(

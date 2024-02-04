@@ -9,6 +9,7 @@ import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/pool_card.dart';
 import 'package:dayliff/features/dashboard/components/notifications/notifications.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(
     //   SystemUiOverlayStyle(
-    //     statusBarColor: Theme.of(context).colorScheme.primary,
+    //     statusBarColor: StaticColors.primary,
     //   ),
     // );
     if (context.read<OrderBloc>().state.status == ServiceStatus.initial) {
@@ -46,14 +47,18 @@ class _HomeState extends State<Home> {
         // Appbar
         SliverAppBar(
           expandedHeight: 180.0,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: StaticColors.primary,
+          foregroundColor: StaticColors.onPrimary,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(16),
               bottomRight: Radius.circular(16),
             ),
           ),
+          // shadowColor: StaticColors.primary,
+          shadowColor: Colors.grey.withOpacity(0.5),
+          forceElevated: true,
+          elevation: 5,
           snap: true,
           floating: true,
           pinned: false,
@@ -98,7 +103,7 @@ class _HomeState extends State<Home> {
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
-                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                      .copyWith(color: StaticColors.onPrimary),
                 ),
                 const SizedBox(
                   height: 16 / 4,
@@ -107,8 +112,10 @@ class _HomeState extends State<Home> {
                   builder: (context, state) {
                     return Text(
                       AppUtility.capitalize(state.user?.name ?? ''),
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: StaticColors.onPrimary),
                     );
                   },
                 )
@@ -154,11 +161,11 @@ class _HomeState extends State<Home> {
                           selectionColor: Colors.black,
                           selectedTextColor: Colors.white,
                           monthTextStyle: defaultMonthTextStyle.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary),
+                              color: StaticColors.onPrimary),
                           dateTextStyle: defaultDateTextStyle.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary),
+                              color: StaticColors.onPrimary),
                           dayTextStyle: defaultDayTextStyle.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary),
+                              color: StaticColors.onPrimary),
                           onDateChange: (date) {
                             // New date selected
                             setState(() {
@@ -186,7 +193,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
-                  .copyWith(color: Theme.of(context).colorScheme.primary),
+                  .copyWith(color: StaticColors.primary),
             ),
           ),
         ),

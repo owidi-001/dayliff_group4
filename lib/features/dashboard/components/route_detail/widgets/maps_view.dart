@@ -65,7 +65,7 @@ class _MapsViewState extends State<MapsView> {
 
   Future<void> _getPolylines() async {
     List<LatLng> polylineCoordinates = [];
-    List<Polyline> _polylines = [];
+    List<Polyline> polylines0 = [];
 
     for (int i = 0; i < pool.orders.length - 1; i++) {
       final origin = pool.orders[i].destination!;
@@ -81,7 +81,7 @@ class _MapsViewState extends State<MapsView> {
           List<LatLng> polylineCoordinates = [];
           List<Polyline> polylines = [];
 
-          data.forEach((polyline) {
+          for (var polyline in data) {
             polylineCoordinates.clear();
             for (int j = 0; j < polyline.points.length; j++) {
               final point = polyline.points[j];
@@ -96,10 +96,10 @@ class _MapsViewState extends State<MapsView> {
               width: 5,
             );
             polylines.add(newPolyline);
-          });
+          }
 
           setState(() {
-            _polylines = polylines;
+            polylines0 = polylines;
           });
         },
         onError: (error) {

@@ -1,83 +1,105 @@
+import 'package:dayliff/features/auth/login.dart';
+import 'package:dayliff/features/auth/widgets/form.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({super.key});
-
-  @override
-  State<Welcome> createState() => _WelcomeState();
-}
-
-class _WelcomeState extends State<Welcome> {
-  final _pageViewController = PageController();
-  double currentPage = 0.0;
-  var slides = [
-    {
-      "header": "Easy access",
-      "description": "Lorem ipsum dolor",
-      "image": "assets/images/1.png"
-    },
-    {
-      "header": "Notifications",
-      "description": "Lorem ipsum dolow",
-      "image": "assets/images/2.png"
-    }
-  ]
-      .map((item) => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: Column(
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: Image.asset(
-                  item['image']!,
-                  fit: BoxFit.fitWidth,
-                  width: 220.0,
-                  alignment: Alignment.bottomCenter,
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(item['header']!,
-                          style: const TextStyle(
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.w300,
-                              color: Color(0XFF3F3D56),
-                              height: 2.0)),
-                      Text(
-                        item['description']!,
-                        style: const TextStyle(
-                            color: Colors.grey,
-                            letterSpacing: 1.2,
-                            fontSize: 16.0,
-                            height: 1.3),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          )))
-      .toList();
+class Welcome extends StatelessWidget {
+  const Welcome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: _pageViewController,
-      itemCount: slides.length,
-      itemBuilder: (BuildContext context, int index) {
-        _pageViewController.addListener(() {
-          setState(() {
-            currentPage = _pageViewController.page!;
-          });
-        });
-        return slides[index];
+    return Builder(
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: StaticColors.primary.withOpacity(.3),
+          body: Stack(
+            children: [
+              Container(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                decoration: BoxDecoration(color: StaticColors.primary),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      decoration: BoxDecoration(
+                          color: StaticColors.onPrimary.withOpacity(.5),
+                          borderRadius: BorderRadius.circular(8)),
+                      constraints: BoxConstraints(
+                          maxHeight: MediaQuery.sizeOf(context).width +
+                              AppBar().preferredSize.height),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Center(
+                            child: Image.asset(
+                              'assets/logo.jpg',
+                              height: 100.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 32, right: 16, bottom: 8),
+                            child: Text(
+                              'D&S Cargo Flow',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: StaticColors.primary,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 16),
+                            child: Text(
+                              'Effortless deliveries with a digital twist. Get started now!',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 40.0, left: 40.0, top: 40),
+                            child: PrimaryButton(
+                              hint: 'Get Started',
+                              onTap: () {
+                                // Go to login
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const Login(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: AppBar().preferredSize.height,
+                    ),
+                    SvgPicture.asset(
+                      "assets/welcome.svg",
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

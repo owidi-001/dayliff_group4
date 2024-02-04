@@ -3,6 +3,7 @@ import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -48,14 +49,14 @@ class OrderDialog extends StatelessWidget {
                   backgroundImage: imageProvider,
                 ),
                 placeholder: (context, url) => CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor: StaticColors.primary,
+                  foregroundColor: StaticColors.onPrimary,
                   radius: 22,
                   child: const Icon(Icons.person),
                 ),
                 errorWidget: (context, url, error) => CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor: StaticColors.primary,
+                  foregroundColor: StaticColors.onPrimary,
                   radius: 22,
                   child: const Icon(Icons.error),
                 ),
@@ -77,8 +78,8 @@ class OrderDialog extends StatelessWidget {
                     AppUtility.makeCall(order.customerPhone);
                   },
                   child: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: StaticColors.primary,
+                    foregroundColor: StaticColors.onPrimary,
                     child: const Icon(Icons.call),
                   )),
             ),
@@ -129,7 +130,7 @@ class OrderDialog extends StatelessWidget {
                     // _circle(),
                     Icon(
                       Icons.location_on,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: StaticColors.primary,
                       size: 28,
                     )
                   ],
@@ -145,7 +146,7 @@ class OrderDialog extends StatelessWidget {
                         "From:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary),
+                            color: StaticColors.primary),
                       ),
                       Text(
                         routeName,
@@ -174,7 +175,7 @@ class OrderDialog extends StatelessWidget {
                         "Dest:",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary),
+                            color: StaticColors.primary),
                       ),
                       Text(
                         "${order.destination!.name}",
@@ -190,8 +191,8 @@ class OrderDialog extends StatelessWidget {
                         order.destination!.lat!, order.destination!.long!));
                   },
                   child: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: StaticColors.primary,
+                    foregroundColor: StaticColors.onPrimary,
                     child: Transform.rotate(
                       angle: 45 *
                           (3.141592653589793238 /

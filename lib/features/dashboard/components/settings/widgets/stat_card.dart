@@ -1,3 +1,4 @@
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class StatCard extends StatefulWidget {
@@ -39,8 +40,7 @@ class _StatCardState extends State<StatCard>
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-          color: widget.color ??
-              Theme.of(context).colorScheme.primary.withOpacity(.1),
+          color: widget.color ?? StaticColors.primary.withOpacity(.1),
           borderRadius: BorderRadius.circular(8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,9 +55,10 @@ class _StatCardState extends State<StatCard>
               builder: (context, child) {
                 return Text(
                   _animation.value.toString(),
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 32,
-                      color: Theme.of(context).colorScheme.primary),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 32, color: StaticColors.primary),
                 );
               },
             ),

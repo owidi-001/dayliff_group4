@@ -106,7 +106,7 @@ class AppUtility {
       case OrderStatus.PENDING:
         return Colors.amber;
       case OrderStatus.TRANSIT:
-        return Theme.of(context).colorScheme.primary;
+        return StaticColors.primary;
       case OrderStatus.COMPLETED:
         return Colors.green;
       case OrderStatus.PARTIAL:
@@ -114,7 +114,7 @@ class AppUtility {
       case OrderStatus.CANCELLED:
         return Colors.red;
       default:
-        return Theme.of(context).colorScheme.primary;
+        return StaticColors.primary;
     }
   }
 

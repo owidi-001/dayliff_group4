@@ -1,5 +1,6 @@
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/base.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,8 +54,9 @@ class _ResetPasswordState extends State<ResetPassword> {
           previous.loginSuccess != current.loginSuccess,
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            foregroundColor: StaticColors.primary,
             title: const Text("Reset Password"),
           ),
           body: SizedBox(
@@ -74,6 +76,23 @@ class _ResetPasswordState extends State<ResetPassword> {
                 const SizedBox(height: 20),
                 Expanded(
                   child: Stepper(
+                    stepIconBuilder: (stepIndex, stepState) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: StaticColors.onPrimary),
+                        child: Icon(
+                          stepIndex == 0
+                              ? Icons.security
+                              : stepIndex == 1
+                                  ? Icons.verified_user
+                                  : Icons.password,
+                          color: _index >= stepIndex
+                              ? StaticColors.primary
+                              : StaticColors.dark,
+                        ),
+                      );
+                    },
                     currentStep: _index,
                     onStepCancel: () {
                       if (_index > 0) {
@@ -94,6 +113,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                         _index = index;
                       });
                     },
+                    controlsBuilder: (context, details) {
+                      return Container();
+                    },
                     steps: <Step>[
                       Step(
                         title: const Text('Get OTP'),
@@ -111,27 +133,43 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                TextField(
+                                TextFormField(
                                   controller: emailController,
-                                  decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.email),
-                                      // suffix: const Icon(Icons.clear),
-                                      contentPadding: const EdgeInsets.fromLTRB(
-                                          20, 15, 20, 15),
-                                      hintText: "Email",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
+                                  textAlignVertical: TextAlignVertical.center,
+                                  textInputAction: TextInputAction.next,
+                                  validator: validateEmail,
+                                  onSaved: (String? val) {
+                                    // TODO
+                                  },
+                                  style: const TextStyle(fontSize: 18.0),
+                                  keyboardType: TextInputType.emailAddress,
+                                  cursorColor: StaticColors.primary,
+                                  decoration: getInputDecoration(
+                                      hint: 'Email Address',
+                                      darkMode: false,
+                                      errorColor:
+                                          Theme.of(context).colorScheme.error),
                                 ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _index += 1;
+                                      });
+                                    },
+                                    child: const Text("Get OTP"))
                               ],
                             ),
                           ),
                         ),
                       ),
                       Step(
-                        title: const Text('Validate OTP'),
+                        title: const Text('Verify OTP'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -143,11 +181,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     obscureText: false,
                                     animationType: AnimationType.fade,
                                     pinTheme: PinTheme(
-                                        shape: PinCodeFieldShape.box,
+                                        shape: PinCodeFieldShape.circle,
                                         borderRadius: BorderRadius.circular(8),
                                         fieldHeight: 50,
                                         fieldWidth: 40,
-                                        activeFillColor: Colors.white,
+                                        inactiveColor: Colors.grey.shade400,
                                         inactiveFillColor: Theme.of(context)
                                             .colorScheme
                                             .onPrimary),
@@ -174,6 +212,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 ),
                               ],
                             ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _index += 1;
+                                  });
+                                },
+                                child: const Text("Verify OTP"))
                           ],
                         ),
                       ),
@@ -181,31 +226,57 @@ class _ResetPasswordState extends State<ResetPassword> {
                         title: const Text('Set New Password'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextField(
-                                  controller: passwordController,
-                                  obscureText: obsecurePass,
-                                  decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.password),
-                                      suffix: GestureDetector(
-                                          onTap: () => setState(() {
-                                                obsecurePass = !obsecurePass;
-                                              }),
-                                          child: Icon(obsecurePass
-                                              ? Icons.visibility
-                                              : Icons.visibility_off)),
-                                      contentPadding: const EdgeInsets.fromLTRB(
-                                          20, 15, 20, 15),
-                                      hintText: "Password",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      )),
-                                ),
-                              ],
+                            TextFormField(
+                                controller: passwordController,
+                                textAlignVertical: TextAlignVertical.center,
+                                obscureText: true,
+                                validator: validatePassword,
+                                onSaved: (String? val) {
+                                  // TODO
+                                },
+                                onFieldSubmitted: (password) {
+                                  // TODO
+                                },
+                                textInputAction: TextInputAction.done,
+                                style: const TextStyle(fontSize: 18.0),
+                                cursorColor: StaticColors.primary,
+                                decoration: getInputDecoration(
+                                    hint: 'Password',
+                                    darkMode: false,
+                                    errorColor:
+                                        Theme.of(context).colorScheme.error)),
+                            const SizedBox(
+                              height: 16,
                             ),
+                            TextFormField(
+                                controller: passwordController,
+                                textAlignVertical: TextAlignVertical.center,
+                                obscureText: true,
+                                validator: validatePassword,
+                                onSaved: (String? val) {
+                                  // TODO
+                                },
+                                onFieldSubmitted: (password) {
+                                  // TODO
+                                },
+                                textInputAction: TextInputAction.done,
+                                style: const TextStyle(fontSize: 18.0),
+                                cursorColor: StaticColors.primary,
+                                decoration: getInputDecoration(
+                                    hint: 'Confirm Password',
+                                    darkMode: false,
+                                    errorColor:
+                                        Theme.of(context).colorScheme.error)),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Save Password"))
                           ],
                         ),
                       ),

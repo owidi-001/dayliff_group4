@@ -19,7 +19,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
     _addressService = service<AddressService>();
     _mapsService = service<MapsService>();
 
-    Future<_LocationResult> _getLocation({int retries = 0}) async {
+    Future<_LocationResult> getLocation({int retries = 0}) async {
       // Determine permission for location
       locator.LocationPermission? permission =
           await locator.Geolocator.requestPermission();
@@ -35,7 +35,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
               permission: permission);
         } catch (error) {
           if (retries < 2) {
-            return _getLocation(retries: retries + 1);
+            return getLocation(retries: retries + 1);
           }
           return _LocationResult(location: null, permission: permission);
         }
@@ -44,7 +44,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
             (permission == locator.LocationPermission.denied ||
                 permission == locator.LocationPermission.deniedForever ||
                 permission == locator.LocationPermission.unableToDetermine)) {
-          return _getLocation(retries: retries + 1);
+          return getLocation(retries: retries + 1);
         } else {
           return _LocationResult(location: null, permission: permission);
         }
@@ -52,7 +52,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
     }
 
 // Create a marker for a given point
-    _buildMarker(LatLng position, onTapEvent, BitmapDescriptor? descriptor) {
+    buildMarker(LatLng position, onTapEvent, BitmapDescriptor? descriptor) {
       return Marker(
         markerId: MarkerId("${position.latitude}${position.longitude}"),
         icon: descriptor ?? BitmapDescriptor.defaultMarker,
@@ -69,7 +69,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
 
 // Initialize state
     on<StartMapsEvent>((event, emit) async {
-      final startPointMarker = _buildMarker(
+      final startPointMarker = buildMarker(
           LatLng(event.pool.origin!.lat!, event.pool.origin!.long!), () {
         // Do nothing
       }, state.warehouseIcon);
@@ -81,7 +81,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
       );
 
       // Get driver location
-      _LocationResult? currentLocation = await _getLocation();
+      _LocationResult? currentLocation = await getLocation();
       // print("The current location: ${currentLocation.location}");
 
       // Determine status based on currentLocation
@@ -118,7 +118,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
     on<PopulateOrdersLocations>((event, emit) async {
       final markers = event.orders
           .map(
-            (e) => _buildMarker(
+            (e) => buildMarker(
                 LatLng(e.destination!.lat!, e.destination!.long!), () {
               // TODO! Open order for processing
               add(MarkerTapped(e));

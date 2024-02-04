@@ -1,3 +1,4 @@
+import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,15 +22,15 @@ class SettingsTabs extends StatelessWidget {
       style: TextButton.styleFrom(
         padding: const EdgeInsets.all(20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: StaticColors.onPrimary,
+        foregroundColor: StaticColors.primary,
       ),
       onPressed: press,
       child: Row(
         children: [
           Icon(
             icon,
-            color: Theme.of(context).colorScheme.primary,
+            color: StaticColors.primary,
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -46,7 +47,7 @@ class SettingsTabs extends StatelessWidget {
                   })
               : Icon(
                   Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: StaticColors.primary,
                 ),
         ],
       ),
