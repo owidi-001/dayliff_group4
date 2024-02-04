@@ -16,6 +16,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final otpController = TextEditingController();
+  final passwordController = TextEditingController();
   bool obsecurePass = true;
   int _index = 0;
 
@@ -24,7 +25,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     super.initState();
 
     setState(() {
-      emailController.text = "nafu2@g.com";
+      emailController.text = "elijah@dayliff.com";
       // otpController.text = "password";
     });
   }
@@ -170,6 +171,38 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       return true;
                                     },
                                   ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Step(
+                        title: const Text('Set New Password'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextField(
+                                  controller: passwordController,
+                                  obscureText: obsecurePass,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.password),
+                                      suffix: GestureDetector(
+                                          onTap: () => setState(() {
+                                                obsecurePass = !obsecurePass;
+                                              }),
+                                          child: Icon(obsecurePass
+                                              ? Icons.visibility
+                                              : Icons.visibility_off)),
+                                      contentPadding: const EdgeInsets.fromLTRB(
+                                          20, 15, 20, 15),
+                                      hintText: "Password",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      )),
                                 ),
                               ],
                             ),

@@ -62,22 +62,22 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: AppBar().preferredSize.height,
                 ),
-                // Container(
-                //   height: 120,
-                //   width: 120,
-                //   decoration: const BoxDecoration(
-                //     color: Colors.transparent,
-                //   ),
-                //   child: const ClipRRect(
-                //     child: Image(
-                //       image: AssetImage('assets/logo.png'),
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 16,
-                // ),
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: const ClipRRect(
+                    child: Image(
+                      image: AssetImage('assets/logo.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
                 Text(
                   "Welcome!",
                   style: Theme.of(context).textTheme.headlineSmall,

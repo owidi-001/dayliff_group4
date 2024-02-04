@@ -65,7 +65,7 @@ class _MapsViewState extends State<MapsView> {
 
   Future<void> _getPolylines() async {
     List<LatLng> polylineCoordinates = [];
-    List<Polyline> polylines = [];
+    List<Polyline> _polylines = [];
 
     for (int i = 0; i < pool.orders.length - 1; i++) {
       final origin = pool.orders[i].destination!;
@@ -78,6 +78,9 @@ class _MapsViewState extends State<MapsView> {
 
       res.when(
         onSuccess: (data) {
+          List<LatLng> polylineCoordinates = [];
+          List<Polyline> polylines = [];
+
           data.forEach((polyline) {
             polylineCoordinates.clear();
             for (int j = 0; j < polyline.points.length; j++) {
@@ -94,6 +97,10 @@ class _MapsViewState extends State<MapsView> {
             );
             polylines.add(newPolyline);
           });
+
+          setState(() {
+            _polylines = polylines;
+          });
         },
         onError: (error) {
           if (kDebugMode) {
@@ -103,7 +110,7 @@ class _MapsViewState extends State<MapsView> {
       );
     }
     setState(() {
-      polylines = polylines;
+      // polylines = polylines;
       loading = false;
     });
   }
@@ -136,14 +143,6 @@ class _MapsViewState extends State<MapsView> {
       width: double.infinity,
       child: Stack(
         children: [
-          Positioned(
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
-          ),
           GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
@@ -151,7 +150,7 @@ class _MapsViewState extends State<MapsView> {
               zoom: 11.0,
             ),
             markers: _markers.toSet(),
-            polylines: polylines.toSet(),
+            polylines: polylines,
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
             rotateGesturesEnabled: true,
@@ -163,6 +162,15 @@ class _MapsViewState extends State<MapsView> {
                 () => EagerGestureRecognizer(),
               ),
             },
+          ),
+          Positioned(
+            top: 32,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
           ),
           loading
               ? const Center(child: CircularProgressIndicator())

@@ -17,7 +17,7 @@ class DeliveryComments extends StatelessWidget {
         TextFormField(
           controller: commentsController,
           maxLines: 3,
-          onChanged: (value) {
+          onSaved: (value) {
             context.read<CheckOutBloc>().add(CommentsChanged(comment: value));
           },
           decoration: const InputDecoration(
