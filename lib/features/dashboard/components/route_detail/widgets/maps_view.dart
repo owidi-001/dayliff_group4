@@ -1,17 +1,18 @@
 import 'dart:async';
-import 'dart:math';
-
-import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart' as locator;
+import 'dart:ui' as ui;
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:flutter/services.dart';
+import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:flutter/material.dart';
+  
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/utils/constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:location/location.dart';
 
 class MapsView extends StatefulWidget {
   const MapsView({super.key, required this.pool});
@@ -22,147 +23,185 @@ class MapsView extends StatefulWidget {
 }
 
 class _MapsViewState extends State<MapsView> {
-  late RoutePool pool;
-  bool loading = true;
+  late RoutePool pool = widget.pool;
+
+  final Completer<GoogleMapController> _controller = Completer();
+
+  late LatLng source = LatLng(pool.origin!.lat!, pool.origin!.long!);
+
+  late LatLng dest = LatLng(pool.destination!.lat!, pool.destination!.long!);
+  List<Marker> markers = [];
+  List<LatLng> polylineCoordinates = [];
+  LocationData? currentLocation;
+
+  // Custom markeys
+  BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor currentIcon = BitmapDescriptor.defaultMarker;
 
   @override
   void initState() {
+    // TODO: implement initState
+    getCurrentLocation();
+    setCustomMarker();
+    getPolypoints();
     super.initState();
-    pool = widget.pool;
-    // Get current location
-    _getUserLocation();
 
-    _getPolylines();
+    // Create markers
+    markers = pool.orders
+        .map(
+          (e) => Marker(
+            markerId: MarkerId("${e.orderId}"),
+            position: LatLng(e.destination!.lat!, e.destination!.long!),
+          ),
+        )
+        .toList()
+      ..addAll([
+        Marker(
+          markerId: const MarkerId("source"),
+          position: source,
+        ),
+        Marker(markerId: const MarkerId("destination"), position: dest),
+      ]);
   }
 
-  LatLng _center = const LatLng(-1.167778, 36.973333);
-
-  Set<Marker> _markers = <Marker>{};
-  Set<Polyline> polylines = {};
-  PolylinePoints polylinePoints = PolylinePoints();
-
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    final coordinates = pool.orders
-        .map((e) => LatLng(e.destination!.lat!, e.destination!.long!))
-        .toList();
-    setState(() {
-      _markers.clear();
-      _markers = coordinates
-          .map(
-            (coordinate) => Marker(
-              markerId:
-                  MarkerId("${coordinate.latitude}${coordinate.longitude}"),
-              position: LatLng(coordinate.latitude, coordinate.longitude),
-              infoWindow: const InfoWindow(
-                title: "Drop Point",
-                snippet: "Item x to be dropped here",
-              ),
-            ),
-          )
-          .toSet();
+  Future<void> getCurrentLocation() async {
+    Location location = Location();
+    location.getLocation().then((location) {
+      currentLocation = location;
+      setState(() {});
     });
-  }
 
-  Future<void> _getPolylines() async {
-    List<LatLng> polylineCoordinates = [];
-    List<Polyline> polylines0 = [];
+    GoogleMapController googleMapController = await _controller.future;
 
-    for (int i = 0; i < pool.orders.length - 1; i++) {
-      final origin = pool.orders[i].destination!;
-      final destination = pool.orders[i + 1].destination!;
-
-      final res = await addressService.polyline(
-        LatLng(origin.lat!, origin.long!),
-        LatLng(destination.lat!, destination.long!),
+    location.onLocationChanged.listen((newLoc) {
+      currentLocation = newLoc;
+      googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            zoom: 13.5,
+            target: LatLng(newLoc.latitude!, newLoc.longitude!),
+          ),
+        ),
       );
-
-      res.when(
-        onSuccess: (data) {
-          List<LatLng> polylineCoordinates = [];
-          List<Polyline> polylines = [];
-
-          for (var polyline in data) {
-            polylineCoordinates.clear();
-            for (int j = 0; j < polyline.points.length; j++) {
-              final point = polyline.points[j];
-              polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-            }
-
-            final id = PolylineId(Random().toString());
-            final newPolyline = Polyline(
-              polylineId: id,
-              color: Colors.blue,
-              points: polylineCoordinates,
-              width: 5,
-            );
-            polylines.add(newPolyline);
-          }
-
-          setState(() {
-            polylines0 = polylines;
-          });
-        },
-        onError: (error) {
-          if (kDebugMode) {
-            print('Error fetching polylines: $error');
-          }
-        },
-      );
-    }
-    setState(() {
-      // polylines = polylines;
-      loading = false;
+      setState(() {});
     });
   }
 
-  Future<void> _getUserLocation() async {
-    locator.LocationPermission permission =
-        await locator.Geolocator.checkPermission();
-    if (permission == locator.LocationPermission.denied) {
-      permission = await locator.Geolocator.requestPermission();
-      if (permission == locator.LocationPermission.denied) {
-        return;
-      }
+  void getPolypoints() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      dotenv.env["MAPS_KEY"]!,
+      PointLatLng(source.latitude, source.longitude),
+      PointLatLng(dest.latitude, dest.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((element) {
+        polylineCoordinates.add(LatLng(element.latitude, element.longitude));
+      });
+      setState(() {});
     }
-    locator.Position position = await locator.Geolocator.getCurrentPosition(
-        desiredAccuracy: locator.LocationAccuracy.high);
-    setState(() {
-      _center = LatLng(position.latitude, position.longitude);
-    });
+  }
+
+  // void setCustomMarker() {
+  //   BitmapDescriptor.fromAssetImage(
+  //     const ImageConfiguration(size: Size(6, 6)),
+  //     "assets/markers/source.png",
+  //   ).then((value) {
+  //     sourceIcon = value;
+  //   });
+  //   BitmapDescriptor.fromAssetImage(const ImageConfiguration(size: Size(6, 6)),
+  //           "assets/markers/destination.png")
+  //       .then((value) {
+  //     destinationIcon = value;
+  //   });
+  //   BitmapDescriptor.fromAssetImage(const ImageConfiguration(size: Size(6, 6)),
+  //           "assets/markers/current.png")
+  //       .then((value) {
+  //     currentIcon = value;
+  //   });
+  // }
+
+  void setCustomMarker() async {
+    sourceIcon =
+        await _loadAndResizeMarker("assets/markers/source.png", 60, 60);
+    destinationIcon =
+        await _loadAndResizeMarker("assets/markers/destination.png", 60, 60);
+    currentIcon =
+        await _loadAndResizeMarker("assets/markers/current.png", 60, 60);
+  }
+
+  Future<BitmapDescriptor> _loadAndResizeMarker(
+      String assetPath, double width, double height) async {
+    ByteData data = await rootBundle.load(assetPath);
+    ui.Codec codec =
+        await ui.instantiateImageCodec(Uint8List.view(data.buffer));
+    ui.FrameInfo fi = await codec.getNextFrame();
+    ui.Image image = fi.image;
+
+    Completer<ui.Image> completer = Completer();
+
+    // Resize the image
+    ui.decodeImageFromPixels(
+      data.buffer.asUint8List(),
+      (width.toInt()),
+      (height.toInt()),
+      ui.PixelFormat.rgba8888,
+      (ui.Image decodedImage) {
+        completer.complete(decodedImage);
+      },
+      rowBytes: width.toInt() * 4, // Assuming 4 bytes per pixel (32-bit RGBA)
+      targetWidth: width.toInt(),
+      targetHeight: height.toInt(),
+    );
+
+    ui.Image resizedImage = await completer.future;
+
+    // Convert the resized image to a BitmapDescriptor
+    ByteData? resizedByteData = await resizedImage.toByteData(
+      format: ui.ImageByteFormat.png,
+    );
+    Uint8List resizedBytes = resizedByteData!.buffer.asUint8List();
+
+    return BitmapDescriptor.fromBytes(resizedBytes);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Check if map is in initial state
-    if (context.read<MapsControllerBloc>().state.status ==
-        ServiceStatus.initial) {
-      context.read<MapsControllerBloc>().add(StartMapsEvent(pool: pool));
-    }
     return SizedBox(
       height: MediaQuery.sizeOf(context).height / 2,
       width: double.infinity,
       child: Stack(
         children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 11.0,
-            ),
-            markers: _markers.toSet(),
-            polylines: polylines,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
-            rotateGesturesEnabled: true,
-            scrollGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            zoomGesturesEnabled: true,
-            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
-              ),
-            },
-          ),
+          currentLocation == null
+              ? const Center(child: CircularProgressIndicator())
+              : GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(currentLocation!.latitude!,
+                        currentLocation!.longitude!),
+                    zoom: 14.5,
+                  ),
+                  markers: {
+                    ...markers,
+                    Marker(
+                        markerId: const MarkerId("currentLocation"),
+                        position: LatLng(currentLocation!.latitude!,
+                            currentLocation!.longitude!),
+                        icon: currentIcon)
+                  },
+                  polylines: {
+                    Polyline(
+                        polylineId: const PolylineId("route"),
+                        points: polylineCoordinates,
+                        color: StaticColors.primary,
+                        width: 6),
+                  },
+                  onMapCreated: (mapController) {
+                    _controller.complete(mapController);
+                  },
+                  myLocationEnabled: true,
+                ),
           Positioned(
             top: 32,
             child: IconButton(
@@ -172,9 +211,6 @@ class _MapsViewState extends State<MapsView> {
               icon: const Icon(Icons.arrow_back),
             ),
           ),
-          loading
-              ? const Center(child: CircularProgressIndicator())
-              : const SizedBox.shrink()
         ],
       ),
     );

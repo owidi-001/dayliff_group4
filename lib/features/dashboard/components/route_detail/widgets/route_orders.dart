@@ -1,10 +1,8 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RouteOrders extends StatelessWidget {
   const RouteOrders({super.key, required this.pool});
@@ -103,9 +101,6 @@ class RouteOrders extends StatelessWidget {
                     ),
                     trailing: InkWell(
                       onTap: () {
-                        context
-                            .read<MapsControllerBloc>()
-                            .add(MarkerTapped(pool.orders[index]));
                         // show dialog
                         showModalBottomSheet(
                             // enableDrag: false,

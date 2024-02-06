@@ -35,8 +35,8 @@ class DeliveryComments extends StatelessWidget {
                 // Go to next
                 context.read<CheckOutBloc>().add(StepComplete());
                 // Go back
-                Future.delayed(
-                    const Duration(seconds: 3), () => Navigator.of(context).pop());
+                Future.delayed(const Duration(seconds: 3),
+                    () => Navigator.of(context).pop());
               },
               icon: const Icon(Icons.check),
               label: const Text("Complete delivery"),

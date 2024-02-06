@@ -1,11 +1,8 @@
-import 'package:dayliff/data/service/maps.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/widgets/maps_view.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/widgets/route_orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-final AddressService addressService = AddressService();
 
 class RouteView extends StatelessWidget {
   const RouteView({super.key, required this.routeId});
@@ -20,14 +17,14 @@ class RouteView extends StatelessWidget {
         .firstWhere((route) => route.routeId == routeId);
 
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(child: MapsView(pool: pool)),
-        SliverFillRemaining(
-          hasScrollBody: true,
-          child: RouteOrders(pool: pool),
-        )
-      ],
+        body: SizedBox(
+      height: MediaQuery.sizeOf(context).height,
+      child: Column(
+        children: [
+          Expanded(child: MapsView(pool: pool)),
+          Expanded(child: RouteOrders(pool: pool))
+        ],
+      ),
     ));
   }
 }

@@ -4,7 +4,6 @@ import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
 import 'package:dayliff/splash.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,6 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => DashboardControllerBloc()),
-          BlocProvider(create: (context) => MapsControllerBloc()),
           BlocProvider(create: (context) => orderBloc),
           BlocProvider(create: (context) => CheckOutBloc(orderBloc))
         ],

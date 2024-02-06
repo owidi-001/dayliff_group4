@@ -1,6 +1,5 @@
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +31,6 @@ class RoutePoolCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Update state
-        context.read<MapsControllerBloc>().add(StartMapsEvent(pool: pool));
         // Open maps view
         Navigator.of(context).push(
           MaterialPageRoute(

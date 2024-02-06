@@ -49,7 +49,7 @@ class _SplashState extends State<Splash> {
           MaterialPageRoute(builder: (context) => const Dashboard()));
     } else if (mounted) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const Welcome()));
+          MaterialPageRoute(builder: (context) =>  Welcome()));
     }
   }
 }
