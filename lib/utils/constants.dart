@@ -35,7 +35,7 @@ InputDecoration getInputDecoration(
   return InputDecoration(
     constraints: const BoxConstraints(maxWidth: 720, minWidth: 200),
     contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-    fillColor: darkMode ? Colors.black54 : Colors.white,
+    fillColor: darkMode ? StaticColors.onPrimary : Colors.grey.shade400,
     hintText: hint,
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -49,7 +49,9 @@ InputDecoration getInputDecoration(
       borderRadius: BorderRadius.circular(8),
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.grey.shade400),
+      borderSide: BorderSide(
+          color: darkMode ? StaticColors.onPrimary : Colors.grey.shade400,
+          width: 2),
       borderRadius: BorderRadius.circular(8),
     ),
   );

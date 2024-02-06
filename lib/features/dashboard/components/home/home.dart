@@ -189,7 +189,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.only(left: 16.0, top: 16),
           sliver: SliverToBoxAdapter(
             child: Text(
-              "Route Schedule",
+              "Trips Schedule",
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

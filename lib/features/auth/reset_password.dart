@@ -63,6 +63,10 @@ class _ResetPasswordState extends State<ResetPassword> {
             height: MediaQuery.sizeOf(context).height,
             child: Column(
               children: [
+                Image.asset(
+                  "assets/carousel/5.jpg",
+                  fit: BoxFit.cover,
+                ),
                 SizedBox(
                   height: AppBar().preferredSize.height,
                 ),

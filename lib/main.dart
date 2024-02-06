@@ -1,4 +1,6 @@
 import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/auth/onboarding/bloc/bloc.dart';
+import 'package:dayliff/features/auth/onboarding/welcome.dart';
 import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 
 import 'package:dayliff/data/service/service.dart';
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => DashboardControllerBloc()),
           BlocProvider(create: (context) => orderBloc),
+          BlocProvider(create: (context) => OnboardingBloc()),
           BlocProvider(create: (context) => CheckOutBloc(orderBloc))
         ],
         child: MaterialApp(

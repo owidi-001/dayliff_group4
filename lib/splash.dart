@@ -1,6 +1,6 @@
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
-import 'package:dayliff/features/auth/welcome.dart';
+import 'package:dayliff/features/auth/onboarding/welcome.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +32,7 @@ class _SplashState extends State<Splash> {
             height: 100,
             width: 100,
             child: Image.asset(
-              "assets/logo.jpg",
+              "assets/logo.png",
               fit: BoxFit.contain,
             )),
       ),
@@ -49,7 +49,10 @@ class _SplashState extends State<Splash> {
           MaterialPageRoute(builder: (context) => const Dashboard()));
     } else if (mounted) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) =>  Welcome()));
+        MaterialPageRoute(
+          builder: (context) => Onboarding(),
+        ),
+      );
     }
   }
 }

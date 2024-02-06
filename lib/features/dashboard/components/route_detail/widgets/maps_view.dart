@@ -7,7 +7,7 @@ import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:flutter/material.dart';
-  
+
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,8 +43,8 @@ class _MapsViewState extends State<MapsView> {
   void initState() {
     // TODO: implement initState
     getCurrentLocation();
-    setCustomMarker();
-    getPolypoints();
+    // setCustomMarker();
+    getPolylines();
     super.initState();
 
     // Create markers
@@ -70,30 +70,44 @@ class _MapsViewState extends State<MapsView> {
     location.getLocation().then((location) {
       currentLocation = location;
       setState(() {});
+
+      // Get polypoints
+      // Add to current location
+      getPolypoints(
+          LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+          LatLng(pool.origin!.lat!, pool.origin!.long!));
     });
 
-    GoogleMapController googleMapController = await _controller.future;
+    // GoogleMapController googleMapController = await _controller.future;
 
-    location.onLocationChanged.listen((newLoc) {
-      currentLocation = newLoc;
-      googleMapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            zoom: 13.5,
-            target: LatLng(newLoc.latitude!, newLoc.longitude!),
-          ),
-        ),
-      );
-      setState(() {});
-    });
+    // location.onLocationChanged.listen((newLoc) {
+    //   currentLocation = newLoc;
+    //   googleMapController.animateCamera(
+    //     CameraUpdate.newCameraPosition(
+    //       CameraPosition(
+    //         zoom: 13.5,
+    //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
+    //       ),
+    //     ),
+    //   );
+    //   // setState(() {});
+    // });
   }
 
-  void getPolypoints() async {
+  void getPolylines() {
+    for (var order in pool.orders) {
+      // Get polypoints
+      getPolypoints(LatLng(pool.origin!.lat!, pool.origin!.long!),
+          LatLng(order.destination!.lat!, order.destination!.long!));
+    }
+  }
+
+  void getPolypoints(LatLng start, LatLng end) async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       dotenv.env["MAPS_KEY"]!,
-      PointLatLng(source.latitude, source.longitude),
-      PointLatLng(dest.latitude, dest.longitude),
+      PointLatLng(start.latitude, start.longitude),
+      PointLatLng(end.latitude, end.longitude),
     );
 
     if (result.points.isNotEmpty) {
