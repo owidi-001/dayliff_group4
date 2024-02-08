@@ -28,6 +28,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               5,
               (index) => dummyRoute,
             ),
+            filteredPools: List.generate(
+              5,
+              (index) => dummyRoute,
+            ),
           ),
         );
         // TODO! uncomment when apis are ready
@@ -47,6 +51,25 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         //     ));
         //   },
         // );
+      },
+    );
+
+    // Filter
+    on<OrdersFiltered>(
+      (event, emit) {
+        if (event.filter == OrderStatus.ALL) {
+          emit(
+              state.copyWith(filter: event.filter, filteredPools: state.pools));
+        } else {
+          emit(
+            state.copyWith(
+              filter: event.filter,
+              filteredPools: state.pools
+                  .where((element) => element.status == event.filter)
+                  .toList(),
+            ),
+          );
+        }
       },
     );
   }

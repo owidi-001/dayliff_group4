@@ -1,6 +1,6 @@
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
-import 'package:dayliff/features/auth/onboarding/welcome.dart';
+import 'package:dayliff/features/auth/login.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,7 +50,7 @@ class _SplashState extends State<Splash> {
     } else if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => Onboarding(),
+          builder: (context) => const Login(),
         ),
       );
     }

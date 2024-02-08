@@ -186,47 +186,34 @@ class _MapsViewState extends State<MapsView> {
     return SizedBox(
       height: MediaQuery.sizeOf(context).height / 2,
       width: double.infinity,
-      child: Stack(
-        children: [
-          currentLocation == null
-              ? const Center(child: CircularProgressIndicator())
-              : GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(currentLocation!.latitude!,
+      child: currentLocation == null
+          ? const Center(child: Text("Generating route..."))
+          : GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                    currentLocation!.latitude!, currentLocation!.longitude!),
+                zoom: 14.5,
+              ),
+              markers: {
+                ...markers,
+                Marker(
+                    markerId: const MarkerId("currentLocation"),
+                    position: LatLng(currentLocation!.latitude!,
                         currentLocation!.longitude!),
-                    zoom: 14.5,
-                  ),
-                  markers: {
-                    ...markers,
-                    Marker(
-                        markerId: const MarkerId("currentLocation"),
-                        position: LatLng(currentLocation!.latitude!,
-                            currentLocation!.longitude!),
-                        icon: currentIcon)
-                  },
-                  polylines: {
-                    Polyline(
-                        polylineId: const PolylineId("route"),
-                        points: polylineCoordinates,
-                        color: StaticColors.primary,
-                        width: 6),
-                  },
-                  onMapCreated: (mapController) {
-                    _controller.complete(mapController);
-                  },
-                  myLocationEnabled: true,
-                ),
-          Positioned(
-            top: 32,
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
+                    icon: currentIcon)
               },
-              icon: const Icon(Icons.arrow_back),
+              polylines: {
+                Polyline(
+                    polylineId: const PolylineId("route"),
+                    points: polylineCoordinates,
+                    color: StaticColors.primary,
+                    width: 6),
+              },
+              onMapCreated: (mapController) {
+                _controller.complete(mapController);
+              },
+              myLocationEnabled: true,
             ),
-          ),
-        ],
-      ),
     );
   }
 }

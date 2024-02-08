@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { PENDING, TRANSIT, PARTIAL, COMPLETED, CANCELLED }
+enum OrderStatus { ALL, PENDING, TRANSIT, PARTIAL, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
@@ -24,6 +24,8 @@ extension OrderStatusExtension on OrderStatus {
         return 'Completed';
       case OrderStatus.CANCELLED:
         return 'Cancelled';
+      case OrderStatus.ALL:
+        return 'All';
       default:
         throw Exception('Unknown order status');
     }

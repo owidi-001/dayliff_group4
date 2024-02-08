@@ -8,3 +8,9 @@ abstract class OrderEvent extends Equatable {
 }
 
 class StartOrderBloc extends OrderEvent {}
+class OrdersFiltered extends OrderEvent {
+  final OrderStatus filter;
+
+  OrdersFiltered({required this.filter});
+  
+}

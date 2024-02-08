@@ -1,6 +1,5 @@
 import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/home.dart';
-import 'package:dayliff/features/dashboard/components/landing/landing.dart';
 import 'package:dayliff/features/dashboard/components/settings/settings.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +39,7 @@ class _DashboardState extends State<Dashboard> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.grey,
-          body: [
-            const Landing(),
-            const Home(),
-            const Settings()
-          ][state.position],
+          body: [const Home(), const Settings()][state.position],
           bottomNavigationBar: NavigationBar(
               labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
               height: 50,
@@ -58,25 +53,14 @@ class _DashboardState extends State<Dashboard> {
               destinations: [
                 NavigationDestination(
                   selectedIcon: Icon(
-                    Icons.home_filled,
+                    Icons.dashboard_rounded,
                     color: StaticColors.primary,
                   ),
                   icon: Icon(
-                    Icons.home,
+                    Icons.dashboard_rounded,
                     color: StaticColors.onPrimary,
                   ),
-                  label: "Home",
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(
-                    Icons.list_rounded,
-                    color: StaticColors.primary,
-                  ),
-                  icon: Icon(
-                    Icons.list_rounded,
-                    color: StaticColors.onPrimary,
-                  ),
-                  label: "Trips",
+                  label: "Dashboard",
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(

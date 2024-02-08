@@ -45,6 +45,7 @@ Map<String, dynamic> _$$RoutePoolImplToJson(_$RoutePoolImpl instance) =>
     };
 
 const _$OrderStatusEnumMap = {
+  OrderStatus.ALL: 'ALL',
   OrderStatus.PENDING: 'PENDING',
   OrderStatus.TRANSIT: 'TRANSIT',
   OrderStatus.PARTIAL: 'PARTIAL',
