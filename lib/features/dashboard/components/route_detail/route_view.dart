@@ -62,16 +62,16 @@ class RouteView extends StatelessWidget {
                         itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
                               // show dialog
-                        showModalBottomSheet(
-                            // enableDrag: false,
-                            showDragHandle: true,
-                            isDismissible: true,
-                            useRootNavigator: true,
-                            useSafeArea: true,
-                            context: context,
-                            builder: (context) => OrderDialog(
-                                order: pool.orders[index],
-                                routeName: pool.origin!.name!));
+                              showModalBottomSheet(
+                                  // enableDrag: false,
+                                  showDragHandle: true,
+                                  isDismissible: true,
+                                  useRootNavigator: true,
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (context) => OrderDialog(
+                                      order: pool.orders[index],
+                                      routeName: pool.origin!.name!));
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -182,16 +182,16 @@ class RouteView extends StatelessWidget {
                                   trailing: GestureDetector(
                                     onTap: () {
                                       // show dialog
-                        showModalBottomSheet(
-                            // enableDrag: false,
-                            showDragHandle: true,
-                            isDismissible: true,
-                            useRootNavigator: true,
-                            useSafeArea: true,
-                            context: context,
-                            builder: (context) => OrderDialog(
-                                order: pool.orders[index],
-                                routeName: pool.origin!.name!));
+                                      showModalBottomSheet(
+                                          // enableDrag: false,
+                                          showDragHandle: true,
+                                          isDismissible: true,
+                                          useRootNavigator: true,
+                                          useSafeArea: true,
+                                          context: context,
+                                          builder: (context) => OrderDialog(
+                                              order: pool.orders[index],
+                                              routeName: pool.origin!.name!));
                                     },
                                     child: const Icon(Icons.chevron_right),
                                   )),

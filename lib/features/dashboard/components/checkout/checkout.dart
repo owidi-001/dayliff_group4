@@ -4,6 +4,7 @@ import 'package:dayliff/features/dashboard/components/checkout/steps/confirm_ord
 import 'package:dayliff/features/dashboard/components/checkout/steps/customer_signature.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/scan_od.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/verify_customer.dart';
+import 'package:dayliff/features/dashboard/components/checkout/widgets/count_timer.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +22,6 @@ class OrderCompletion extends StatefulWidget {
 class _OrderCompletionState extends State<OrderCompletion> {
   List<Step> getSteps() {
     return <Step>[
-      Step(
-        title: Text(
-          "Confirming Order Info",
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.bold, color: StaticColors.primary),
-        ),
-        content: Container(
-          alignment: Alignment.centerLeft,
-          child: OrderSummary(order: widget.order),
-        ),
-      ),
       Step(
         title: Text(
           "Verifing Customer",
@@ -89,7 +79,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
         appBar: AppBar(
           backgroundColor: StaticColors.primary,
           foregroundColor: StaticColors.onPrimary,
-          title: const Text('Complete Delivery'),
+          title: CountUpTimer(),
         ),
         body: BlocBuilder<CheckOutBloc, CheckoutState>(
           builder: (context, state) {

@@ -46,40 +46,44 @@ class ScanOD extends StatelessWidget {
         ),
         Row(
           children: [
-            ElevatedButton.icon(
-              onPressed: () async {
-                // TODO
-                final XFile? image =
-                    await picker.pickImage(source: ImageSource.camera);
-                if (image != null) {
-                  // Add image captured to state
-                  context.read<CheckOutBloc>().add(
-                        SaveCapturedImage(
-                          image: File(image.path),
-                        ),
-                      );
-                }
-              },
-              icon: const Icon(Icons.document_scanner),
-              label: const Text('Scan Document'),
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () async {
+                  // TODO
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.camera);
+                  if (image != null) {
+                    // Add image captured to state
+                    context.read<CheckOutBloc>().add(
+                          SaveCapturedImage(
+                            image: File(image.path),
+                          ),
+                        );
+                  }
+                },
+                icon: const Icon(Icons.document_scanner),
+                label: const Text('Scan'),
+              ),
             ),
             const SizedBox(
               width: 16,
             ),
-            BlocBuilder<CheckOutBloc, CheckoutState>(
-              builder: (context, state) {
-                if (state.orderImages.isNotEmpty) {
-                  return ElevatedButton.icon(
-                    onPressed: () {
-                      // Go to next
-                      context.read<CheckOutBloc>().add(StepContinue());
-                    },
-                    icon: const Icon(Icons.check),
-                    label: const Text("Submit"),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
+            Expanded(
+              child: BlocBuilder<CheckOutBloc, CheckoutState>(
+                builder: (context, state) {
+                  if (state.orderImages.isNotEmpty) {
+                    return ElevatedButton.icon(
+                      onPressed: () {
+                        // Go to next
+                        context.read<CheckOutBloc>().add(StepContinue());
+                      },
+                      icon: const Icon(Icons.check),
+                      label: const Text("Submit"),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
             )
           ],
         ),

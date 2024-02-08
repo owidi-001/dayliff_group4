@@ -10,44 +10,45 @@ class TripTile extends StatelessWidget {
   const TripTile({super.key, required this.route});
   final RoutePool route;
   void _showConfirmJourneyDialog(BuildContext context) {
-    showModalBottomSheet(
-        showDragHandle: true,
-        context: context,
-        builder: (context) => Container(
-              decoration: const BoxDecoration(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    route.name,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const Divider(),
-                  StopPointsWidget(
-                    stopPoints:
-                        route.orders.map((e) => e.destination!.name!).toList(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: PrimaryButton(
-                        hint: "Start this trip",
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          // Open maps view
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  RouteView(routeId: route.routeId),
-                            ),
-                          );
-                        }),
-                  ),
-                  SizedBox(
-                    height: AppBar().preferredSize.height,
-                  )
-                ],
-              ),
-            ));
+    showBottomSheet(
+      // showDragHandle: true,
+      context: context,
+      builder: (context) => Container(
+        decoration: const BoxDecoration(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              route.name,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const Divider(),
+            // StopPointsWidget(
+            //   stopPoints:
+            //       route.orders.map((e) => e.destination!.name!).toList(),
+            // ),
+            StopsWidget(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: PrimaryButton(
+                  hint: "Start this trip",
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    // Open maps view
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => RouteView(routeId: route.routeId),
+                      ),
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: AppBar().preferredSize.height,
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -59,8 +60,16 @@ class TripTile extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: StaticColors.onPrimary,
+            color: Theme.of(context).colorScheme.onPrimary,
             borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 5,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
           child: ListTile(
               isThreeLine: true,

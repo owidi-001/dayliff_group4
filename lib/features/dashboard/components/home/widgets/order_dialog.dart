@@ -7,10 +7,17 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class OrderDialog extends StatelessWidget {
+class OrderDialog extends StatefulWidget {
   const OrderDialog({super.key, required this.order, required this.routeName});
   final Order order;
   final String routeName;
+
+  @override
+  State<OrderDialog> createState() => _OrderDialogState();
+}
+
+class _OrderDialogState extends State<OrderDialog> {
+  bool navigationStarted = false;
 
   Widget _circle(context) {
     return Container(
@@ -65,17 +72,17 @@ class OrderDialog extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               title: Text(
-                order.customerName,
+                widget.order.customerName,
                 style: Theme.of(context).textTheme.titleMedium!,
               ),
               subtitle: Text(
-                order.customerPhone,
+                widget.order.customerPhone,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               trailing: GestureDetector(
                   onTap: () {
                     // Call customer
-                    AppUtility.makeCall(order.customerPhone);
+                    AppUtility.makeCall(widget.order.customerPhone);
                   },
                   child: CircleAvatar(
                     backgroundColor: StaticColors.primary,
@@ -83,140 +90,120 @@ class OrderDialog extends StatelessWidget {
                     child: const Icon(Icons.call),
                   )),
             ),
-            const Divider(),
-            Row(
+            // const Divider(),
+            Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                Table(
+                  border: TableBorder.all(),
+                  columnWidths: const {
+                    0: FlexColumnWidth(2), // Adjust the column widths as needed
+                    1: FlexColumnWidth(3),
+                  },
                   children: [
-                    _circle(context),
-                    SizedBox(
-                      height: 100,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: List.generate(
-                          16,
-                          (index) => index != 8
-                              ? Expanded(
-                                  child: Container(
-                                    color: index % 2 == 0
-                                        ? Colors.transparent
-                                        : Theme.of(context).disabledColor,
-                                    height: 1,
-                                    width: 2,
-                                  ),
-                                )
-                              : Container(
-                                  height: 10,
-                                  width: 10,
-                                  margin: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    border: Border.all(
-                                        color: Theme.of(context).dividerColor,
-                                        width: 2),
-                                  ),
-                                  child: const Icon(
-                                    Icons.circle,
-                                    color: Colors.transparent,
-                                    size: 8,
-                                  ),
-                                ),
+                    TableRow(
+                      children: [
+                        const TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Order ID:'),
+                          ),
                         ),
-                      ),
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${widget.order.orderId}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: StaticColors.primary),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    // _circle(),
-                    Icon(
-                      Icons.location_on,
-                      color: StaticColors.primary,
-                      size: 28,
-                    )
+                    TableRow(
+                      children: [
+                        const TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Order Date:'),
+                          ),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                AppUtility.formatDate(widget.order.orderDate)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Status:'),
+                          ),
+                        ),
+                        TableCell(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.order.status.toStringValue(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  color: AppUtility.getStatusColor(
+                                      widget.order.status, context),
+                                ),
+                          ),
+                        )),
+                      ],
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "From:",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: StaticColors.primary),
-                      ),
-                      Text(
-                        routeName,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      SizedBox(
-                        height: 80,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: ListView.builder(
-                                    itemCount: 16,
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (context, index) => Icon(
-                                          Icons.circle,
-                                          size: 5,
-                                          color: index % 2 == 0
-                                              ? Colors.transparent
-                                              : Colors.transparent,
-                                        )),
-                              ),
-                            ]),
-                      ),
-                      Text(
-                        "Dest:",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: StaticColors.primary),
-                      ),
-                      Text(
-                        "${order.destination!.name}",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    // Start navigation
-                    AppUtility.realTimeNavigation(LatLng(
-                        order.destination!.lat!, order.destination!.long!));
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: StaticColors.primary,
-                    foregroundColor: StaticColors.onPrimary,
-                    child: Transform.rotate(
-                      angle: 45 *
-                          (3.141592653589793238 /
-                              180), // Convert degrees to radians
-                      child: const Icon(Icons.navigation_rounded),
-                    ),
-                  ),
-                )
               ],
             ),
             const Divider(),
             PrimaryButton(
-                hint: "Confirm order",
+                hint: "Start service",
                 onTap: () {
-                  // close dialog
-                  Navigator.of(context).pop();
-                  // Go to checkout
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => OrderCompletion(
-                        order: order,
+                    // close dialog
+                    Navigator.of(context).pop();
+                    // Go to checkout
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => OrderCompletion(
+                          order: widget.order,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  // if (navigationStarted) {
+                  //   setState(() {
+                  //     navigationStarted = true;
+                  //   });
+                  //   // close dialog
+                  //   Navigator.of(context).pop();
+                  //   // Go to checkout
+                  //   Navigator.of(context).push(
+                  //     MaterialPageRoute(
+                  //       builder: (context) => OrderCompletion(
+                  //         order: widget.order,
+                  //       ),
+                  //     ),
+                  //   );
+                  // } else {
+                  //   // Start navigation
+                  //   AppUtility.realTimeNavigation(
+                  //     LatLng(widget.order.destination!.lat!,
+                  //         widget.order.destination!.long!),
+                  //   );
+                  // }
                 }),
             SizedBox(
               height: AppBar().preferredSize.height,

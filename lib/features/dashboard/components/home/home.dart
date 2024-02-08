@@ -7,6 +7,7 @@ import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/complete_card.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/new_route_dialog.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_tile.dart';
 import 'package:dayliff/utils/constants.dart';
 
@@ -37,6 +38,16 @@ class _HomeState extends State<Home> {
       child: SafeArea(
           child: Scaffold(
         backgroundColor: Colors.grey.shade200,
+        // floatingActionButton: FloatingActionButton.small(
+        //   onPressed: () {
+        //     showDialog(
+        //         context: context,
+        //         builder: (context) => NewRouteDialog(
+        //               pool: dummyRoute,
+        //             ));
+        //   },
+        //   child: const Icon(Icons.circle),
+        // ),
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
