@@ -1,5 +1,6 @@
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/stop_points.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,15 @@ class TripTile extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  RouteStops(pool: route),
-                  const Divider(endIndent: 16, indent: 16),
+                  Text(
+                    route.name,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  const Divider(),
+                  StopPointsWidget(
+                    stopPoints:
+                        route.orders.map((e) => e.destination!.name!).toList(),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: PrimaryButton(
@@ -134,41 +142,41 @@ class TripTile extends StatelessWidget {
   }
 }
 
-class RouteStops extends StatefulWidget {
-  RouteStops({super.key, required this.pool});
-  final RoutePool pool;
+// class RouteStops extends StatefulWidget {
+//   RouteStops({super.key, required this.pool});
+//   final RoutePool pool;
 
-  @override
-  State<RouteStops> createState() => _RouteStopsState();
-}
+//   @override
+//   State<RouteStops> createState() => _RouteStopsState();
+// }
 
-class _RouteStopsState extends State<RouteStops> {
-  int _index = 0;
+// class _RouteStopsState extends State<RouteStops> {
+//   int _index = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Stepper(
-        currentStep: _index,
-        onStepCancel: () {
-          return;
-        },
-        onStepContinue: () {
-          return;
-        },
-        onStepTapped: (int index) {
-          setState(() {
-            _index = index;
-          });
-        },
-        controlsBuilder: (context, details) => const SizedBox.shrink(),
-        steps: widget.pool.orders
-            .map(
-              (order) => Step(
-                isActive: true,
-                title: Text("${order.destination?.name}"),
-                content: const SizedBox.shrink(),
-              ),
-            )
-            .toList());
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stepper(
+//         currentStep: _index,
+//         onStepCancel: () {
+//           return;
+//         },
+//         onStepContinue: () {
+//           return;
+//         },
+//         onStepTapped: (int index) {
+//           setState(() {
+//             _index = index;
+//           });
+//         },
+//         controlsBuilder: (context, details) => const SizedBox.shrink(),
+//         steps: widget.pool.orders
+//             .map(
+//               (order) => Step(
+//                 isActive: true,
+//                 title: Text("${order.destination?.name}"),
+//                 content: const SizedBox.shrink(),
+//               ),
+//             )
+//             .toList());
+//   }
+// }
