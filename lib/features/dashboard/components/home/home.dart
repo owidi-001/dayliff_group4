@@ -231,7 +231,7 @@ class Schedules extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 5,
-                itemBuilder: (context, index) => const RoutePoolShimmer());
+                itemBuilder: (context, index) => const TripShimmer());
           }
           if (state.status == ServiceStatus.loadingFailure) {
             return ErrorContainerWidget(
@@ -267,7 +267,7 @@ class Schedules extends StatelessWidget {
                           keepAlive: true,
                           intervalStart: 0,
                           child: TripTile(
-                            route: state.activeRoute!,
+                            trip: state.activeRoute!,
                           ),
                         )
                       : const SizedBox.shrink();
@@ -301,7 +301,7 @@ class Schedules extends StatelessWidget {
                               keepAlive: true,
                               intervalStart: index / 5,
                               child: TripTile(
-                                route: state.filteredPools[index],
+                                trip: state.filteredPools[index],
                               ),
                             ),
                           ),

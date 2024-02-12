@@ -109,8 +109,8 @@ class AppUtility {
         return StaticColors.primary;
       case OrderStatus.COMPLETED:
         return Colors.green;
-      case OrderStatus.PARTIAL:
-        return Colors.brown;
+      // case OrderStatus.PARTIAL:
+      //   return Colors.brown;
       case OrderStatus.CANCELLED:
         return Colors.red;
       default:

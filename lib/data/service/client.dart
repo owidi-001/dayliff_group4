@@ -19,10 +19,10 @@ class AuthService {
 }
 
 class OrderService {
-  HttpResult<List<RoutePool>> all() => Http.get(
+  HttpResult<List<Trip>> all() => Http.get(
         "/routes/",
-        deserializer: (data) => List<RoutePool>.from(
-            data["routes"].map((e) => RoutePool.fromJson(e)).toList()),
+        deserializer: (data) => List<Trip>.from(
+            data["routes"].map((e) => Trip.fromJson(e)).toList()),
       );
 }
 
@@ -38,22 +38,22 @@ class OrderCheckoutService {
   }
 
   // Confirm the delivery
-  HttpResult<Order> confirmDelivery(
-      {required DeliveryConfirmation deliveryConfirmation,
-      File? proofImage}) async {
-    FormData data = FormData.fromMap(deliveryConfirmation.toJson());
+  // HttpResult<Order> confirmDelivery(
+  //     {required DeliveryConfirmation deliveryConfirmation,
+  //     File? proofImage}) async {
+  //   FormData data = FormData.fromMap(deliveryConfirmation.toJson());
 
-    if (proofImage != null) {
-      var orderImage = await MultipartFile.fromFile(proofImage.path);
-      data.files.add(MapEntry('images', orderImage));
-    }
+  //   if (proofImage != null) {
+  //     var orderImage = await MultipartFile.fromFile(proofImage.path);
+  //     data.files.add(MapEntry('images', orderImage));
+  //   }
 
-    return Http.post(
-      "/confirm_delivery/",
-      data,
-      deserializer: (json) => Order.fromJson(json),
-    );
-  }
+  //   return Http.post(
+  //     "/confirm_delivery/",
+  //     data,
+  //     deserializer: (json) => Order.fromJson(json),
+  //   );
+  // }
 }
 
 // Maps services

@@ -72,17 +72,17 @@ class _OrderDialogState extends State<OrderDialog> {
                 fit: BoxFit.cover,
               ),
               title: Text(
-                widget.order.customerName,
+                widget.order.customer.name,
                 style: Theme.of(context).textTheme.titleMedium!,
               ),
               subtitle: Text(
-                widget.order.customerPhone,
+                widget.order.customer.phoneNumber,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               trailing: GestureDetector(
                   onTap: () {
                     // Call customer
-                    AppUtility.makeCall(widget.order.customerPhone);
+                    AppUtility.makeCall(widget.order.customer.phoneNumber);
                   },
                   child: CircleAvatar(
                     backgroundColor: StaticColors.primary,

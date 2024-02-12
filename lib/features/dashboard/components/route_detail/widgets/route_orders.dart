@@ -5,8 +5,8 @@ import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
 class RouteOrders extends StatelessWidget {
-  const RouteOrders({super.key, required this.pool});
-  final RoutePool pool;
+  const RouteOrders({super.key, required this.trip});
+  final Trip trip;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,12 @@ class RouteOrders extends StatelessWidget {
               height: 16,
             ),
             Text(
-              "${pool.name} Route",
+              "${trip.route.name} Route",
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold, color: StaticColors.primary),
             ),
             ListView.separated(
-              itemCount: pool.orders.length,
+              itemCount: trip.orders.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => AnimateInEffect(
@@ -57,7 +57,7 @@ class RouteOrders extends StatelessWidget {
                             text: "Name: ",
                             children: [
                               TextSpan(
-                                  text: pool.orders[index].customerName,
+                                  text: trip.orders[index].customer.name,
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -76,7 +76,7 @@ class RouteOrders extends StatelessWidget {
                           text: "Phone: ",
                           children: [
                             TextSpan(
-                                text: pool.orders[index].customerPhone,
+                                text: trip.orders[index].customer.name,
                                 style: TextStyle(color: StaticColors.primary))
                           ],
                           style:
@@ -89,7 +89,7 @@ class RouteOrders extends StatelessWidget {
                           text: "To: ",
                           children: [
                             TextSpan(
-                                text: '${pool.orders[index].destination?.name}',
+                                text: '${trip.orders[index].destination?.name}',
                                 style: TextStyle(color: StaticColors.primary))
                           ],
                           style:
@@ -110,8 +110,8 @@ class RouteOrders extends StatelessWidget {
                             useSafeArea: true,
                             context: context,
                             builder: (context) => OrderDialog(
-                                order: pool.orders[index],
-                                routeName: pool.origin!.name!));
+                                order: trip.orders[index],
+                                routeName: trip.route.origin!.name!));
                       },
                       child: CircleAvatar(
                           backgroundColor: StaticColors.primary,

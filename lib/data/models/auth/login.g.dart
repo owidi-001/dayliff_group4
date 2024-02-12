@@ -47,11 +47,8 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       name: json['name'] as String,
       phoneNumber: json['phone_number'] as String,
       email: json['email'] as String,
-      emailVerifiedAt: json['email_verified_at'] as String?,
       status: json['status'] as String,
       role: json['role'] as String?,
-      createdAt: json['created_at'] as String?,
-      updatedAt: json['updated_at'] as String?,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -60,9 +57,6 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'name': instance.name,
       'phone_number': instance.phoneNumber,
       'email': instance.email,
-      'email_verified_at': instance.emailVerifiedAt,
       'status': instance.status,
       'role': instance.role,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
     };

@@ -33,12 +33,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           },
           onSuccess: (data) {
             // Set active route
-            final RoutePool active = data.firstWhere(
-              (element) => element.status == RouteStatus.ACTIVE,
+            final Trip active = data.firstWhere(
+              (element) => element.status == TripStatus.ACTIVE,
             );
             // Remove active from schedules
             final scheduled = data
-                .removeWhere((element) => element.routeId == active.routeId);
+                .removeWhere((element) => element.id == active.id);
 
             emit(
               state.copyWith(

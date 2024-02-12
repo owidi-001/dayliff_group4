@@ -3,10 +3,10 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class RoutePoolCard extends StatelessWidget {
-  const RoutePoolCard({super.key, required this.pool});
+class TripCard extends StatelessWidget {
+  const TripCard({super.key, required this.trip});
 
-  final RoutePool pool;
+  final Trip trip;
 
   Widget _circle(context) {
     return Container(
@@ -45,7 +45,7 @@ class RoutePoolCard extends StatelessWidget {
               RichText(
                   text: TextSpan(children: [
                 TextSpan(
-                  text: "${pool.orders.length} ",
+                  text: "${trip.orders.length} ",
                   children: [
                     TextSpan(
                         text: "items",
@@ -124,7 +124,7 @@ class RoutePoolCard extends StatelessWidget {
                           color: StaticColors.primary),
                     ),
                     Text(
-                      "${pool.origin!.name}",
+                      "${trip.route.origin!.name}",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     SizedBox(
@@ -154,7 +154,7 @@ class RoutePoolCard extends StatelessWidget {
                           color: StaticColors.primary),
                     ),
                     Text(
-                      "${pool.destination!.name}",
+                      "${trip.route.destination!.name}",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
@@ -165,11 +165,11 @@ class RoutePoolCard extends StatelessWidget {
               //     // Update state
               //     // context
               //     //     .read<MapsControllerBloc>()
-              //     //     .add(StartMapsEvent(pool: pool));
+              //     //     .add(StartMapsEvent(trip.route: trip.route));
               //     // Open maps view
               //     Navigator.of(context).push(
               //       MaterialPageRoute(
-              //         builder: (context) => RouteView(routeId: pool.routeId),
+              //         builder: (context) => RouteView(routeId: trip.route.routeId),
               //       ),
               //     );
               //   },
@@ -187,9 +187,9 @@ class RoutePoolCard extends StatelessWidget {
   }
 }
 
-// Pool card shimmer widgets
-class RoutePoolShimmer extends StatelessWidget {
-  const RoutePoolShimmer({super.key});
+// trip.route card shimmer widgets
+class TripShimmer extends StatelessWidget {
+  const TripShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

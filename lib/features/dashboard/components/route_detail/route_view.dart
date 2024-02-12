@@ -3,7 +3,6 @@ import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/widgets/maps_view.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/utils.dart';
@@ -23,11 +22,11 @@ class RouteView extends StatelessWidget {
         .read<OrderBloc>()
         .state
         .pools
-        .firstWhere((route) => route.routeId == routeId);
+        .firstWhere((route) => route.id == routeId);
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("${pool.name} route"),
+          title: Text("${pool.route.name} route"),
         ),
         backgroundColor: const Color.fromRGBO(238, 238, 238, 1),
         body: Column(
@@ -58,7 +57,7 @@ class RouteView extends StatelessWidget {
                     constraints: BoxConstraints(
                         maxHeight: MediaQuery.sizeOf(context).height / 2 -
                             AppBar().preferredSize.height),
-                    child: MapsView(pool: pool)),
+                    child: MapsView(trip: pool)),
               ),
             ),
             Padding(
@@ -126,20 +125,20 @@ class OrderCard extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading: const Icon(FontAwesomeIcons.person),
               title: Text(
-                order.customerName,
+                order.customer.name,
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(order.customerPhone),
+              subtitle: Text(order.customer.name),
               trailing: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   GestureDetector(
                     onTap: () {
-                      AppUtility.makeCall(order.customerPhone);
+                      AppUtility.makeCall(order.customer.name);
                     },
                     child: CircleAvatar(
                         child: Icon(
@@ -245,7 +244,7 @@ class OrderDialog extends StatelessWidget {
                     color: StaticColors.primary),
               ),
               subtitle: Text(
-                formatDate(order.createdAt),
+                formatDate(order.orderDate),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -263,20 +262,20 @@ class OrderDialog extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(FontAwesomeIcons.person),
                 title: Text(
-                  order.customerName,
+                  order.customer.name,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(order.customerPhone),
+                subtitle: Text(order.customer.phoneNumber),
                 trailing: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
                       onTap: () {
-                        AppUtility.makeCall(order.customerPhone);
+                        AppUtility.makeCall(order.customer.phoneNumber);
                       },
                       child: CircleAvatar(
                           child: Icon(
@@ -409,7 +408,7 @@ class _StartHandOverState extends State<StartHandOver> {
                     color: StaticColors.primary),
               ),
               subtitle: Text(
-                formatDate(widget.order.createdAt),
+                formatDate(widget.order.orderDate),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -427,20 +426,20 @@ class _StartHandOverState extends State<StartHandOver> {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(FontAwesomeIcons.person),
                 title: Text(
-                  widget.order.customerName,
+                  widget.order.customer.name,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(widget.order.customerPhone),
+                subtitle: Text(widget.order.customer.phoneNumber),
                 trailing: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
                       onTap: () {
-                        AppUtility.makeCall(widget.order.customerPhone);
+                        AppUtility.makeCall(widget.order.customer.phoneNumber);
                       },
                       child: CircleAvatar(
                           child: Icon(

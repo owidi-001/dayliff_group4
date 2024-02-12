@@ -113,19 +113,19 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     });
 
 // Confirming delivery
-    on<ConfirmDelivery>((event, emit) {
-      // Create new instance of Delivery Checkout
-      if (state.comment?.isEmpty ??
-          false || state.orderImages.isNotEmpty || !state.otpVerified) {
-        // showError("Please ensure all fields are not empty!");
-      } else {
-        // Send data to backend
-        _orderCheckoutService.confirmDelivery(
-            deliveryConfirmation: DeliveryConfirmation(
-                recipient: state.order!.customerName,
-                orderId: state.order!.orderId!,
-                orderImage: state.orderImages.first));
-      }
-    });
+    // on<ConfirmDelivery>((event, emit) {
+    //   // Create new instance of Delivery Checkout
+    //   if (state.comment?.isEmpty ??
+    //       false || state.orderImages.isNotEmpty || !state.otpVerified) {
+    //     // showError("Please ensure all fields are not empty!");
+    //   } else {
+    //     // Send data to backend
+    //     _orderCheckoutService.confirmDelivery(
+    //         deliveryConfirmation: DeliveryConfirmation(
+    //             recipient: state.order!.customerName,
+    //             orderId: state.order!.orderId!,
+    //             orderImage: state.orderImages.first));
+    //   }
+    // });
   }
 }

@@ -25,7 +25,7 @@ class CheckoutState extends Equatable {
       this.step = 0});
 
   CheckoutState copyWith(
-      {List<RoutePool>? pools,
+      {List<Trip>? pools,
       String? message,
       ServiceStatus? status,
       List<File>? orderImages,

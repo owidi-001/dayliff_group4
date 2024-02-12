@@ -2,13 +2,13 @@ import 'package:dayliff/features/dashboard/components/home/models/route/route.da
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-Color getRouteStatusColor(RouteStatus status) {
+Color getTripStatusColor(TripStatus status) {
   switch (status) {
-    case RouteStatus.INCOMPLETE:
+    case TripStatus.INCOMPLETE:
       return Colors.red;
-    case RouteStatus.ACTIVE:
+    case TripStatus.ACTIVE:
       return Colors.blue;
-    case RouteStatus.COMPLETE:
+    case TripStatus.COMPLETE:
       return Colors.green;
     default:
       return Colors.blue;
@@ -21,8 +21,8 @@ Color getStatusColor(OrderStatus status) {
       return Colors.red;
     case OrderStatus.COMPLETED:
       return Colors.green;
-    case OrderStatus.PARTIAL:
-      return Colors.black;
+    // case OrderStatus.PARTIAL:
+    //   return Colors.black;
     case OrderStatus.PENDING:
       return Colors.deepOrange;
     default:
@@ -36,8 +36,8 @@ IconData getStatusIcon(OrderStatus status) {
       return Icons.error;
     case OrderStatus.COMPLETED:
       return Icons.check;
-    case OrderStatus.PARTIAL:
-      return Icons.incomplete_circle;
+    // case OrderStatus.PARTIAL:
+    //   return Icons.incomplete_circle;
     case OrderStatus.PENDING:
       return Icons.pending;
     default:

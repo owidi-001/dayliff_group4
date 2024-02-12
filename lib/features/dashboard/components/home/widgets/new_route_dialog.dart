@@ -3,8 +3,8 @@ import 'package:dayliff/features/dashboard/components/home/models/route/route.da
 import 'package:flutter/material.dart';
 
 class NewRouteDialog extends StatelessWidget {
-  const NewRouteDialog({super.key, required this.pool});
-  final RoutePool pool;
+  const NewRouteDialog({super.key, required this.trip});
+  final Trip trip;
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +53,9 @@ class NewRouteDialog extends StatelessWidget {
                   1: FlexColumnWidth(1),
                 },
                 children: [
-                  _buildTableRow('#Orders', "${pool.orders.length} orders"),
-                  _buildTableRow('Distance', "${pool.distance} KM"),
-                  _buildTableRow('Duration', "${pool.duration} mins"),
+                  _buildTableRow('#Orders', "${trip.orders.length} orders"),
+                  _buildTableRow('Distance', "${trip.route.distance} KM"),
+                  _buildTableRow('Duration', "${trip.route.duration} mins"),
                 ],
               ),
             ),

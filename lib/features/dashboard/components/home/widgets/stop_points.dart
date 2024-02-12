@@ -5,10 +5,10 @@ import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class RouteDetails extends StatelessWidget {
-  final RoutePool pool;
+class TripDetails extends StatelessWidget {
+  final Trip trip;
 
-  const RouteDetails({super.key, required this.pool});
+  const TripDetails({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,9 @@ class RouteDetails extends StatelessWidget {
                 FontAwesomeIcons.route,
                 size: 36,
               ),
-              title: Text(pool.name),
+              title: Text(trip.route.name),
               subtitle: Text(
-                formatDate(pool.createdAt),
+                formatDate(trip.date),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -77,7 +77,7 @@ class RouteDetails extends StatelessWidget {
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            pool.origin!.name!,
+                            trip.route.origin!.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -98,7 +98,7 @@ class RouteDetails extends StatelessWidget {
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            pool.destination!.name!,
+                            trip.route.destination!.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -120,7 +120,7 @@ class RouteDetails extends StatelessWidget {
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            "${pool.orders.length} orders",
+                            "${trip.orders.length} orders",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -169,25 +169,24 @@ class RouteDetails extends StatelessWidget {
                               horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: getRouteStatusColor(pool.status)
+                              color: getTripStatusColor(trip.status)
                                   .withOpacity(.1)),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
                                 Icons.circle,
-                                color: getRouteStatusColor(pool.status),
+                                color: getTripStatusColor(trip.status),
                                 size: 8,
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                pool.status.toStringValue(),
+                                trip.status.toStringValue(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleSmall!
                                     .copyWith(
-                                        color:
-                                            getRouteStatusColor(pool.status)),
+                                        color: getTripStatusColor(trip.status)),
                               ),
                             ],
                           ),
@@ -201,17 +200,20 @@ class RouteDetails extends StatelessWidget {
             const Divider(
               color: Colors.transparent,
             ),
-            Center(child: StopperWidget(pool: pool)),
+            Center(child: StopperWidget(trip: trip)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: PrimaryButton(
                   hint: "Start trip",
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
                         builder: (context) => RouteView(
-                              routeId: pool.routeId,
-                            )));
+                          routeId: trip.id,
+                        ),
+                      ),
+                    );
                   }),
             )
           ],
@@ -222,8 +224,8 @@ class RouteDetails extends StatelessWidget {
 }
 
 class StopperWidget extends StatelessWidget {
-  const StopperWidget({super.key, required this.pool});
-  final RoutePool pool;
+  const StopperWidget({super.key, required this.trip});
+  final Trip trip;
 
   @override
   Widget build(BuildContext context) {
@@ -232,17 +234,17 @@ class StopperWidget extends StatelessWidget {
       steps: [
         Step(
           title: const Text("Origin"),
-          subtitle: Text(pool.origin!.name!),
+          subtitle: Text(trip.route.origin!.name!),
           content: Container(),
           isActive: false,
         ),
         ...List<Step>.generate(
-          pool.orders.length,
+          trip.orders.length,
           (index) => Step(
-            title: Text(index == pool.orders.length - 1
+            title: Text(index == trip.orders.length - 1
                 ? "Destination"
                 : "Stop ${index + 1}"),
-            subtitle: Text(pool.orders[index].destination!.name!),
+            subtitle: Text(trip.orders[index].destination!.name!),
             content: Container(),
             isActive: false,
           ),

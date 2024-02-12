@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TripTile extends StatelessWidget {
-  const TripTile({super.key, required this.route});
-  final RoutePool route;
+  const TripTile({super.key, required this.trip});
+  final Trip trip;
   void _showConfirmJourneyDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => RouteDetails(pool: route),
+      builder: (context) => TripDetails(trip: trip),
     );
   }
 
@@ -39,7 +39,7 @@ class TripTile extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(horizontal: 8),
               leading: const Icon(Icons.fire_truck),
               title: Text(
-                route.name,
+                trip.route.name,
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: StaticColors.primary,
                     ),
@@ -48,7 +48,7 @@ class TripTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Delivery - ${DateFormat.jm().format(route.createdAt)}"
+                    "Delivery - ${DateFormat.jm().format(trip.date)}"
                         .toUpperCase(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: StaticColors.dark,
@@ -74,7 +74,7 @@ class TripTile extends StatelessWidget {
                                     .bodySmall!
                                     .copyWith(color: StaticColors.dark)),
                             TextSpan(
-                                text: " ${route.orders.length}",
+                                text: " ${trip.orders.length}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -86,7 +86,7 @@ class TripTile extends StatelessWidget {
                                     .bodySmall!
                                     .copyWith(color: StaticColors.primary)),
                             TextSpan(
-                                text: "${route.duration}",
+                                text: "${trip.route.duration}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -113,42 +113,3 @@ class TripTile extends StatelessWidget {
         ));
   }
 }
-
-// class RouteStops extends StatefulWidget {
-//   RouteStops({super.key, required this.pool});
-//   final RoutePool pool;
-
-//   @override
-//   State<RouteStops> createState() => _RouteStopsState();
-// }
-
-// class _RouteStopsState extends State<RouteStops> {
-//   int _index = 0;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stepper(
-//         currentStep: _index,
-//         onStepCancel: () {
-//           return;
-//         },
-//         onStepContinue: () {
-//           return;
-//         },
-//         onStepTapped: (int index) {
-//           setState(() {
-//             _index = index;
-//           });
-//         },
-//         controlsBuilder: (context, details) => const SizedBox.shrink(),
-//         steps: widget.pool.orders
-//             .map(
-//               (order) => Step(
-//                 isActive: true,
-//                 title: Text("${order.destination?.name}"),
-//                 content: const SizedBox.shrink(),
-//               ),
-//             )
-//             .toList());
-//   }
-// }

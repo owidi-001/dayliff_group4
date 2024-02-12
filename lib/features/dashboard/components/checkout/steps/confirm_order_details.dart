@@ -57,7 +57,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.order.customerName),
+                    child: Text(widget.order.customer.name),
                   ),
                 ),
               ],
@@ -73,7 +73,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.order.customerPhone),
+                    child: Text(widget.order.customer.name),
                   ),
                 ),
               ],

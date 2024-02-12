@@ -3,13 +3,14 @@
 
 import 'dart:io';
 
+import 'package:dayliff/data/models/auth/login.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { ALL, PENDING, TRANSIT, PARTIAL, COMPLETED, CANCELLED }
+enum OrderStatus { ALL, PENDING, TRANSIT, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
@@ -18,8 +19,6 @@ extension OrderStatusExtension on OrderStatus {
         return 'Pending';
       case OrderStatus.TRANSIT:
         return 'On Transit';
-      case OrderStatus.PARTIAL:
-        return 'Partially Completed';
       case OrderStatus.COMPLETED:
         return 'Completed';
       case OrderStatus.CANCELLED:
@@ -32,16 +31,16 @@ extension OrderStatusExtension on OrderStatus {
   }
 }
 
-enum RouteStatus { ACTIVE, INCOMPLETE, COMPLETE }
+enum TripStatus { ACTIVE, INCOMPLETE, COMPLETE }
 
-extension RouteStatusExtension on RouteStatus {
+extension TripStatusExtension on TripStatus {
   String toStringValue() {
     switch (this) {
-      case RouteStatus.ACTIVE:
+      case TripStatus.ACTIVE:
         return 'Active';
-      case RouteStatus.INCOMPLETE:
+      case TripStatus.INCOMPLETE:
         return 'In Complete';
-      case RouteStatus.COMPLETE:
+      case TripStatus.COMPLETE:
         return 'Completed';
       default:
         throw Exception('Unknown route status');
@@ -50,29 +49,51 @@ extension RouteStatusExtension on RouteStatus {
 }
 
 @freezed
-class RoutePool with _$RoutePool {
-  const factory RoutePool(
-      {@JsonKey(name: "id") required int routeId,
-      @JsonKey(name: "driver_id") required int driverId,
-      @JsonKey(name: "route_name") required String name,
-      @JsonKey(name: "origin_address") Address? origin,
-      @JsonKey(name: "destination_address") Address? destination,
-      @JsonKey(name: "distance_in_km") double? distance,
-      @JsonKey(name: "estimated_duration_minutes") int? duration,
-      required RouteStatus status,
-      @JsonKey(name: "created_at") required DateTime createdAt,
-      @JsonKey(name: "updated_at") required DateTime updatedAt,
-      // Driver? driver,
-      @Default(<Order>[]) List<Order> orders}) = _RoutePool;
+class Route with _$Route {
+  const factory Route({
+    @JsonKey(name: "id") required int routeId,
+    @JsonKey(name: "route_name") required String name,
+    @JsonKey(name: "origin_address") Address? origin,
+    @JsonKey(name: "destination_address") Address? destination,
+    @JsonKey(name: "distance_in_km") double? distance,
+    @JsonKey(name: "estimated_duration_minutes") int? duration,
+  }) = _Route;
 
-  factory RoutePool.fromJson(Map<String, Object?> json) =>
-      _$RoutePoolFromJson(json);
+  factory Route.fromJson(Map<String, Object?> json) => _$RouteFromJson(json);
+}
+
+@freezed
+class Trip with _$Trip {
+  const factory Trip(
+      {@JsonKey(name: "id") required int id,
+      @JsonKey(name: "route") required Route route,
+      @JsonKey(name: "driver") User? driver,
+      @JsonKey(name: "vehicle") Vehicle? vehicle,
+      required TripStatus status,
+      required DateTime date,
+      @Default(<Order>[]) List<Order> orders}) = _Trip;
+
+  factory Trip.fromJson(Map<String, Object?> json) => _$TripFromJson(json);
+}
+
+@freezed
+class Order with _$Order {
+  const factory Order(
+      {@JsonKey(name: "_id") String? orderId,
+      @JsonKey(name: "destination") Address? destination,
+      @JsonKey(name: "customer") required User customer,
+      @JsonKey(name: "order_date") required DateTime orderDate,
+      required OrderStatus status,
+      @JsonKey(name: "order_image", includeFromJson: false)
+      File? orderImage}) = _Order;
+
+  factory Order.fromJson(Map<String, Object?> json) => _$OrderFromJson(json);
 }
 
 @freezed
 class Address with _$Address {
   const factory Address({
-    @JsonKey(name: "address_name") String? name,
+    @JsonKey(name: "name") String? name,
     @JsonKey(name: "lat") double? lat,
     @JsonKey(name: "long") double? long,
   }) = _Address;
@@ -82,53 +103,33 @@ class Address with _$Address {
 }
 
 @freezed
-class DriverUpdate with _$DriverUpdate {
-  const factory DriverUpdate({
-    @JsonKey(name: "name") String? firstName,
-    @JsonKey(name: "email") String? email,
-    @JsonKey(name: "phone_number") String? phone,
-    @JsonKey(name: "license_number") String? license,
-  }) = _DriverUpdate;
+class Vehicle with _$Vehicle {
+  const factory Vehicle(
+      {@JsonKey(name: "vehicle_id") required int vehicleId,
+      @JsonKey(name: "plate_number") String? plateNumber,
+      @JsonKey(name: "make") String? make,
+      @JsonKey(name: "model") String? model,
+      @JsonKey(name: "type") String? type,
+      @JsonKey(name: "tonnage") String? tonnage}) = _Vehicle;
 
-  factory DriverUpdate.fromJson(Map<String, Object?> json) =>
-      _$DriverUpdateFromJson(json);
+  factory Vehicle.fromJson(Map<String, Object?> json) =>
+      _$VehicleFromJson(json);
 }
 
-@freezed
-class Order with _$Order {
-  const factory Order(
-      {@JsonKey(name: "_id") String? orderId,
-      @JsonKey(name: "destination_address") Address? destination,
-      @JsonKey(name: "customer_name") required String customerName,
-      @JsonKey(name: "customer_phone") required String customerPhone,
-      @JsonKey(name: "order_date") required DateTime orderDate,
-      @JsonKey(name: "delivery_date") DateTime? deliveryDate,
-      required OrderStatus status,
-      @JsonKey(name: "route_id") required int route,
-      @JsonKey(name: "created_at") required DateTime createdAt,
-      @JsonKey(name: "updated_at") required DateTime updatedAt,
-      @JsonKey(name: "delivery_confirmation")
-      DeliveryConfirmation? deliveryConfirmation,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-      @JsonKey(name: "order_image", includeFromJson: false)
-      File? orderImage}) = _Order;
+// @freezed
+// class DeliveryConfirmation with _$DeliveryConfirmation {
+//   const factory DeliveryConfirmation(
+//       {@JsonKey(name: "order_id") required int orderId,
+//       @JsonKey(name: "otp") String? otp,
+//       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
+//       @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+//       @Default(<File>[])
+//       @JsonKey(name: "order_images", includeFromJson: false)
+//       List<File> orderImage,
+//       @JsonKey(name: "comments") String? comments,
+//       @JsonKey(name: "updated_at")
+//       DateTime? updatedAt}) = _DeliveryConfirmation;
 
-  factory Order.fromJson(Map<String, Object?> json) => _$OrderFromJson(json);
-}
-
-@freezed
-class DeliveryConfirmation with _$DeliveryConfirmation {
-  const factory DeliveryConfirmation(
-      {@JsonKey(name: "_id") int? confirmationId,
-      @JsonKey(name: "confirmation_date") DateTime? dateConfirmed,
-      @JsonKey(name: "order_id") required String orderId,
-      @JsonKey(name: "recipient_name") required String recipient,
-      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage,
-      @JsonKey(name: "comments") String? comments,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at")
-      DateTime? updatedAt}) = _DeliveryConfirmation;
-
-  factory DeliveryConfirmation.fromJson(Map<String, Object?> json) =>
-      _$DeliveryConfirmationFromJson(json);
-}
+//   factory DeliveryConfirmation.fromJson(Map<String, Object?> json) =>
+//       _$DeliveryConfirmationFromJson(json);
+// }

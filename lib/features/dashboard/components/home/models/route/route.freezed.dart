@@ -14,16 +14,14 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-RoutePool _$RoutePoolFromJson(Map<String, dynamic> json) {
-  return _RoutePool.fromJson(json);
+Route _$RouteFromJson(Map<String, dynamic> json) {
+  return _Route.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RoutePool {
+mixin _$Route {
   @JsonKey(name: "id")
   int get routeId => throw _privateConstructorUsedError;
-  @JsonKey(name: "driver_id")
-  int get driverId => throw _privateConstructorUsedError;
   @JsonKey(name: "route_name")
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "origin_address")
@@ -34,46 +32,33 @@ mixin _$RoutePool {
   double? get distance => throw _privateConstructorUsedError;
   @JsonKey(name: "estimated_duration_minutes")
   int? get duration => throw _privateConstructorUsedError;
-  RouteStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: "created_at")
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updated_at")
-  DateTime get updatedAt =>
-      throw _privateConstructorUsedError; // Driver? driver,
-  List<Order> get orders => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RoutePoolCopyWith<RoutePool> get copyWith =>
-      throw _privateConstructorUsedError;
+  $RouteCopyWith<Route> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RoutePoolCopyWith<$Res> {
-  factory $RoutePoolCopyWith(RoutePool value, $Res Function(RoutePool) then) =
-      _$RoutePoolCopyWithImpl<$Res, RoutePool>;
+abstract class $RouteCopyWith<$Res> {
+  factory $RouteCopyWith(Route value, $Res Function(Route) then) =
+      _$RouteCopyWithImpl<$Res, Route>;
   @useResult
   $Res call(
       {@JsonKey(name: "id") int routeId,
-      @JsonKey(name: "driver_id") int driverId,
       @JsonKey(name: "route_name") String name,
       @JsonKey(name: "origin_address") Address? origin,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "distance_in_km") double? distance,
-      @JsonKey(name: "estimated_duration_minutes") int? duration,
-      RouteStatus status,
-      @JsonKey(name: "created_at") DateTime createdAt,
-      @JsonKey(name: "updated_at") DateTime updatedAt,
-      List<Order> orders});
+      @JsonKey(name: "estimated_duration_minutes") int? duration});
 
   $AddressCopyWith<$Res>? get origin;
   $AddressCopyWith<$Res>? get destination;
 }
 
 /// @nodoc
-class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
-    implements $RoutePoolCopyWith<$Res> {
-  _$RoutePoolCopyWithImpl(this._value, this._then);
+class _$RouteCopyWithImpl<$Res, $Val extends Route>
+    implements $RouteCopyWith<$Res> {
+  _$RouteCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -84,25 +69,16 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
   @override
   $Res call({
     Object? routeId = null,
-    Object? driverId = null,
     Object? name = null,
     Object? origin = freezed,
     Object? destination = freezed,
     Object? distance = freezed,
     Object? duration = freezed,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? orders = null,
   }) {
     return _then(_value.copyWith(
       routeId: null == routeId
           ? _value.routeId
           : routeId // ignore: cast_nullable_to_non_nullable
-              as int,
-      driverId: null == driverId
-          ? _value.driverId
-          : driverId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -124,22 +100,6 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as RouteStatus,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      orders: null == orders
-          ? _value.orders
-          : orders // ignore: cast_nullable_to_non_nullable
-              as List<Order>,
     ) as $Val);
   }
 
@@ -169,25 +129,19 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
 }
 
 /// @nodoc
-abstract class _$$RoutePoolImplCopyWith<$Res>
-    implements $RoutePoolCopyWith<$Res> {
-  factory _$$RoutePoolImplCopyWith(
-          _$RoutePoolImpl value, $Res Function(_$RoutePoolImpl) then) =
-      __$$RoutePoolImplCopyWithImpl<$Res>;
+abstract class _$$RouteImplCopyWith<$Res> implements $RouteCopyWith<$Res> {
+  factory _$$RouteImplCopyWith(
+          _$RouteImpl value, $Res Function(_$RouteImpl) then) =
+      __$$RouteImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(name: "id") int routeId,
-      @JsonKey(name: "driver_id") int driverId,
       @JsonKey(name: "route_name") String name,
       @JsonKey(name: "origin_address") Address? origin,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "distance_in_km") double? distance,
-      @JsonKey(name: "estimated_duration_minutes") int? duration,
-      RouteStatus status,
-      @JsonKey(name: "created_at") DateTime createdAt,
-      @JsonKey(name: "updated_at") DateTime updatedAt,
-      List<Order> orders});
+      @JsonKey(name: "estimated_duration_minutes") int? duration});
 
   @override
   $AddressCopyWith<$Res>? get origin;
@@ -196,36 +150,27 @@ abstract class _$$RoutePoolImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RoutePoolImplCopyWithImpl<$Res>
-    extends _$RoutePoolCopyWithImpl<$Res, _$RoutePoolImpl>
-    implements _$$RoutePoolImplCopyWith<$Res> {
-  __$$RoutePoolImplCopyWithImpl(
-      _$RoutePoolImpl _value, $Res Function(_$RoutePoolImpl) _then)
+class __$$RouteImplCopyWithImpl<$Res>
+    extends _$RouteCopyWithImpl<$Res, _$RouteImpl>
+    implements _$$RouteImplCopyWith<$Res> {
+  __$$RouteImplCopyWithImpl(
+      _$RouteImpl _value, $Res Function(_$RouteImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? routeId = null,
-    Object? driverId = null,
     Object? name = null,
     Object? origin = freezed,
     Object? destination = freezed,
     Object? distance = freezed,
     Object? duration = freezed,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? orders = null,
   }) {
-    return _then(_$RoutePoolImpl(
+    return _then(_$RouteImpl(
       routeId: null == routeId
           ? _value.routeId
           : routeId // ignore: cast_nullable_to_non_nullable
-              as int,
-      driverId: null == driverId
-          ? _value.driverId
-          : driverId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -247,52 +192,27 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as RouteStatus,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      orders: null == orders
-          ? _value._orders
-          : orders // ignore: cast_nullable_to_non_nullable
-              as List<Order>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
-  const _$RoutePoolImpl(
+class _$RouteImpl with DiagnosticableTreeMixin implements _Route {
+  const _$RouteImpl(
       {@JsonKey(name: "id") required this.routeId,
-      @JsonKey(name: "driver_id") required this.driverId,
       @JsonKey(name: "route_name") required this.name,
       @JsonKey(name: "origin_address") this.origin,
       @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "distance_in_km") this.distance,
-      @JsonKey(name: "estimated_duration_minutes") this.duration,
-      required this.status,
-      @JsonKey(name: "created_at") required this.createdAt,
-      @JsonKey(name: "updated_at") required this.updatedAt,
-      final List<Order> orders = const <Order>[]})
-      : _orders = orders;
+      @JsonKey(name: "estimated_duration_minutes") this.duration});
 
-  factory _$RoutePoolImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RoutePoolImplFromJson(json);
+  factory _$RouteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RouteImplFromJson(json);
 
   @override
   @JsonKey(name: "id")
   final int routeId;
-  @override
-  @JsonKey(name: "driver_id")
-  final int driverId;
   @override
   @JsonKey(name: "route_name")
   final String name;
@@ -308,56 +228,31 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
   @override
   @JsonKey(name: "estimated_duration_minutes")
   final int? duration;
-  @override
-  final RouteStatus status;
-  @override
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @override
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-// Driver? driver,
-  final List<Order> _orders;
-// Driver? driver,
-  @override
-  @JsonKey()
-  List<Order> get orders {
-    if (_orders is EqualUnmodifiableListView) return _orders;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_orders);
-  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RoutePool(routeId: $routeId, driverId: $driverId, name: $name, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, orders: $orders)';
+    return 'Route(routeId: $routeId, name: $name, origin: $origin, destination: $destination, distance: $distance, duration: $duration)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'RoutePool'))
+      ..add(DiagnosticsProperty('type', 'Route'))
       ..add(DiagnosticsProperty('routeId', routeId))
-      ..add(DiagnosticsProperty('driverId', driverId))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('origin', origin))
       ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('distance', distance))
-      ..add(DiagnosticsProperty('duration', duration))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('updatedAt', updatedAt))
-      ..add(DiagnosticsProperty('orders', orders));
+      ..add(DiagnosticsProperty('duration', duration));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RoutePoolImpl &&
+            other is _$RouteImpl &&
             (identical(other.routeId, routeId) || other.routeId == routeId) &&
-            (identical(other.driverId, driverId) ||
-                other.driverId == driverId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.origin, origin) || other.origin == origin) &&
             (identical(other.destination, destination) ||
@@ -365,68 +260,43 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
             (identical(other.distance, distance) ||
                 other.distance == distance) &&
             (identical(other.duration, duration) ||
-                other.duration == duration) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            const DeepCollectionEquality().equals(other._orders, _orders));
+                other.duration == duration));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      routeId,
-      driverId,
-      name,
-      origin,
-      destination,
-      distance,
-      duration,
-      status,
-      createdAt,
-      updatedAt,
-      const DeepCollectionEquality().hash(_orders));
+      runtimeType, routeId, name, origin, destination, distance, duration);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RoutePoolImplCopyWith<_$RoutePoolImpl> get copyWith =>
-      __$$RoutePoolImplCopyWithImpl<_$RoutePoolImpl>(this, _$identity);
+  _$$RouteImplCopyWith<_$RouteImpl> get copyWith =>
+      __$$RouteImplCopyWithImpl<_$RouteImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RoutePoolImplToJson(
+    return _$$RouteImplToJson(
       this,
     );
   }
 }
 
-abstract class _RoutePool implements RoutePool {
-  const factory _RoutePool(
-      {@JsonKey(name: "id") required final int routeId,
-      @JsonKey(name: "driver_id") required final int driverId,
-      @JsonKey(name: "route_name") required final String name,
-      @JsonKey(name: "origin_address") final Address? origin,
-      @JsonKey(name: "destination_address") final Address? destination,
-      @JsonKey(name: "distance_in_km") final double? distance,
-      @JsonKey(name: "estimated_duration_minutes") final int? duration,
-      required final RouteStatus status,
-      @JsonKey(name: "created_at") required final DateTime createdAt,
-      @JsonKey(name: "updated_at") required final DateTime updatedAt,
-      final List<Order> orders}) = _$RoutePoolImpl;
+abstract class _Route implements Route {
+  const factory _Route(
+          {@JsonKey(name: "id") required final int routeId,
+          @JsonKey(name: "route_name") required final String name,
+          @JsonKey(name: "origin_address") final Address? origin,
+          @JsonKey(name: "destination_address") final Address? destination,
+          @JsonKey(name: "distance_in_km") final double? distance,
+          @JsonKey(name: "estimated_duration_minutes") final int? duration}) =
+      _$RouteImpl;
 
-  factory _RoutePool.fromJson(Map<String, dynamic> json) =
-      _$RoutePoolImpl.fromJson;
+  factory _Route.fromJson(Map<String, dynamic> json) = _$RouteImpl.fromJson;
 
   @override
   @JsonKey(name: "id")
   int get routeId;
-  @override
-  @JsonKey(name: "driver_id")
-  int get driverId;
   @override
   @JsonKey(name: "route_name")
   String get name;
@@ -443,18 +313,638 @@ abstract class _RoutePool implements RoutePool {
   @JsonKey(name: "estimated_duration_minutes")
   int? get duration;
   @override
-  RouteStatus get status;
+  @JsonKey(ignore: true)
+  _$$RouteImplCopyWith<_$RouteImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Trip _$TripFromJson(Map<String, dynamic> json) {
+  return _Trip.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Trip {
+  @JsonKey(name: "id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "route")
+  Route get route => throw _privateConstructorUsedError;
+  @JsonKey(name: "driver")
+  User? get driver => throw _privateConstructorUsedError;
+  @JsonKey(name: "vehicle")
+  Vehicle? get vehicle => throw _privateConstructorUsedError;
+  TripStatus get status => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
+  List<Order> get orders => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TripCopyWith<Trip> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TripCopyWith<$Res> {
+  factory $TripCopyWith(Trip value, $Res Function(Trip) then) =
+      _$TripCopyWithImpl<$Res, Trip>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "route") Route route,
+      @JsonKey(name: "driver") User? driver,
+      @JsonKey(name: "vehicle") Vehicle? vehicle,
+      TripStatus status,
+      DateTime date,
+      List<Order> orders});
+
+  $RouteCopyWith<$Res> get route;
+  $UserCopyWith<$Res>? get driver;
+  $VehicleCopyWith<$Res>? get vehicle;
+}
+
+/// @nodoc
+class _$TripCopyWithImpl<$Res, $Val extends Trip>
+    implements $TripCopyWith<$Res> {
+  _$TripCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
   @override
-  @JsonKey(name: "created_at")
-  DateTime get createdAt;
+  $Res call({
+    Object? id = null,
+    Object? route = null,
+    Object? driver = freezed,
+    Object? vehicle = freezed,
+    Object? status = null,
+    Object? date = null,
+    Object? orders = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      route: null == route
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as Route,
+      driver: freezed == driver
+          ? _value.driver
+          : driver // ignore: cast_nullable_to_non_nullable
+              as User?,
+      vehicle: freezed == vehicle
+          ? _value.vehicle
+          : vehicle // ignore: cast_nullable_to_non_nullable
+              as Vehicle?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TripStatus,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      orders: null == orders
+          ? _value.orders
+          : orders // ignore: cast_nullable_to_non_nullable
+              as List<Order>,
+    ) as $Val);
+  }
+
   @override
-  @JsonKey(name: "updated_at")
-  DateTime get updatedAt;
-  @override // Driver? driver,
+  @pragma('vm:prefer-inline')
+  $RouteCopyWith<$Res> get route {
+    return $RouteCopyWith<$Res>(_value.route, (value) {
+      return _then(_value.copyWith(route: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res>? get driver {
+    if (_value.driver == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.driver!, (value) {
+      return _then(_value.copyWith(driver: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VehicleCopyWith<$Res>? get vehicle {
+    if (_value.vehicle == null) {
+      return null;
+    }
+
+    return $VehicleCopyWith<$Res>(_value.vehicle!, (value) {
+      return _then(_value.copyWith(vehicle: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$TripImplCopyWith<$Res> implements $TripCopyWith<$Res> {
+  factory _$$TripImplCopyWith(
+          _$TripImpl value, $Res Function(_$TripImpl) then) =
+      __$$TripImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "route") Route route,
+      @JsonKey(name: "driver") User? driver,
+      @JsonKey(name: "vehicle") Vehicle? vehicle,
+      TripStatus status,
+      DateTime date,
+      List<Order> orders});
+
+  @override
+  $RouteCopyWith<$Res> get route;
+  @override
+  $UserCopyWith<$Res>? get driver;
+  @override
+  $VehicleCopyWith<$Res>? get vehicle;
+}
+
+/// @nodoc
+class __$$TripImplCopyWithImpl<$Res>
+    extends _$TripCopyWithImpl<$Res, _$TripImpl>
+    implements _$$TripImplCopyWith<$Res> {
+  __$$TripImplCopyWithImpl(_$TripImpl _value, $Res Function(_$TripImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? route = null,
+    Object? driver = freezed,
+    Object? vehicle = freezed,
+    Object? status = null,
+    Object? date = null,
+    Object? orders = null,
+  }) {
+    return _then(_$TripImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      route: null == route
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as Route,
+      driver: freezed == driver
+          ? _value.driver
+          : driver // ignore: cast_nullable_to_non_nullable
+              as User?,
+      vehicle: freezed == vehicle
+          ? _value.vehicle
+          : vehicle // ignore: cast_nullable_to_non_nullable
+              as Vehicle?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TripStatus,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      orders: null == orders
+          ? _value._orders
+          : orders // ignore: cast_nullable_to_non_nullable
+              as List<Order>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
+  const _$TripImpl(
+      {@JsonKey(name: "id") required this.id,
+      @JsonKey(name: "route") required this.route,
+      @JsonKey(name: "driver") this.driver,
+      @JsonKey(name: "vehicle") this.vehicle,
+      required this.status,
+      required this.date,
+      final List<Order> orders = const <Order>[]})
+      : _orders = orders;
+
+  factory _$TripImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TripImplFromJson(json);
+
+  @override
+  @JsonKey(name: "id")
+  final int id;
+  @override
+  @JsonKey(name: "route")
+  final Route route;
+  @override
+  @JsonKey(name: "driver")
+  final User? driver;
+  @override
+  @JsonKey(name: "vehicle")
+  final Vehicle? vehicle;
+  @override
+  final TripStatus status;
+  @override
+  final DateTime date;
+  final List<Order> _orders;
+  @override
+  @JsonKey()
+  List<Order> get orders {
+    if (_orders is EqualUnmodifiableListView) return _orders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_orders);
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Trip(id: $id, route: $route, driver: $driver, vehicle: $vehicle, status: $status, date: $date, orders: $orders)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Trip'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('route', route))
+      ..add(DiagnosticsProperty('driver', driver))
+      ..add(DiagnosticsProperty('vehicle', vehicle))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('date', date))
+      ..add(DiagnosticsProperty('orders', orders));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TripImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.route, route) || other.route == route) &&
+            (identical(other.driver, driver) || other.driver == driver) &&
+            (identical(other.vehicle, vehicle) || other.vehicle == vehicle) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.date, date) || other.date == date) &&
+            const DeepCollectionEquality().equals(other._orders, _orders));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, route, driver, vehicle,
+      status, date, const DeepCollectionEquality().hash(_orders));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TripImplCopyWith<_$TripImpl> get copyWith =>
+      __$$TripImplCopyWithImpl<_$TripImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TripImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Trip implements Trip {
+  const factory _Trip(
+      {@JsonKey(name: "id") required final int id,
+      @JsonKey(name: "route") required final Route route,
+      @JsonKey(name: "driver") final User? driver,
+      @JsonKey(name: "vehicle") final Vehicle? vehicle,
+      required final TripStatus status,
+      required final DateTime date,
+      final List<Order> orders}) = _$TripImpl;
+
+  factory _Trip.fromJson(Map<String, dynamic> json) = _$TripImpl.fromJson;
+
+  @override
+  @JsonKey(name: "id")
+  int get id;
+  @override
+  @JsonKey(name: "route")
+  Route get route;
+  @override
+  @JsonKey(name: "driver")
+  User? get driver;
+  @override
+  @JsonKey(name: "vehicle")
+  Vehicle? get vehicle;
+  @override
+  TripStatus get status;
+  @override
+  DateTime get date;
+  @override
   List<Order> get orders;
   @override
   @JsonKey(ignore: true)
-  _$$RoutePoolImplCopyWith<_$RoutePoolImpl> get copyWith =>
+  _$$TripImplCopyWith<_$TripImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Order _$OrderFromJson(Map<String, dynamic> json) {
+  return _Order.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Order {
+  @JsonKey(name: "_id")
+  String? get orderId => throw _privateConstructorUsedError;
+  @JsonKey(name: "destination")
+  Address? get destination => throw _privateConstructorUsedError;
+  @JsonKey(name: "customer")
+  User get customer => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_date")
+  DateTime get orderDate => throw _privateConstructorUsedError;
+  OrderStatus get status => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_image", includeFromJson: false)
+  File? get orderImage => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OrderCopyWith<Order> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OrderCopyWith<$Res> {
+  factory $OrderCopyWith(Order value, $Res Function(Order) then) =
+      _$OrderCopyWithImpl<$Res, Order>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String? orderId,
+      @JsonKey(name: "destination") Address? destination,
+      @JsonKey(name: "customer") User customer,
+      @JsonKey(name: "order_date") DateTime orderDate,
+      OrderStatus status,
+      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage});
+
+  $AddressCopyWith<$Res>? get destination;
+  $UserCopyWith<$Res> get customer;
+}
+
+/// @nodoc
+class _$OrderCopyWithImpl<$Res, $Val extends Order>
+    implements $OrderCopyWith<$Res> {
+  _$OrderCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = freezed,
+    Object? destination = freezed,
+    Object? customer = null,
+    Object? orderDate = null,
+    Object? status = null,
+    Object? orderImage = freezed,
+  }) {
+    return _then(_value.copyWith(
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      destination: freezed == destination
+          ? _value.destination
+          : destination // ignore: cast_nullable_to_non_nullable
+              as Address?,
+      customer: null == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as User,
+      orderDate: null == orderDate
+          ? _value.orderDate
+          : orderDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as OrderStatus,
+      orderImage: freezed == orderImage
+          ? _value.orderImage
+          : orderImage // ignore: cast_nullable_to_non_nullable
+              as File?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res>? get destination {
+    if (_value.destination == null) {
+      return null;
+    }
+
+    return $AddressCopyWith<$Res>(_value.destination!, (value) {
+      return _then(_value.copyWith(destination: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get customer {
+    return $UserCopyWith<$Res>(_value.customer, (value) {
+      return _then(_value.copyWith(customer: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
+  factory _$$OrderImplCopyWith(
+          _$OrderImpl value, $Res Function(_$OrderImpl) then) =
+      __$$OrderImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String? orderId,
+      @JsonKey(name: "destination") Address? destination,
+      @JsonKey(name: "customer") User customer,
+      @JsonKey(name: "order_date") DateTime orderDate,
+      OrderStatus status,
+      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage});
+
+  @override
+  $AddressCopyWith<$Res>? get destination;
+  @override
+  $UserCopyWith<$Res> get customer;
+}
+
+/// @nodoc
+class __$$OrderImplCopyWithImpl<$Res>
+    extends _$OrderCopyWithImpl<$Res, _$OrderImpl>
+    implements _$$OrderImplCopyWith<$Res> {
+  __$$OrderImplCopyWithImpl(
+      _$OrderImpl _value, $Res Function(_$OrderImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = freezed,
+    Object? destination = freezed,
+    Object? customer = null,
+    Object? orderDate = null,
+    Object? status = null,
+    Object? orderImage = freezed,
+  }) {
+    return _then(_$OrderImpl(
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      destination: freezed == destination
+          ? _value.destination
+          : destination // ignore: cast_nullable_to_non_nullable
+              as Address?,
+      customer: null == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as User,
+      orderDate: null == orderDate
+          ? _value.orderDate
+          : orderDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as OrderStatus,
+      orderImage: freezed == orderImage
+          ? _value.orderImage
+          : orderImage // ignore: cast_nullable_to_non_nullable
+              as File?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
+  const _$OrderImpl(
+      {@JsonKey(name: "_id") this.orderId,
+      @JsonKey(name: "destination") this.destination,
+      @JsonKey(name: "customer") required this.customer,
+      @JsonKey(name: "order_date") required this.orderDate,
+      required this.status,
+      @JsonKey(name: "order_image", includeFromJson: false) this.orderImage});
+
+  factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderImplFromJson(json);
+
+  @override
+  @JsonKey(name: "_id")
+  final String? orderId;
+  @override
+  @JsonKey(name: "destination")
+  final Address? destination;
+  @override
+  @JsonKey(name: "customer")
+  final User customer;
+  @override
+  @JsonKey(name: "order_date")
+  final DateTime orderDate;
+  @override
+  final OrderStatus status;
+  @override
+  @JsonKey(name: "order_image", includeFromJson: false)
+  final File? orderImage;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Order(orderId: $orderId, destination: $destination, customer: $customer, orderDate: $orderDate, status: $status, orderImage: $orderImage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Order'))
+      ..add(DiagnosticsProperty('orderId', orderId))
+      ..add(DiagnosticsProperty('destination', destination))
+      ..add(DiagnosticsProperty('customer', customer))
+      ..add(DiagnosticsProperty('orderDate', orderDate))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('orderImage', orderImage));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OrderImpl &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.destination, destination) ||
+                other.destination == destination) &&
+            (identical(other.customer, customer) ||
+                other.customer == customer) &&
+            (identical(other.orderDate, orderDate) ||
+                other.orderDate == orderDate) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.orderImage, orderImage) ||
+                other.orderImage == orderImage));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, orderId, destination, customer,
+      orderDate, status, orderImage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
+      __$$OrderImplCopyWithImpl<_$OrderImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OrderImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Order implements Order {
+  const factory _Order(
+      {@JsonKey(name: "_id") final String? orderId,
+      @JsonKey(name: "destination") final Address? destination,
+      @JsonKey(name: "customer") required final User customer,
+      @JsonKey(name: "order_date") required final DateTime orderDate,
+      required final OrderStatus status,
+      @JsonKey(name: "order_image", includeFromJson: false)
+      final File? orderImage}) = _$OrderImpl;
+
+  factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
+
+  @override
+  @JsonKey(name: "_id")
+  String? get orderId;
+  @override
+  @JsonKey(name: "destination")
+  Address? get destination;
+  @override
+  @JsonKey(name: "customer")
+  User get customer;
+  @override
+  @JsonKey(name: "order_date")
+  DateTime get orderDate;
+  @override
+  OrderStatus get status;
+  @override
+  @JsonKey(name: "order_image", includeFromJson: false)
+  File? get orderImage;
+  @override
+  @JsonKey(ignore: true)
+  _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -464,7 +954,7 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Address {
-  @JsonKey(name: "address_name")
+  @JsonKey(name: "name")
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "lat")
   double? get lat => throw _privateConstructorUsedError;
@@ -482,7 +972,7 @@ abstract class $AddressCopyWith<$Res> {
       _$AddressCopyWithImpl<$Res, Address>;
   @useResult
   $Res call(
-      {@JsonKey(name: "address_name") String? name,
+      {@JsonKey(name: "name") String? name,
       @JsonKey(name: "lat") double? lat,
       @JsonKey(name: "long") double? long});
 }
@@ -529,7 +1019,7 @@ abstract class _$$AddressImplCopyWith<$Res> implements $AddressCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "address_name") String? name,
+      {@JsonKey(name: "name") String? name,
       @JsonKey(name: "lat") double? lat,
       @JsonKey(name: "long") double? long});
 }
@@ -570,7 +1060,7 @@ class __$$AddressImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AddressImpl with DiagnosticableTreeMixin implements _Address {
   const _$AddressImpl(
-      {@JsonKey(name: "address_name") this.name,
+      {@JsonKey(name: "name") this.name,
       @JsonKey(name: "lat") this.lat,
       @JsonKey(name: "long") this.long});
 
@@ -578,7 +1068,7 @@ class _$AddressImpl with DiagnosticableTreeMixin implements _Address {
       _$$AddressImplFromJson(json);
 
   @override
-  @JsonKey(name: "address_name")
+  @JsonKey(name: "name")
   final String? name;
   @override
   @JsonKey(name: "lat")
@@ -632,14 +1122,14 @@ class _$AddressImpl with DiagnosticableTreeMixin implements _Address {
 
 abstract class _Address implements Address {
   const factory _Address(
-      {@JsonKey(name: "address_name") final String? name,
+      {@JsonKey(name: "name") final String? name,
       @JsonKey(name: "lat") final double? lat,
       @JsonKey(name: "long") final double? long}) = _$AddressImpl;
 
   factory _Address.fromJson(Map<String, dynamic> json) = _$AddressImpl.fromJson;
 
   @override
-  @JsonKey(name: "address_name")
+  @JsonKey(name: "name")
   String? get name;
   @override
   @JsonKey(name: "lat")
@@ -653,44 +1143,48 @@ abstract class _Address implements Address {
       throw _privateConstructorUsedError;
 }
 
-DriverUpdate _$DriverUpdateFromJson(Map<String, dynamic> json) {
-  return _DriverUpdate.fromJson(json);
+Vehicle _$VehicleFromJson(Map<String, dynamic> json) {
+  return _Vehicle.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DriverUpdate {
-  @JsonKey(name: "name")
-  String? get firstName => throw _privateConstructorUsedError;
-  @JsonKey(name: "email")
-  String? get email => throw _privateConstructorUsedError;
-  @JsonKey(name: "phone_number")
-  String? get phone => throw _privateConstructorUsedError;
-  @JsonKey(name: "license_number")
-  String? get license => throw _privateConstructorUsedError;
+mixin _$Vehicle {
+  @JsonKey(name: "vehicle_id")
+  int get vehicleId => throw _privateConstructorUsedError;
+  @JsonKey(name: "plate_number")
+  String? get plateNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: "make")
+  String? get make => throw _privateConstructorUsedError;
+  @JsonKey(name: "model")
+  String? get model => throw _privateConstructorUsedError;
+  @JsonKey(name: "type")
+  String? get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "tonnage")
+  String? get tonnage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DriverUpdateCopyWith<DriverUpdate> get copyWith =>
-      throw _privateConstructorUsedError;
+  $VehicleCopyWith<Vehicle> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DriverUpdateCopyWith<$Res> {
-  factory $DriverUpdateCopyWith(
-          DriverUpdate value, $Res Function(DriverUpdate) then) =
-      _$DriverUpdateCopyWithImpl<$Res, DriverUpdate>;
+abstract class $VehicleCopyWith<$Res> {
+  factory $VehicleCopyWith(Vehicle value, $Res Function(Vehicle) then) =
+      _$VehicleCopyWithImpl<$Res, Vehicle>;
   @useResult
   $Res call(
-      {@JsonKey(name: "name") String? firstName,
-      @JsonKey(name: "email") String? email,
-      @JsonKey(name: "phone_number") String? phone,
-      @JsonKey(name: "license_number") String? license});
+      {@JsonKey(name: "vehicle_id") int vehicleId,
+      @JsonKey(name: "plate_number") String? plateNumber,
+      @JsonKey(name: "make") String? make,
+      @JsonKey(name: "model") String? model,
+      @JsonKey(name: "type") String? type,
+      @JsonKey(name: "tonnage") String? tonnage});
 }
 
 /// @nodoc
-class _$DriverUpdateCopyWithImpl<$Res, $Val extends DriverUpdate>
-    implements $DriverUpdateCopyWith<$Res> {
-  _$DriverUpdateCopyWithImpl(this._value, this._then);
+class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
+    implements $VehicleCopyWith<$Res> {
+  _$VehicleCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -700,79 +1194,100 @@ class _$DriverUpdateCopyWithImpl<$Res, $Val extends DriverUpdate>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstName = freezed,
-    Object? email = freezed,
-    Object? phone = freezed,
-    Object? license = freezed,
+    Object? vehicleId = null,
+    Object? plateNumber = freezed,
+    Object? make = freezed,
+    Object? model = freezed,
+    Object? type = freezed,
+    Object? tonnage = freezed,
   }) {
     return _then(_value.copyWith(
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      vehicleId: null == vehicleId
+          ? _value.vehicleId
+          : vehicleId // ignore: cast_nullable_to_non_nullable
+              as int,
+      plateNumber: freezed == plateNumber
+          ? _value.plateNumber
+          : plateNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      make: freezed == make
+          ? _value.make
+          : make // ignore: cast_nullable_to_non_nullable
               as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String?,
-      license: freezed == license
-          ? _value.license
-          : license // ignore: cast_nullable_to_non_nullable
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tonnage: freezed == tonnage
+          ? _value.tonnage
+          : tonnage // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$DriverUpdateImplCopyWith<$Res>
-    implements $DriverUpdateCopyWith<$Res> {
-  factory _$$DriverUpdateImplCopyWith(
-          _$DriverUpdateImpl value, $Res Function(_$DriverUpdateImpl) then) =
-      __$$DriverUpdateImplCopyWithImpl<$Res>;
+abstract class _$$VehicleImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
+  factory _$$VehicleImplCopyWith(
+          _$VehicleImpl value, $Res Function(_$VehicleImpl) then) =
+      __$$VehicleImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "name") String? firstName,
-      @JsonKey(name: "email") String? email,
-      @JsonKey(name: "phone_number") String? phone,
-      @JsonKey(name: "license_number") String? license});
+      {@JsonKey(name: "vehicle_id") int vehicleId,
+      @JsonKey(name: "plate_number") String? plateNumber,
+      @JsonKey(name: "make") String? make,
+      @JsonKey(name: "model") String? model,
+      @JsonKey(name: "type") String? type,
+      @JsonKey(name: "tonnage") String? tonnage});
 }
 
 /// @nodoc
-class __$$DriverUpdateImplCopyWithImpl<$Res>
-    extends _$DriverUpdateCopyWithImpl<$Res, _$DriverUpdateImpl>
-    implements _$$DriverUpdateImplCopyWith<$Res> {
-  __$$DriverUpdateImplCopyWithImpl(
-      _$DriverUpdateImpl _value, $Res Function(_$DriverUpdateImpl) _then)
+class __$$VehicleImplCopyWithImpl<$Res>
+    extends _$VehicleCopyWithImpl<$Res, _$VehicleImpl>
+    implements _$$VehicleImplCopyWith<$Res> {
+  __$$VehicleImplCopyWithImpl(
+      _$VehicleImpl _value, $Res Function(_$VehicleImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstName = freezed,
-    Object? email = freezed,
-    Object? phone = freezed,
-    Object? license = freezed,
+    Object? vehicleId = null,
+    Object? plateNumber = freezed,
+    Object? make = freezed,
+    Object? model = freezed,
+    Object? type = freezed,
+    Object? tonnage = freezed,
   }) {
-    return _then(_$DriverUpdateImpl(
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+    return _then(_$VehicleImpl(
+      vehicleId: null == vehicleId
+          ? _value.vehicleId
+          : vehicleId // ignore: cast_nullable_to_non_nullable
+              as int,
+      plateNumber: freezed == plateNumber
+          ? _value.plateNumber
+          : plateNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      make: freezed == make
+          ? _value.make
+          : make // ignore: cast_nullable_to_non_nullable
               as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String?,
-      license: freezed == license
-          ? _value.license
-          : license // ignore: cast_nullable_to_non_nullable
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tonnage: freezed == tonnage
+          ? _value.tonnage
+          : tonnage // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -780,929 +1295,120 @@ class __$$DriverUpdateImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DriverUpdateImpl with DiagnosticableTreeMixin implements _DriverUpdate {
-  const _$DriverUpdateImpl(
-      {@JsonKey(name: "name") this.firstName,
-      @JsonKey(name: "email") this.email,
-      @JsonKey(name: "phone_number") this.phone,
-      @JsonKey(name: "license_number") this.license});
+class _$VehicleImpl with DiagnosticableTreeMixin implements _Vehicle {
+  const _$VehicleImpl(
+      {@JsonKey(name: "vehicle_id") required this.vehicleId,
+      @JsonKey(name: "plate_number") this.plateNumber,
+      @JsonKey(name: "make") this.make,
+      @JsonKey(name: "model") this.model,
+      @JsonKey(name: "type") this.type,
+      @JsonKey(name: "tonnage") this.tonnage});
 
-  factory _$DriverUpdateImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DriverUpdateImplFromJson(json);
+  factory _$VehicleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VehicleImplFromJson(json);
 
   @override
-  @JsonKey(name: "name")
-  final String? firstName;
+  @JsonKey(name: "vehicle_id")
+  final int vehicleId;
   @override
-  @JsonKey(name: "email")
-  final String? email;
+  @JsonKey(name: "plate_number")
+  final String? plateNumber;
   @override
-  @JsonKey(name: "phone_number")
-  final String? phone;
+  @JsonKey(name: "make")
+  final String? make;
   @override
-  @JsonKey(name: "license_number")
-  final String? license;
+  @JsonKey(name: "model")
+  final String? model;
+  @override
+  @JsonKey(name: "type")
+  final String? type;
+  @override
+  @JsonKey(name: "tonnage")
+  final String? tonnage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DriverUpdate(firstName: $firstName, email: $email, phone: $phone, license: $license)';
+    return 'Vehicle(vehicleId: $vehicleId, plateNumber: $plateNumber, make: $make, model: $model, type: $type, tonnage: $tonnage)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'DriverUpdate'))
-      ..add(DiagnosticsProperty('firstName', firstName))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('phone', phone))
-      ..add(DiagnosticsProperty('license', license));
+      ..add(DiagnosticsProperty('type', 'Vehicle'))
+      ..add(DiagnosticsProperty('vehicleId', vehicleId))
+      ..add(DiagnosticsProperty('plateNumber', plateNumber))
+      ..add(DiagnosticsProperty('make', make))
+      ..add(DiagnosticsProperty('model', model))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('tonnage', tonnage));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DriverUpdateImpl &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.license, license) || other.license == license));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, firstName, email, phone, license);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DriverUpdateImplCopyWith<_$DriverUpdateImpl> get copyWith =>
-      __$$DriverUpdateImplCopyWithImpl<_$DriverUpdateImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DriverUpdateImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _DriverUpdate implements DriverUpdate {
-  const factory _DriverUpdate(
-          {@JsonKey(name: "name") final String? firstName,
-          @JsonKey(name: "email") final String? email,
-          @JsonKey(name: "phone_number") final String? phone,
-          @JsonKey(name: "license_number") final String? license}) =
-      _$DriverUpdateImpl;
-
-  factory _DriverUpdate.fromJson(Map<String, dynamic> json) =
-      _$DriverUpdateImpl.fromJson;
-
-  @override
-  @JsonKey(name: "name")
-  String? get firstName;
-  @override
-  @JsonKey(name: "email")
-  String? get email;
-  @override
-  @JsonKey(name: "phone_number")
-  String? get phone;
-  @override
-  @JsonKey(name: "license_number")
-  String? get license;
-  @override
-  @JsonKey(ignore: true)
-  _$$DriverUpdateImplCopyWith<_$DriverUpdateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Order _$OrderFromJson(Map<String, dynamic> json) {
-  return _Order.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Order {
-  @JsonKey(name: "_id")
-  String? get orderId => throw _privateConstructorUsedError;
-  @JsonKey(name: "destination_address")
-  Address? get destination => throw _privateConstructorUsedError;
-  @JsonKey(name: "customer_name")
-  String get customerName => throw _privateConstructorUsedError;
-  @JsonKey(name: "customer_phone")
-  String get customerPhone => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_date")
-  DateTime get orderDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "delivery_date")
-  DateTime? get deliveryDate => throw _privateConstructorUsedError;
-  OrderStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: "route_id")
-  int get route => throw _privateConstructorUsedError;
-  @JsonKey(name: "created_at")
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updated_at")
-  DateTime get updatedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "delivery_confirmation")
-  DeliveryConfirmation? get deliveryConfirmation =>
-      throw _privateConstructorUsedError;
-  @JsonKey(name: "Signature", includeFromJson: false)
-  File? get signature => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_image", includeFromJson: false)
-  File? get orderImage => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $OrderCopyWith<Order> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $OrderCopyWith<$Res> {
-  factory $OrderCopyWith(Order value, $Res Function(Order) then) =
-      _$OrderCopyWithImpl<$Res, Order>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "_id") String? orderId,
-      @JsonKey(name: "destination_address") Address? destination,
-      @JsonKey(name: "customer_name") String customerName,
-      @JsonKey(name: "customer_phone") String customerPhone,
-      @JsonKey(name: "order_date") DateTime orderDate,
-      @JsonKey(name: "delivery_date") DateTime? deliveryDate,
-      OrderStatus status,
-      @JsonKey(name: "route_id") int route,
-      @JsonKey(name: "created_at") DateTime createdAt,
-      @JsonKey(name: "updated_at") DateTime updatedAt,
-      @JsonKey(name: "delivery_confirmation")
-      DeliveryConfirmation? deliveryConfirmation,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage});
-
-  $AddressCopyWith<$Res>? get destination;
-  $DeliveryConfirmationCopyWith<$Res>? get deliveryConfirmation;
-}
-
-/// @nodoc
-class _$OrderCopyWithImpl<$Res, $Val extends Order>
-    implements $OrderCopyWith<$Res> {
-  _$OrderCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? orderId = freezed,
-    Object? destination = freezed,
-    Object? customerName = null,
-    Object? customerPhone = null,
-    Object? orderDate = null,
-    Object? deliveryDate = freezed,
-    Object? status = null,
-    Object? route = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? deliveryConfirmation = freezed,
-    Object? signature = freezed,
-    Object? orderImage = freezed,
-  }) {
-    return _then(_value.copyWith(
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      destination: freezed == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Address?,
-      customerName: null == customerName
-          ? _value.customerName
-          : customerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerPhone: null == customerPhone
-          ? _value.customerPhone
-          : customerPhone // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderDate: null == orderDate
-          ? _value.orderDate
-          : orderDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      deliveryDate: freezed == deliveryDate
-          ? _value.deliveryDate
-          : deliveryDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as OrderStatus,
-      route: null == route
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      deliveryConfirmation: freezed == deliveryConfirmation
-          ? _value.deliveryConfirmation
-          : deliveryConfirmation // ignore: cast_nullable_to_non_nullable
-              as DeliveryConfirmation?,
-      signature: freezed == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as File?,
-      orderImage: freezed == orderImage
-          ? _value.orderImage
-          : orderImage // ignore: cast_nullable_to_non_nullable
-              as File?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res>? get destination {
-    if (_value.destination == null) {
-      return null;
-    }
-
-    return $AddressCopyWith<$Res>(_value.destination!, (value) {
-      return _then(_value.copyWith(destination: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DeliveryConfirmationCopyWith<$Res>? get deliveryConfirmation {
-    if (_value.deliveryConfirmation == null) {
-      return null;
-    }
-
-    return $DeliveryConfirmationCopyWith<$Res>(_value.deliveryConfirmation!,
-        (value) {
-      return _then(_value.copyWith(deliveryConfirmation: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
-  factory _$$OrderImplCopyWith(
-          _$OrderImpl value, $Res Function(_$OrderImpl) then) =
-      __$$OrderImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "_id") String? orderId,
-      @JsonKey(name: "destination_address") Address? destination,
-      @JsonKey(name: "customer_name") String customerName,
-      @JsonKey(name: "customer_phone") String customerPhone,
-      @JsonKey(name: "order_date") DateTime orderDate,
-      @JsonKey(name: "delivery_date") DateTime? deliveryDate,
-      OrderStatus status,
-      @JsonKey(name: "route_id") int route,
-      @JsonKey(name: "created_at") DateTime createdAt,
-      @JsonKey(name: "updated_at") DateTime updatedAt,
-      @JsonKey(name: "delivery_confirmation")
-      DeliveryConfirmation? deliveryConfirmation,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage});
-
-  @override
-  $AddressCopyWith<$Res>? get destination;
-  @override
-  $DeliveryConfirmationCopyWith<$Res>? get deliveryConfirmation;
-}
-
-/// @nodoc
-class __$$OrderImplCopyWithImpl<$Res>
-    extends _$OrderCopyWithImpl<$Res, _$OrderImpl>
-    implements _$$OrderImplCopyWith<$Res> {
-  __$$OrderImplCopyWithImpl(
-      _$OrderImpl _value, $Res Function(_$OrderImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? orderId = freezed,
-    Object? destination = freezed,
-    Object? customerName = null,
-    Object? customerPhone = null,
-    Object? orderDate = null,
-    Object? deliveryDate = freezed,
-    Object? status = null,
-    Object? route = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? deliveryConfirmation = freezed,
-    Object? signature = freezed,
-    Object? orderImage = freezed,
-  }) {
-    return _then(_$OrderImpl(
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      destination: freezed == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Address?,
-      customerName: null == customerName
-          ? _value.customerName
-          : customerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerPhone: null == customerPhone
-          ? _value.customerPhone
-          : customerPhone // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderDate: null == orderDate
-          ? _value.orderDate
-          : orderDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      deliveryDate: freezed == deliveryDate
-          ? _value.deliveryDate
-          : deliveryDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as OrderStatus,
-      route: null == route
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      deliveryConfirmation: freezed == deliveryConfirmation
-          ? _value.deliveryConfirmation
-          : deliveryConfirmation // ignore: cast_nullable_to_non_nullable
-              as DeliveryConfirmation?,
-      signature: freezed == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as File?,
-      orderImage: freezed == orderImage
-          ? _value.orderImage
-          : orderImage // ignore: cast_nullable_to_non_nullable
-              as File?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
-  const _$OrderImpl(
-      {@JsonKey(name: "_id") this.orderId,
-      @JsonKey(name: "destination_address") this.destination,
-      @JsonKey(name: "customer_name") required this.customerName,
-      @JsonKey(name: "customer_phone") required this.customerPhone,
-      @JsonKey(name: "order_date") required this.orderDate,
-      @JsonKey(name: "delivery_date") this.deliveryDate,
-      required this.status,
-      @JsonKey(name: "route_id") required this.route,
-      @JsonKey(name: "created_at") required this.createdAt,
-      @JsonKey(name: "updated_at") required this.updatedAt,
-      @JsonKey(name: "delivery_confirmation") this.deliveryConfirmation,
-      @JsonKey(name: "Signature", includeFromJson: false) this.signature,
-      @JsonKey(name: "order_image", includeFromJson: false) this.orderImage});
-
-  factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
-      _$$OrderImplFromJson(json);
-
-  @override
-  @JsonKey(name: "_id")
-  final String? orderId;
-  @override
-  @JsonKey(name: "destination_address")
-  final Address? destination;
-  @override
-  @JsonKey(name: "customer_name")
-  final String customerName;
-  @override
-  @JsonKey(name: "customer_phone")
-  final String customerPhone;
-  @override
-  @JsonKey(name: "order_date")
-  final DateTime orderDate;
-  @override
-  @JsonKey(name: "delivery_date")
-  final DateTime? deliveryDate;
-  @override
-  final OrderStatus status;
-  @override
-  @JsonKey(name: "route_id")
-  final int route;
-  @override
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @override
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @override
-  @JsonKey(name: "delivery_confirmation")
-  final DeliveryConfirmation? deliveryConfirmation;
-  @override
-  @JsonKey(name: "Signature", includeFromJson: false)
-  final File? signature;
-  @override
-  @JsonKey(name: "order_image", includeFromJson: false)
-  final File? orderImage;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Order(orderId: $orderId, destination: $destination, customerName: $customerName, customerPhone: $customerPhone, orderDate: $orderDate, deliveryDate: $deliveryDate, status: $status, route: $route, createdAt: $createdAt, updatedAt: $updatedAt, deliveryConfirmation: $deliveryConfirmation, signature: $signature, orderImage: $orderImage)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Order'))
-      ..add(DiagnosticsProperty('orderId', orderId))
-      ..add(DiagnosticsProperty('destination', destination))
-      ..add(DiagnosticsProperty('customerName', customerName))
-      ..add(DiagnosticsProperty('customerPhone', customerPhone))
-      ..add(DiagnosticsProperty('orderDate', orderDate))
-      ..add(DiagnosticsProperty('deliveryDate', deliveryDate))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('route', route))
-      ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('updatedAt', updatedAt))
-      ..add(DiagnosticsProperty('deliveryConfirmation', deliveryConfirmation))
-      ..add(DiagnosticsProperty('signature', signature))
-      ..add(DiagnosticsProperty('orderImage', orderImage));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OrderImpl &&
-            (identical(other.orderId, orderId) || other.orderId == orderId) &&
-            (identical(other.destination, destination) ||
-                other.destination == destination) &&
-            (identical(other.customerName, customerName) ||
-                other.customerName == customerName) &&
-            (identical(other.customerPhone, customerPhone) ||
-                other.customerPhone == customerPhone) &&
-            (identical(other.orderDate, orderDate) ||
-                other.orderDate == orderDate) &&
-            (identical(other.deliveryDate, deliveryDate) ||
-                other.deliveryDate == deliveryDate) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.route, route) || other.route == route) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.deliveryConfirmation, deliveryConfirmation) ||
-                other.deliveryConfirmation == deliveryConfirmation) &&
-            (identical(other.signature, signature) ||
-                other.signature == signature) &&
-            (identical(other.orderImage, orderImage) ||
-                other.orderImage == orderImage));
+            other is _$VehicleImpl &&
+            (identical(other.vehicleId, vehicleId) ||
+                other.vehicleId == vehicleId) &&
+            (identical(other.plateNumber, plateNumber) ||
+                other.plateNumber == plateNumber) &&
+            (identical(other.make, make) || other.make == make) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.tonnage, tonnage) || other.tonnage == tonnage));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      orderId,
-      destination,
-      customerName,
-      customerPhone,
-      orderDate,
-      deliveryDate,
-      status,
-      route,
-      createdAt,
-      updatedAt,
-      deliveryConfirmation,
-      signature,
-      orderImage);
+      runtimeType, vehicleId, plateNumber, make, model, type, tonnage);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
-      __$$OrderImplCopyWithImpl<_$OrderImpl>(this, _$identity);
+  _$$VehicleImplCopyWith<_$VehicleImpl> get copyWith =>
+      __$$VehicleImplCopyWithImpl<_$VehicleImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$OrderImplToJson(
+    return _$$VehicleImplToJson(
       this,
     );
   }
 }
 
-abstract class _Order implements Order {
-  const factory _Order(
-      {@JsonKey(name: "_id") final String? orderId,
-      @JsonKey(name: "destination_address") final Address? destination,
-      @JsonKey(name: "customer_name") required final String customerName,
-      @JsonKey(name: "customer_phone") required final String customerPhone,
-      @JsonKey(name: "order_date") required final DateTime orderDate,
-      @JsonKey(name: "delivery_date") final DateTime? deliveryDate,
-      required final OrderStatus status,
-      @JsonKey(name: "route_id") required final int route,
-      @JsonKey(name: "created_at") required final DateTime createdAt,
-      @JsonKey(name: "updated_at") required final DateTime updatedAt,
-      @JsonKey(name: "delivery_confirmation")
-      final DeliveryConfirmation? deliveryConfirmation,
-      @JsonKey(name: "Signature", includeFromJson: false) final File? signature,
-      @JsonKey(name: "order_image", includeFromJson: false)
-      final File? orderImage}) = _$OrderImpl;
+abstract class _Vehicle implements Vehicle {
+  const factory _Vehicle(
+      {@JsonKey(name: "vehicle_id") required final int vehicleId,
+      @JsonKey(name: "plate_number") final String? plateNumber,
+      @JsonKey(name: "make") final String? make,
+      @JsonKey(name: "model") final String? model,
+      @JsonKey(name: "type") final String? type,
+      @JsonKey(name: "tonnage") final String? tonnage}) = _$VehicleImpl;
 
-  factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
+  factory _Vehicle.fromJson(Map<String, dynamic> json) = _$VehicleImpl.fromJson;
 
   @override
-  @JsonKey(name: "_id")
-  String? get orderId;
+  @JsonKey(name: "vehicle_id")
+  int get vehicleId;
   @override
-  @JsonKey(name: "destination_address")
-  Address? get destination;
+  @JsonKey(name: "plate_number")
+  String? get plateNumber;
   @override
-  @JsonKey(name: "customer_name")
-  String get customerName;
+  @JsonKey(name: "make")
+  String? get make;
   @override
-  @JsonKey(name: "customer_phone")
-  String get customerPhone;
+  @JsonKey(name: "model")
+  String? get model;
   @override
-  @JsonKey(name: "order_date")
-  DateTime get orderDate;
+  @JsonKey(name: "type")
+  String? get type;
   @override
-  @JsonKey(name: "delivery_date")
-  DateTime? get deliveryDate;
-  @override
-  OrderStatus get status;
-  @override
-  @JsonKey(name: "route_id")
-  int get route;
-  @override
-  @JsonKey(name: "created_at")
-  DateTime get createdAt;
-  @override
-  @JsonKey(name: "updated_at")
-  DateTime get updatedAt;
-  @override
-  @JsonKey(name: "delivery_confirmation")
-  DeliveryConfirmation? get deliveryConfirmation;
-  @override
-  @JsonKey(name: "Signature", includeFromJson: false)
-  File? get signature;
-  @override
-  @JsonKey(name: "order_image", includeFromJson: false)
-  File? get orderImage;
+  @JsonKey(name: "tonnage")
+  String? get tonnage;
   @override
   @JsonKey(ignore: true)
-  _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
+  _$$VehicleImplCopyWith<_$VehicleImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-DeliveryConfirmation _$DeliveryConfirmationFromJson(Map<String, dynamic> json) {
-  return _DeliveryConfirmation.fromJson(json);
-}
-
-/// @nodoc
-mixin _$DeliveryConfirmation {
-  @JsonKey(name: "_id")
-  int? get confirmationId => throw _privateConstructorUsedError;
-  @JsonKey(name: "confirmation_date")
-  DateTime? get dateConfirmed => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_id")
-  String get orderId => throw _privateConstructorUsedError;
-  @JsonKey(name: "recipient_name")
-  String get recipient => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_image", includeFromJson: false)
-  File? get orderImage => throw _privateConstructorUsedError;
-  @JsonKey(name: "comments")
-  String? get comments => throw _privateConstructorUsedError;
-  @JsonKey(name: "created_at")
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updated_at")
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $DeliveryConfirmationCopyWith<DeliveryConfirmation> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DeliveryConfirmationCopyWith<$Res> {
-  factory $DeliveryConfirmationCopyWith(DeliveryConfirmation value,
-          $Res Function(DeliveryConfirmation) then) =
-      _$DeliveryConfirmationCopyWithImpl<$Res, DeliveryConfirmation>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "_id") int? confirmationId,
-      @JsonKey(name: "confirmation_date") DateTime? dateConfirmed,
-      @JsonKey(name: "order_id") String orderId,
-      @JsonKey(name: "recipient_name") String recipient,
-      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage,
-      @JsonKey(name: "comments") String? comments,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt});
-}
-
-/// @nodoc
-class _$DeliveryConfirmationCopyWithImpl<$Res,
-        $Val extends DeliveryConfirmation>
-    implements $DeliveryConfirmationCopyWith<$Res> {
-  _$DeliveryConfirmationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? confirmationId = freezed,
-    Object? dateConfirmed = freezed,
-    Object? orderId = null,
-    Object? recipient = null,
-    Object? orderImage = freezed,
-    Object? comments = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-  }) {
-    return _then(_value.copyWith(
-      confirmationId: freezed == confirmationId
-          ? _value.confirmationId
-          : confirmationId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      dateConfirmed: freezed == dateConfirmed
-          ? _value.dateConfirmed
-          : dateConfirmed // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
-      recipient: null == recipient
-          ? _value.recipient
-          : recipient // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderImage: freezed == orderImage
-          ? _value.orderImage
-          : orderImage // ignore: cast_nullable_to_non_nullable
-              as File?,
-      comments: freezed == comments
-          ? _value.comments
-          : comments // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$DeliveryConfirmationImplCopyWith<$Res>
-    implements $DeliveryConfirmationCopyWith<$Res> {
-  factory _$$DeliveryConfirmationImplCopyWith(_$DeliveryConfirmationImpl value,
-          $Res Function(_$DeliveryConfirmationImpl) then) =
-      __$$DeliveryConfirmationImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "_id") int? confirmationId,
-      @JsonKey(name: "confirmation_date") DateTime? dateConfirmed,
-      @JsonKey(name: "order_id") String orderId,
-      @JsonKey(name: "recipient_name") String recipient,
-      @JsonKey(name: "order_image", includeFromJson: false) File? orderImage,
-      @JsonKey(name: "comments") String? comments,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt});
-}
-
-/// @nodoc
-class __$$DeliveryConfirmationImplCopyWithImpl<$Res>
-    extends _$DeliveryConfirmationCopyWithImpl<$Res, _$DeliveryConfirmationImpl>
-    implements _$$DeliveryConfirmationImplCopyWith<$Res> {
-  __$$DeliveryConfirmationImplCopyWithImpl(_$DeliveryConfirmationImpl _value,
-      $Res Function(_$DeliveryConfirmationImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? confirmationId = freezed,
-    Object? dateConfirmed = freezed,
-    Object? orderId = null,
-    Object? recipient = null,
-    Object? orderImage = freezed,
-    Object? comments = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-  }) {
-    return _then(_$DeliveryConfirmationImpl(
-      confirmationId: freezed == confirmationId
-          ? _value.confirmationId
-          : confirmationId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      dateConfirmed: freezed == dateConfirmed
-          ? _value.dateConfirmed
-          : dateConfirmed // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
-      recipient: null == recipient
-          ? _value.recipient
-          : recipient // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderImage: freezed == orderImage
-          ? _value.orderImage
-          : orderImage // ignore: cast_nullable_to_non_nullable
-              as File?,
-      comments: freezed == comments
-          ? _value.comments
-          : comments // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$DeliveryConfirmationImpl
-    with DiagnosticableTreeMixin
-    implements _DeliveryConfirmation {
-  const _$DeliveryConfirmationImpl(
-      {@JsonKey(name: "_id") this.confirmationId,
-      @JsonKey(name: "confirmation_date") this.dateConfirmed,
-      @JsonKey(name: "order_id") required this.orderId,
-      @JsonKey(name: "recipient_name") required this.recipient,
-      @JsonKey(name: "order_image", includeFromJson: false) this.orderImage,
-      @JsonKey(name: "comments") this.comments,
-      @JsonKey(name: "created_at") this.createdAt,
-      @JsonKey(name: "updated_at") this.updatedAt});
-
-  factory _$DeliveryConfirmationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DeliveryConfirmationImplFromJson(json);
-
-  @override
-  @JsonKey(name: "_id")
-  final int? confirmationId;
-  @override
-  @JsonKey(name: "confirmation_date")
-  final DateTime? dateConfirmed;
-  @override
-  @JsonKey(name: "order_id")
-  final String orderId;
-  @override
-  @JsonKey(name: "recipient_name")
-  final String recipient;
-  @override
-  @JsonKey(name: "order_image", includeFromJson: false)
-  final File? orderImage;
-  @override
-  @JsonKey(name: "comments")
-  final String? comments;
-  @override
-  @JsonKey(name: "created_at")
-  final DateTime? createdAt;
-  @override
-  @JsonKey(name: "updated_at")
-  final DateTime? updatedAt;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DeliveryConfirmation(confirmationId: $confirmationId, dateConfirmed: $dateConfirmed, orderId: $orderId, recipient: $recipient, orderImage: $orderImage, comments: $comments, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DeliveryConfirmation'))
-      ..add(DiagnosticsProperty('confirmationId', confirmationId))
-      ..add(DiagnosticsProperty('dateConfirmed', dateConfirmed))
-      ..add(DiagnosticsProperty('orderId', orderId))
-      ..add(DiagnosticsProperty('recipient', recipient))
-      ..add(DiagnosticsProperty('orderImage', orderImage))
-      ..add(DiagnosticsProperty('comments', comments))
-      ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('updatedAt', updatedAt));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DeliveryConfirmationImpl &&
-            (identical(other.confirmationId, confirmationId) ||
-                other.confirmationId == confirmationId) &&
-            (identical(other.dateConfirmed, dateConfirmed) ||
-                other.dateConfirmed == dateConfirmed) &&
-            (identical(other.orderId, orderId) || other.orderId == orderId) &&
-            (identical(other.recipient, recipient) ||
-                other.recipient == recipient) &&
-            (identical(other.orderImage, orderImage) ||
-                other.orderImage == orderImage) &&
-            (identical(other.comments, comments) ||
-                other.comments == comments) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, confirmationId, dateConfirmed,
-      orderId, recipient, orderImage, comments, createdAt, updatedAt);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DeliveryConfirmationImplCopyWith<_$DeliveryConfirmationImpl>
-      get copyWith =>
-          __$$DeliveryConfirmationImplCopyWithImpl<_$DeliveryConfirmationImpl>(
-              this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DeliveryConfirmationImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _DeliveryConfirmation implements DeliveryConfirmation {
-  const factory _DeliveryConfirmation(
-          {@JsonKey(name: "_id") final int? confirmationId,
-          @JsonKey(name: "confirmation_date") final DateTime? dateConfirmed,
-          @JsonKey(name: "order_id") required final String orderId,
-          @JsonKey(name: "recipient_name") required final String recipient,
-          @JsonKey(name: "order_image", includeFromJson: false)
-          final File? orderImage,
-          @JsonKey(name: "comments") final String? comments,
-          @JsonKey(name: "created_at") final DateTime? createdAt,
-          @JsonKey(name: "updated_at") final DateTime? updatedAt}) =
-      _$DeliveryConfirmationImpl;
-
-  factory _DeliveryConfirmation.fromJson(Map<String, dynamic> json) =
-      _$DeliveryConfirmationImpl.fromJson;
-
-  @override
-  @JsonKey(name: "_id")
-  int? get confirmationId;
-  @override
-  @JsonKey(name: "confirmation_date")
-  DateTime? get dateConfirmed;
-  @override
-  @JsonKey(name: "order_id")
-  String get orderId;
-  @override
-  @JsonKey(name: "recipient_name")
-  String get recipient;
-  @override
-  @JsonKey(name: "order_image", includeFromJson: false)
-  File? get orderImage;
-  @override
-  @JsonKey(name: "comments")
-  String? get comments;
-  @override
-  @JsonKey(name: "created_at")
-  DateTime? get createdAt;
-  @override
-  @JsonKey(name: "updated_at")
-  DateTime? get updatedAt;
-  @override
-  @JsonKey(ignore: true)
-  _$$DeliveryConfirmationImplCopyWith<_$DeliveryConfirmationImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }

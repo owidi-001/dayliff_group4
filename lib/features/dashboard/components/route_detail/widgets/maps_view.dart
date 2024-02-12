@@ -15,21 +15,21 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 
 class MapsView extends StatefulWidget {
-  const MapsView({super.key, required this.pool});
-  final RoutePool pool;
+  const MapsView({super.key, required this.trip});
+  final Trip trip;
 
   @override
   State<MapsView> createState() => _MapsViewState();
 }
 
 class _MapsViewState extends State<MapsView> {
-  late RoutePool pool = widget.pool;
+  late Trip trip = widget.trip;
 
   final Completer<GoogleMapController> _controller = Completer();
 
-  late LatLng source = LatLng(pool.origin!.lat!, pool.origin!.long!);
+  late LatLng source = LatLng(trip.route.origin!.lat!, trip.route.origin!.long!);
 
-  late LatLng dest = LatLng(pool.destination!.lat!, pool.destination!.long!);
+  late LatLng dest = LatLng(trip.route.destination!.lat!, trip.route.destination!.long!);
   List<Marker> markers = [];
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
@@ -48,7 +48,7 @@ class _MapsViewState extends State<MapsView> {
     super.initState();
 
     // Create markers
-    markers = pool.orders
+    markers = trip.orders
         .map(
           (e) => Marker(
             markerId: MarkerId("${e.orderId}"),
@@ -75,7 +75,7 @@ class _MapsViewState extends State<MapsView> {
       // Add to current location
       getPolypoints(
           LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-          LatLng(pool.origin!.lat!, pool.origin!.long!));
+          LatLng(trip.route.origin!.lat!, trip.route.origin!.long!));
     });
 
     // GoogleMapController googleMapController = await _controller.future;
@@ -95,9 +95,9 @@ class _MapsViewState extends State<MapsView> {
   }
 
   void getPolylines() {
-    for (var order in pool.orders) {
+    for (var order in trip.orders) {
       // Get polypoints
-      getPolypoints(LatLng(pool.origin!.lat!, pool.origin!.long!),
+      getPolypoints(LatLng(trip.route.origin!.lat!, trip.route.origin!.long!),
           LatLng(order.destination!.lat!, order.destination!.long!));
     }
   }

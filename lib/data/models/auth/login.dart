@@ -45,11 +45,8 @@ class User with _$User {
     required String name,
     @JsonKey(name: "phone_number") required String phoneNumber,
     required String email,
-    @JsonKey(name: 'email_verified_at') String? emailVerifiedAt,
     required String status,
     String? role,
-    @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'updated_at') String? updatedAt,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
