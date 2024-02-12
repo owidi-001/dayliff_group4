@@ -1,7 +1,5 @@
-import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/stop_points.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,44 +8,9 @@ class TripTile extends StatelessWidget {
   const TripTile({super.key, required this.route});
   final RoutePool route;
   void _showConfirmJourneyDialog(BuildContext context) {
-    showBottomSheet(
-      // showDragHandle: true,
+    showDialog(
       context: context,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              route.name,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            const Divider(),
-            // StopPointsWidget(
-            //   stopPoints:
-            //       route.orders.map((e) => e.destination!.name!).toList(),
-            // ),
-            StopsWidget(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: PrimaryButton(
-                  hint: "Start this trip",
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    // Open maps view
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => RouteView(routeId: route.routeId),
-                      ),
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: AppBar().preferredSize.height,
-            )
-          ],
-        ),
-      ),
+      builder: (context) => RouteDetails(pool: route),
     );
   }
 

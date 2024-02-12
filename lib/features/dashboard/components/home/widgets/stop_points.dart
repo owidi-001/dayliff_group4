@@ -1,206 +1,254 @@
+import 'package:dayliff/features/auth/widgets/form.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
+import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_stepper/easy_stepper.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class StopPointsWidget extends StatelessWidget {
-  final List<String> stopPoints;
+class RouteDetails extends StatelessWidget {
+  final RoutePool pool;
 
-  const StopPointsWidget({super.key, required this.stopPoints});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildStopPoint('Origin', stopPoints.first, isFirst: true),
-        for (int i = 1; i < stopPoints.length - 1; i++)
-          _buildStopPoint('Stop $i', stopPoints[i]),
-        _buildStopPoint("Destination", stopPoints.last, isLast: true),
-      ],
-    );
-  }
-
-  Widget _buildStopPoint(
-    String label,
-    String location, {
-    bool isFirst = false,
-    bool isLast = false,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          dense: true,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-          title: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(location),
-          leading: _buildIcon(isFirst: isFirst, isLast: isLast),
-        ),
-        Container(
-          margin: const EdgeInsets.only(left: 24),
-          height: isLast ? 0 : 20, // Adjust spacing at the end
-          child: Container(
-            width: 2,
-            color: Colors.grey.withOpacity(0.5),
-            child: CustomPaint(
-              painter: DottedLinePainter(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildIcon({bool isFirst = false, bool isLast = false}) {
-    if (isFirst) {
-      return const Icon(Icons.directions_bus); // Start icon
-    } else if (isLast) {
-      return const Icon(Icons.location_on); // Destination icon
-    } else {
-      return Container(
-        height: 10,
-        width: 10,
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(width: 2),
-        ),
-        child: const Icon(
-          Icons.circle,
-          color: Colors.transparent,
-          size: 8,
-        ),
-      ); // Default circle icon for intermediate stops
-    }
-  }
-}
-
-class DottedLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = Colors.grey.withOpacity(0.5)
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
-
-    const double dashWidth = 5;
-    const double dashSpace = 5;
-    double startY = 0;
-
-    while (startY < size.height) {
-      canvas.drawLine(
-        Offset(0, startY),
-        Offset(0, startY + dashWidth),
-        paint,
-      );
-      startY += dashWidth + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
-class StopsWidget extends StatefulWidget {
-  StopsWidget({super.key});
-
-  @override
-  State<StopsWidget> createState() => _StopsWidgetState();
-}
-
-class _StopsWidgetState extends State<StopsWidget> {
-  int activeStep = 0;
+  const RouteDetails({super.key, required this.pool});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          EasyStepper(
-            showTitle: false,
-            activeStep: activeStep,
-            direction: Axis.vertical,
-            stepShape: StepShape.circle,
-            borderThickness: 2,
-            stepRadius: 8,
-            finishedStepBorderColor: Colors.deepOrange,
-            finishedStepTextColor: const Color.fromARGB(255, 95, 78, 73),
-            finishedStepBackgroundColor: Colors.deepOrange,
-            activeStepIconColor: Colors.deepOrange,
-            showLoadingAnimation: false,
-            steps: [
-              EasyStep(
-                customStep: ClipOval(
-                  child: Opacity(
-                    opacity: activeStep >= 0 ? 1 : 0.3,
-                    child: Image.asset('assets/1.png'),
+    return Dialog(
+      insetPadding: EdgeInsets.symmetric(
+          horizontal: 16, vertical: AppBar().preferredSize.height),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Title
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Route Details",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                ),
-                customTitle: const Text(
-                  'Dash 1',
-                  textAlign: TextAlign.center,
-                ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(FontAwesomeIcons.xmark))
+                ],
               ),
-              EasyStep(
-                customStep: ClipOval(
-                  child: Opacity(
-                    opacity: activeStep >= 1 ? 1 : 0.3,
-                    child: Image.asset('assets/2.png'),
+            ),
+            const Divider(
+              height: 4,
+            ),
+            ListTile(
+              leading: const Icon(
+                FontAwesomeIcons.route,
+                size: 36,
+              ),
+              title: Text(pool.name),
+              subtitle: Text(
+                formatDate(pool.createdAt),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+            const Divider(
+              color: Colors.transparent,
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(bottom: 8),
+              decoration: BoxDecoration(
+                  border:
+                      Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
+                  borderRadius: BorderRadius.circular(16)),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ListTile(
+                          title: Text(
+                            "From",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                          subtitle: Text(
+                            pool.origin!.name!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          title: Text(
+                            "To",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                          subtitle: Text(
+                            pool.destination!.name!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                customTitle: const Text(
-                  'Dash 2',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              EasyStep(
-                customStep: ClipOval(
-                  child: Opacity(
-                    opacity: activeStep >= 2 ? 1 : 0.3,
-                    child: Image.asset('assets/3.png'),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ListTile(
+                          title: Text(
+                            "Orders",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                          subtitle: Text(
+                            "${pool.orders.length} orders",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          title: Text(
+                            "Weight",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                          subtitle: Text(
+                            "240 KG",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                customTitle: const Text(
-                  'Dash 3',
-                  textAlign: TextAlign.center,
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Status: ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color:
+                                  getStatusColor(pool.status).withOpacity(.1)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                color: getStatusColor(pool.status),
+                                size: 8,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                pool.status.toStringValue(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        color: getStatusColor(pool.status)),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-              EasyStep(
-                customStep: ClipOval(
-                  child: Opacity(
-                    opacity: activeStep >= 3 ? 1 : 0.3,
-                    child: Image.asset('assets/4.png'),
-                  ),
-                ),
-                customTitle: const Text(
-                  'Dash 4',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              EasyStep(
-                customStep: ClipOval(
-                  child: Opacity(
-                    opacity: activeStep >= 4 ? 1 : 0.3,
-                    child: Image.asset('assets/5.png'),
-                  ),
-                ),
-                customTitle: const Text(
-                  'Dash 5',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-            onStepReached: (index) => setState(() => activeStep = index),
-          ),
-        ],
+            ),
+            const Divider(
+              color: Colors.transparent,
+            ),
+            Center(child: StopperWidget(pool: pool)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: PrimaryButton(
+                  hint: "Start trip",
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => RouteView(
+                              routeId: pool.routeId,
+                            )));
+                  }),
+            )
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class StopperWidget extends StatelessWidget {
+  const StopperWidget({super.key, required this.pool});
+  final RoutePool pool;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stepper(
+      type: StepperType.vertical,
+      steps: [
+        Step(
+          title: const Text("Origin"),
+          subtitle: Text(pool.origin!.name!),
+          content: Container(),
+          isActive: false,
+        ),
+        ...List<Step>.generate(
+          pool.orders.length,
+          (index) => Step(
+            title: Text(index == pool.orders.length - 1
+                ? "Destination"
+                : "Stop ${index + 1}"),
+            subtitle: Text(pool.orders[index].destination!.name!),
+            content: Container(),
+            isActive: false,
+          ),
+        ),
+      ],
+      controlsBuilder: (context, details) => const SizedBox.shrink(),
+      physics: const NeverScrollableScrollPhysics(),
     );
   }
 }

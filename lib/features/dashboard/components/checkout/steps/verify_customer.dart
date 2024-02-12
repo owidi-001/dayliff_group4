@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 enum VerificationMeans { OTP, ID }
@@ -154,48 +157,68 @@ class ByID extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController idController = TextEditingController();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Enter receiver's ID",
-          textAlign: TextAlign.left,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        const SizedBox(height: 20),
-        TextFormField(
-            controller: idController,
-            textAlignVertical: TextAlignVertical.center,
-            textInputAction: TextInputAction.next,
-            validator: validateEmail,
-            onSaved: (String? val) {
-              // TODO
-            },
-            style: const TextStyle(fontSize: 18.0),
-            keyboardType: TextInputType.emailAddress,
-            cursorColor: StaticColors.primary,
-            decoration: getInputDecoration(
-                hint: 'ID number',
-                darkMode: false,
-                errorColor: Theme.of(context).colorScheme.error)),
-        const SizedBox(
-          height: 32,
-        ),
-        Row(
+    final ImagePicker picker = ImagePicker();
+
+    return BlocBuilder<CheckOutBloc, CheckoutState>(
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            Text(
+              "Take a clear photo of the receivers ID",
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            state.idPhoto != null
+                ? Image.file(
+                    state.idPhoto!,
+                    fit: BoxFit.contain,
+                  )
+                : const SizedBox.shrink(),
+            const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {
-                // Go to next
-                context.read<CheckOutBloc>().add(StepContinue());
+              onPressed: () async {
+                // TODO
+                final XFile? image =
+                    await picker.pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  // Add image captured to state
+                  context.read<CheckOutBloc>().add(
+                        IDProof(
+                          image: File(image.path),
+                        ),
+                      );
+                }
               },
-              icon: const Icon(Icons.check),
-              label: const Text("Verify"),
+              icon: const Icon(Icons.document_scanner),
+              label: const Text('Capture'),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            Row(
+              children: [
+                state.idPhoto != null
+                    ? ElevatedButton.icon(
+                        onPressed: () {
+                          if (state.otp == null && state.idPhoto == null) {
+                            showSnackBar(
+                                context, "Please verify by either ID or OTP");
+                          } else {
+                            // Go to next
+                            context.read<CheckOutBloc>().add(StepContinue());
+                          }
+                        },
+                        icon: const Icon(Icons.check),
+                        label: const Text("Save & Continue"),
+                      )
+                    : const SizedBox.shrink(),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

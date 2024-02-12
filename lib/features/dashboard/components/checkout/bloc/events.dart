@@ -18,6 +18,23 @@ class SaveCapturedImage extends CheckoutEvent {
   List<Object?> get props => [image];
 }
 
+class ScanOD extends CheckoutEvent {
+  final File image;
+
+  const ScanOD({required this.image});
+
+  @override
+  List<Object?> get props => [image];
+}
+class IDProof extends CheckoutEvent {
+  final File image;
+
+  const IDProof({required this.image});
+
+  @override
+  List<Object?> get props => [image];
+}
+
 class RemoveCaptured extends CheckoutEvent {
   final int index;
 

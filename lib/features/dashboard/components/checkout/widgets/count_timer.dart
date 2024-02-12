@@ -3,8 +3,10 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CountUpTimer extends StatefulWidget {
+  const CountUpTimer({super.key});
+
   @override
-  _CountUpTimerState createState() => _CountUpTimerState();
+  State<CountUpTimer> createState() => _CountUpTimerState();
 }
 
 class _CountUpTimerState extends State<CountUpTimer> {
@@ -24,7 +26,7 @@ class _CountUpTimerState extends State<CountUpTimer> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _elapsedSeconds++;
       });
@@ -40,7 +42,7 @@ class _CountUpTimerState extends State<CountUpTimer> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Service Time: ${_formatDuration(_elapsedSeconds)}',
+      'Handover Time: ${_formatDuration(_elapsedSeconds)}',
       style: Theme.of(context)
           .textTheme
           .titleMedium!

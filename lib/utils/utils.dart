@@ -1,5 +1,6 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Color getStatusColor(OrderStatus status) {
   switch (status) {
@@ -10,13 +11,13 @@ Color getStatusColor(OrderStatus status) {
     case OrderStatus.PARTIAL:
       return Colors.black;
     case OrderStatus.PENDING:
-      return Colors.amber;
+      return Colors.deepOrange;
     default:
       return Colors.blue;
   }
 }
 
-IconData getStatusIcon(OrderStatus status){
+IconData getStatusIcon(OrderStatus status) {
   switch (status) {
     case OrderStatus.CANCELLED:
       return Icons.error;
@@ -29,4 +30,8 @@ IconData getStatusIcon(OrderStatus status){
     default:
       return Icons.access_time;
   }
+}
+
+String formatDate(DateTime date) {
+  return DateFormat('EEEE, MMMM d, y').format(date);
 }

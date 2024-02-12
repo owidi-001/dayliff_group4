@@ -186,7 +186,7 @@ class Welcome extends StatelessWidget {
               keepAlive: true,
               intervalStart: 0,
               child: Image.asset(
-                'assets/logo2.png',
+                'assets/logo.png',
                 height: 100,
               ),
             ),
@@ -448,7 +448,7 @@ class _LoginFormState extends State<LoginForm> {
               keepAlive: true,
               intervalStart: 0,
               child: Image.asset(
-                'assets/logo2.png',
+                'assets/logo.png',
                 height: 100,
               ),
             ),
