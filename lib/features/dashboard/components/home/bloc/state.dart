@@ -2,8 +2,8 @@ part of 'bloc.dart';
 
 class OrderState extends Equatable {
   final List<RoutePool> pools;
-
   final List<RoutePool> filteredPools;
+  final RoutePool? activeRoute;
   final String? message;
   final ServiceStatus status;
   final List<File> orderImages;
@@ -13,6 +13,7 @@ class OrderState extends Equatable {
   const OrderState(
       {this.pools = const [],
       this.message,
+      this.activeRoute,
       this.filteredPools = const [],
       this.status = ServiceStatus.initial,
       this.orderImages = const [],
@@ -22,6 +23,7 @@ class OrderState extends Equatable {
   OrderState copyWith(
       {List<RoutePool>? pools,
       String? message,
+      RoutePool? activeRoute,
       ServiceStatus? status,
       List<File>? orderImages,
       Order? orderOnConfirmation,
@@ -29,6 +31,7 @@ class OrderState extends Equatable {
       List<RoutePool>? filteredPools}) {
     return OrderState(
         pools: pools ?? this.pools,
+        activeRoute: activeRoute ?? this.activeRoute,
         filteredPools: filteredPools ?? this.filteredPools,
         message: message,
         status: status ?? this.status,
@@ -40,6 +43,7 @@ class OrderState extends Equatable {
   @override
   List<Object?> get props => [
         message,
+        activeRoute,
         pools,
         status,
         filter,

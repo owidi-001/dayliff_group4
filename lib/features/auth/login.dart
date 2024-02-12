@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
@@ -14,7 +13,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:video_player/video_player.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State createState() {
@@ -215,7 +214,7 @@ class _LoginFormState extends State<LoginForm> {
     super.initState();
 
     setState(() {
-      emailController.text = "elijah@dayliff.com";
+      emailController.text = "Davy@g.com";
       passwordController.text = "password";
     });
   }
@@ -272,163 +271,163 @@ class _LoginFormState extends State<LoginForm> {
                       const Color((0xFFFFFFFF)).withOpacity(0.5),
                     ],
                   ),
-                  child: Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "Login",
-                            style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: StaticColors.onPrimary),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Please Login to Your Account",
-                            style: TextStyle(
-                              color: StaticColors.onPrimary.withOpacity(.6),
-                              fontSize: 15,
+                  child: Form(
+                    key: formKey,
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 30,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            height: 60,
-                            child: TextField(
-                              controller: emailController,
-                              style: TextStyle(color: StaticColors.onPrimary),
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.email,
-                                  color: StaticColors.onPrimary.withOpacity(.6),
-                                ),
-                                labelText: "Email Address",
-                                labelStyle:
-                                    TextStyle(color: StaticColors.onPrimary),
-                                hintStyle:
-                                    TextStyle(color: StaticColors.onPrimary),
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                  borderSide:
-                                      BorderSide(color: StaticColors.onPrimary),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: StaticColors
-                                          .onPrimary), // Brighter color when focused
-                                ),
-                                focusColor: StaticColors.onPrimary,
+                            Text(
+                              "Login",
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: StaticColors.onPrimary),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Please Login to Your Account",
+                              style: TextStyle(
+                                color: StaticColors.onPrimary.withOpacity(.6),
+                                fontSize: 15,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Container(
-                            height: 60,
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            child: TextField(
-                              controller: passwordController,
-                              style: TextStyle(color: StaticColors.onPrimary),
-                              obscureText: obscurePass,
-                              decoration: InputDecoration(
-                                labelStyle:
-                                    TextStyle(color: StaticColors.onPrimary),
-                                hintStyle:
-                                    TextStyle(color: StaticColors.onPrimary),
-                                border: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: StaticColors
-                                          .onPrimary), // Brighter color when focused
-                                ),
-                                focusColor: StaticColors.onPrimary,
-                                suffixIcon: TextButton(
-                                  onPressed: () {
-                                    // Navigate to reset password screen
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ResetPassword(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    "Forgot Password?",
-                                    style: TextStyle(
-                                        color: StaticColors.onPrimary
-                                            .withOpacity(.6)),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              height: 60,
+                              child: TextField(
+                                controller: emailController,
+                                style: TextStyle(color: StaticColors.onPrimary),
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.email,
+                                    color:
+                                        StaticColors.onPrimary.withOpacity(.6),
                                   ),
+                                  labelText: "Email Address",
+                                  labelStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  hintStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  border: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: StaticColors.onPrimary),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: StaticColors
+                                            .onPrimary), // Brighter color when focused
+                                  ),
+                                  focusColor: StaticColors.onPrimary,
                                 ),
-                                labelText: "Password",
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: PrimaryButton(
-                                hint: "Login",
-                                onTap: () {
-                                  context.read<AuthBloc>().add(
-                                        LocalLogin(
-                                          data: LoginResponse(
-                                            token: "",
-                                            user: User(
-                                                id: -1,
-                                                name: "Elijah Mbugua",
-                                                phoneNumber: "0791381653",
-                                                email: "elijah@dayliff.com",
-                                                status: "Active"),
-                                          ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Container(
+                              height: 60,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: TextField(
+                                controller: passwordController,
+                                style: TextStyle(color: StaticColors.onPrimary),
+                                obscureText: obscurePass,
+                                decoration: InputDecoration(
+                                  labelStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  hintStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  border: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: StaticColors
+                                            .onPrimary), // Brighter color when focused
+                                  ),
+                                  focusColor: StaticColors.onPrimary,
+                                  suffixIcon: TextButton(
+                                    onPressed: () {
+                                      // Navigate to reset password screen
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ResetPassword(),
                                         ),
                                       );
-                                }),
-                          ),
-                          const SizedBox(
-                            height: 17,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                                text: "Or Login using ",
-                                children: [
-                                  TextSpan(
-                                    text: "Ad Account",
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () =>
-                                          showSnackBar(context, "Coming soon"),
-                                    style: TextStyle(
-                                      color: StaticColors.primary,
+                                    },
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: TextStyle(
+                                          color: StaticColors.onPrimary
+                                              .withOpacity(.6)),
                                     ),
-                                  )
-                                ],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18)),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                        ],
+                                  ),
+                                  labelText: "Password",
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: PrimaryButton(
+                                  hint: "Login",
+                                  onTap: () {
+                                    if (formKey.currentState!.validate()) {
+                                      context.read<AuthBloc>().add(LoginEvent(
+                                          email: emailController.text,
+                                          password: passwordController.text));
+                                    }
+                                  }),
+                            ),
+                            const SizedBox(
+                              height: 17,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: "Or Login using ",
+                                  children: [
+                                    TextSpan(
+                                      text: "Ad Account",
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => showSnackBar(
+                                            context, "Coming soon"),
+                                      style: TextStyle(
+                                        color: StaticColors.primary,
+                                      ),
+                                    )
+                                  ],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

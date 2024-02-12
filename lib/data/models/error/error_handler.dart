@@ -7,8 +7,8 @@ class ErrorHandler {
   ErrorHandler(this.error);
 
   Failure handle() {
-    if (error.response?.data['message'] != null) {
-      return Failure(error: error.response!.data['message']);
+    if (error.response?.data['error'] != null) {
+      return Failure(error: error.response!.data['error']);
     } else {
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
@@ -22,42 +22,40 @@ class ErrorHandler {
           switch (statusCode) {
             case 400:
               return Failure(
-                error: error.response?.data["message"] ??
+                error: error.response?.data["error"] ??
                     error.response?.statusMessage ??
                     'Something went wrong',
               );
             case 401:
               // Go to login
               return Failure(
-                  error: error.response?.data["message"] ?? 'Unauthorized');
+                  error: error.response?.data["error"] ?? 'Unauthorized');
             case 403:
               return Failure(
-                  error: error.response?.data["message"] ?? 'Forbidden');
+                  error: error.response?.data["error"] ?? 'Forbidden');
             case 404:
               return Failure(
-                  error:
-                      error.response?.data["message"] ?? 'Resource not found');
+                  error: error.response?.data["error"] ?? 'Resource not found');
             case 412:
               return Failure(
-                error: error.response!.data["message"],
+                error: error.response!.data["error"],
                 precondition: error.response?.data["precondition"],
                 description: error.response?.data["description"],
                 value: error.response?.data["value"],
               );
             case 500:
               return Failure(
-                error: error.response?.data["message"] ??
+                error: error.response?.data["error"] ??
                     'An error occured! Our team is resolving this!',
               );
 
             default:
               return Failure(
-                  error:
-                      error.response?.data["message"] ?? 'Error: $statusCode');
+                  error: error.response?.data["error"] ?? 'Error: $statusCode');
           }
         default:
           return Failure(
-              error: error.response?.data["message"] ?? 'Network error');
+              error: error.response?.data["error"] ?? 'Network error');
       }
     }
   }

@@ -32,9 +32,9 @@ class Http {
   static final dio = Dio(BaseOptions(
     baseUrl: BASE_URL,
     receiveDataWhenStatusError: true,
-    connectTimeout: Duration(milliseconds: TIMEOUT),
-    sendTimeout: Duration(milliseconds: TIMEOUT),
-    receiveTimeout: Duration(milliseconds: TIMEOUT),
+    connectTimeout: const Duration(milliseconds: TIMEOUT),
+    sendTimeout: const Duration(milliseconds: TIMEOUT),
+    receiveTimeout: const Duration(milliseconds: TIMEOUT),
   ))
     ..interceptors.addAll([
       HttpFormatter(),

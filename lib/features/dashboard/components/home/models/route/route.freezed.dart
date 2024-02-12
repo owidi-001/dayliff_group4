@@ -20,8 +20,10 @@ RoutePool _$RoutePoolFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RoutePool {
-  @JsonKey(name: "route_id")
+  @JsonKey(name: "id")
   int get routeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "driver_id")
+  int get driverId => throw _privateConstructorUsedError;
   @JsonKey(name: "route_name")
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "origin_address")
@@ -32,9 +34,7 @@ mixin _$RoutePool {
   double? get distance => throw _privateConstructorUsedError;
   @JsonKey(name: "estimated_duration_minutes")
   int? get duration => throw _privateConstructorUsedError;
-  OrderStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: "route_cost")
-  double get cost => throw _privateConstructorUsedError;
+  RouteStatus get status => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_at")
@@ -54,14 +54,14 @@ abstract class $RoutePoolCopyWith<$Res> {
       _$RoutePoolCopyWithImpl<$Res, RoutePool>;
   @useResult
   $Res call(
-      {@JsonKey(name: "route_id") int routeId,
+      {@JsonKey(name: "id") int routeId,
+      @JsonKey(name: "driver_id") int driverId,
       @JsonKey(name: "route_name") String name,
       @JsonKey(name: "origin_address") Address? origin,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "distance_in_km") double? distance,
       @JsonKey(name: "estimated_duration_minutes") int? duration,
-      OrderStatus status,
-      @JsonKey(name: "route_cost") double cost,
+      RouteStatus status,
       @JsonKey(name: "created_at") DateTime createdAt,
       @JsonKey(name: "updated_at") DateTime updatedAt,
       List<Order> orders});
@@ -84,13 +84,13 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
   @override
   $Res call({
     Object? routeId = null,
+    Object? driverId = null,
     Object? name = null,
     Object? origin = freezed,
     Object? destination = freezed,
     Object? distance = freezed,
     Object? duration = freezed,
     Object? status = null,
-    Object? cost = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? orders = null,
@@ -99,6 +99,10 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
       routeId: null == routeId
           ? _value.routeId
           : routeId // ignore: cast_nullable_to_non_nullable
+              as int,
+      driverId: null == driverId
+          ? _value.driverId
+          : driverId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -123,11 +127,7 @@ class _$RoutePoolCopyWithImpl<$Res, $Val extends RoutePool>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as OrderStatus,
-      cost: null == cost
-          ? _value.cost
-          : cost // ignore: cast_nullable_to_non_nullable
-              as double,
+              as RouteStatus,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -177,14 +177,14 @@ abstract class _$$RoutePoolImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "route_id") int routeId,
+      {@JsonKey(name: "id") int routeId,
+      @JsonKey(name: "driver_id") int driverId,
       @JsonKey(name: "route_name") String name,
       @JsonKey(name: "origin_address") Address? origin,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "distance_in_km") double? distance,
       @JsonKey(name: "estimated_duration_minutes") int? duration,
-      OrderStatus status,
-      @JsonKey(name: "route_cost") double cost,
+      RouteStatus status,
       @JsonKey(name: "created_at") DateTime createdAt,
       @JsonKey(name: "updated_at") DateTime updatedAt,
       List<Order> orders});
@@ -207,13 +207,13 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? routeId = null,
+    Object? driverId = null,
     Object? name = null,
     Object? origin = freezed,
     Object? destination = freezed,
     Object? distance = freezed,
     Object? duration = freezed,
     Object? status = null,
-    Object? cost = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? orders = null,
@@ -222,6 +222,10 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
       routeId: null == routeId
           ? _value.routeId
           : routeId // ignore: cast_nullable_to_non_nullable
+              as int,
+      driverId: null == driverId
+          ? _value.driverId
+          : driverId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -246,11 +250,7 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as OrderStatus,
-      cost: null == cost
-          ? _value.cost
-          : cost // ignore: cast_nullable_to_non_nullable
-              as double,
+              as RouteStatus,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -271,14 +271,14 @@ class __$$RoutePoolImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
   const _$RoutePoolImpl(
-      {@JsonKey(name: "route_id") required this.routeId,
+      {@JsonKey(name: "id") required this.routeId,
+      @JsonKey(name: "driver_id") required this.driverId,
       @JsonKey(name: "route_name") required this.name,
       @JsonKey(name: "origin_address") this.origin,
       @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "distance_in_km") this.distance,
       @JsonKey(name: "estimated_duration_minutes") this.duration,
       required this.status,
-      @JsonKey(name: "route_cost") this.cost = 0,
       @JsonKey(name: "created_at") required this.createdAt,
       @JsonKey(name: "updated_at") required this.updatedAt,
       final List<Order> orders = const <Order>[]})
@@ -288,8 +288,11 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
       _$$RoutePoolImplFromJson(json);
 
   @override
-  @JsonKey(name: "route_id")
+  @JsonKey(name: "id")
   final int routeId;
+  @override
+  @JsonKey(name: "driver_id")
+  final int driverId;
   @override
   @JsonKey(name: "route_name")
   final String name;
@@ -306,10 +309,7 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
   @JsonKey(name: "estimated_duration_minutes")
   final int? duration;
   @override
-  final OrderStatus status;
-  @override
-  @JsonKey(name: "route_cost")
-  final double cost;
+  final RouteStatus status;
   @override
   @JsonKey(name: "created_at")
   final DateTime createdAt;
@@ -329,7 +329,7 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RoutePool(routeId: $routeId, name: $name, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, cost: $cost, createdAt: $createdAt, updatedAt: $updatedAt, orders: $orders)';
+    return 'RoutePool(routeId: $routeId, driverId: $driverId, name: $name, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, orders: $orders)';
   }
 
   @override
@@ -338,13 +338,13 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
     properties
       ..add(DiagnosticsProperty('type', 'RoutePool'))
       ..add(DiagnosticsProperty('routeId', routeId))
+      ..add(DiagnosticsProperty('driverId', driverId))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('origin', origin))
       ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('distance', distance))
       ..add(DiagnosticsProperty('duration', duration))
       ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('cost', cost))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
       ..add(DiagnosticsProperty('orders', orders));
@@ -356,6 +356,8 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
         (other.runtimeType == runtimeType &&
             other is _$RoutePoolImpl &&
             (identical(other.routeId, routeId) || other.routeId == routeId) &&
+            (identical(other.driverId, driverId) ||
+                other.driverId == driverId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.origin, origin) || other.origin == origin) &&
             (identical(other.destination, destination) ||
@@ -365,7 +367,6 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.cost, cost) || other.cost == cost) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -378,13 +379,13 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
   int get hashCode => Object.hash(
       runtimeType,
       routeId,
+      driverId,
       name,
       origin,
       destination,
       distance,
       duration,
       status,
-      cost,
       createdAt,
       updatedAt,
       const DeepCollectionEquality().hash(_orders));
@@ -405,14 +406,14 @@ class _$RoutePoolImpl with DiagnosticableTreeMixin implements _RoutePool {
 
 abstract class _RoutePool implements RoutePool {
   const factory _RoutePool(
-      {@JsonKey(name: "route_id") required final int routeId,
+      {@JsonKey(name: "id") required final int routeId,
+      @JsonKey(name: "driver_id") required final int driverId,
       @JsonKey(name: "route_name") required final String name,
       @JsonKey(name: "origin_address") final Address? origin,
       @JsonKey(name: "destination_address") final Address? destination,
       @JsonKey(name: "distance_in_km") final double? distance,
       @JsonKey(name: "estimated_duration_minutes") final int? duration,
-      required final OrderStatus status,
-      @JsonKey(name: "route_cost") final double cost,
+      required final RouteStatus status,
       @JsonKey(name: "created_at") required final DateTime createdAt,
       @JsonKey(name: "updated_at") required final DateTime updatedAt,
       final List<Order> orders}) = _$RoutePoolImpl;
@@ -421,8 +422,11 @@ abstract class _RoutePool implements RoutePool {
       _$RoutePoolImpl.fromJson;
 
   @override
-  @JsonKey(name: "route_id")
+  @JsonKey(name: "id")
   int get routeId;
+  @override
+  @JsonKey(name: "driver_id")
+  int get driverId;
   @override
   @JsonKey(name: "route_name")
   String get name;
@@ -439,10 +443,7 @@ abstract class _RoutePool implements RoutePool {
   @JsonKey(name: "estimated_duration_minutes")
   int? get duration;
   @override
-  OrderStatus get status;
-  @override
-  @JsonKey(name: "route_cost")
-  double get cost;
+  RouteStatus get status;
   @override
   @JsonKey(name: "created_at")
   DateTime get createdAt;

@@ -32,17 +32,34 @@ extension OrderStatusExtension on OrderStatus {
   }
 }
 
+enum RouteStatus { ACTIVE, INCOMPLETE, COMPLETE }
+
+extension RouteStatusExtension on RouteStatus {
+  String toStringValue() {
+    switch (this) {
+      case RouteStatus.ACTIVE:
+        return 'Active';
+      case RouteStatus.INCOMPLETE:
+        return 'In Complete';
+      case RouteStatus.COMPLETE:
+        return 'Completed';
+      default:
+        throw Exception('Unknown route status');
+    }
+  }
+}
+
 @freezed
 class RoutePool with _$RoutePool {
   const factory RoutePool(
-      {@JsonKey(name: "route_id") required int routeId,
+      {@JsonKey(name: "id") required int routeId,
+      @JsonKey(name: "driver_id") required int driverId,
       @JsonKey(name: "route_name") required String name,
       @JsonKey(name: "origin_address") Address? origin,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "distance_in_km") double? distance,
       @JsonKey(name: "estimated_duration_minutes") int? duration,
-      required OrderStatus status,
-      @Default(0) @JsonKey(name: "route_cost") double cost,
+      required RouteStatus status,
       @JsonKey(name: "created_at") required DateTime createdAt,
       @JsonKey(name: "updated_at") required DateTime updatedAt,
       // Driver? driver,
@@ -115,53 +132,3 @@ class DeliveryConfirmation with _$DeliveryConfirmation {
   factory DeliveryConfirmation.fromJson(Map<String, Object?> json) =>
       _$DeliveryConfirmationFromJson(json);
 }
-
-final dummyRoute = RoutePool(
-    routeId: -1,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    status: OrderStatus.PENDING,
-    distance: 10,
-    duration: 20,
-    origin:
-        const Address(lat: -1.167778, long: 36.973333, name: "Ruiru Warehouse"),
-    destination:
-        const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
-    name: "Mombasa RD",
-    orders: [
-      Order(
-        orderId: "#HDKJKDWFKHFHKW",
-        customerName: "James Maina",
-        customerPhone: "0791381653",
-        orderDate: DateTime.now(),
-        status: OrderStatus.PENDING,
-        route: -1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        destination:
-            const Address(lat: -1.25024, long: 36.94, name: "New Njiru"),
-      ),
-      Order(
-        orderId: "#HDKJKDWFKHFHKW",
-        customerName: "Elizabeth Gisiora",
-        customerPhone: "0792157084",
-        orderDate: DateTime.now(),
-        status: OrderStatus.PENDING,
-        route: -1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        destination: const Address(lat: 1.17, long: 36.57, name: "Utawala"),
-      ),
-      Order(
-        orderId: "#HDKJKDWFKHFHKW",
-        customerName: "Jonathan Onder",
-        customerPhone: "0798784724",
-        orderDate: DateTime.now(),
-        status: OrderStatus.PENDING,
-        route: -1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        destination:
-            const Address(lat: -1.359227, long: 36.937984, name: "Syokimau"),
-      ),
-    ]);

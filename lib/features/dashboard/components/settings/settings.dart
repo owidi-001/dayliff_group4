@@ -1,4 +1,5 @@
 import 'package:dayliff/data/local/local.dart';
+import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
@@ -177,6 +178,10 @@ class Settings extends StatelessWidget {
                                                           // Remove dialog
                                                           Navigator.of(context)
                                                               .pop();
+                                                          // Clear logins
+                                                          AuthenticationRepository
+                                                              .instance
+                                                              .logout();
                                                           // Redirect to login
                                                           Navigator.of(context)
                                                               .pushReplacement(

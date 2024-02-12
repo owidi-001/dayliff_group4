@@ -8,7 +8,8 @@ part of 'route.dart';
 
 _$RoutePoolImpl _$$RoutePoolImplFromJson(Map<String, dynamic> json) =>
     _$RoutePoolImpl(
-      routeId: json['route_id'] as int,
+      routeId: json['id'] as int,
+      driverId: json['driver_id'] as int,
       name: json['route_name'] as String,
       origin: json['origin_address'] == null
           ? null
@@ -19,8 +20,7 @@ _$RoutePoolImpl _$$RoutePoolImplFromJson(Map<String, dynamic> json) =>
               json['destination_address'] as Map<String, dynamic>),
       distance: (json['distance_in_km'] as num?)?.toDouble(),
       duration: json['estimated_duration_minutes'] as int?,
-      status: $enumDecode(_$OrderStatusEnumMap, json['status']),
-      cost: (json['route_cost'] as num?)?.toDouble() ?? 0,
+      status: $enumDecode(_$RouteStatusEnumMap, json['status']),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       orders: (json['orders'] as List<dynamic>?)
@@ -31,26 +31,23 @@ _$RoutePoolImpl _$$RoutePoolImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$RoutePoolImplToJson(_$RoutePoolImpl instance) =>
     <String, dynamic>{
-      'route_id': instance.routeId,
+      'id': instance.routeId,
+      'driver_id': instance.driverId,
       'route_name': instance.name,
       'origin_address': instance.origin,
       'destination_address': instance.destination,
       'distance_in_km': instance.distance,
       'estimated_duration_minutes': instance.duration,
-      'status': _$OrderStatusEnumMap[instance.status]!,
-      'route_cost': instance.cost,
+      'status': _$RouteStatusEnumMap[instance.status]!,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'orders': instance.orders,
     };
 
-const _$OrderStatusEnumMap = {
-  OrderStatus.ALL: 'ALL',
-  OrderStatus.PENDING: 'PENDING',
-  OrderStatus.TRANSIT: 'TRANSIT',
-  OrderStatus.PARTIAL: 'PARTIAL',
-  OrderStatus.COMPLETED: 'COMPLETED',
-  OrderStatus.CANCELLED: 'CANCELLED',
+const _$RouteStatusEnumMap = {
+  RouteStatus.ACTIVE: 'ACTIVE',
+  RouteStatus.INCOMPLETE: 'INCOMPLETE',
+  RouteStatus.COMPLETE: 'COMPLETE',
 };
 
 _$AddressImpl _$$AddressImplFromJson(Map<String, dynamic> json) =>
@@ -119,6 +116,15 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
       'updated_at': instance.updatedAt.toIso8601String(),
       'delivery_confirmation': instance.deliveryConfirmation,
     };
+
+const _$OrderStatusEnumMap = {
+  OrderStatus.ALL: 'ALL',
+  OrderStatus.PENDING: 'PENDING',
+  OrderStatus.TRANSIT: 'TRANSIT',
+  OrderStatus.PARTIAL: 'PARTIAL',
+  OrderStatus.COMPLETED: 'COMPLETED',
+  OrderStatus.CANCELLED: 'CANCELLED',
+};
 
 _$DeliveryConfirmationImpl _$$DeliveryConfirmationImplFromJson(
         Map<String, dynamic> json) =>

@@ -5,11 +5,12 @@ import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/complete_card.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/new_route_dialog.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/pool_card.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_tile.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/empty_list.dart';
+import 'package:dayliff/utils/error_container.dart';
 
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -215,69 +216,106 @@ class Schedules extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (context.read<OrderBloc>().state.status == ServiceStatus.initial) {
+      context.read<OrderBloc>().add(StartOrderBloc());
+    }
     return RefreshIndicator(
       onRefresh: () async {
         // Refresh orders
+        context.read<OrderBloc>().add(RefreshRoutes());
       },
-      child: SingleChildScrollView(
-          child: ListView(
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-            child: Text(
-              "Active Trip",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: StaticColors.dark),
-            ),
-          ),
-          // Active Order
-          AnimateInEffect(
-              keepAlive: true,
-              intervalStart: 0,
-              child: TripTile(
-                route: dummyRoute,
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Scheduled Trips",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: StaticColors.dark),
-                ),
-                Text(
-                  "0/2 Completed",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: StaticColors.dark),
-                ),
-              ],
-            ),
-          ),
-          // Scheduled route
-          ...List.generate(
-            5,
-            (index) => index % 2 == 0
-                ? const Divider(
-                    color: Colors.transparent,
-                  )
-                : AnimateInEffect(
-                    keepAlive: true,
-                    intervalStart: index / 5,
-                    child: TripTile(
-                      route: dummyRoute,
-                    )),
-          )
-        ],
+      child: SingleChildScrollView(child: BlocBuilder<OrderBloc, OrderState>(
+        builder: (context, state) {
+          if (state.status == ServiceStatus.loading) {
+            return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                itemBuilder: (context, index) => const RoutePoolShimmer());
+          }
+          if (state.status == ServiceStatus.loadingFailure) {
+            return ErrorContainerWidget(
+              description: "Failed to load scheduled routes",
+              onRefresh: () => context.read<OrderBloc>().add(StartOrderBloc()),
+            );
+          }
+
+          return Column(
+            children: [
+              BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  return state.activeRoute != null
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 16),
+                          child: Text(
+                            "Active Trip",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: StaticColors.dark),
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                },
+              ),
+              // Active Order
+              BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  return state.activeRoute != null
+                      ? AnimateInEffect(
+                          keepAlive: true,
+                          intervalStart: 0,
+                          child: TripTile(
+                            route: state.activeRoute!,
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                },
+              ),
+              Text(
+                "Scheduled Trips",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: StaticColors.dark),
+              ),
+              Text(
+                "${state.filteredPools.length}/${state.pools.length} Completed",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: StaticColors.dark),
+              ),
+              BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  return state.filteredPools.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: state.filteredPools.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 16),
+                            child: AnimateInEffect(
+                              keepAlive: true,
+                              intervalStart: index / 5,
+                              child: TripTile(
+                                route: state.filteredPools[index],
+                              ),
+                            ),
+                          ),
+                        )
+                      : EmptyListWidget(
+                          description: "No scheduled routes for now",
+                          onRefresh: () =>
+                              context.read<OrderBloc>().add(RefreshRoutes()),
+                        );
+                },
+              ),
+            ],
+          );
+        },
       )),
     );
   }

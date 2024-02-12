@@ -37,39 +37,33 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     });
     on<StartCheckOutBloc>(
       (event, emit) async {
-        // TODO! Remove this when endpoints are ready
-        emit(state.copyWith(
-            status: ServiceStatus.loadingSuccess,
-            pools: List.generate(10, (index) => dummyRoute),
-            message: "Loading success"));
+        // // TODO! Remove comments when endpoints are ready
+        // emit(
+        //   state.copyWith(
+        //     status: ServiceStatus.loading,
+        //   ),
+        // );
+        // // showLoading("Please wait");
 
-        // TODO! Remove comments when endpoints are ready
+        // final orders = await _orderCheckoutService.all();
+        // orders.when(
+        //   onError: (error) {
+        //     // showError(error.error);
         //     emit(
         //       state.copyWith(
-        //         status: ServiceStatus.loading,
+        //         status: ServiceStatus.loadingFailure,
         //       ),
         //     );
-        //     showLoading("Please wait");
-
-        //     final orders = await _orderCheckoutService.all();
-        //     orders.when(
-        //       onError: (error) {
-        //         showError(error.error);
-        //         emit(
-        //           state.copyWith(
-        //             status: ServiceStatus.loadingFailure,
-        //           ),
-        //         );
-        //       },
-        //       onSuccess: (data) {
-        //         // Removes loader: Prevents infinite loading after routes are fetched
-        //         EasyLoading.dismiss();
-        //         return emit(state.copyWith(
-        //           status: ServiceStatus.loadingSuccess,
-        //           pools: data,
-        //         ));
-        //       },
-        //     );
+        //   },
+        //   onSuccess: (data) {
+        //     // Removes loader: Prevents infinite loading after routes are fetched
+        //     // EasyLoading.dismiss();
+        //     return emit(state.copyWith(
+        //       status: ServiceStatus.loadingSuccess,
+        //       pools: data,
+        //     ));
+        //   },
+        // );
       },
     );
 

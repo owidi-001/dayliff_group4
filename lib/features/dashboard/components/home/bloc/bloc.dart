@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part "events.dart";
@@ -20,39 +21,54 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             status: ServiceStatus.loading,
           ),
         );
-        // TODO! remove when apis are ready
-        emit(
-          state.copyWith(
-            status: ServiceStatus.loadingSuccess,
-            pools: List.generate(
-              5,
-              (index) => dummyRoute,
-            ),
-            filteredPools: List.generate(
-              5,
-              (index) => dummyRoute,
-            ),
-          ),
-        );
-        // TODO! uncomment when apis are ready
-        // final orders = await _orderService.all();
 
-        // orders.when(
-        //   onError: (error) {
-        //     emit(
-        //       state.copyWith(
-        //           status: ServiceStatus.loadingFailure, message: error.error),
-        //     );
-        //   },
-        //   onSuccess: (data) {
-        //     return emit(state.copyWith(
-        //       status: ServiceStatus.loadingSuccess,
-        //       pools: data,
-        //     ));
-        //   },
-        // );
+        final res = await _orderService.all();
+
+        res.when(
+          onError: (error) {
+            emit(
+              state.copyWith(
+                  status: ServiceStatus.loadingFailure, message: error.error),
+            );
+          },
+          onSuccess: (data) {
+            // Set active route
+            final RoutePool active = data.firstWhere(
+              (element) => element.status == RouteStatus.ACTIVE,
+            );
+            // Remove active from schedules
+            final scheduled = data
+                .removeWhere((element) => element.routeId == active.routeId);
+
+            emit(
+              state.copyWith(
+                status: ServiceStatus.loadingSuccess,
+                activeRoute: active,
+                pools: data,
+              ),
+            );
+          },
+        );
       },
     );
+
+    // Refresh
+    on<RefreshRoutes>((event, emit) async {
+      final res = await _orderService.all();
+
+      res.when(
+        onError: (error) {
+          // Do nothing
+          debugPrint(error.error);
+        },
+        onSuccess: (data) {
+          return emit(state.copyWith(
+            status: ServiceStatus.loadingSuccess,
+            pools: data,
+          ));
+        },
+      );
+    });
 
     // Filter
     on<OrdersFiltered>(

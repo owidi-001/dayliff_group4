@@ -2,6 +2,19 @@ import 'package:dayliff/features/dashboard/components/home/models/route/route.da
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+Color getRouteStatusColor(RouteStatus status) {
+  switch (status) {
+    case RouteStatus.INCOMPLETE:
+      return Colors.red;
+    case RouteStatus.ACTIVE:
+      return Colors.blue;
+    case RouteStatus.COMPLETE:
+      return Colors.green;
+    default:
+      return Colors.blue;
+  }
+}
+
 Color getStatusColor(OrderStatus status) {
   switch (status) {
     case OrderStatus.CANCELLED:

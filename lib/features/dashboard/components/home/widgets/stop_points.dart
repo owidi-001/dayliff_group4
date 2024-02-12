@@ -169,14 +169,14 @@ class RouteDetails extends StatelessWidget {
                               horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color:
-                                  getStatusColor(pool.status).withOpacity(.1)),
+                              color: getRouteStatusColor(pool.status)
+                                  .withOpacity(.1)),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
                                 Icons.circle,
-                                color: getStatusColor(pool.status),
+                                color: getRouteStatusColor(pool.status),
                                 size: 8,
                               ),
                               const SizedBox(width: 8),
@@ -186,7 +186,8 @@ class RouteDetails extends StatelessWidget {
                                     .textTheme
                                     .titleSmall!
                                     .copyWith(
-                                        color: getStatusColor(pool.status)),
+                                        color:
+                                            getRouteStatusColor(pool.status)),
                               ),
                             ],
                           ),
