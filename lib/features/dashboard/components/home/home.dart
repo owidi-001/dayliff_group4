@@ -3,15 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/complete_card.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/pool_card.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_tile.dart';
+import 'package:dayliff/features/dashboard/components/settings/settings.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/empty_list.dart';
 import 'package:dayliff/utils/error_container.dart';
-
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +24,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool onDuty = true;
+
   @override
   Widget build(BuildContext context) {
     if (context.read<OrderBloc>().state.status == ServiceStatus.initial) {
@@ -38,17 +37,9 @@ class _HomeState extends State<Home> {
       animationDuration: const Duration(milliseconds: 800),
       child: SafeArea(
           child: Scaffold(
+        // drawerEnableOpenDragGesture: false,
+        // endDrawer: const Drawer(),
         backgroundColor: Colors.grey.shade200,
-        // floatingActionButton: FloatingActionButton.small(
-        //   onPressed: () {
-        //     showDialog(
-        //         context: context,
-        //         builder: (context) => NewRouteDialog(
-        //               pool: dummyRoute,
-        //             ));
-        //   },
-        //   child: const Icon(Icons.circle),
-        // ),
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -85,9 +76,10 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(right: 24, top: 16 / 2),
                   child: GestureDetector(
                     onTap: () {
-                      context
-                          .read<DashboardControllerBloc>()
-                          .add(DashboardEvent(1));
+                      print("Drawer clicked");
+                      // show drawer
+                      // Scaffold.of(context).openDrawer();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Settings()));
                     },
                     child: CachedNetworkImage(
                       imageUrl:
@@ -227,11 +219,16 @@ class Schedules extends StatelessWidget {
       child: SingleChildScrollView(child: BlocBuilder<OrderBloc, OrderState>(
         builder: (context, state) {
           if (state.status == ServiceStatus.loading) {
-            return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) => const TripShimmer());
+            return ListView.separated(
+              padding: const EdgeInsets.only(top: 16),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 5,
+              itemBuilder: (context, index) => const TripTileShadow(),
+              separatorBuilder: (context, index) => const Divider(
+                color: Colors.transparent,
+              ),
+            );
           }
           if (state.status == ServiceStatus.loadingFailure) {
             return ErrorContainerWidget(

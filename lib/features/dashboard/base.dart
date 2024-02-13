@@ -1,10 +1,11 @@
-import 'package:dayliff/features/dashboard/bloc/bloc.dart';
+import 'dart:async';
+
+import 'package:dayliff/data/repository/auth_repository.dart';
+import 'package:dayliff/features/auth/login.dart';
 import 'package:dayliff/features/dashboard/components/home/home.dart';
-import 'package:dayliff/features/dashboard/components/settings/settings.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -14,9 +15,23 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  late StreamSubscription<AuthenticationStatus> _subscription;
   @override
   void initState() {
     super.initState();
+    _subscription = AuthenticationRepository.instance.stream.listen((status) {
+      if (status == AuthenticationStatus.unauthenticated) {
+        // Navigate to login screen
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: ((context) => const Login())));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -35,47 +50,9 @@ class _DashboardState extends State<Dashboard> {
         statusBarColor: StaticColors.primary,
       ),
     );
-    return BlocBuilder<DashboardControllerBloc, DashboardState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.grey,
-          body: [const Home(), const Settings()][state.position],
-          bottomNavigationBar: NavigationBar(
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-              height: 50,
-              backgroundColor: StaticColors.primary,
-              selectedIndex: state.position,
-              onDestinationSelected: (value) {
-                context
-                    .read<DashboardControllerBloc>()
-                    .add(DashboardEvent(value));
-              },
-              destinations: [
-                NavigationDestination(
-                  selectedIcon: Icon(
-                    Icons.dashboard_rounded,
-                    color: StaticColors.primary,
-                  ),
-                  icon: Icon(
-                    Icons.dashboard_rounded,
-                    color: StaticColors.onPrimary,
-                  ),
-                  label: "Dashboard",
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(
-                    Icons.settings,
-                    color: StaticColors.primary,
-                  ),
-                  icon: Icon(
-                    Icons.settings,
-                    color: StaticColors.onPrimary,
-                  ),
-                  label: "Settings",
-                )
-              ]),
-        );
-      },
+    return const Scaffold(
+      backgroundColor: Colors.grey,
+      body: Home(),
     );
   }
 }

@@ -39,16 +39,18 @@ class SettingsTabs extends StatelessWidget {
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
-          isSwitch
-              ? CupertinoSwitch(
-                  value: true,
-                  onChanged: (value) {
-                    press!();
-                  })
-              : Icon(
-                  Icons.arrow_forward_ios,
-                  color: StaticColors.primary,
-                ),
+          press != null
+              ? isSwitch
+                  ? CupertinoSwitch(
+                      value: true,
+                      onChanged: (value) {
+                        press!();
+                      })
+                  : Icon(
+                      Icons.arrow_forward_ios,
+                      color: StaticColors.primary,
+                    )
+              : Container(),
         ],
       ),
     );

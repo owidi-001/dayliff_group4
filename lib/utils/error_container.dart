@@ -15,9 +15,14 @@ class ErrorContainerWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Illustrator image
-          SvgPicture.asset("assets/illustrations/error.svg",width: 200,
-            height: 200,)
-          ,
+          Padding(
+            padding: EdgeInsets.only(top: AppBar().preferredSize.height),
+            child: SvgPicture.asset(
+              "assets/illustrations/error.svg",
+              width: 150,
+              height: 150,
+            ),
+          ),
           const SizedBox(height: 20),
           // Text indicating empty list
           Text(

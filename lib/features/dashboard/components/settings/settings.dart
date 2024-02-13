@@ -1,13 +1,13 @@
-import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
-import 'package:dayliff/features/dashboard/components/settings/widgets/stat_card.dart';
+import 'package:dayliff/features/dashboard/components/settings/widgets/update_form.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -34,98 +34,32 @@ class Settings extends StatelessWidget {
                         SizedBox(
                           height: AppBar().preferredSize.height * 1.5,
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "My Stats",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              AnimateInEffect(
-                                keepAlive: true,
-                                intervalStart: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 8),
-                                  // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                  constraints:
-                                      const BoxConstraints(minHeight: 100),
-                                  decoration: BoxDecoration(
-                                    color: StaticColors.onPrimary,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: const Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: GridView.count(
-                                      padding: EdgeInsets.zero,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 8,
-                                      crossAxisSpacing: 8,
-                                      childAspectRatio: 1.8,
-                                      children: const [
-                                        StatCard(
-                                          label: "Complete",
-                                          finalValue: 512,
-                                          value: 0,
-                                        ),
-                                        StatCard(
-                                          label: "Assigned",
-                                          finalValue: 700,
-                                          value: 0,
-                                        ),
-                                        StatCard(
-                                          label: "Returned",
-                                          finalValue: 100,
-                                          value: 0,
-                                        ),
-                                        StatCard(
-                                          label: "Active",
-                                          finalValue: 88,
-                                          value: 0,
-                                        ),
-                                      ]),
-                                ),
-                              ),
-                            ],
-                          ),
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            return SectionContainer(
+                                title: "Account",
+                                children: [
+                                  SettingsTabs(
+                                      text: "${state.user?.name}",
+                                      icon: Icons.person,
+                                      press: null),
+                                  SettingsTabs(
+                                      text: "${state.user?.email}",
+                                      icon: Icons.email,
+                                      press: null),
+                                  SettingsTabs(
+                                      text: "${state.user?.phoneNumber}",
+                                      icon: Icons.phone,
+                                      press: null),
+                                ]);
+                          },
                         ),
                         AnimateInEffect(
                           keepAlive: true,
                           intervalStart: 0,
                           child: SectionContainer(
-                            title: "Account",
+                            title: "Settings",
                             children: [
-                              // SettingsTabs(
-                              //   text: "Update details",
-                              //   icon: Icons.person,
-                              //   press: () {
-                              //     // showInfo("Coming soon");
-                              //     ScaffoldMessenger.of(context).showSnackBar(
-                              //         const SnackBar(
-                              //             content: Text("Coming soon")));
-                              //   },
-                              // ),
                               SettingsTabs(
                                 text: "Log out",
                                 icon: Icons.logout,
@@ -212,49 +146,6 @@ class Settings extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        // SectionContainer(title: "Orders", children: [
-                        //   SettingsTabs(
-                        //     text: "Active Orders",
-                        //     icon: Icons.card_giftcard_sharp,
-                        //     press: () {
-                        //       // showInfo("Coming soon");
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //           const SnackBar(content: Text("Coming soon")));
-                        //     },
-                        //   ),
-                        //   SettingsTabs(
-                        //     text: "Pending Orders",
-                        //     icon: Icons.pending,
-                        //     press: () {
-                        //       // showInfo("Coming soon");
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //           const SnackBar(content: Text("Coming soon")));
-                        //     },
-                        //   ),
-                        //   SettingsTabs(
-                        //     text: "Completed Orders",
-                        //     icon: Icons.check_circle,
-                        //     press: () {
-                        //       // showInfo("Coming soon");
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //           const SnackBar(content: Text("Coming soon")));
-                        //     },
-                        //   ),
-                        // ]),
-
-                        // SectionContainer(title: "Security", children: [
-                        //   SettingsTabs(
-                        //     text: "Use biometrics",
-                        //     icon: Icons.fingerprint,
-                        //     press: () {
-                        //       // showInfo("Coming soon");
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //           const SnackBar(content: Text("Coming soon")));
-                        //     },
-                        //     isSwitch: true,
-                        //   ),
-                        // ]),
                         SizedBox(
                           height: AppBar().preferredSize.height,
                         ),
@@ -263,11 +154,31 @@ class Settings extends StatelessWidget {
               ],
             ),
             // Profile image
-            const Positioned(
+            Positioned(
               top: 130.0, // (background container size) - (circle height / 2)
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/avatar.jpg"),
-                radius: 70.0,
+              child: GestureDetector(
+                onLongPress: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) => Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextButton.icon(
+                                    icon: const Icon(FontAwesomeIcons.camera),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    label: const Text("Change profile picture"))
+                              ],
+                            ),
+                          ));
+                },
+                child: const CircleAvatar(
+                  backgroundImage: AssetImage("assets/avatar.jpg"),
+                  radius: 70.0,
+                ),
               ),
             ),
             Positioned(
@@ -275,20 +186,38 @@ class Settings extends StatelessWidget {
               left: 16,
               child: BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
-                  return Text(
-                    AppUtility.capitalize(state.user?.name ?? ''),
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: StaticColors.onPrimary),
+                  return Icon(
+                    FontAwesomeIcons.arrowLeft,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   );
                 },
               ),
             ),
+            // Positioned(
+            //   top: AppBar().preferredSize.height,
+            //   left: 16,
+            //   child: BlocBuilder<AuthBloc, AuthState>(
+            //     builder: (context, state) {
+            //       return Text(
+            //         AppUtility.capitalize(state.user?.name ?? ''),
+            //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            //             fontWeight: FontWeight.bold,
+            //             color: StaticColors.onPrimary),
+            //       );
+            //     },
+            //   ),
+            // ),
             Positioned(
               top: AppBar().preferredSize.height / 1.2,
               right: 16,
               child: IconButton.filled(
-                  onPressed: () {}, icon: const Icon(Icons.edit)),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const UpdateProfileDialog(),
+                    );
+                  },
+                  icon: const Icon(Icons.edit)),
             )
           ],
         ),

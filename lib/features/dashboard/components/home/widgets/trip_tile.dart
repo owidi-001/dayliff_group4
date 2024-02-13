@@ -1,6 +1,7 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/stop_points.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/skeleton_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -111,5 +112,88 @@ class TripTile extends StatelessWidget {
                 child: const Icon(Icons.chevron_right),
               )),
         ));
+  }
+}
+
+class TripTileShadow extends StatelessWidget {
+  const TripTileShadow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onPrimary,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        isThreeLine: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        leading: const Skeleton(child: Icon(Icons.fire_truck)),
+        title: Skeleton(
+          child: Container(
+            width: 50,
+            height: 12,
+            decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(.5),
+                borderRadius: BorderRadius.circular(4)),
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Skeleton(
+                child: Container(
+                  width: 150,
+                  height: 12,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(.5),
+                      borderRadius: BorderRadius.circular(4)),
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Skeleton(
+                    child: Icon(
+                      Icons.circle,
+                      size: 8,
+                    ),
+                  ),
+                ),
+                Skeleton(
+                    child: Container(
+                  width: 100,
+                  height: 12,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(.5),
+                      borderRadius: BorderRadius.circular(4)),
+                )),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Skeleton(
+                child: Container(
+                  width: 200,
+                  height: 12,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(.5),
+                      borderRadius: BorderRadius.circular(4)),
+                ),
+              ),
+            ),
+          ],
+        ),
+        trailing: const Skeleton(
+          child: Icon(Icons.chevron_right),
+        ),
+      ),
+    );
   }
 }
