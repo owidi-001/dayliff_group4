@@ -744,3 +744,187 @@ abstract class _User implements User {
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+ProfileData _$ProfileDataFromJson(Map<String, dynamic> json) {
+  return _ProfileData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProfileData {
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "phone_number")
+  String get phoneNumber => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProfileDataCopyWith<ProfileData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProfileDataCopyWith<$Res> {
+  factory $ProfileDataCopyWith(
+          ProfileData value, $Res Function(ProfileData) then) =
+      _$ProfileDataCopyWithImpl<$Res, ProfileData>;
+  @useResult
+  $Res call(
+      {String name,
+      @JsonKey(name: "phone_number") String phoneNumber,
+      String email});
+}
+
+/// @nodoc
+class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
+    implements $ProfileDataCopyWith<$Res> {
+  _$ProfileDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? phoneNumber = null,
+    Object? email = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ProfileDataImplCopyWith<$Res>
+    implements $ProfileDataCopyWith<$Res> {
+  factory _$$ProfileDataImplCopyWith(
+          _$ProfileDataImpl value, $Res Function(_$ProfileDataImpl) then) =
+      __$$ProfileDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      @JsonKey(name: "phone_number") String phoneNumber,
+      String email});
+}
+
+/// @nodoc
+class __$$ProfileDataImplCopyWithImpl<$Res>
+    extends _$ProfileDataCopyWithImpl<$Res, _$ProfileDataImpl>
+    implements _$$ProfileDataImplCopyWith<$Res> {
+  __$$ProfileDataImplCopyWithImpl(
+      _$ProfileDataImpl _value, $Res Function(_$ProfileDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? phoneNumber = null,
+    Object? email = null,
+  }) {
+    return _then(_$ProfileDataImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProfileDataImpl implements _ProfileData {
+  _$ProfileDataImpl(
+      {required this.name,
+      @JsonKey(name: "phone_number") required this.phoneNumber,
+      required this.email});
+
+  factory _$ProfileDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProfileDataImplFromJson(json);
+
+  @override
+  final String name;
+  @override
+  @JsonKey(name: "phone_number")
+  final String phoneNumber;
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'ProfileData(name: $name, phoneNumber: $phoneNumber, email: $email)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileDataImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, phoneNumber, email);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileDataImplCopyWith<_$ProfileDataImpl> get copyWith =>
+      __$$ProfileDataImplCopyWithImpl<_$ProfileDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProfileDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProfileData implements ProfileData {
+  factory _ProfileData(
+      {required final String name,
+      @JsonKey(name: "phone_number") required final String phoneNumber,
+      required final String email}) = _$ProfileDataImpl;
+
+  factory _ProfileData.fromJson(Map<String, dynamic> json) =
+      _$ProfileDataImpl.fromJson;
+
+  @override
+  String get name;
+  @override
+  @JsonKey(name: "phone_number")
+  String get phoneNumber;
+  @override
+  String get email;
+  @override
+  @JsonKey(ignore: true)
+  _$$ProfileDataImplCopyWith<_$ProfileDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

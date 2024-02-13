@@ -51,3 +51,17 @@ class User with _$User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
+
+
+
+
+@freezed
+class ProfileData with _$ProfileData {
+  factory ProfileData({
+    required String name,
+    @JsonKey(name: "phone_number") required String phoneNumber,
+    required String email,
+  }) = _ProfileData;
+
+  factory ProfileData.fromJson(Map<String, dynamic> json) => _$ProfileDataFromJson(json);
+}

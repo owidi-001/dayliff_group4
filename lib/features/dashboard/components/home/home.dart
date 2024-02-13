@@ -76,10 +76,11 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(right: 24, top: 16 / 2),
                   child: GestureDetector(
                     onTap: () {
-                      print("Drawer clicked");
-                      // show drawer
-                      // Scaffold.of(context).openDrawer();
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Settings()));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const Settings(),
+                        ),
+                      );
                     },
                     child: CachedNetworkImage(
                       imageUrl:

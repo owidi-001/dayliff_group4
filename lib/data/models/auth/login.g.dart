@@ -60,3 +60,17 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'status': instance.status,
       'role': instance.role,
     };
+
+_$ProfileDataImpl _$$ProfileDataImplFromJson(Map<String, dynamic> json) =>
+    _$ProfileDataImpl(
+      name: json['name'] as String,
+      phoneNumber: json['phone_number'] as String,
+      email: json['email'] as String,
+    );
+
+Map<String, dynamic> _$$ProfileDataImplToJson(_$ProfileDataImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'phone_number': instance.phoneNumber,
+      'email': instance.email,
+    };

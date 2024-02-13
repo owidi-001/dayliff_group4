@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
+import 'package:dayliff/features/dashboard/components/settings/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/settings/widgets/password_change.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/update_form.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -58,8 +63,18 @@ class Settings extends StatelessWidget {
                           keepAlive: true,
                           intervalStart: 0,
                           child: SectionContainer(
-                            title: "Settings",
+                            title: "Security",
                             children: [
+                              SettingsTabs(
+                                text: "Change Password",
+                                icon: FontAwesomeIcons.lock,
+                                press: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          const PasswordChangeForm());
+                                },
+                              ),
                               SettingsTabs(
                                 text: "Log out",
                                 icon: Icons.logout,
@@ -137,10 +152,6 @@ class Settings extends StatelessWidget {
                                               ),
                                             ),
                                           ));
-                                  // showInfo("Coming soon");
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  // const SnackBar(
-                                  //     content: Text("Coming soon")));
                                 },
                               ),
                             ],
@@ -156,68 +167,94 @@ class Settings extends StatelessWidget {
             // Profile image
             Positioned(
               top: 130.0, // (background container size) - (circle height / 2)
-              child: GestureDetector(
-                onLongPress: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) => Container(
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextButton.icon(
-                                    icon: const Icon(FontAwesomeIcons.camera),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    label: const Text("Change profile picture"))
-                              ],
+              child: BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      buildProfileImage(state),
+                      Positioned(
+                        bottom: 8,
+                        right: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          padding: const EdgeInsets.all(2),
+                          child: CircleAvatar(
+                            child: IconButton(
+                              onPressed: () {
+                                // showModalBottomSheet(
+                                //     context: context,
+                                //     builder: (context) => Container(
+                                //           padding: const EdgeInsets.all(8),
+                                //           child: Column(
+                                //             mainAxisSize: MainAxisSize.min,
+                                //             children: [
+                                //               TextButton.icon(
+                                //                   icon: const Icon(
+                                //                       FontAwesomeIcons.camera),
+                                //                   onPressed: () {
+                                //                     Navigator.of(context).pop();
+                                //                   },
+                                //                   label: const Text(
+                                //                       "Change profile picture"))
+                                //             ],
+                                //           ),
+                                //         ));
+
+                                // Dispatch event to change profile picture
+                                context
+                                    .read<SettingsBloc>()
+                                    .add(ChangeProfilePic());
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.camera,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                              ),
                             ),
-                          ));
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
                 },
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage("assets/avatar.jpg"),
-                  radius: 70.0,
-                ),
               ),
             ),
             Positioned(
               top: AppBar().preferredSize.height,
               left: 16,
-              child: BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return Icon(
-                    FontAwesomeIcons.arrowLeft,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  );
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
                 },
+                child: Icon(
+                  FontAwesomeIcons.arrowLeft,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
-            // Positioned(
-            //   top: AppBar().preferredSize.height,
-            //   left: 16,
-            //   child: BlocBuilder<AuthBloc, AuthState>(
-            //     builder: (context, state) {
-            //       return Text(
-            //         AppUtility.capitalize(state.user?.name ?? ''),
-            //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            //             fontWeight: FontWeight.bold,
-            //             color: StaticColors.onPrimary),
-            //       );
-            //     },
-            //   ),
-            // ),
             Positioned(
               top: AppBar().preferredSize.height / 1.2,
               right: 16,
               child: IconButton.filled(
-                  onPressed: () {
-                    showDialog(
+                onPressed: () {
+                  // showDialog(
+                  //     useRootNavigator: true,
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return const UpdateProfileDialog();
+                  //     });
+                  showDialog(
                       context: context,
-                      builder: (context) => const UpdateProfileDialog(),
-                    );
-                  },
-                  icon: const Icon(Icons.edit)),
+                      builder: (context) {
+                        return const UpdateProfileDialog();
+                      });
+                },
+                icon: const Icon(Icons.edit),
+              ),
             )
           ],
         ),
@@ -274,6 +311,22 @@ class SectionContainer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+Widget buildProfileImage(SettingsState state) {
+  if (state.profilePicture != null) {
+    return CircleAvatar(
+      backgroundImage: MemoryImage(
+        Uint8List.fromList(base64Decode(state.profilePicture!)),
+      ),
+      radius: 70.0,
+    );
+  } else {
+    return const CircleAvatar(
+      backgroundImage: AssetImage("assets/avatar.jpg"),
+      radius: 70.0,
     );
   }
 }

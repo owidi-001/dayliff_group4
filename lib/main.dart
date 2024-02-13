@@ -3,6 +3,7 @@ import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/settings/bloc/bloc.dart';
 import 'package:dayliff/splash.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => orderBloc),
+          BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(create: (context) => CheckOutBloc(orderBloc))
         ],
         child: MaterialApp(

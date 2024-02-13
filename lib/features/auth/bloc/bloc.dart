@@ -60,5 +60,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // Save to repository
       AuthenticationRepository.instance.logout();
     });
+
+    on<UpdateProfile>((event, emit) async {
+      final res = await _authService.updateProfile(event.data);
+      res.when(onError: (error) {
+
+      }, onSuccess: (date) {
+        
+      });
+    });
   }
 }

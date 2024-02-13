@@ -1,9 +1,7 @@
-import 'dart:io';
+// ignore_for_file: invalid_annotation_target
 
-import 'package:dayliff/data/models/auth/login.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-
 
 part 'driver.freezed.dart';
 part 'driver.g.dart';

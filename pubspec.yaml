@@ -62,6 +62,7 @@ dependencies:
   glassmorphism: ^3.0.0
   video_player: ^2.8.2
   lottie: ^3.0.0
+  path_provider: ^2.1.2
   
 
 dev_dependencies:

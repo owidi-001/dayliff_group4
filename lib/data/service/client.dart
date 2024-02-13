@@ -16,6 +16,18 @@ class AuthService {
         );
         return value;
       });
+
+  HttpResult<dynamic> changePassword(String current, String newP) {
+    return Http.post("change-password", {"current": current, "new": newP});
+  }
+
+  HttpResult<String> updateProfile(ProfileData request) {
+    return Http.post(
+      "users/${AuthenticationRepository.instance.user?.id}",
+      request.toJson(),
+      deserializer: (data) => data["message"],
+    );
+  }
 }
 
 class OrderService {

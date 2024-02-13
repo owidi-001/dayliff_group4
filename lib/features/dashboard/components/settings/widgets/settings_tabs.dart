@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 
 class SettingsTabs extends StatelessWidget {
   const SettingsTabs(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.icon,
       this.press,
-      this.isSwitch = false})
-      : super(key: key);
+      this.isSwitch = false});
 
   final String text;
   final IconData? icon;

@@ -28,3 +28,9 @@ class LocalLogin extends AuthEvent {
 }
 
 class LogoutEvent extends AuthEvent {}
+
+class UpdateProfile extends AuthEvent {
+  final ProfileData data;
+
+  UpdateProfile({required this.data});
+}

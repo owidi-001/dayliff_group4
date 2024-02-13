@@ -1,3 +1,4 @@
+import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -23,77 +24,99 @@ class _UpdateProfileDialogState extends State<UpdateProfileDialog> {
     final _user = AuthenticationRepository.instance.user;
     _name.text = _user?.name ?? "";
     _email.text = _user?.email ?? "";
-    _phone.text = _user?.email ?? "";
+    _phone.text = _user?.phoneNumber ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return AlertDialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Form(
-        key: _formKey,
-        child: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Update Profile',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  TextFormField(
-                    controller: _name,
-                    decoration: const InputDecoration(labelText: 'Name'),
-                    onChanged: (value) => {},
-                  ),
-                  TextFormField(
-                    controller: _email,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                    onChanged: (value) {},
-                  ),
-                  TextFormField(
-                    controller: _phone,
-                    decoration: const InputDecoration(labelText: 'Phone'),
-                    onChanged: (value) {},
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          child: const Text('Save Changes'),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("In progress"),
-                                ),
-                              );
-                              // TODO
-                              Navigator.of(context).pop();
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
+      content: Container(
+        width: MediaQuery.sizeOf(context).width,
+        child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _name,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a name';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(hintText: "Full Names"),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                TextFormField(
+                  controller: _email,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter an email address';
+                    }
+
+                    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                        .hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
+
+                    return null;
+                  },
+                  decoration: const InputDecoration(hintText: "Email Address"),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                TextFormField(
+                  controller: _phone,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a phone number';
+                    }
+
+                    if (value.length < 10) {
+                      return 'Phone number must be at least 10 digits';
+                    }
+
+                    return null;
+                  },
+                  decoration: const InputDecoration(hintText: "Phone number"),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+              ],
+            )),
+      ),
+      title: const Text('Profile update'),
+      actions: <Widget>[
+        InkWell(
+          child: const Text('Cancel'),
+          onTap: () {
+            Navigator.of(context).pop();
           },
         ),
-      ),
+        TextButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                context.read<AuthBloc>().add(
+                      UpdateProfile(
+                        data: ProfileData(
+                            name: _name.text,
+                            phoneNumber: _phone.text,
+                            email: _email.text),
+                      ),
+                    );
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text("Save"))
+      ],
     );
   }
 }
