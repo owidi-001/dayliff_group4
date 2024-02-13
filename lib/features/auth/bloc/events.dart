@@ -20,7 +20,7 @@ class LoginEvent extends AuthEvent {
 class LocalLogin extends AuthEvent {
   final LoginResponse data;
 
-  LocalLogin({required this.data});
+  const LocalLogin({required this.data});
 
   @override
   // TODO: implement props
@@ -32,5 +32,5 @@ class LogoutEvent extends AuthEvent {}
 class UpdateProfile extends AuthEvent {
   final ProfileData data;
 
-  UpdateProfile({required this.data});
+  const UpdateProfile({required this.data});
 }

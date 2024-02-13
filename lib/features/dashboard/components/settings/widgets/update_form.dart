@@ -2,6 +2,7 @@ import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateProfileDialog extends StatefulWidget {
@@ -74,15 +75,17 @@ class _UpdateProfileDialogState extends State<UpdateProfileDialog> {
                 ),
                 TextFormField(
                   controller: _phone,
+                  // inputFormatters: [
+                  //   FilteringTextInputFormatter.digitsOnly,
+                  //   LengthLimitingTextInputFormatter(12)
+                  // ],
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a phone number';
+                    if (value!.length < 10) {
+                      return 'Please enter a valid phone number';
                     }
-
-                    if (value.length < 10) {
-                      return 'Phone number must be at least 10 digits';
+                    if (!RegExp(r'^(07|01|2541|2547)\d{8}$').hasMatch(value)) {
+                      return 'Please enter a valid phone number';
                     }
-
                     return null;
                   },
                   decoration: const InputDecoration(hintText: "Phone number"),

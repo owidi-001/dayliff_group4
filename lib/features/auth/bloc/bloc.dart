@@ -32,7 +32,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           },
           onSuccess: (data) {
             emit(state.copyWith(message: "Welcome ${data.user.name}"));
-
             add(LocalLogin(data: data));
           },
         );
@@ -62,11 +61,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<UpdateProfile>((event, emit) async {
+      emit(
+        state.copyWith(
+            message: "Updating profile",
+            status: ServiceStatus.submissionInProgress),
+      );
       final res = await _authService.updateProfile(event.data);
       res.when(onError: (error) {
-
-      }, onSuccess: (date) {
-        
+        emit(
+          state.copyWith(message: error.error),
+        );
+      }, onSuccess: (data) {
+        final updatedUserData = state.user!.copyWith(
+            email: event.data.email,
+            phoneNumber: event.data.phoneNumber,
+            name: event.data.name);
+        // Update profile data
+        emit(state.copyWith(message: data, user: updatedUserData));
+        // Update local storage
       });
     });
   }

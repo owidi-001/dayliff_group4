@@ -42,17 +42,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     // Update password
     on<ChangePassword>((event, emit) async {
+      emit(state.copyWith(
+          message: "Please wait", status: ServiceStatus.submissionInProgress));
       final res = await _authService.changePassword(
           event.currentPassword, event.newPassword);
 
-      res.when(
-          onError: (error) {},
-          onSuccess: (data) {
-            // Logout user
-            _repository.logout();
-            // Show success message and prompt to log in with new password
-            emit(const SettingsState());
-          });
+      res.when(onError: (error) {
+        emit(state.copyWith(
+            message: error.error, status: ServiceStatus.submissionFailure));
+      }, onSuccess: (data) {
+        emit(state.copyWith(
+            message: data, status: ServiceStatus.submissionSuccess));
+        // Logout user
+        _repository.logout();
+        // Show success message and prompt to log in with new password
+        emit(const SettingsState());
+      });
     });
   }
 }

@@ -22,7 +22,7 @@ class AuthService {
   }
 
   HttpResult<String> updateProfile(ProfileData request) {
-    return Http.post(
+    return Http.put(
       "users/${AuthenticationRepository.instance.user?.id}",
       request.toJson(),
       deserializer: (data) => data["message"],
