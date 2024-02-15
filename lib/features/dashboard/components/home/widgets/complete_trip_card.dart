@@ -50,7 +50,7 @@ class CompleteCard extends StatelessWidget {
                 "PENDING",
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: AppUtility.getStatusColor(
-                        OrderStatus.PENDING, context)),
+                        OrderStatus.Incomplete, context)),
               )
             ],
           ),

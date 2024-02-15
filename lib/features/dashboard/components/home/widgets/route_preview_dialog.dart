@@ -1,8 +1,10 @@
 import 'package:dayliff/features/auth/widgets/form.dart';
+import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
 import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RouteDetails extends StatelessWidget {
@@ -77,7 +79,7 @@ class RouteDetails extends StatelessWidget {
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            trip.route.origin!.name!,
+                            trip.route.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -98,7 +100,7 @@ class RouteDetails extends StatelessWidget {
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            trip.route.destination!.name!,
+                            trip.destination!.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -201,18 +203,38 @@ class RouteDetails extends StatelessWidget {
               color: Colors.transparent,
             ),
             Center(child: StopperWidget(trip: trip)),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: PrimaryButton(
-                  hint: "Start trip",
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => RouteView(
-                              routeId: trip.id,
-                            )));
-                  }),
-            )
+            trip.status != TripStatus.Incomplete
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: PrimaryButton(
+                        hint: "Continue",
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RouteView(
+                                    routeId: trip.id,
+                                  )));
+                        }),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: PrimaryButton(
+                        hint: "Start trip",
+                        onTap: () {
+                          // Close the dialog
+                          Navigator.of(context).pop();
+                          // Go to next page
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RouteView(
+                                    routeId: trip.id,
+                                  )));
+
+                          // Send coordinates
+                          context.read<OrderBloc>().add(StartTrip(id: trip.id));
+                        }),
+                  )
           ],
         ),
       ),
@@ -231,7 +253,7 @@ class StopperWidget extends StatelessWidget {
       steps: [
         Step(
           title: const Text("Origin"),
-          subtitle: Text(trip.route.origin!.name!),
+          subtitle: Text(trip.origin!.name!),
           content: Container(),
           isActive: false,
         ),

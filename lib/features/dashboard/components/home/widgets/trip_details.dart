@@ -13,6 +13,8 @@ class TripDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       insetPadding: EdgeInsets.symmetric(
           horizontal: 16, vertical: AppBar().preferredSize.height),
       child: SingleChildScrollView(
@@ -25,7 +27,7 @@ class TripDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Route Details",
+                    "Trip Details",
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!
@@ -43,11 +45,15 @@ class TripDetails extends StatelessWidget {
               height: 4,
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 FontAwesomeIcons.route,
                 size: 36,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              title: Text(trip.route.name),
+              title: Text(
+                trip.route.name,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               subtitle: Text(
                 formatDate(trip.date),
                 style: Theme.of(context).textTheme.bodySmall,
@@ -70,14 +76,14 @@ class TripDetails extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            "From",
+                            "Courrier",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            trip.route.origin!.name!,
+                            trip.courier!.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -91,14 +97,14 @@ class TripDetails extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            "To",
+                            "Vehicle",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            trip.route.destination!.name!,
+                            trip.vehicle!.plateNumber!,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -134,14 +140,14 @@ class TripDetails extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            "Weight",
+                            "Tonnage",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
                                 .copyWith(color: Colors.grey),
                           ),
                           subtitle: Text(
-                            "240 KG",
+                            "${trip.vehicle?.tonnage}",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
@@ -233,22 +239,29 @@ class StopperWidget extends StatelessWidget {
       type: StepperType.vertical,
       steps: [
         Step(
+          state: StepState.indexed,
           title: const Text("Origin"),
-          subtitle: Text(trip.route.origin!.name!),
+          subtitle: Text(trip.origin!.name!),
           content: Container(),
-          isActive: false,
+          isActive: trip.status != TripStatus.Complete,
         ),
-        ...List<Step>.generate(
-          trip.orders.length,
-          (index) => Step(
-            title: Text(index == trip.orders.length - 1
-                ? "Destination"
-                : "Stop ${index + 1}"),
-            subtitle: Text(trip.orders[index].destination!.name!),
-            content: Container(),
-            isActive: false,
-          ),
+        Step(
+          title: const Text("Destination"),
+          subtitle: Text(trip.destination!.name!),
+          content: Container(),
+          isActive: trip.status == TripStatus.Complete,
         ),
+        // ...List<Step>.generate(
+        //   trip.orders.length,
+        //   (index) => Step(
+        //     title: Text(index == trip.orders.length - 1
+        //         ? "Destination"
+        //         : "Stop ${index + 1}"),
+        //     subtitle: Text(trip.orders[index].destination!.name!),
+        //     content: Container(),
+        //     isActive: false,
+        //   ),
+        // ),
       ],
       controlsBuilder: (context, details) => const SizedBox.shrink(),
       physics: const NeverScrollableScrollPhysics(),

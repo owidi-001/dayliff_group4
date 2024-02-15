@@ -8,7 +8,7 @@ class OrderState extends Equatable {
   final ServiceStatus status;
   final List<File> orderImages;
   final Order? orderOnConfirmation;
-  final OrderStatus filter;
+  // final OrderStatus filter;
 
   const OrderState(
       {this.pools = const [],
@@ -18,7 +18,8 @@ class OrderState extends Equatable {
       this.status = ServiceStatus.initial,
       this.orderImages = const [],
       this.orderOnConfirmation,
-      this.filter = OrderStatus.ALL});
+      // this.filter = OrderStatus.ALL
+      });
 
   OrderState copyWith(
       {List<Trip>? pools,
@@ -35,7 +36,7 @@ class OrderState extends Equatable {
         filteredPools: filteredPools ?? this.filteredPools,
         message: message,
         status: status ?? this.status,
-        filter: filter ?? this.filter,
+        // filter: filter ?? this.filter,
         orderImages: orderImages ?? this.orderImages,
         orderOnConfirmation: orderOnConfirmation ?? this.orderOnConfirmation);
   }
@@ -46,7 +47,7 @@ class OrderState extends Equatable {
         activeRoute,
         pools,
         status,
-        filter,
+        // filter,
         filteredPools,
         orderImages,
         orderOnConfirmation

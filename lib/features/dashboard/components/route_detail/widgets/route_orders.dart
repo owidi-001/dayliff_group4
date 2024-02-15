@@ -57,7 +57,7 @@ class RouteOrders extends StatelessWidget {
                             text: "Name: ",
                             children: [
                               TextSpan(
-                                  text: trip.orders[index].customer.name,
+                                  text: trip.orders[index].customerPhone,
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -76,7 +76,7 @@ class RouteOrders extends StatelessWidget {
                           text: "Phone: ",
                           children: [
                             TextSpan(
-                                text: trip.orders[index].customer.name,
+                                text: trip.orders[index].customerName,
                                 style: TextStyle(color: StaticColors.primary))
                           ],
                           style:
@@ -111,7 +111,7 @@ class RouteOrders extends StatelessWidget {
                             context: context,
                             builder: (context) => OrderDialog(
                                 order: trip.orders[index],
-                                routeName: trip.route.origin!.name!));
+                                routeName: trip.origin!.name!));
                       },
                       child: CircleAvatar(
                           backgroundColor: StaticColors.primary,

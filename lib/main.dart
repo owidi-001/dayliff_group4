@@ -6,13 +6,20 @@ import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/settings/bloc/bloc.dart';
 import 'package:dayliff/splash.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   setUpService();
   await dotenv.load(fileName: ".env");
+
+  debugDefaultTargetPlatformOverride = TargetPlatform.android;
+
+  kNotificationSlideDuration = const Duration(milliseconds: 500);
+  kNotificationDuration = const Duration(milliseconds: 1500);
 
   runApp(const MyApp());
 }
@@ -31,53 +38,55 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(create: (context) => CheckOutBloc(orderBloc))
         ],
-        child: MaterialApp(
-          title: 'Dayliff cargoflow',
-          debugShowCheckedModeBanner: false,
-          // theme: ThemeData(
-          //   colorScheme:
-          //       ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
-          //   useMaterial3: true,
-          // ),
-          theme: ThemeData(
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
-            primaryColor: const Color(0xff0082d6),
-            appBarTheme: AppBarTheme(
+        child: OverlaySupport.global(
+          child: MaterialApp(
+            title: 'Dayliff cargoflow',
+            debugShowCheckedModeBanner: false,
+            // theme: ThemeData(
+            //   colorScheme:
+            //       ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
+            //   useMaterial3: true,
+            // ),
+            theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
+              primaryColor: const Color(0xff0082d6),
+              appBarTheme: AppBarTheme(
+                  backgroundColor: StaticColors.primary,
+                  foregroundColor: StaticColors.onPrimary),
+              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                selectedItemColor: Color(0xff0082d6),
+              ),
+              buttonTheme: ButtonThemeData(
+                buttonColor: StaticColors.primary,
+                textTheme: ButtonTextTheme.primary,
+              ),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(
+                    Color(0xff0082d6),
+                  ),
+                  foregroundColor: MaterialStatePropertyAll(
+                    StaticColors.onPrimary,
+                  ),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              navigationBarTheme: NavigationBarThemeData(
                 backgroundColor: StaticColors.primary,
-                foregroundColor: StaticColors.onPrimary),
-            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              selectedItemColor: Color(0xff0082d6),
-            ),
-            buttonTheme: ButtonThemeData(
-              buttonColor: StaticColors.primary,
-              textTheme: ButtonTextTheme.primary,
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ButtonStyle(
-                backgroundColor: const MaterialStatePropertyAll(
-                  Color(0xff0082d6),
-                ),
-                foregroundColor: MaterialStatePropertyAll(
-                  StaticColors.onPrimary,
-                ),
-                shape: MaterialStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                labelTextStyle: MaterialStatePropertyAll(
+                  TextStyle(
+                    color: StaticColors.onPrimary,
                   ),
                 ),
               ),
             ),
-            navigationBarTheme: NavigationBarThemeData(
-              backgroundColor: StaticColors.primary,
-              labelTextStyle: MaterialStatePropertyAll(
-                TextStyle(
-                  color: StaticColors.onPrimary,
-                ),
-              ),
-            ),
+            home: const Splash(),
           ),
-          home: const Splash(),
         ));
   }
 }

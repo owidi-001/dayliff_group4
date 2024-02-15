@@ -1,7 +1,7 @@
 part of 'bloc.dart';
 
 class AuthState extends Equatable {
-  final String? message;
+  final AppMessage? message;
   final ServiceStatus status;
   final bool loginSuccess;
   final User? user;
@@ -18,7 +18,7 @@ class AuthState extends Equatable {
   });
 
   AuthState copyWith({
-    String? message,
+    AppMessage? message,
     ServiceStatus? status,
     bool? loginSuccess,
     User? user,

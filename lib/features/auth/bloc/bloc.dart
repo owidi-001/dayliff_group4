@@ -1,4 +1,5 @@
 import 'package:dayliff/data/models/auth/login.dart';
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:equatable/equatable.dart';
@@ -17,7 +18,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           state.copyWith(
               status: ServiceStatus.submissionInProgress,
-              message: "Authenticating driver..."),
+              message: AppMessage(
+                  message: "Authenticating driver...", tone: MessageTone.info)),
         );
 
         final res = await _authService
@@ -27,11 +29,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(
               state.copyWith(
                   status: ServiceStatus.submissionFailure,
-                  message: error.error),
+                  message: AppMessage(
+                      message: error.error, tone: MessageTone.error)),
             );
           },
           onSuccess: (data) {
-            emit(state.copyWith(message: "Welcome ${data.user.name}"));
+            emit(state.copyWith(
+                message: AppMessage(
+                    message: "Welcome ${data.user.name}",
+                    tone: MessageTone.success)));
             add(LocalLogin(data: data));
           },
         );
@@ -63,13 +69,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UpdateProfile>((event, emit) async {
       emit(
         state.copyWith(
-            message: "Updating profile",
+            message:
+                AppMessage(message: "Updating profile", tone: MessageTone.info),
             status: ServiceStatus.submissionInProgress),
       );
       final res = await _authService.updateProfile(event.data);
       res.when(onError: (error) {
         emit(
-          state.copyWith(message: error.error),
+          state.copyWith(
+              message:
+                  AppMessage(message: error.error, tone: MessageTone.error)),
         );
       }, onSuccess: (data) {
         final updatedUserData = state.user!.copyWith(
@@ -77,7 +86,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             phoneNumber: event.data.phoneNumber,
             name: event.data.name);
         // Update profile data
-        emit(state.copyWith(message: data, user: updatedUserData));
+        emit(state.copyWith(
+            message: AppMessage(message: data, tone: MessageTone.success),
+            user: updatedUserData));
         // Update local storage
       });
     });

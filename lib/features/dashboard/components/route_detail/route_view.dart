@@ -125,20 +125,20 @@ class OrderCard extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading: const Icon(FontAwesomeIcons.person),
               title: Text(
-                order.customer.name,
+                order.customerName,
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(order.customer.name),
+              subtitle: Text(order.customerName),
               trailing: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   GestureDetector(
                     onTap: () {
-                      AppUtility.makeCall(order.customer.name);
+                      AppUtility.makeCall(order.customerName);
                     },
                     child: CircleAvatar(
                         child: Icon(
@@ -237,7 +237,7 @@ class OrderDialog extends StatelessWidget {
                 size: 36,
               ),
               title: Text(
-                order.orderId!,
+                "${order.orderId!}",
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -262,20 +262,20 @@ class OrderDialog extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(FontAwesomeIcons.person),
                 title: Text(
-                  order.customer.name,
+                  order.customerName,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(order.customer.phoneNumber),
+                subtitle: Text(order.customerPhone),
                 trailing: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
                       onTap: () {
-                        AppUtility.makeCall(order.customer.phoneNumber);
+                        AppUtility.makeCall(order.customerPhone);
                       },
                       child: CircleAvatar(
                           child: Icon(
@@ -401,7 +401,7 @@ class _StartHandOverState extends State<StartHandOver> {
                 size: 36,
               ),
               title: Text(
-                widget.order.orderId!,
+                "${widget.order.orderId!}",
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -426,20 +426,20 @@ class _StartHandOverState extends State<StartHandOver> {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(FontAwesomeIcons.person),
                 title: Text(
-                  widget.order.customer.name,
+                  widget.order.customerName,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(widget.order.customer.phoneNumber),
+                subtitle: Text(widget.order.customerPhone),
                 trailing: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
                       onTap: () {
-                        AppUtility.makeCall(widget.order.customer.phoneNumber);
+                        AppUtility.makeCall(widget.order.customerPhone);
                       },
                       child: CircleAvatar(
                           child: Icon(

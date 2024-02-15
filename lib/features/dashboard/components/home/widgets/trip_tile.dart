@@ -1,5 +1,5 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/stop_points.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/trip_details.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/skeleton_widget.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +87,7 @@ class TripTile extends StatelessWidget {
                                     .bodySmall!
                                     .copyWith(color: StaticColors.primary)),
                             TextSpan(
-                                text: "${trip.route.duration}",
+                                text: "${trip.duration}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!

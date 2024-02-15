@@ -4,6 +4,7 @@ import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/complete_card.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_tile.dart';
 import 'package:dayliff/features/dashboard/components/settings/settings.dart';
@@ -271,36 +272,43 @@ class Schedules extends StatelessWidget {
                       : const SizedBox.shrink();
                 },
               ),
-              Text(
-                "Scheduled Trips",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: StaticColors.dark),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Scheduled Trips",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: StaticColors.dark),
+                    ),
+                    Text(
+                      "${state.pools.where((element) => element.status == TripStatus.Complete).length}/${state.pools.length} Completed",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: StaticColors.dark),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                "${state.filteredPools.length}/${state.pools.length} Completed",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: StaticColors.dark),
-              ),
+
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
                   return state.filteredPools.isNotEmpty
                       ? ListView.builder(
+                          padding: EdgeInsets.zero,
                           itemCount: state.filteredPools.length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 16),
-                            child: AnimateInEffect(
-                              keepAlive: true,
-                              intervalStart: index / 5,
-                              child: TripTile(
-                                trip: state.filteredPools[index],
-                              ),
+                          itemBuilder: (context, index) => AnimateInEffect(
+                            keepAlive: true,
+                            intervalStart: index / 5,
+                            child: TripTile(
+                              trip: state.filteredPools[index],
                             ),
                           ),
                         )

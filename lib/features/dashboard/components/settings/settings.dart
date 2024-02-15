@@ -8,6 +8,7 @@ import 'package:dayliff/features/dashboard/components/settings/widgets/password_
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/update_form.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +25,8 @@ class Settings extends StatelessWidget {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.message != null) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.message!)));
+       
+              showOverlayMessage(state.message!);
             }
           },
           listenWhen: (previous, current) =>

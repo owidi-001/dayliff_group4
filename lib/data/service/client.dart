@@ -32,9 +32,17 @@ class AuthService {
 
 class OrderService {
   HttpResult<List<Trip>> all() => Http.get(
-        "/routes/",
+        "userdetails/${AuthenticationRepository.instance.user?.id}",
         deserializer: (data) => List<Trip>.from(
-            data["routes"].map((e) => Trip.fromJson(e)).toList()),
+            data.map((e) => Trip.fromJson(e)).toList()),
+      );
+
+      // 
+      
+      HttpResult<List<Trip>> startTrip(LatLng coordinates,int routeId) => Http.get(
+        "userdetails/${AuthenticationRepository.instance.user?.id}",
+        deserializer: (data) => List<Trip>.from(
+            data.map((e) => Trip.fromJson(e)).toList()),
       );
 }
 

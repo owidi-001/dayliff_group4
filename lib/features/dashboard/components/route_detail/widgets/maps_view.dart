@@ -26,9 +26,9 @@ class _MapsViewState extends State<MapsView> {
 
   final Completer<GoogleMapController> _controller = Completer();
 
-  late LatLng source = LatLng(trip.route.origin!.lat!, trip.route.origin!.long!);
+  late LatLng source = LatLng(trip.origin!.lat!, trip.origin!.long!);
 
-  late LatLng dest = LatLng(trip.route.destination!.lat!, trip.route.destination!.long!);
+  late LatLng dest = LatLng(trip.destination!.lat!, trip.destination!.long!);
   List<Marker> markers = [];
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
@@ -74,7 +74,7 @@ class _MapsViewState extends State<MapsView> {
       // Add to current location
       getPolypoints(
           LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-          LatLng(trip.route.origin!.lat!, trip.route.origin!.long!));
+          LatLng(trip.origin!.lat!, trip.origin!.long!));
     });
 
     // GoogleMapController googleMapController = await _controller.future;
@@ -96,7 +96,7 @@ class _MapsViewState extends State<MapsView> {
   void getPolylines() {
     for (var order in trip.orders) {
       // Get polypoints
-      getPolypoints(LatLng(trip.route.origin!.lat!, trip.route.origin!.long!),
+      getPolypoints(LatLng(trip.origin!.lat!, trip.origin!.long!),
           LatLng(order.destination!.lat!, order.destination!.long!));
     }
   }

@@ -103,15 +103,15 @@ class AppUtility {
 
   static Color getStatusColor(OrderStatus status, context) {
     switch (status) {
-      case OrderStatus.PENDING:
-        return Colors.amber;
-      case OrderStatus.TRANSIT:
+      case OrderStatus.Incomplete:
+        return Colors.deepOrange;
+      case OrderStatus.Active:
         return StaticColors.primary;
-      case OrderStatus.COMPLETED:
+      case OrderStatus.Completed:
         return Colors.green;
       // case OrderStatus.PARTIAL:
       //   return Colors.brown;
-      case OrderStatus.CANCELLED:
+      case OrderStatus.Cancelled:
         return Colors.red;
       default:
         return StaticColors.primary;

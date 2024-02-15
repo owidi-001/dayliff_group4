@@ -54,8 +54,8 @@ class NewRouteDialog extends StatelessWidget {
                 },
                 children: [
                   _buildTableRow('#Orders', "${trip.orders.length} orders"),
-                  _buildTableRow('Distance', "${trip.route.distance} KM"),
-                  _buildTableRow('Duration', "${trip.route.duration} mins"),
+                  _buildTableRow('Distance', "${trip.distance} KM"),
+                  _buildTableRow('Duration', "${trip.duration} mins"),
                 ],
               ),
             ),

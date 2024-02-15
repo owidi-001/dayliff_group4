@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -48,21 +47,22 @@ class _Login extends State<Login> {
             );
           }
           if (state.message != null) {
-            showSnackBar(context, state.message!);
+            showOverlayMessage(state.message!);
           }
         },
         listenWhen: (previous, current) =>
             previous.loginSuccess != current.loginSuccess ||
             previous.message != current.message,
         child: Scaffold(
-            backgroundColor: Colors.black38,
-            body: PageView(
-              controller: _controller,
-              children: [
-                Welcome(pageController: _controller),
-                const LoginForm(),
-              ],
-            )),
+          backgroundColor: Colors.black38,
+          body: PageView(
+            controller: _controller,
+            children: [
+              Welcome(pageController: _controller),
+              const LoginForm(),
+            ],
+          ),
+        ),
       );
     });
   }
@@ -214,7 +214,7 @@ class _LoginFormState extends State<LoginForm> {
     super.initState();
 
     setState(() {
-      emailController.text = "Davy@g.com";
+      emailController.text = "Steve@dayliff.com";
       passwordController.text = "password";
     });
   }
@@ -235,6 +235,17 @@ class _LoginFormState extends State<LoginForm> {
           Positioned.fill(
             child: Image.asset(
               'assets/carousel/5.jpg',
+              frameBuilder: (BuildContext context, Widget child, int? frame,
+                  bool? wasSynchronouslyLoaded) {
+                return Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColorDark),
+                    child: child);
+              },
+              // loadingBuilder: (BuildContext context, Widget child,
+              //     ImageChunkEvent? loadingProgress) {
+              //   return Center(child: child);
+              // },
               fit: BoxFit.cover,
             ),
           ),

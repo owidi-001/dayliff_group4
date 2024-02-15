@@ -124,7 +124,7 @@ class TripCard extends StatelessWidget {
                           color: StaticColors.primary),
                     ),
                     Text(
-                      "${trip.route.origin!.name}",
+                      "${trip.origin!.name}",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     SizedBox(
@@ -154,7 +154,7 @@ class TripCard extends StatelessWidget {
                           color: StaticColors.primary),
                     ),
                     Text(
-                      "${trip.route.destination!.name}",
+                      "${trip.destination!.name}",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],

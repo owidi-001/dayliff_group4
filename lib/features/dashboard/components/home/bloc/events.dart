@@ -16,3 +16,10 @@ class OrdersFiltered extends OrderEvent {
 }
 
 class RefreshRoutes extends OrderEvent {}
+
+// Driver marks trip as started
+class StartTrip extends OrderEvent {
+  final int id;
+
+  StartTrip({required this.id});
+}
