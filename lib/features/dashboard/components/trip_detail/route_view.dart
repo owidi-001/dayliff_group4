@@ -3,7 +3,7 @@ import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/widgets/maps_view.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_view.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/utils.dart';
 import 'package:dayliff/utils/widgets.dart';
@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class RouteView extends StatelessWidget {
-  const RouteView({super.key, required this.routeId});
+class TripView extends StatelessWidget {
+  const TripView({super.key, required this.routeId});
   final int routeId;
 
   @override
@@ -21,7 +21,7 @@ class RouteView extends StatelessWidget {
     final pool = context
         .read<OrderBloc>()
         .state
-        .pools
+        .trips
         .firstWhere((route) => route.id == routeId);
 
     return Scaffold(
@@ -118,40 +118,9 @@ class OrderCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(
             color: StaticColors.onPrimary,
-            borderRadius: BorderRadius.circular(16)),
+            borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(FontAwesomeIcons.person),
-              title: Text(
-                order.customerName,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(order.customerName),
-              trailing: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      AppUtility.makeCall(order.customerName);
-                    },
-                    child: CircleAvatar(
-                        child: Icon(
-                      FontAwesomeIcons.phone,
-                      color: StaticColors.primary,
-                    )),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              height: 0,
-            ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(
@@ -187,7 +156,38 @@ class OrderCard extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            const Divider(
+              height: 0,
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(FontAwesomeIcons.user),
+              title: Text(
+                order.customerName,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(order.customerPhone),
+              trailing: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      AppUtility.makeCall(order.customerName);
+                    },
+                    child: CircleAvatar(
+                        child: Icon(
+                      FontAwesomeIcons.phone,
+                      color: StaticColors.primary,
+                    )),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -202,6 +202,8 @@ class OrderDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       insetPadding: EdgeInsets.symmetric(
           horizontal: 16, vertical: AppBar().preferredSize.height),
       child: SingleChildScrollView(
@@ -232,12 +234,13 @@ class OrderDialog extends StatelessWidget {
               height: 4,
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 FontAwesomeIcons.route,
                 size: 36,
+                color: Theme.of(context).colorScheme.primary,
               ),
               title: Text(
-                "${order.orderId!}",
+                "#${order.orderId!}",
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -253,14 +256,14 @@ class OrderDialog extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                   border:
                       Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
                   borderRadius: BorderRadius.circular(16)),
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(FontAwesomeIcons.person),
+                leading: const Icon(FontAwesomeIcons.user),
                 title: Text(
                   order.customerName,
                   style: Theme.of(context)
@@ -366,6 +369,8 @@ class _StartHandOverState extends State<StartHandOver> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       insetPadding: EdgeInsets.symmetric(
           horizontal: 16, vertical: AppBar().preferredSize.height),
       child: SingleChildScrollView(
@@ -393,65 +398,37 @@ class _StartHandOverState extends State<StartHandOver> {
               ),
             ),
             const Divider(
-              height: 4,
-            ),
-            ListTile(
-              leading: const Icon(
-                FontAwesomeIcons.route,
-                size: 36,
-              ),
-              title: Text(
-                "${widget.order.orderId!}",
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: StaticColors.primary),
-              ),
-              subtitle: Text(
-                formatDate(widget.order.orderDate),
-                style: Theme.of(context).textTheme.bodySmall,
+                // height: 4,
+                ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(.1),
+                  borderRadius: BorderRadius.circular(8)),
+              child: const ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(
+                  FontAwesomeIcons.locationDot,
+                  color: Colors.green,
+                ),
+                title: Text("Reached destination"),
+                trailing: Icon(
+                  FontAwesomeIcons.bell,
+                  color: Colors.green,
+                ),
               ),
             ),
             const Divider(
               color: Colors.transparent,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
-                  borderRadius: BorderRadius.circular(16)),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(FontAwesomeIcons.person),
-                title: Text(
-                  widget.order.customerName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(widget.order.customerPhone),
-                trailing: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        AppUtility.makeCall(widget.order.customerPhone);
-                      },
-                      child: CircleAvatar(
-                          child: Icon(
-                        FontAwesomeIcons.phone,
-                        color: StaticColors.primary,
-                      )),
-                    ),
-                  ],
-                ),
-              ),
+              // height: 4,
             ),
             ListTile(
+              leading: Icon(
+                FontAwesomeIcons.route,
+                size: 36,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               title: Text(
                 "To",
                 style: Theme.of(context)
@@ -492,13 +469,41 @@ class _StartHandOverState extends State<StartHandOver> {
                 ),
               ),
             ),
-
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.locationDot,
-                color: StaticColors.primary,
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                  border:
+                      Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
+                  borderRadius: BorderRadius.circular(16)),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(FontAwesomeIcons.user),
+                title: Text(
+                  widget.order.customerName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(widget.order.customerPhone),
+                trailing: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        AppUtility.makeCall(widget.order.customerPhone);
+                      },
+                      child: CircleAvatar(
+                          child: Icon(
+                        FontAwesomeIcons.phone,
+                        color: StaticColors.primary,
+                      )),
+                    ),
+                  ],
+                ),
               ),
-              title: const Text("Reached destination"),
             ),
 
             Padding(

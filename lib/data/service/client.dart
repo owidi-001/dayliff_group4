@@ -7,11 +7,14 @@ class AuthService {
         deserializer: (json) => LoginResponse.fromJson(json),
       ).then((value) {
         value.when(
-          onError: (error) {},
+          onError: (error) {
+            // Do nothing
+            // Handle in blocs
+          },
           onSuccess: (token) {
             AppUtility().storeUserData(token);
-            // FirebasePushNotification.instance
-            //     .sendDeviceTokenToServer(token.token);
+            service<FirebaseClientService>()
+                .sendDeviceTokenToServer(token.token);
           },
         );
         return value;
@@ -33,47 +36,84 @@ class AuthService {
 class OrderService {
   HttpResult<List<Trip>> all() => Http.get(
         "userdetails/${AuthenticationRepository.instance.user?.id}",
-        deserializer: (data) => List<Trip>.from(
-            data.map((e) => Trip.fromJson(e)).toList()),
-      );
-
-      // 
-      
-      HttpResult<List<Trip>> startTrip(LatLng coordinates,int routeId) => Http.get(
-        "userdetails/${AuthenticationRepository.instance.user?.id}",
-        deserializer: (data) => List<Trip>.from(
-            data.map((e) => Trip.fromJson(e)).toList()),
+        deserializer: (data) =>
+            List<Trip>.from(data.map((e) => Trip.fromJson(e)).toList()),
       );
 }
 
-class OrderCheckoutService {
-  // Verify OTP
-  HttpResult<Map<String, dynamic>> verifyConfirmationCode(
-      {required String code, required String orderId}) async {
-    return Http.post(
-      "/verify_otp/",
-      {"otp": code, "order": orderId},
+class CheckoutService {
+  // Start trip
+  HttpResult<StartTripResponse> startTrip(
+      {required StartTripRequest payload}) async {
+    return Http.put(
+      "/start-trip/",
+      payload.toJson(),
+      deserializer: (json) => json,
+    );
+  }
+
+  // Start navigation
+  HttpResult<StartNavigationResponse> startNavigation(
+      {required StartNavigationRequest payload}) async {
+    return Http.put(
+      "/start-navigation/",
+      payload.toJson(),
+      deserializer: (json) => json,
+    );
+  }
+
+  // Start handover service
+  HttpResult<StartHandoverResponse> startHandover(
+      {required StartHandoverRequest payload}) async {
+    return Http.put(
+      "/start-handover/",
+      payload.toJson(),
       deserializer: (json) => json,
     );
   }
 
   // Confirm the delivery
-  // HttpResult<Order> confirmDelivery(
-  //     {required DeliveryConfirmation deliveryConfirmation,
-  //     File? proofImage}) async {
-  //   FormData data = FormData.fromMap(deliveryConfirmation.toJson());
+  HttpResult<Order> confirmDelivery(
+      {required OrderConfirmation confirmation}) async {
+    FormData data = FormData.fromMap(confirmation.toJson());
 
-  //   if (proofImage != null) {
-  //     var orderImage = await MultipartFile.fromFile(proofImage.path);
-  //     data.files.add(MapEntry('images', orderImage));
-  //   }
+    // Check for all image case
+    // Receives id upload
+    if (confirmation.receiverId != null) {
+      var receiverId =
+          await MultipartFile.fromFile(confirmation.receiverId!.path);
+      data.files.add(MapEntry('receiver_id', receiverId));
+    }
+    // Customers signature upload
+    if (confirmation.signature != null) {
+      var signature =
+          await MultipartFile.fromFile(confirmation.signature!.path);
+      data.files.add(MapEntry('signature', signature));
+    }
+    // OD scan upload
+    if (confirmation.odScan != null) {
+      var odScan = await MultipartFile.fromFile(confirmation.odScan!.path);
+      data.files.add(MapEntry('od_scan', odScan));
+    }
+    // Proof of delivery
+    if (confirmation.orderImages.isNotEmpty) {
+      List<File> orderImages = confirmation.orderImages;
 
-  //   return Http.post(
-  //     "/confirm_delivery/",
-  //     data,
-  //     deserializer: (json) => Order.fromJson(json),
-  //   );
-  // }
+      for (int i = 0; i < orderImages.length; i++) {
+        File image = orderImages[i];
+        var orderImage = await MultipartFile.fromFile(
+          image.path,
+        );
+        data.files.add(MapEntry('images', orderImage));
+      }
+    }
+
+    return Http.post(
+      "/confirm_delivery/",
+      data,
+      deserializer: (json) => Order.fromJson(json),
+    );
+  }
 }
 
 // Maps services
@@ -91,4 +131,34 @@ class MapsService {
         deserializer: (json) =>
             List<Address>.from(json.map((e) => Address.fromJson(e))),
       );
+}
+
+// Firebase service
+class FirebaseClientService {
+  Future<void> sendDeviceTokenToServer([String? deviceToken]) async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    String? authToken =
+        deviceToken ?? AuthenticationRepository.instance.authToken;
+    final options = BaseOptions(
+        baseUrl: BASE_URL,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(milliseconds: TIMEOUT),
+        sendTimeout: const Duration(milliseconds: TIMEOUT),
+        receiveTimeout: const Duration(milliseconds: TIMEOUT),
+        headers: {"Authorization": 'Bearer $authToken'});
+
+    final dio = Dio(options);
+    if (token != null && authToken != null) {
+      try {
+        await dio.post("/fcm-token/", data: {"fcm_token": token});
+        if (kDebugMode) {
+          print('Device Token Sent to Server');
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('Failed to send device token to the server: $e');
+        }
+      }
+    }
+  }
 }

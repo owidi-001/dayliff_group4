@@ -6,7 +6,7 @@ class SineWaveAnimation extends StatefulWidget {
   const SineWaveAnimation({super.key});
 
   @override
-  _SineWaveAnimationState createState() => _SineWaveAnimationState();
+  State<SineWaveAnimation> createState() => _SineWaveAnimationState();
 }
 
 class _SineWaveAnimationState extends State<SineWaveAnimation>

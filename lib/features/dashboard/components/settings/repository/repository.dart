@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickerRepository {
@@ -8,7 +9,7 @@ class PickerRepository {
       final XFile? file = await picker.pickImage(source: ImageSource.camera);
       return file;
     } catch (e) {
-      print('Error taking photo: $e');
+      debugPrint('Error taking photo: $e');
       return null;
     }
   }
@@ -18,7 +19,7 @@ class PickerRepository {
       final XFile? file = await picker.pickImage(source: ImageSource.gallery);
       return file;
     } catch (e) {
-      print('Error picking photo: $e');
+      debugPrint('Error picking photo: $e');
       return null;
     }
   }

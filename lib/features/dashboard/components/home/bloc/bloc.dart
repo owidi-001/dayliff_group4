@@ -5,8 +5,6 @@ import 'package:dayliff/features/dashboard/components/home/models/route/route.da
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 part "events.dart";
 part 'state.dart';
@@ -34,18 +32,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             );
           },
           onSuccess: (data) {
-            // // Set active route
-            // Trip? active = data.firstWhere(
-            //   (element) => element.status == TripStatus.Active,
-            // );
-            // // Remove active from schedules
-            // final scheduled = data;
-            // scheduled.removeWhere((element) => element.id == active.id);
             emit(
               state.copyWith(
-                  status: ServiceStatus.loadingSuccess,
-                  pools: data,
-                  filteredPools: data),
+                status: ServiceStatus.loadingSuccess,
+                trips: data,
+              ),
             );
           },
         );
@@ -64,52 +55,33 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         onSuccess: (data) {
           return emit(state.copyWith(
             status: ServiceStatus.loadingSuccess,
-            pools: data,
+            trips: data,
           ));
         },
       );
     });
 
-    // Filter
-    on<OrdersFiltered>(
-      (event, emit) {
-        // if (event.filter == OrderStatus.ALL) {
-        //   emit(
-        //       state.copyWith(filter: event.filter, filteredPools: state.pools));
-        // } else {
-        //   emit(
-        //     state.copyWith(
-        //       filter: event.filter,
-        //       filteredPools: state.pools
-        //           .where((element) => element.status == event.filter)
-        //           .toList(),
-        //     ),
-        //   );
-        // }
-      },
-    );
+    // update trip
+    on<UpdateTrip>((event, emit) {
+      emit(state.copyWith(
+          trips: state.trips
+              .map((e) => e.id == event.trip.id ? event.trip : e)
+              .toList()));
+    });
 
-    on<StartTrip>((event, emit) async {
-      final currentLocation = await getCurrentLocation();
-
-      if (currentLocation != null) {
-        final res = await _orderService.startTrip(
-            LatLng(currentLocation.latitude!, currentLocation.longitude!),
-            event.id);
-        res.when(onError: (error) {
-          // Do nothing
-          // TODO
-        }, onSuccess: (data) {
-          // TODO. emit listener
-        });
-      }
+    // update order
+    on<UpdateOrder>((event, emit) {
+      final Trip trip =
+          state.trips.firstWhere((element) => element.id == event.order.trip);
+      add(
+        UpdateTrip(
+          trip: trip.copyWith(
+            orders: trip.orders
+                .map((e) => e.orderId == event.order.orderId ? event.order : e)
+                .toList(),
+          ),
+        ),
+      );
     });
   }
-}
-
-Future<LocationData?> getCurrentLocation() async {
-  Location location = Location();
-  location.getLocation().then((location) {
-    return location;
-  });
 }

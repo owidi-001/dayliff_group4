@@ -213,33 +213,33 @@ class Schedules extends StatelessWidget {
     if (context.read<OrderBloc>().state.status == ServiceStatus.initial) {
       context.read<OrderBloc>().add(StartOrderBloc());
     }
-    return RefreshIndicator(
-      onRefresh: () async {
-        // Refresh orders
-        context.read<OrderBloc>().add(RefreshRoutes());
-      },
-      child: SingleChildScrollView(child: BlocBuilder<OrderBloc, OrderState>(
-        builder: (context, state) {
-          if (state.status == ServiceStatus.loading) {
-            return ListView.separated(
-              padding: const EdgeInsets.only(top: 16),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (context, index) => const TripTileShadow(),
-              separatorBuilder: (context, index) => const Divider(
-                color: Colors.transparent,
-              ),
-            );
-          }
-          if (state.status == ServiceStatus.loadingFailure) {
-            return ErrorContainerWidget(
-              description: "Failed to load scheduled routes",
-              onRefresh: () => context.read<OrderBloc>().add(StartOrderBloc()),
-            );
-          }
+    return SingleChildScrollView(child: BlocBuilder<OrderBloc, OrderState>(
+      builder: (context, state) {
+        if (state.status == ServiceStatus.loading) {
+          return ListView.separated(
+            padding: const EdgeInsets.only(top: 16),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 5,
+            itemBuilder: (context, index) => const TripTileShadow(),
+            separatorBuilder: (context, index) => const Divider(
+              color: Colors.transparent,
+            ),
+          );
+        }
+        if (state.status == ServiceStatus.loadingFailure) {
+          return ErrorContainerWidget(
+            description: "Failed to load scheduled routes",
+            onRefresh: () => context.read<OrderBloc>().add(StartOrderBloc()),
+          );
+        }
 
-          return Column(
+        return RefreshIndicator(
+          onRefresh: () async {
+            // Refresh orders
+            context.read<OrderBloc>().add(RefreshRoutes());
+          },
+          child: Column(
             children: [
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
@@ -286,7 +286,7 @@ class Schedules extends StatelessWidget {
                           .copyWith(color: StaticColors.dark),
                     ),
                     Text(
-                      "${state.pools.where((element) => element.status == TripStatus.Complete).length}/${state.pools.length} Completed",
+                      "${state.trips.where((element) => element.status == TripStatus.Complete).length}/${state.trips.length} Completed",
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
@@ -298,18 +298,21 @@ class Schedules extends StatelessWidget {
 
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
-                  return state.filteredPools.isNotEmpty
-                      ? ListView.builder(
+                  return state.trips.isNotEmpty
+                      ? ListView.separated(
                           padding: EdgeInsets.zero,
-                          itemCount: state.filteredPools.length,
+                          itemCount: state.trips.length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) => AnimateInEffect(
                             keepAlive: true,
                             intervalStart: index / 5,
                             child: TripTile(
-                              trip: state.filteredPools[index],
+                              trip: state.trips[index],
                             ),
+                          ),
+                          separatorBuilder: (context, index) => Divider(
+                            color: Colors.transparent,
                           ),
                         )
                       : EmptyListWidget(
@@ -320,9 +323,9 @@ class Schedules extends StatelessWidget {
                 },
               ),
             ],
-          );
-        },
-      )),
-    );
+          ),
+        );
+      },
+    ));
   }
 }

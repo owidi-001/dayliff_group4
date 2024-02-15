@@ -5,7 +5,6 @@ import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderDialog extends StatefulWidget {
   const OrderDialog({super.key, required this.order, required this.routeName});

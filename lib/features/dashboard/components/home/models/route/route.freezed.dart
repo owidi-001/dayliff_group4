@@ -880,6 +880,8 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 mixin _$Order {
   @JsonKey(name: "id")
   int? get orderId => throw _privateConstructorUsedError;
+  @JsonKey(name: "trip_id")
+  int? get trip => throw _privateConstructorUsedError;
   @JsonKey(name: "destination_address")
   Address? get destination => throw _privateConstructorUsedError;
   @JsonKey(name: "customer_name")
@@ -903,6 +905,7 @@ abstract class $OrderCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int? orderId,
+      @JsonKey(name: "trip_id") int? trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
@@ -926,6 +929,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @override
   $Res call({
     Object? orderId = freezed,
+    Object? trip = freezed,
     Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
@@ -936,6 +940,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
       orderId: freezed == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      trip: freezed == trip
+          ? _value.trip
+          : trip // ignore: cast_nullable_to_non_nullable
               as int?,
       destination: freezed == destination
           ? _value.destination
@@ -982,6 +990,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int? orderId,
+      @JsonKey(name: "trip_id") int? trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
@@ -1004,6 +1013,7 @@ class __$$OrderImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? orderId = freezed,
+    Object? trip = freezed,
     Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
@@ -1014,6 +1024,10 @@ class __$$OrderImplCopyWithImpl<$Res>
       orderId: freezed == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      trip: freezed == trip
+          ? _value.trip
+          : trip // ignore: cast_nullable_to_non_nullable
               as int?,
       destination: freezed == destination
           ? _value.destination
@@ -1044,6 +1058,7 @@ class __$$OrderImplCopyWithImpl<$Res>
 class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   const _$OrderImpl(
       {@JsonKey(name: "id") this.orderId,
+      @JsonKey(name: "trip_id") this.trip,
       @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "customer_name") required this.customerName,
       @JsonKey(name: "customer_phone") required this.customerPhone,
@@ -1056,6 +1071,9 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   @override
   @JsonKey(name: "id")
   final int? orderId;
+  @override
+  @JsonKey(name: "trip_id")
+  final int? trip;
   @override
   @JsonKey(name: "destination_address")
   final Address? destination;
@@ -1074,7 +1092,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Order(orderId: $orderId, destination: $destination, customerName: $customerName, customerPhone: $customerPhone, orderDate: $orderDate, status: $status)';
+    return 'Order(orderId: $orderId, trip: $trip, destination: $destination, customerName: $customerName, customerPhone: $customerPhone, orderDate: $orderDate, status: $status)';
   }
 
   @override
@@ -1083,6 +1101,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
     properties
       ..add(DiagnosticsProperty('type', 'Order'))
       ..add(DiagnosticsProperty('orderId', orderId))
+      ..add(DiagnosticsProperty('trip', trip))
       ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('customerName', customerName))
       ..add(DiagnosticsProperty('customerPhone', customerPhone))
@@ -1096,6 +1115,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.trip, trip) || other.trip == trip) &&
             (identical(other.destination, destination) ||
                 other.destination == destination) &&
             (identical(other.customerName, customerName) ||
@@ -1109,7 +1129,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, orderId, destination,
+  int get hashCode => Object.hash(runtimeType, orderId, trip, destination,
       customerName, customerPhone, orderDate, status);
 
   @JsonKey(ignore: true)
@@ -1129,6 +1149,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 abstract class _Order implements Order {
   const factory _Order(
           {@JsonKey(name: "id") final int? orderId,
+          @JsonKey(name: "trip_id") final int? trip,
           @JsonKey(name: "destination_address") final Address? destination,
           @JsonKey(name: "customer_name") required final String customerName,
           @JsonKey(name: "customer_phone") required final String customerPhone,
@@ -1141,6 +1162,9 @@ abstract class _Order implements Order {
   @override
   @JsonKey(name: "id")
   int? get orderId;
+  @override
+  @JsonKey(name: "trip_id")
+  int? get trip;
   @override
   @JsonKey(name: "destination_address")
   Address? get destination;
@@ -1824,5 +1848,334 @@ abstract class _Vehicle implements Vehicle {
   @override
   @JsonKey(ignore: true)
   _$$VehicleImplCopyWith<_$VehicleImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+OrderConfirmation _$OrderConfirmationFromJson(Map<String, dynamic> json) {
+  return _OrderConfirmation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OrderConfirmation {
+  @JsonKey(name: "order_id")
+  int get orderId => throw _privateConstructorUsedError; // validation
+  @JsonKey(name: "otp")
+  String? get otp => throw _privateConstructorUsedError;
+  @JsonKey(name: "receiver_id", includeFromJson: false)
+  File? get receiverId => throw _privateConstructorUsedError; // signature
+  @JsonKey(name: "Signature", includeFromJson: false)
+  File? get signature => throw _privateConstructorUsedError; // pod
+  @JsonKey(name: "order_images", includeFromJson: false)
+  List<File> get orderImages => throw _privateConstructorUsedError; // od
+  @JsonKey(name: "od_scan", includeFromJson: false)
+  File? get odScan => throw _privateConstructorUsedError; // comments
+  @JsonKey(name: "comments")
+  String? get comments => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OrderConfirmationCopyWith<OrderConfirmation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OrderConfirmationCopyWith<$Res> {
+  factory $OrderConfirmationCopyWith(
+          OrderConfirmation value, $Res Function(OrderConfirmation) then) =
+      _$OrderConfirmationCopyWithImpl<$Res, OrderConfirmation>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "order_id") int orderId,
+      @JsonKey(name: "otp") String? otp,
+      @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
+      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+      @JsonKey(name: "order_images", includeFromJson: false)
+      List<File> orderImages,
+      @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+      @JsonKey(name: "comments") String? comments});
+}
+
+/// @nodoc
+class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
+    implements $OrderConfirmationCopyWith<$Res> {
+  _$OrderConfirmationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = null,
+    Object? otp = freezed,
+    Object? receiverId = freezed,
+    Object? signature = freezed,
+    Object? orderImages = null,
+    Object? odScan = freezed,
+    Object? comments = freezed,
+  }) {
+    return _then(_value.copyWith(
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as int,
+      otp: freezed == otp
+          ? _value.otp
+          : otp // ignore: cast_nullable_to_non_nullable
+              as String?,
+      receiverId: freezed == receiverId
+          ? _value.receiverId
+          : receiverId // ignore: cast_nullable_to_non_nullable
+              as File?,
+      signature: freezed == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as File?,
+      orderImages: null == orderImages
+          ? _value.orderImages
+          : orderImages // ignore: cast_nullable_to_non_nullable
+              as List<File>,
+      odScan: freezed == odScan
+          ? _value.odScan
+          : odScan // ignore: cast_nullable_to_non_nullable
+              as File?,
+      comments: freezed == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$OrderConfirmationImplCopyWith<$Res>
+    implements $OrderConfirmationCopyWith<$Res> {
+  factory _$$OrderConfirmationImplCopyWith(_$OrderConfirmationImpl value,
+          $Res Function(_$OrderConfirmationImpl) then) =
+      __$$OrderConfirmationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "order_id") int orderId,
+      @JsonKey(name: "otp") String? otp,
+      @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
+      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+      @JsonKey(name: "order_images", includeFromJson: false)
+      List<File> orderImages,
+      @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+      @JsonKey(name: "comments") String? comments});
+}
+
+/// @nodoc
+class __$$OrderConfirmationImplCopyWithImpl<$Res>
+    extends _$OrderConfirmationCopyWithImpl<$Res, _$OrderConfirmationImpl>
+    implements _$$OrderConfirmationImplCopyWith<$Res> {
+  __$$OrderConfirmationImplCopyWithImpl(_$OrderConfirmationImpl _value,
+      $Res Function(_$OrderConfirmationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = null,
+    Object? otp = freezed,
+    Object? receiverId = freezed,
+    Object? signature = freezed,
+    Object? orderImages = null,
+    Object? odScan = freezed,
+    Object? comments = freezed,
+  }) {
+    return _then(_$OrderConfirmationImpl(
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as int,
+      otp: freezed == otp
+          ? _value.otp
+          : otp // ignore: cast_nullable_to_non_nullable
+              as String?,
+      receiverId: freezed == receiverId
+          ? _value.receiverId
+          : receiverId // ignore: cast_nullable_to_non_nullable
+              as File?,
+      signature: freezed == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as File?,
+      orderImages: null == orderImages
+          ? _value._orderImages
+          : orderImages // ignore: cast_nullable_to_non_nullable
+              as List<File>,
+      odScan: freezed == odScan
+          ? _value.odScan
+          : odScan // ignore: cast_nullable_to_non_nullable
+              as File?,
+      comments: freezed == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OrderConfirmationImpl
+    with DiagnosticableTreeMixin
+    implements _OrderConfirmation {
+  const _$OrderConfirmationImpl(
+      {@JsonKey(name: "order_id") required this.orderId,
+      @JsonKey(name: "otp") this.otp,
+      @JsonKey(name: "receiver_id", includeFromJson: false) this.receiverId,
+      @JsonKey(name: "Signature", includeFromJson: false) this.signature,
+      @JsonKey(name: "order_images", includeFromJson: false)
+      final List<File> orderImages = const <File>[],
+      @JsonKey(name: "od_scan", includeFromJson: false) this.odScan,
+      @JsonKey(name: "comments") this.comments})
+      : _orderImages = orderImages;
+
+  factory _$OrderConfirmationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderConfirmationImplFromJson(json);
+
+  @override
+  @JsonKey(name: "order_id")
+  final int orderId;
+// validation
+  @override
+  @JsonKey(name: "otp")
+  final String? otp;
+  @override
+  @JsonKey(name: "receiver_id", includeFromJson: false)
+  final File? receiverId;
+// signature
+  @override
+  @JsonKey(name: "Signature", includeFromJson: false)
+  final File? signature;
+// pod
+  final List<File> _orderImages;
+// pod
+  @override
+  @JsonKey(name: "order_images", includeFromJson: false)
+  List<File> get orderImages {
+    if (_orderImages is EqualUnmodifiableListView) return _orderImages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_orderImages);
+  }
+
+// od
+  @override
+  @JsonKey(name: "od_scan", includeFromJson: false)
+  final File? odScan;
+// comments
+  @override
+  @JsonKey(name: "comments")
+  final String? comments;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, odScan: $odScan, comments: $comments)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'OrderConfirmation'))
+      ..add(DiagnosticsProperty('orderId', orderId))
+      ..add(DiagnosticsProperty('otp', otp))
+      ..add(DiagnosticsProperty('receiverId', receiverId))
+      ..add(DiagnosticsProperty('signature', signature))
+      ..add(DiagnosticsProperty('orderImages', orderImages))
+      ..add(DiagnosticsProperty('odScan', odScan))
+      ..add(DiagnosticsProperty('comments', comments));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OrderConfirmationImpl &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.otp, otp) || other.otp == otp) &&
+            (identical(other.receiverId, receiverId) ||
+                other.receiverId == receiverId) &&
+            (identical(other.signature, signature) ||
+                other.signature == signature) &&
+            const DeepCollectionEquality()
+                .equals(other._orderImages, _orderImages) &&
+            (identical(other.odScan, odScan) || other.odScan == odScan) &&
+            (identical(other.comments, comments) ||
+                other.comments == comments));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      orderId,
+      otp,
+      receiverId,
+      signature,
+      const DeepCollectionEquality().hash(_orderImages),
+      odScan,
+      comments);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OrderConfirmationImplCopyWith<_$OrderConfirmationImpl> get copyWith =>
+      __$$OrderConfirmationImplCopyWithImpl<_$OrderConfirmationImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OrderConfirmationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OrderConfirmation implements OrderConfirmation {
+  const factory _OrderConfirmation(
+      {@JsonKey(name: "order_id") required final int orderId,
+      @JsonKey(name: "otp") final String? otp,
+      @JsonKey(name: "receiver_id", includeFromJson: false)
+      final File? receiverId,
+      @JsonKey(name: "Signature", includeFromJson: false) final File? signature,
+      @JsonKey(name: "order_images", includeFromJson: false)
+      final List<File> orderImages,
+      @JsonKey(name: "od_scan", includeFromJson: false) final File? odScan,
+      @JsonKey(name: "comments")
+      final String? comments}) = _$OrderConfirmationImpl;
+
+  factory _OrderConfirmation.fromJson(Map<String, dynamic> json) =
+      _$OrderConfirmationImpl.fromJson;
+
+  @override
+  @JsonKey(name: "order_id")
+  int get orderId;
+  @override // validation
+  @JsonKey(name: "otp")
+  String? get otp;
+  @override
+  @JsonKey(name: "receiver_id", includeFromJson: false)
+  File? get receiverId;
+  @override // signature
+  @JsonKey(name: "Signature", includeFromJson: false)
+  File? get signature;
+  @override // pod
+  @JsonKey(name: "order_images", includeFromJson: false)
+  List<File> get orderImages;
+  @override // od
+  @JsonKey(name: "od_scan", includeFromJson: false)
+  File? get odScan;
+  @override // comments
+  @JsonKey(name: "comments")
+  String? get comments;
+  @override
+  @JsonKey(ignore: true)
+  _$$OrderConfirmationImplCopyWith<_$OrderConfirmationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

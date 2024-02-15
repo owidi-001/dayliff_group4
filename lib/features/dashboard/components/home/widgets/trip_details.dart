@@ -1,6 +1,6 @@
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/route_detail/route_view.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/route_view.dart';
 import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -160,7 +160,7 @@ class TripDetails extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Status: ",
@@ -215,7 +215,7 @@ class TripDetails extends StatelessWidget {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => RouteView(
+                        builder: (context) => TripView(
                           routeId: trip.id,
                         ),
                       ),

@@ -1,9 +1,9 @@
 // This file is "main.dart"
 // ignore_for_file: invalid_annotation_target
 
+
 import 'dart:io';
 
-import 'package:dayliff/data/models/auth/login.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -88,6 +88,7 @@ class Route with _$Route {
 class Order with _$Order {
   const factory Order({
     @JsonKey(name: "id") int? orderId,
+    @JsonKey(name: "trip_id") int? trip,
     @JsonKey(name: "destination_address") Address? destination,
     @JsonKey(name: "customer_name") required String customerName,
     @JsonKey(name: "customer_phone") required String customerPhone,
@@ -136,20 +137,24 @@ class Vehicle with _$Vehicle {
       _$VehicleFromJson(json);
 }
 
-// @freezed
-// class DeliveryConfirmation with _$DeliveryConfirmation {
-//   const factory DeliveryConfirmation(
-//       {@JsonKey(name: "order_id") required int orderId,
-//       @JsonKey(name: "otp") String? otp,
-//       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
-//       @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-//       @Default(<File>[])
-//       @JsonKey(name: "order_images", includeFromJson: false)
-//       List<File> orderImage,
-//       @JsonKey(name: "comments") String? comments,
-//       @JsonKey(name: "updated_at")
-//       DateTime? updatedAt}) = _DeliveryConfirmation;
+@freezed
+class OrderConfirmation with _$OrderConfirmation {
+  const factory OrderConfirmation(
+      {@JsonKey(name: "order_id") required int orderId,
+      // validation
+      @JsonKey(name: "otp") String? otp,
+      @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
+      // signature
+      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+      // pod
+      @Default(<File>[])
+      @JsonKey(name: "order_images", includeFromJson: false)
+      List<File> orderImages,
+      // od
+      @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+      // comments
+      @JsonKey(name: "comments") String? comments,}) = _OrderConfirmation;
 
-//   factory DeliveryConfirmation.fromJson(Map<String, Object?> json) =>
-//       _$DeliveryConfirmationFromJson(json);
-// }
+  factory OrderConfirmation.fromJson(Map<String, Object?> json) =>
+      _$OrderConfirmationFromJson(json);
+}

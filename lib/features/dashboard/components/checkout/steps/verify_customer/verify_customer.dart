@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/checkout/steps/verify_customer/verify_cubit.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
-enum VerificationMeans { OTP, ID }
 
 class VerifyCustomer extends StatefulWidget {
   const VerifyCustomer({super.key, required this.order});
@@ -109,14 +108,14 @@ class ByOTP extends StatelessWidget {
                 // errorAnimationController: errorController,
                 controller: otpController,
                 onCompleted: (v) {
-                  print("Completed");
+                  debugPrint("Completed");
                 },
 
                 onChanged: (value) {
                   context.read<CheckOutBloc>().add(OtpChanged(otp: value));
                 },
                 beforeTextPaste: (text) {
-                  print("Allowing to paste $text");
+                  debugPrint("Allowing to paste $text");
 
                   return true;
                 },

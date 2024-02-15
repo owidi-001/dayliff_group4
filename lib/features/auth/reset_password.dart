@@ -201,14 +201,14 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     // errorAnimationController: errorController,
                                     controller: otpController,
                                     onCompleted: (v) {
-                                      print("Completed");
+                                      debugPrint("Completed");
                                     },
 
                                     onChanged: (value) {
                                       //  TODO! Reset
                                     },
                                     beforeTextPaste: (text) {
-                                      print("Allowing to paste $text");
+                                      debugPrint("Allowing to paste $text");
 
                                       return true;
                                     },

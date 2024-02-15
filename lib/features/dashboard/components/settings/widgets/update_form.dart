@@ -2,7 +2,6 @@ import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateProfileDialog extends StatefulWidget {
@@ -20,7 +19,7 @@ class _UpdateProfileDialogState extends State<UpdateProfileDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     final _user = AuthenticationRepository.instance.user;
     _name.text = _user?.name ?? "";

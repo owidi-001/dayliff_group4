@@ -9,17 +9,18 @@ abstract class OrderEvent extends Equatable {
 
 class StartOrderBloc extends OrderEvent {}
 
-class OrdersFiltered extends OrderEvent {
-  final OrderStatus filter;
-
-  OrdersFiltered({required this.filter});
-}
-
 class RefreshRoutes extends OrderEvent {}
 
-// Driver marks trip as started
-class StartTrip extends OrderEvent {
-  final int id;
+class UpdateTrip extends OrderEvent {
+  final Trip trip;
 
-  StartTrip({required this.id});
+  const UpdateTrip({required this.trip});
+}
+
+
+
+class UpdateOrder extends OrderEvent {
+  final Order order;
+
+  const UpdateOrder({required this.order});
 }

@@ -19,7 +19,7 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8))),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.sizeOf(context).width,
         child: Form(
             key: _formKey,

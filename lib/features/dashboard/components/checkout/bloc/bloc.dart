@@ -10,11 +10,11 @@ part "events.dart";
 part 'state.dart';
 
 class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
-  late OrderCheckoutService _orderCheckoutService;
+  late CheckoutService _CheckoutService;
   final OrderBloc _orderBloc;
 
   CheckOutBloc(this._orderBloc) : super(const CheckoutState()) {
-    _orderCheckoutService = service<OrderCheckoutService>();
+    _CheckoutService = service<CheckoutService>();
 
 // Change step
     on<UpdateStep>((event, emit) => emit(state.copyWith(step: event.step)));
@@ -45,7 +45,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         // );
         // // showLoading("Please wait");
 
-        // final orders = await _orderCheckoutService.all();
+        // final orders = await _CheckoutService.all();
         // orders.when(
         //   onError: (error) {
         //     // showError(error.error);
@@ -100,7 +100,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
       // TODO! Uncomment when Checkout endpoints are ready
       // emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-      // final res = await _orderCheckoutService.verifyCheckoutCode(
+      // final res = await _CheckoutService.verifyCheckoutCode(
       //     code: state.otp!, orderId: state.order!.orderId!);
       // res.when(onError: (error) {
       //   // showError(error.error);
@@ -120,7 +120,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     //     // showError("Please ensure all fields are not empty!");
     //   } else {
     //     // Send data to backend
-    //     _orderCheckoutService.confirmDelivery(
+    //     _CheckoutService.confirmDelivery(
     //         deliveryConfirmation: DeliveryConfirmation(
     //             recipient: state.order!.customerName,
     //             orderId: state.order!.orderId!,

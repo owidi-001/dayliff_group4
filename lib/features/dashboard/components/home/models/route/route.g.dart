@@ -81,6 +81,7 @@ Map<String, dynamic> _$$RouteImplToJson(_$RouteImpl instance) =>
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
       orderId: json['id'] as int?,
+      trip: json['trip_id'] as int?,
       destination: json['destination_address'] == null
           ? null
           : Address.fromJson(
@@ -94,6 +95,7 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     <String, dynamic>{
       'id': instance.orderId,
+      'trip_id': instance.trip,
       'destination_address': instance.destination,
       'customer_name': instance.customerName,
       'customer_phone': instance.customerPhone,
@@ -154,4 +156,20 @@ Map<String, dynamic> _$$VehicleImplToJson(_$VehicleImpl instance) =>
       'model': instance.model,
       'type': instance.type,
       'tonnage': instance.tonnage,
+    };
+
+_$OrderConfirmationImpl _$$OrderConfirmationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OrderConfirmationImpl(
+      orderId: json['order_id'] as int,
+      otp: json['otp'] as String?,
+      comments: json['comments'] as String?,
+    );
+
+Map<String, dynamic> _$$OrderConfirmationImplToJson(
+        _$OrderConfirmationImpl instance) =>
+    <String, dynamic>{
+      'order_id': instance.orderId,
+      'otp': instance.otp,
+      'comments': instance.comments,
     };

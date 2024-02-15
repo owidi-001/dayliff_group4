@@ -169,7 +169,7 @@ class TripCard extends StatelessWidget {
               //     // Open maps view
               //     Navigator.of(context).push(
               //       MaterialPageRoute(
-              //         builder: (context) => RouteView(routeId: trip.route.routeId),
+              //         builder: (context) => TripView(routeId: trip.route.routeId),
               //       ),
               //     );
               //   },
