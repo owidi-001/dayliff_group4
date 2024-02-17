@@ -14,7 +14,6 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:dio_http_formatter/dio_http_formatter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'http_client.dart';
 part 'client.dart';
