@@ -22,8 +22,11 @@ StartTripRequest _$StartTripRequestFromJson(Map<String, dynamic> json) {
 mixin _$StartTripRequest {
   @JsonKey(name: "trip_id")
   int get tripId => throw _privateConstructorUsedError;
+  @JsonKey(name: "start_trip")
   LatLng_ get coordinates => throw _privateConstructorUsedError;
   TripStatus get status => throw _privateConstructorUsedError;
+  @JsonKey(name: "start_trip_time")
+  DateTime get startTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,8 +42,9 @@ abstract class $StartTripRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "trip_id") int tripId,
-      LatLng_ coordinates,
-      TripStatus status});
+      @JsonKey(name: "start_trip") LatLng_ coordinates,
+      TripStatus status,
+      @JsonKey(name: "start_trip_time") DateTime startTime});
 
   $LatLng_CopyWith<$Res> get coordinates;
 }
@@ -61,6 +65,7 @@ class _$StartTripRequestCopyWithImpl<$Res, $Val extends StartTripRequest>
     Object? tripId = null,
     Object? coordinates = null,
     Object? status = null,
+    Object? startTime = null,
   }) {
     return _then(_value.copyWith(
       tripId: null == tripId
@@ -75,6 +80,10 @@ class _$StartTripRequestCopyWithImpl<$Res, $Val extends StartTripRequest>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as TripStatus,
+      startTime: null == startTime
+          ? _value.startTime
+          : startTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -97,8 +106,9 @@ abstract class _$$StartTripRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "trip_id") int tripId,
-      LatLng_ coordinates,
-      TripStatus status});
+      @JsonKey(name: "start_trip") LatLng_ coordinates,
+      TripStatus status,
+      @JsonKey(name: "start_trip_time") DateTime startTime});
 
   @override
   $LatLng_CopyWith<$Res> get coordinates;
@@ -118,6 +128,7 @@ class __$$StartTripRequestImplCopyWithImpl<$Res>
     Object? tripId = null,
     Object? coordinates = null,
     Object? status = null,
+    Object? startTime = null,
   }) {
     return _then(_$StartTripRequestImpl(
       tripId: null == tripId
@@ -132,6 +143,10 @@ class __$$StartTripRequestImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as TripStatus,
+      startTime: null == startTime
+          ? _value.startTime
+          : startTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -143,8 +158,9 @@ class _$StartTripRequestImpl
     implements _StartTripRequest {
   const _$StartTripRequestImpl(
       {@JsonKey(name: "trip_id") required this.tripId,
-      required this.coordinates,
-      required this.status});
+      @JsonKey(name: "start_trip") required this.coordinates,
+      required this.status,
+      @JsonKey(name: "start_trip_time") required this.startTime});
 
   factory _$StartTripRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$StartTripRequestImplFromJson(json);
@@ -153,13 +169,17 @@ class _$StartTripRequestImpl
   @JsonKey(name: "trip_id")
   final int tripId;
   @override
+  @JsonKey(name: "start_trip")
   final LatLng_ coordinates;
   @override
   final TripStatus status;
+  @override
+  @JsonKey(name: "start_trip_time")
+  final DateTime startTime;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StartTripRequest(tripId: $tripId, coordinates: $coordinates, status: $status)';
+    return 'StartTripRequest(tripId: $tripId, coordinates: $coordinates, status: $status, startTime: $startTime)';
   }
 
   @override
@@ -169,7 +189,8 @@ class _$StartTripRequestImpl
       ..add(DiagnosticsProperty('type', 'StartTripRequest'))
       ..add(DiagnosticsProperty('tripId', tripId))
       ..add(DiagnosticsProperty('coordinates', coordinates))
-      ..add(DiagnosticsProperty('status', status));
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('startTime', startTime));
   }
 
   @override
@@ -180,12 +201,15 @@ class _$StartTripRequestImpl
             (identical(other.tripId, tripId) || other.tripId == tripId) &&
             (identical(other.coordinates, coordinates) ||
                 other.coordinates == coordinates) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, tripId, coordinates, status);
+  int get hashCode =>
+      Object.hash(runtimeType, tripId, coordinates, status, startTime);
 
   @JsonKey(ignore: true)
   @override
@@ -205,8 +229,10 @@ class _$StartTripRequestImpl
 abstract class _StartTripRequest implements StartTripRequest {
   const factory _StartTripRequest(
       {@JsonKey(name: "trip_id") required final int tripId,
-      required final LatLng_ coordinates,
-      required final TripStatus status}) = _$StartTripRequestImpl;
+      @JsonKey(name: "start_trip") required final LatLng_ coordinates,
+      required final TripStatus status,
+      @JsonKey(name: "start_trip_time")
+      required final DateTime startTime}) = _$StartTripRequestImpl;
 
   factory _StartTripRequest.fromJson(Map<String, dynamic> json) =
       _$StartTripRequestImpl.fromJson;
@@ -215,9 +241,13 @@ abstract class _StartTripRequest implements StartTripRequest {
   @JsonKey(name: "trip_id")
   int get tripId;
   @override
+  @JsonKey(name: "start_trip")
   LatLng_ get coordinates;
   @override
   TripStatus get status;
+  @override
+  @JsonKey(name: "start_trip_time")
+  DateTime get startTime;
   @override
   @JsonKey(ignore: true)
   _$$StartTripRequestImplCopyWith<_$StartTripRequestImpl> get copyWith =>
@@ -557,7 +587,7 @@ StartNavigationRequest _$StartNavigationRequestFromJson(
 
 /// @nodoc
 mixin _$StartNavigationRequest {
-  @JsonKey(name: "")
+  @JsonKey(name: "order_id")
   int get orderId => throw _privateConstructorUsedError;
   LatLng_ get coordinates => throw _privateConstructorUsedError;
   OrderStatus get status => throw _privateConstructorUsedError;
@@ -575,7 +605,7 @@ abstract class $StartNavigationRequestCopyWith<$Res> {
       _$StartNavigationRequestCopyWithImpl<$Res, StartNavigationRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: "") int orderId,
+      {@JsonKey(name: "order_id") int orderId,
       LatLng_ coordinates,
       OrderStatus status});
 
@@ -635,7 +665,7 @@ abstract class _$$StartNavigationRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "") int orderId,
+      {@JsonKey(name: "order_id") int orderId,
       LatLng_ coordinates,
       OrderStatus status});
 
@@ -683,7 +713,7 @@ class _$StartNavigationRequestImpl
     with DiagnosticableTreeMixin
     implements _StartNavigationRequest {
   const _$StartNavigationRequestImpl(
-      {@JsonKey(name: "") required this.orderId,
+      {@JsonKey(name: "order_id") required this.orderId,
       required this.coordinates,
       required this.status});
 
@@ -691,7 +721,7 @@ class _$StartNavigationRequestImpl
       _$$StartNavigationRequestImplFromJson(json);
 
   @override
-  @JsonKey(name: "")
+  @JsonKey(name: "order_id")
   final int orderId;
   @override
   final LatLng_ coordinates;
@@ -745,7 +775,7 @@ class _$StartNavigationRequestImpl
 
 abstract class _StartNavigationRequest implements StartNavigationRequest {
   const factory _StartNavigationRequest(
-      {@JsonKey(name: "") required final int orderId,
+      {@JsonKey(name: "order_id") required final int orderId,
       required final LatLng_ coordinates,
       required final OrderStatus status}) = _$StartNavigationRequestImpl;
 
@@ -753,7 +783,7 @@ abstract class _StartNavigationRequest implements StartNavigationRequest {
       _$StartNavigationRequestImpl.fromJson;
 
   @override
-  @JsonKey(name: "")
+  @JsonKey(name: "order_id")
   int get orderId;
   @override
   LatLng_ get coordinates;

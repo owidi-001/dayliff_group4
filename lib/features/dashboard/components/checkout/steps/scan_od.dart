@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -55,7 +56,12 @@ class ODScanWidget extends StatelessWidget {
                 ? ElevatedButton.icon(
                     onPressed: () {
                       // Go to next
-                      context.read<CheckOutBloc>().add(StepContinue());
+                      // context.read<CheckOutBloc>().add(StepContinue());
+                      context.read<ProcessingCubit>().orderConfirmationUpdate(
+                          OrderConfirmation(
+                              orderId: order.orderId!,
+                              odScan:
+                                  context.read<CheckOutBloc>().state.dnote));
                     },
                     icon: const Icon(Icons.check),
                     label: const Text("Save & Continue"),

@@ -10,17 +10,18 @@ _$StartTripRequestImpl _$$StartTripRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$StartTripRequestImpl(
       tripId: json['trip_id'] as int,
-      coordinates:
-          LatLng_.fromJson(json['coordinates'] as Map<String, dynamic>),
+      coordinates: LatLng_.fromJson(json['start_trip'] as Map<String, dynamic>),
       status: $enumDecode(_$TripStatusEnumMap, json['status']),
+      startTime: DateTime.parse(json['start_trip_time'] as String),
     );
 
 Map<String, dynamic> _$$StartTripRequestImplToJson(
         _$StartTripRequestImpl instance) =>
     <String, dynamic>{
       'trip_id': instance.tripId,
-      'coordinates': instance.coordinates,
+      'start_trip': instance.coordinates,
       'status': _$TripStatusEnumMap[instance.status]!,
+      'start_trip_time': instance.startTime.toIso8601String(),
     };
 
 const _$TripStatusEnumMap = {
@@ -56,7 +57,7 @@ Map<String, dynamic> _$$StartTripResponseImplToJson(
 _$StartNavigationRequestImpl _$$StartNavigationRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$StartNavigationRequestImpl(
-      orderId: json[''] as int,
+      orderId: json['order_id'] as int,
       coordinates:
           LatLng_.fromJson(json['coordinates'] as Map<String, dynamic>),
       status: $enumDecode(_$OrderStatusEnumMap, json['status']),
@@ -65,7 +66,7 @@ _$StartNavigationRequestImpl _$$StartNavigationRequestImplFromJson(
 Map<String, dynamic> _$$StartNavigationRequestImplToJson(
         _$StartNavigationRequestImpl instance) =>
     <String, dynamic>{
-      '': instance.orderId,
+      'order_id': instance.orderId,
       'coordinates': instance.coordinates,
       'status': _$OrderStatusEnumMap[instance.status]!,
     };

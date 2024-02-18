@@ -5,6 +5,7 @@ import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_view.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/extensions.dart';
 import 'package:dayliff/utils/utils.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
@@ -26,23 +27,12 @@ class TripView extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("${pool.route.name} route"),
+          title: Text("${pool.route.name} route".capitalize()),
         ),
         backgroundColor: const Color.fromRGBO(238, 238, 238, 1),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-              child: Text(
-                "Trip Map",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: StaticColors.dark),
-              ),
-            ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               constraints: BoxConstraints(
@@ -51,13 +41,14 @@ class TripView extends StatelessWidget {
                   BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Expanded(
                 child: Container(
-                    decoration: BoxDecoration(
-                        color: StaticColors.onPrimary,
-                        borderRadius: BorderRadius.circular(16)),
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.sizeOf(context).height / 2 -
-                            AppBar().preferredSize.height),
-                    child: MapsView(trip: pool)),
+                  decoration: BoxDecoration(
+                      color: StaticColors.onPrimary,
+                      borderRadius: BorderRadius.circular(16)),
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.sizeOf(context).height / 2 -
+                          AppBar().preferredSize.height),
+                  child: MapsView(trip: pool),
+                ),
               ),
             ),
             Padding(
@@ -370,7 +361,10 @@ class _StartHandOverState extends State<StartHandOver> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
       insetPadding: EdgeInsets.symmetric(
           horizontal: 16, vertical: AppBar().preferredSize.height),
       child: SingleChildScrollView(

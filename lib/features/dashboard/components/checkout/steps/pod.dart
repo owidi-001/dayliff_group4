@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -80,11 +82,21 @@ class PODWidget extends StatelessWidget {
                     ? ElevatedButton.icon(
                         onPressed: () {
                           if (state.orderImages.isEmpty) {
-                            showSnackBar(context,
-                                "Please capture one or more order images");
+                            showOverlayMessage(AppMessage(
+                                message:
+                                    "Please capture one or more order images",
+                                tone: MessageTone.warning));
                           } else {
-                            // Go to next
-                            context.read<CheckOutBloc>().add(StepContinue());
+                            context
+                                .read<ProcessingCubit>()
+                                .orderConfirmationUpdate(OrderConfirmation(
+                                    orderId: order.orderId!,
+                                    orderImages: context
+                                        .read<CheckOutBloc>()
+                                        .state
+                                        .orderImages));
+                            // // Go to next
+                            // context.read<CheckOutBloc>().add(StepContinue());
                           }
                         },
                         icon: const Icon(Icons.check),

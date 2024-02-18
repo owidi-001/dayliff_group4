@@ -1,5 +1,6 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
+import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/model/trip_dtos.dart';
@@ -13,13 +14,16 @@ part 'state.dart';
 class ProcessingCubit extends Cubit<ProcessingState> {
   final CheckoutService _service = service<CheckoutService>();
   final OrderBloc _orderBloc;
-  ProcessingCubit(this._orderBloc) : super(const ProcessingState());
+  final CheckOutBloc _checkOutBloc;
+  ProcessingCubit(this._orderBloc, this._checkOutBloc)
+      : super(const ProcessingState());
 
   // Start trip
   void startTrip(int tripId) async {
+    emit(state.copyWith(status: ServiceStatus.submissionInProgress));
+    // Find trip
     final trip =
         _orderBloc.state.trips.firstWhere((element) => element.id == tripId);
-    emit(state.copyWith(status: ServiceStatus.submissionInProgress));
     LatLng coordinates = LatLng(trip.origin!.lat!, trip.origin!.long!);
     // Set to current location
     await getCurrentLocation().then((value) {
@@ -30,10 +34,12 @@ class ProcessingCubit extends Cubit<ProcessingState> {
     // start coordinates
     final res = await _service.startTrip(
       payload: StartTripRequest(
-          tripId: trip.id,
-          coordinates: LatLng_(
-              latitude: coordinates.latitude, longitude: coordinates.longitude),
-          status: TripStatus.Active),
+        tripId: trip.id,
+        coordinates: LatLng_(
+            latitude: coordinates.latitude, longitude: coordinates.longitude),
+        status: TripStatus.Active,
+        startTime: DateTime.now(),
+      ),
     );
     // Handle response
     res.when(onError: (error) {
@@ -43,13 +49,16 @@ class ProcessingCubit extends Cubit<ProcessingState> {
             message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
     }, onSuccess: (data) {
-      // add trip to state
+      // Add trip to state
       emit(
         state.copyWith(
-          status: ServiceStatus.loadingSuccess,
-          selectedTrip: trip.copyWith(status: TripStatus.Active),
-          message: AppMessage(message: data.message, tone: MessageTone.success),
-        ),
+            status: ServiceStatus.loadingSuccess,
+            selectedTrip: trip.copyWith(status: TripStatus.Active),
+            message: AppMessage(
+              message: data.message,
+              tone: MessageTone.success,
+            ),
+            startTripSuccess: true),
       );
       _orderBloc
           .add(UpdateTrip(trip: trip.copyWith(status: TripStatus.Active)));
@@ -149,7 +158,8 @@ class ProcessingCubit extends Cubit<ProcessingState> {
   }
 
   // Validate customer
-  void orderConfirmationUpdate(OrderConfirmation confirmation) async {
+  void orderConfirmationUpdate(
+      OrderConfirmation confirmation, CheckoutEvent checkoutEvent) async {
     emit(
       state.copyWith(status: ServiceStatus.submissionInProgress),
     );
@@ -158,6 +168,8 @@ class ProcessingCubit extends Cubit<ProcessingState> {
       emit(state.copyWith(status: ServiceStatus.loadingFailure));
     }, onSuccess: (data) {
       emit(state.copyWith(status: ServiceStatus.loadingSuccess));
+      // Emit chekout event
+      _checkOutBloc.add(checkoutEvent);
     });
   }
 }

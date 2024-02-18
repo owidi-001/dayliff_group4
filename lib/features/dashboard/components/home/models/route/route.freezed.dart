@@ -1864,7 +1864,7 @@ mixin _$OrderConfirmation {
   @JsonKey(name: "receiver_id", includeFromJson: false)
   File? get receiverId => throw _privateConstructorUsedError; // signature
   @JsonKey(name: "Signature", includeFromJson: false)
-  File? get signature => throw _privateConstructorUsedError; // pod
+  Image? get signature => throw _privateConstructorUsedError; // pod
   @JsonKey(name: "order_images", includeFromJson: false)
   List<File> get orderImages => throw _privateConstructorUsedError; // od
   @JsonKey(name: "od_scan", includeFromJson: false)
@@ -1888,7 +1888,7 @@ abstract class $OrderConfirmationCopyWith<$Res> {
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "otp") String? otp,
       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+      @JsonKey(name: "Signature", includeFromJson: false) Image? signature,
       @JsonKey(name: "order_images", includeFromJson: false)
       List<File> orderImages,
       @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
@@ -1932,7 +1932,7 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
       signature: freezed == signature
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
-              as File?,
+              as Image?,
       orderImages: null == orderImages
           ? _value.orderImages
           : orderImages // ignore: cast_nullable_to_non_nullable
@@ -1961,7 +1961,7 @@ abstract class _$$OrderConfirmationImplCopyWith<$Res>
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "otp") String? otp,
       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+      @JsonKey(name: "Signature", includeFromJson: false) Image? signature,
       @JsonKey(name: "order_images", includeFromJson: false)
       List<File> orderImages,
       @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
@@ -2003,7 +2003,7 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
       signature: freezed == signature
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
-              as File?,
+              as Image?,
       orderImages: null == orderImages
           ? _value._orderImages
           : orderImages // ignore: cast_nullable_to_non_nullable
@@ -2052,7 +2052,7 @@ class _$OrderConfirmationImpl
 // signature
   @override
   @JsonKey(name: "Signature", includeFromJson: false)
-  final File? signature;
+  final Image? signature;
 // pod
   final List<File> _orderImages;
 // pod
@@ -2139,16 +2139,17 @@ class _$OrderConfirmationImpl
 
 abstract class _OrderConfirmation implements OrderConfirmation {
   const factory _OrderConfirmation(
-      {@JsonKey(name: "order_id") required final int orderId,
-      @JsonKey(name: "otp") final String? otp,
-      @JsonKey(name: "receiver_id", includeFromJson: false)
-      final File? receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) final File? signature,
-      @JsonKey(name: "order_images", includeFromJson: false)
-      final List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) final File? odScan,
-      @JsonKey(name: "comments")
-      final String? comments}) = _$OrderConfirmationImpl;
+          {@JsonKey(name: "order_id") required final int orderId,
+          @JsonKey(name: "otp") final String? otp,
+          @JsonKey(name: "receiver_id", includeFromJson: false)
+          final File? receiverId,
+          @JsonKey(name: "Signature", includeFromJson: false)
+          final Image? signature,
+          @JsonKey(name: "order_images", includeFromJson: false)
+          final List<File> orderImages,
+          @JsonKey(name: "od_scan", includeFromJson: false) final File? odScan,
+          @JsonKey(name: "comments") final String? comments}) =
+      _$OrderConfirmationImpl;
 
   factory _OrderConfirmation.fromJson(Map<String, dynamic> json) =
       _$OrderConfirmationImpl.fromJson;
@@ -2164,7 +2165,7 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   File? get receiverId;
   @override // signature
   @JsonKey(name: "Signature", includeFromJson: false)
-  File? get signature;
+  Image? get signature;
   @override // pod
   @JsonKey(name: "order_images", includeFromJson: false)
   List<File> get orderImages;

@@ -1,8 +1,8 @@
 // This file is "main.dart"
 // ignore_for_file: invalid_annotation_target
 
-
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
@@ -139,21 +139,22 @@ class Vehicle with _$Vehicle {
 
 @freezed
 class OrderConfirmation with _$OrderConfirmation {
-  const factory OrderConfirmation(
-      {@JsonKey(name: "order_id") required int orderId,
-      // validation
-      @JsonKey(name: "otp") String? otp,
-      @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
-      // signature
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-      // pod
-      @Default(<File>[])
-      @JsonKey(name: "order_images", includeFromJson: false)
-      List<File> orderImages,
-      // od
-      @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
-      // comments
-      @JsonKey(name: "comments") String? comments,}) = _OrderConfirmation;
+  const factory OrderConfirmation({
+    @JsonKey(name: "order_id") required int orderId,
+    // validation
+    @JsonKey(name: "otp") String? otp,
+    @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
+    // signature
+    @JsonKey(name: "Signature", includeFromJson: false) Image? signature,
+    // pod
+    @Default(<File>[])
+    @JsonKey(name: "order_images", includeFromJson: false)
+    List<File> orderImages,
+    // od
+    @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+    // comments
+    @JsonKey(name: "comments") String? comments,
+  }) = _OrderConfirmation;
 
   factory OrderConfirmation.fromJson(Map<String, Object?> json) =>
       _$OrderConfirmationFromJson(json);

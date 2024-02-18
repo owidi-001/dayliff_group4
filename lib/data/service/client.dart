@@ -46,9 +46,9 @@ class CheckoutService {
   HttpResult<StartTripResponse> startTrip(
       {required StartTripRequest payload}) async {
     return Http.put(
-      "/start-trip/",
+      "/trips/${payload.tripId}",
       payload.toJson(),
-      deserializer: (json) => json,
+      deserializer: (json) => StartTripResponse.fromJson(json),
     );
   }
 

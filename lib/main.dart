@@ -4,6 +4,8 @@ import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/settings/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_bloc/bloc.dart';
 import 'package:dayliff/splash.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/foundation.dart';
@@ -31,12 +33,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderBloc = OrderBloc();
+    final checkoutBloc = CheckOutBloc();
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => orderBloc),
           BlocProvider(create: (context) => SettingsBloc()),
-          BlocProvider(create: (context) => CheckOutBloc(orderBloc))
+          BlocProvider(create: (context) => ProcessingCubit(orderBloc,checkoutBloc)),
+          BlocProvider(create: (context) => MapsControllerBloc()),
+          BlocProvider(create: (context) => checkoutBloc)
         ],
         child: OverlaySupport.global(
           child: MaterialApp(

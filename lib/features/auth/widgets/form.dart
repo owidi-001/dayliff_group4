@@ -1,11 +1,17 @@
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({super.key, required this.hint, required this.onTap});
+  const PrimaryButton(
+      {super.key,
+      required this.hint,
+      required this.onTap,
+      this.isLoading = false});
 
   final String hint;
   final Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +27,31 @@ class PrimaryButton extends StatelessWidget {
         ),
       ),
       onPressed: onTap,
-      child: Text(hint),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(hint),
+          isLoading
+              ? const CircularProgressIndicator()
+              : const Icon(FontAwesomeIcons.arrowRight)
+        ],
+      ),
     );
   }
 }
 
 class PrimaryButtonIcon extends StatelessWidget {
   const PrimaryButtonIcon(
-      {super.key, required this.hint, required this.onTap, required this.icon});
+      {super.key,
+      required this.hint,
+      required this.onTap,
+      required this.icon,
+      this.isLoading = false});
 
   final String hint;
   final Widget icon;
   final Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -49,23 +68,33 @@ class PrimaryButtonIcon extends StatelessWidget {
       ),
       onPressed: onTap,
       icon: icon,
-      label: Text(hint),
+      label: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(hint),
+          if (isLoading) const CircularProgressIndicator()
+        ],
+      ),
     );
   }
 }
 
 class PrimaryOutlined extends StatelessWidget {
-  const PrimaryOutlined({super.key, required this.hint, required this.onTap});
+  const PrimaryOutlined(
+      {super.key,
+      required this.hint,
+      required this.onTap,
+      this.isLoading = false});
 
   final String hint;
 
   final Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
-        // backgroundColor: MaterialStatePropertyAll(StaticColors.primary),
         foregroundColor: MaterialStatePropertyAll(StaticColors.primary),
         fixedSize: const MaterialStatePropertyAll(Size(double.maxFinite, 50)),
         shape: MaterialStatePropertyAll(
@@ -76,7 +105,13 @@ class PrimaryOutlined extends StatelessWidget {
         ),
       ),
       onPressed: onTap,
-      child: Text(hint),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(hint),
+          if (isLoading) const CircularProgressIndicator()
+        ],
+      ),
     );
   }
 }

@@ -69,6 +69,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               .toList()));
     });
 
+
     // update order
     on<UpdateOrder>((event, emit) {
       final Trip trip =

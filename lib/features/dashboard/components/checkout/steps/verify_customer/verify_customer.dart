@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/verify_customer/verify_cubit.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,19 +57,22 @@ class _VerifyCustomerState extends State<VerifyCustomer> {
           height: AppBar().preferredSize.height / 2,
         ),
         AnimatedSwitcher(
-            duration: const Duration(milliseconds: 800),
-            switchInCurve: Curves.easeInCirc,
+            duration: const Duration(milliseconds: 300),
+            switchInCurve: Curves.easeInOutSine,
             // switchOutCurve: Curves.easeInOutBack,
             child: _character == VerificationMeans.OTP
-                ? const ByOTP()
-                : const ByID())
+                ? ByOTP(id: widget.order.orderId!)
+                : ByID(
+                    id: widget.order.orderId!,
+                  ))
       ],
     );
   }
 }
 
 class ByOTP extends StatelessWidget {
-  const ByOTP({super.key});
+  const ByOTP({super.key, required this.id});
+  final int id;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +114,9 @@ class ByOTP extends StatelessWidget {
                 // errorAnimationController: errorController,
                 controller: otpController,
                 onCompleted: (v) {
-                  debugPrint("Completed");
+                  // debugPrint("Completed");
+                  context.read<ProcessingCubit>().orderConfirmationUpdate(
+                      OrderConfirmation(orderId: id, otp: v));
                 },
 
                 onChanged: (value) {
@@ -130,8 +138,11 @@ class ByOTP extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () {
+                // Submit OTP
+                context.read<ProcessingCubit>().orderConfirmationUpdate(
+                    OrderConfirmation(orderId: id, otp: otpController.text));
                 // Go to next
-                context.read<CheckOutBloc>().add(StepContinue());
+                // context.read<CheckOutBloc>().add(StepContinue());
               },
               icon: const Icon(Icons.check),
               label: const Text("Verify"),
@@ -152,7 +163,8 @@ class ByOTP extends StatelessWidget {
 }
 
 class ByID extends StatelessWidget {
-  const ByID({super.key});
+  const ByID({super.key, required this.id});
+  final int id;
 
   @override
   Widget build(BuildContext context) {
@@ -182,12 +194,16 @@ class ByID extends StatelessWidget {
                 final XFile? image =
                     await picker.pickImage(source: ImageSource.camera);
                 if (image != null) {
-                  // Add image captured to state
-                  context.read<CheckOutBloc>().add(
-                        IDProof(
-                          image: File(image.path),
-                        ),
-                      );
+                  context.read<ProcessingCubit>().orderConfirmationUpdate(
+                      OrderConfirmation(
+                          orderId: id, receiverId: File(image.path)));
+                  // TODO! double check
+                  // // Add image captured to state
+                  // context.read<CheckOutBloc>().add(
+                  //       IDProof(
+                  //         image: File(image.path),
+                  //       ),
+                  //     );
                 }
               },
               icon: const Icon(Icons.document_scanner),
@@ -202,8 +218,12 @@ class ByID extends StatelessWidget {
                     ? ElevatedButton.icon(
                         onPressed: () {
                           if (state.otp == null && state.idPhoto == null) {
-                            showSnackBar(
-                                context, "Please verify by either ID or OTP");
+                            showOverlayMessage(
+                              AppMessage(
+                                  message:
+                                      "Please verify receiver by either ID or OTP",
+                                  tone: MessageTone.error),
+                            );
                           } else {
                             // Go to next
                             context.read<CheckOutBloc>().add(StepContinue());

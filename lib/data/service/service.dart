@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:dayliff/data/repository/maps_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
@@ -24,6 +25,7 @@ setUpService() {
   service.registerLazySingleton<AuthService>(() => AuthService());
   service.registerLazySingleton<OrderService>(() => OrderService());
   service.registerLazySingleton<MapsService>(() => MapsService());
+  service.registerLazySingleton<AddressService>(() => AddressService());
   service.registerLazySingleton<CheckoutService>(() => CheckoutService());
   service.registerLazySingleton<FirebaseClientService>(
       () => FirebaseClientService());

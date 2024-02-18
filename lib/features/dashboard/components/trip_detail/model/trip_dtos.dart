@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
@@ -9,9 +11,11 @@ part 'trip_dtos.g.dart';
 @freezed
 class StartTripRequest with _$StartTripRequest {
   const factory StartTripRequest(
-      {@JsonKey(name: "trip_id") required int tripId,
-      required LatLng_ coordinates,
-      required TripStatus status}) = _StartTripRequest;
+          {@JsonKey(name: "trip_id") required int tripId,
+          @JsonKey(name: "start_trip") required LatLng_ coordinates,
+          required TripStatus status,
+          @JsonKey(name: "start_trip_time") required DateTime startTime}) =
+      _StartTripRequest;
 
   factory StartTripRequest.fromJson(Map<String, Object?> json) =>
       _$StartTripRequestFromJson(json);
@@ -42,7 +46,7 @@ class StartTripResponse with _$StartTripResponse {
 @freezed
 class StartNavigationRequest with _$StartNavigationRequest {
   const factory StartNavigationRequest(
-      {@JsonKey(name: "") required int orderId,
+      {@JsonKey(name: "order_id") required int orderId,
       required LatLng_ coordinates,
       required OrderStatus status}) = _StartNavigationRequest;
 

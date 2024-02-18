@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
@@ -14,7 +15,7 @@ class CustomerSignature extends StatefulWidget {
 }
 
 class _CustomerSignatureState extends State<CustomerSignature> {
-  final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
+  final GlobalKey<SfSignaturePadState> _signaturePadKey = GlobalKey();
 
   @override
   void initState() {
@@ -22,12 +23,11 @@ class _CustomerSignatureState extends State<CustomerSignature> {
   }
 
   void _handleClearButtonPressed() {
-    signatureGlobalKey.currentState!.clear();
+    _signaturePadKey.currentState!.clear();
   }
 
   void _handleSaveButtonPressed() async {
-    final data =
-        await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+    final data = await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
     await showDialog(
         context: context,
@@ -50,7 +50,7 @@ class _CustomerSignatureState extends State<CustomerSignature> {
           Container(
               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
               child: SfSignaturePad(
-                  key: signatureGlobalKey,
+                  key: _signaturePadKey,
                   backgroundColor: Colors.white,
                   strokeColor: Colors.black,
                   minimumStrokeWidth: 1.0,
@@ -59,9 +59,13 @@ class _CustomerSignatureState extends State<CustomerSignature> {
           Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
             ElevatedButton.icon(
               icon: const Icon(Icons.check),
-              onPressed: () {
+              onPressed: () async {
+                ui.Image image = await _signaturePadKey.currentState!.toImage();
+                context.read<ProcessingCubit>().orderConfirmationUpdate(
+                    OrderConfirmation(
+                        orderId: widget.order.orderId!, signature: image));
                 // _handleSaveButtonPressed
-                context.read<CheckOutBloc>().add(StepContinue());
+                // context.read<CheckOutBloc>().add(StepContinue());
               },
               label: const Text('Continue'),
             ),

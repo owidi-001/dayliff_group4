@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 enum VerificationMeans { OTP, ID }
 
 class VerifyCustomerCubit extends Cubit<VerifyCustomerState> {
-  VerifyCustomerCubit() : super( VerifyCustomerState());
+  VerifyCustomerCubit() : super(VerifyCustomerState());
 
   void meansChanged(VerificationMeans means) {
     // emit();
@@ -21,7 +21,7 @@ class VerifyCustomerCubit extends Cubit<VerifyCustomerState> {
 class VerifyCustomerState extends Equatable {
   final VerificationMeans selectedMeans;
 
-  const VerifyCustomerState({this.selectedMeans=VerificationMeans.OTP});
+  const VerifyCustomerState({this.selectedMeans = VerificationMeans.OTP});
 
   VerifyCustomerState copyWith({VerificationMeans? selectedMeans}) {
     return VerifyCustomerState(

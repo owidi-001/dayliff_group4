@@ -1,5 +1,6 @@
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,11 +33,16 @@ class DeliveryComments extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () {
-                // Go to next
-                context.read<CheckOutBloc>().add(StepComplete());
-                // Go back
-                Future.delayed(const Duration(seconds: 3),
-                    () => Navigator.of(context).pop());
+                context.read<ProcessingCubit>().orderConfirmationUpdate(
+                    OrderConfirmation(
+                        orderId: order.orderId!,
+                        comments: commentsController.text));
+                // // Go to next
+                // context.read<Che
+                // ckOutBloc>().add(StepComplete());
+                // // Go back
+                // Future.delayed(const Duration(seconds: 3),
+                //     () => Navigator.of(context).pop());
               },
               icon: const Icon(Icons.check),
               label: const Text("Complete delivery"),

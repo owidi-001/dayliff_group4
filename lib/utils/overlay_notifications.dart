@@ -12,7 +12,7 @@ Color getMessageTone(MessageTone tone) {
     case MessageTone.success:
       return Colors.green;
     case MessageTone.warning:
-      return Colors.amber;
+      return Colors.deepOrange;
     case MessageTone.error:
       return Colors.red;
     default:

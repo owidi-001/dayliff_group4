@@ -1,3 +1,4 @@
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
@@ -423,8 +424,10 @@ class _LoginFormState extends State<LoginForm> {
                                     TextSpan(
                                       text: "Ad Account",
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () => showSnackBar(
-                                            context, "Coming soon"),
+                                        ..onTap = () => showOverlayMessage(
+                                            AppMessage(
+                                                message: "Coming soon",
+                                                tone: MessageTone.info)),
                                       style: TextStyle(
                                         color: StaticColors.primary,
                                       ),

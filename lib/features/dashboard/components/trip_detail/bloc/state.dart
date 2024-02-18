@@ -6,22 +6,27 @@ class ProcessingState extends Equatable {
   final Order? selectedOrder;
   final AppMessage? message;
   final OrderConfirmation? confirmation;
+  // events notifier
+  final bool? startTripSuccess;
 
   const ProcessingState(
       {this.status = ServiceStatus.initial,
       this.selectedTrip,
       this.selectedOrder,
       this.message,
-      this.confirmation});
+      this.confirmation,
+      this.startTripSuccess = false});
 
   ProcessingState copyWith(
       {AppMessage? message,
       ServiceStatus? status,
       Trip? selectedTrip,
       Order? selectedOrder,
-      OrderConfirmation? confirmation}) {
+      OrderConfirmation? confirmation,
+      bool? startTripSuccess}) {
     return ProcessingState(
-      message: message ?? this.message,
+      message: message,
+      startTripSuccess: startTripSuccess,
       status: status ?? this.status,
       selectedOrder: selectedOrder ?? this.selectedOrder,
       selectedTrip: selectedTrip ?? this.selectedTrip,

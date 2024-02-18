@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
                   tabs: [
                     Tab(
                         child: Text(
-                      "TO DO",
+                      "To Do",
                       style: TextStyle(color: StaticColors.onPrimary),
                     )),
                     Tab(
@@ -240,10 +240,14 @@ class Schedules extends StatelessWidget {
             context.read<OrderBloc>().add(RefreshRoutes());
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
-                  return state.activeRoute != null
+                  return state.trips
+                          .where(
+                              (element) => element.status == TripStatus.Active)
+                          .isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 16),
@@ -261,12 +265,16 @@ class Schedules extends StatelessWidget {
               // Active Order
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
-                  return state.activeRoute != null
+                  return state.trips
+                          .where(
+                              (element) => element.status == TripStatus.Active)
+                          .isNotEmpty
                       ? AnimateInEffect(
                           keepAlive: true,
                           intervalStart: 0,
                           child: TripTile(
-                            trip: state.activeRoute!,
+                            trip: state.trips.firstWhere((element) =>
+                                element.status == TripStatus.Active),
                           ),
                         )
                       : const SizedBox.shrink();
@@ -298,20 +306,29 @@ class Schedules extends StatelessWidget {
 
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
-                  return state.trips.isNotEmpty
+                  return state.trips
+                          .where(
+                              (element) => element.status != TripStatus.Active)
+                          .isNotEmpty
                       ? ListView.separated(
                           padding: EdgeInsets.zero,
-                          itemCount: state.trips.length,
+                          itemCount: state.trips
+                              .where((element) =>
+                                  element.status != TripStatus.Active)
+                              .length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) => AnimateInEffect(
                             keepAlive: true,
                             intervalStart: index / 5,
                             child: TripTile(
-                              trip: state.trips[index],
+                              trip: state.trips
+                                  .where((element) =>
+                                      element.status != TripStatus.Active)
+                                  .toList()[index],
                             ),
                           ),
-                          separatorBuilder: (context, index) => Divider(
+                          separatorBuilder: (context, index) => const Divider(
                             color: Colors.transparent,
                           ),
                         )
