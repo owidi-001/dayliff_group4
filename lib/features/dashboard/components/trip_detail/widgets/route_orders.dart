@@ -1,5 +1,6 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/widgets/order_dialog.dart';
+
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';

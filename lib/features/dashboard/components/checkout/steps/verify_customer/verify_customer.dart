@@ -70,94 +70,109 @@ class _VerifyCustomerState extends State<VerifyCustomer> {
   }
 }
 
-class ByOTP extends StatelessWidget {
+class ByOTP extends StatefulWidget {
   const ByOTP({super.key, required this.id});
   final int id;
 
   @override
+  State<ByOTP> createState() => _ByOTPState();
+}
+
+class _ByOTPState extends State<ByOTP> {
+  final GlobalKey<FormState> _otpFormKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
     TextEditingController otpController = TextEditingController();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Enter receiver's OTP",
-          textAlign: TextAlign.left,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: PinCodeTextField(
-                appContext: context,
-                length: 4,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.underline,
-                    borderRadius: BorderRadius.circular(8),
-                    fieldHeight: 50,
-                    activeColor: StaticColors.primary,
-                    activeFillColor: StaticColors.primary.withOpacity(.2),
-                    selectedFillColor: StaticColors.primary.withOpacity(.2),
-                    selectedColor: StaticColors.primary,
-                    fieldWidth: 40,
-                    inactiveColor: Colors.grey.shade400,
-                    inactiveFillColor: Theme.of(context).colorScheme.onPrimary),
-                animationDuration: const Duration(milliseconds: 300),
-                // backgroundColor: Colors.blue.shade50,
-                backgroundColor: Colors.transparent,
-                enableActiveFill: true,
-                // errorAnimationController: errorController,
-                controller: otpController,
-                onCompleted: (v) {
-                  // debugPrint("Completed");
-                  context.read<ProcessingCubit>().orderConfirmationUpdate(
-                      OrderConfirmation(orderId: id, otp: v));
-                },
+    return Form(
+      key: _otpFormKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Enter receiver's OTP",
+            textAlign: TextAlign.left,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: PinCodeTextField(
+                  appContext: context,
+                  length: 4,
+                  obscureText: false,
+                  animationType: AnimationType.fade,
 
-                onChanged: (value) {
-                  context.read<CheckOutBloc>().add(OtpChanged(otp: value));
-                },
-                beforeTextPaste: (text) {
-                  debugPrint("Allowing to paste $text");
+                  pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.underline,
+                      borderRadius: BorderRadius.circular(8),
+                      fieldHeight: 50,
+                      activeColor: StaticColors.primary,
+                      activeFillColor: StaticColors.primary.withOpacity(.2),
+                      selectedFillColor: StaticColors.primary.withOpacity(.2),
+                      selectedColor: StaticColors.primary,
+                      fieldWidth: 40,
+                      inactiveColor: Colors.grey.shade400,
+                      inactiveFillColor:
+                          Theme.of(context).colorScheme.onPrimary),
+                  animationDuration: const Duration(milliseconds: 300),
+                  // backgroundColor: Colors.blue.shade50,
+                  backgroundColor: Colors.transparent,
+                  enableActiveFill: true,
+                  // errorAnimationController: errorController,
+                  controller: otpController,
+                  onCompleted: (v) {
+                    context.read<ProcessingCubit>().orderConfirmationUpdate(
+                        OrderConfirmation(orderId: widget.id, otp: v),
+                        StepContinue());
+                  },
 
-                  return true;
-                },
+                  onChanged: (value) {
+                    context.read<CheckOutBloc>().add(OtpChanged(otp: value));
+                  },
+                  validator: (value) {
+                    if (value!.length < 3) {
+                      return "OTP too short";
+                    } else {
+                      return null;
+                    }
+                  },
+                  beforeTextPaste: (text) {
+                    debugPrint("Allowing to paste $text");
+                    return true;
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Row(
-          children: [
-            ElevatedButton.icon(
-              onPressed: () {
-                // Submit OTP
-                context.read<ProcessingCubit>().orderConfirmationUpdate(
-                    OrderConfirmation(orderId: id, otp: otpController.text));
-                // Go to next
-                // context.read<CheckOutBloc>().add(StepContinue());
-              },
-              icon: const Icon(Icons.check),
-              label: const Text("Verify"),
-            ),
-            // Expanded(
-            //   child: TextButton(
-            //     onPressed: () {
-            //       context.read<CheckOutBloc>().add(StepCancelled());
-            //     },
-            //     child: const Text('Submit'),
-            //   ),
-            // ),
-          ],
-        ),
-      ],
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Row(
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  if (_otpFormKey.currentState!.validate()) {
+                    // Submit OTP
+                    context.read<ProcessingCubit>().orderConfirmationUpdate(
+                        OrderConfirmation(
+                            orderId: widget.id, otp: otpController.text),
+                        StepContinue());
+                  } else {
+                    showOverlayMessage(AppMessage(
+                        message: "Fill in the otp", tone: MessageTone.error));
+                  }
+                },
+                icon: const Icon(Icons.check),
+                label: const Text("Verify"),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -194,16 +209,12 @@ class ByID extends StatelessWidget {
                 final XFile? image =
                     await picker.pickImage(source: ImageSource.camera);
                 if (image != null) {
-                  context.read<ProcessingCubit>().orderConfirmationUpdate(
-                      OrderConfirmation(
-                          orderId: id, receiverId: File(image.path)));
-                  // TODO! double check
-                  // // Add image captured to state
-                  // context.read<CheckOutBloc>().add(
-                  //       IDProof(
-                  //         image: File(image.path),
-                  //       ),
-                  //     );
+                  // Add image captured to state
+                  context.read<CheckOutBloc>().add(
+                        IDProof(
+                          image: File(image.path),
+                        ),
+                      );
                 }
               },
               icon: const Icon(Icons.document_scanner),
@@ -225,8 +236,17 @@ class ByID extends StatelessWidget {
                                   tone: MessageTone.error),
                             );
                           } else {
-                            // Go to next
-                            context.read<CheckOutBloc>().add(StepContinue());
+                            context
+                                .read<ProcessingCubit>()
+                                .orderConfirmationUpdate(
+                                    OrderConfirmation(
+                                      orderId: id,
+                                      receiverId: context
+                                          .read<CheckOutBloc>()
+                                          .state
+                                          .idPhoto,
+                                    ),
+                                    StepContinue());
                           }
                         },
                         icon: const Icon(Icons.check),

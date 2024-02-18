@@ -47,6 +47,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
           LatLng(event.pool.origin!.lat!, event.pool.origin!.long!), () {
         // Do nothing
       }, state.warehouseIcon);
+
       // Create start point marker for warehouse
       emit(
         state.copyWith(
@@ -56,9 +57,12 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
 
       // Get driver location
       LocationData? currentLocation = await setLocation();
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           currentLocation:
-              LatLng(currentLocation.latitude!, currentLocation.longitude!)));
+              LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        ),
+      );
 
       // Add orders to maps
       add(PopulateOrdersLocations(orders: event.pool.orders));
@@ -85,14 +89,15 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
 
       debugPrint("Markers generated: $markers");
       // Update state
-      emit(
-        state.copyWith(orderMarkers: markers, markers: [
-          // state.startPoint!,
-          ...state.companyMarkers,
-          ...state.warehouseMarkers,
-          ...state.orderMarkers
-        ]),
-      );
+      emit(state.copyWith(markers: markers));
+      // emit(
+      //   state.copyWith(orderMarkers: markers, markers: [
+      //     // state.startPoint!,
+      //     ...state.companyMarkers,
+      //     ...state.warehouseMarkers,
+      //     ...state.orderMarkers
+      //   ]),
+      // );
       // // Draw polylines for the above
       add(DrawMarkerPolylines());
     });
@@ -106,7 +111,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
     on<DrawMarkerPolylines>((event, emit) async {
       final polylines = <Polyline>[];
       // Draw order polylines
-      for (var destination in state.orderMarkers) {
+      for (var destination in state.markers) {
         await _addressService
             .polyline(state.startPoint!.position, destination.position)
             .then((value) {
@@ -138,7 +143,7 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
       debugPrint("Polylines created $polylines");
 
       // Save to state
-      emit(state.copyWith(polylines: polylines));
+      emit(state.copyWith(polylines: [...polylines, ...state.polylines]));
     });
   }
 }

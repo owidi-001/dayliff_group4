@@ -1,7 +1,7 @@
 part of 'bloc.dart';
 
 class CheckoutState extends Equatable {
-  final String? message;
+  final AppMessage? message;
   final ServiceStatus status;
   final List<File> orderImages;
   final File? dnote;
@@ -9,7 +9,7 @@ class CheckoutState extends Equatable {
   final Order? order;
   final String? otp;
   final String? comment;
-  final bool otpVerified;
+  final bool checkoutSuccess;
   final int step;
 
   const CheckoutState(
@@ -21,12 +21,12 @@ class CheckoutState extends Equatable {
       this.idPhoto,
       this.otp,
       this.comment,
-      this.otpVerified = false,
+      this.checkoutSuccess = false,
       this.step = 0});
 
   CheckoutState copyWith(
       {List<Trip>? pools,
-      String? message,
+      AppMessage? message,
       ServiceStatus? status,
       List<File>? orderImages,
       File? dnote,
@@ -34,7 +34,7 @@ class CheckoutState extends Equatable {
       Order? order,
       String? otp,
       String? comment,
-      bool? otpVerified,
+      bool? checkoutSuccess,
       int? step}) {
     return CheckoutState(
         message: message,
@@ -44,7 +44,7 @@ class CheckoutState extends Equatable {
         otp: otp ?? this.otp,
         idPhoto: idPhoto ?? idPhoto,
         comment: comment ?? this.comment,
-        otpVerified: otpVerified ?? this.otpVerified,
+        checkoutSuccess: checkoutSuccess ?? this.checkoutSuccess,
         dnote: dnote ?? this.dnote,
         step: step ?? this.step);
   }
@@ -58,7 +58,7 @@ class CheckoutState extends Equatable {
         otp,
         idPhoto,
         comment,
-        otpVerified,
+        checkoutSuccess,
         step,
         dnote
       ];

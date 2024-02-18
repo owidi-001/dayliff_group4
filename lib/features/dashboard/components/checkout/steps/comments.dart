@@ -35,14 +35,10 @@ class DeliveryComments extends StatelessWidget {
               onPressed: () {
                 context.read<ProcessingCubit>().orderConfirmationUpdate(
                     OrderConfirmation(
-                        orderId: order.orderId!,
-                        comments: commentsController.text));
-                // // Go to next
-                // context.read<Che
-                // ckOutBloc>().add(StepComplete());
-                // // Go back
-                // Future.delayed(const Duration(seconds: 3),
-                //     () => Navigator.of(context).pop());
+                      orderId: order.orderId!,
+                      comments: commentsController.text,
+                    ),
+                    StepComplete());
               },
               icon: const Icon(Icons.check),
               label: const Text("Complete delivery"),

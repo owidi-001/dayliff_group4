@@ -89,14 +89,14 @@ class PODWidget extends StatelessWidget {
                           } else {
                             context
                                 .read<ProcessingCubit>()
-                                .orderConfirmationUpdate(OrderConfirmation(
-                                    orderId: order.orderId!,
-                                    orderImages: context
-                                        .read<CheckOutBloc>()
-                                        .state
-                                        .orderImages));
-                            // // Go to next
-                            // context.read<CheckOutBloc>().add(StepContinue());
+                                .orderConfirmationUpdate(
+                                    OrderConfirmation(
+                                        orderId: order.orderId!,
+                                        orderImages: context
+                                            .read<CheckOutBloc>()
+                                            .state
+                                            .orderImages),
+                                    StepContinue());
                           }
                         },
                         icon: const Icon(Icons.check),

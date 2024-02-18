@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:equatable/equatable.dart';
@@ -25,7 +26,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     );
     on<StepComplete>((event, emit) {
       emit(
-        state.copyWith(message: "Delivery completed successfully"),
+        state.copyWith(message: AppMessage(message: "Delivery completed successfully", tone: MessageTone.success)),
       );
       // clear state
       emit(const CheckoutState());

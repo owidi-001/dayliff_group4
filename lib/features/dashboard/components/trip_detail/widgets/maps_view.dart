@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/order_dialog.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/widgets/order_dialog.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -140,13 +140,14 @@ class _MapsViewState extends State<MapsView> {
 
   @override
   Widget build(BuildContext context) {
-    final Completer<GoogleMapController> _controller =
-        Completer<GoogleMapController>();
     // Check if map is in initial state
     if (context.read<MapsControllerBloc>().state.status ==
         ServiceStatus.initial) {
       context.read<MapsControllerBloc>().add(StartMapsEvent(pool: widget.trip));
     }
+
+    final Completer<GoogleMapController> _controller =
+        Completer<GoogleMapController>();
     return BlocListener<MapsControllerBloc, MapsState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -207,7 +208,7 @@ class _MapsViewState extends State<MapsView> {
             },
             mapType: MapType.terrain,
             markers: state.markers.toSet(),
-            polylines: state.polylines?.toSet() ?? {},
+            polylines: state.polylines.toSet(),
             circles: {
               Circle(
                 circleId: const CircleId("current"),

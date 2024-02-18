@@ -3,11 +3,11 @@ part of 'bloc.dart';
 // States
 class MapsState extends Equatable {
   final LatLng? currentLocation;
-  final List<Polyline>? polylines;
+  final List<Polyline> polylines;
   final List<Marker> markers;
-  final List<Marker> companyMarkers;
-  final List<Marker> warehouseMarkers;
-  final List<Marker> orderMarkers;
+  // final List<Marker> companyMarkers;
+  // final List<Marker> warehouseMarkers;
+  // final List<Marker> orderMarkers;
   final Marker? startPoint;
   final double tilt;
   final double zoom;
@@ -23,9 +23,9 @@ class MapsState extends Equatable {
       {this.currentLocation,
       this.polylines = const [],
       this.markers = const [],
-      this.companyMarkers = const [],
-      this.warehouseMarkers = const [],
-      this.orderMarkers = const [],
+      // this.companyMarkers = const [],
+      // this.warehouseMarkers = const [],
+      // this.orderMarkers = const [],
       this.startPoint,
       this.tilt = 0.0,
       this.zoom = 14.4,
@@ -41,9 +41,9 @@ class MapsState extends Equatable {
     LatLng? currentLocation,
     List<Polyline>? polylines,
     List<Marker>? markers,
-    List<Marker>? companyMarkers,
-    List<Marker>? warehouseMarkers,
-    List<Marker>? orderMarkers,
+    // List<Marker>? companyMarkers,
+    // List<Marker>? warehouseMarkers,
+    // List<Marker>? orderMarkers,
     Marker? startPoint,
     AppMessage? message,
     ServiceStatus? status,
@@ -61,9 +61,9 @@ class MapsState extends Equatable {
       polylines: polylines ?? this.polylines,
       markers: markers ?? this.markers,
       startPoint: startPoint ?? this.startPoint,
-      companyMarkers: companyMarkers ?? this.companyMarkers,
-      orderMarkers: orderMarkers ?? this.orderMarkers,
-      warehouseMarkers: warehouseMarkers ?? this.warehouseMarkers,
+      // companyMarkers: companyMarkers ?? this.companyMarkers,
+      // orderMarkers: orderMarkers ?? this.orderMarkers,
+      // warehouseMarkers: warehouseMarkers ?? this.warehouseMarkers,
       message: message ?? this.message,
       status: status ?? this.status,
       tilt: tilt ?? this.tilt,
@@ -79,9 +79,9 @@ class MapsState extends Equatable {
   @override
   List<Object?> get props => [
         markers,
-        companyMarkers,
-        warehouseMarkers,
-        orderMarkers,
+        // companyMarkers,
+        // warehouseMarkers,
+        // orderMarkers,
         currentLocation,
         message,
         status,

@@ -34,7 +34,7 @@ class TripView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               constraints: BoxConstraints(
                   maxHeight: MediaQuery.sizeOf(context).height / 2),
               decoration:
@@ -53,7 +53,7 @@ class TripView extends StatelessWidget {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: Text(
                 "Trip Deliveries",
                 style: Theme.of(context)
@@ -330,14 +330,60 @@ class OrderDialog extends StatelessWidget {
                   onTap: () {
                     // Close this dialog
                     Navigator.of(context).pop();
-                    // Open start service
-                    showDialog(
+                    // Confirm start navigations
+                    showModalBottomSheet(
+                        isDismissible: false,
+                        showDragHandle: true,
+                        useSafeArea: true,
+                        useRootNavigator: true,
                         context: context,
-                        builder: (context) => StartHandOver(order: order));
-                    // Start navigation
-                    AppUtility.realTimeNavigation(
-                      LatLng(order.destination!.lat!, order.destination!.long!),
-                    );
+                        builder: (context) => Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: MediaQuery.sizeOf(context).width,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 32, vertical: 8),
+                                    child: PrimaryButtonIcon(
+                                        onTap: () {
+                                          // Close this bottomsheet
+                                          Navigator.of(context).pop();
+
+                                          // Start navigation
+                                          AppUtility.realTimeNavigation(
+                                            LatLng(order.destination!.lat!,
+                                                order.destination!.long!),
+                                          );
+                                          // Open start service
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  StartHandOver(order: order));
+                                        },
+                                        icon: const Icon(FontAwesomeIcons.map),
+                                        hint: "Open maps to location"),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextButton(
+                                        onPressed: () {
+                                          // Close this bottomsheet
+                                          Navigator.of(context).pop();
+                                          // Open start service
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  StartHandOver(order: order));
+                                        },
+                                        child: const Text(
+                                            "Continue without maps")),
+                                  )
+                                ],
+                              ),
+                            ));
                   }),
             )
           ],
@@ -398,18 +444,18 @@ class _StartHandOverState extends State<StartHandOver> {
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(.1),
+                  color: Colors.red.withOpacity(.1),
                   borderRadius: BorderRadius.circular(8)),
               child: const ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(
                   FontAwesomeIcons.locationDot,
-                  color: Colors.green,
+                  color: Colors.red,
                 ),
-                title: Text("Reached destination"),
+                title: Text("Start when at destination"),
                 trailing: Icon(
                   FontAwesomeIcons.bell,
-                  color: Colors.green,
+                  color: Colors.red,
                 ),
               ),
             ),

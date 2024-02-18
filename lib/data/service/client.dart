@@ -108,8 +108,8 @@ class CheckoutService {
       }
     }
 
-    return Http.post(
-      "/confirm_delivery/",
+    return Http.put(
+      "/deliveryconfirmations/${confirmation.orderId}",
       data,
       deserializer: (json) => Order.fromJson(json),
     );

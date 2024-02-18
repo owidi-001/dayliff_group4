@@ -161,7 +161,10 @@ class ProcessingCubit extends Cubit<ProcessingState> {
   void orderConfirmationUpdate(
       OrderConfirmation confirmation, CheckoutEvent checkoutEvent) async {
     emit(
-      state.copyWith(status: ServiceStatus.submissionInProgress),
+      state.copyWith(
+          status: ServiceStatus.submissionInProgress,
+          message:
+              AppMessage(message: "Please wait...", tone: MessageTone.info)),
     );
     final res = await _service.confirmDelivery(confirmation: confirmation);
     res.when(onError: (error) {

@@ -55,13 +55,11 @@ class ODScanWidget extends StatelessWidget {
             state.dnote != null
                 ? ElevatedButton.icon(
                     onPressed: () {
-                      // Go to next
-                      // context.read<CheckOutBloc>().add(StepContinue());
                       context.read<ProcessingCubit>().orderConfirmationUpdate(
                           OrderConfirmation(
                               orderId: order.orderId!,
-                              odScan:
-                                  context.read<CheckOutBloc>().state.dnote));
+                              odScan: context.read<CheckOutBloc>().state.dnote),
+                          StepContinue());
                     },
                     icon: const Icon(Icons.check),
                     label: const Text("Save & Continue"),

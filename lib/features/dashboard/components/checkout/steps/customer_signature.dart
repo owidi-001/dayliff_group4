@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
@@ -26,20 +29,20 @@ class _CustomerSignatureState extends State<CustomerSignature> {
     _signaturePadKey.currentState!.clear();
   }
 
-  void _handleSaveButtonPressed() async {
-    final data = await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
-    final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              color: Colors.grey[300],
-              child: Image.memory(bytes!.buffer.asUint8List()),
-            ),
-          );
-        });
-  }
+  // void _handleSaveButtonPressed() async {
+  //   final data = await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
+  //   final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return Dialog(
+  //           child: Container(
+  //             color: Colors.grey[300],
+  //             child: Image.memory(bytes!.buffer.asUint8List()),
+  //           ),
+  //         );
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +64,14 @@ class _CustomerSignatureState extends State<CustomerSignature> {
               icon: const Icon(Icons.check),
               onPressed: () async {
                 ui.Image image = await _signaturePadKey.currentState!.toImage();
-                context.read<ProcessingCubit>().orderConfirmationUpdate(
-                    OrderConfirmation(
-                        orderId: widget.order.orderId!, signature: image));
-                // _handleSaveButtonPressed
-                // context.read<CheckOutBloc>().add(StepContinue());
+                Uint8List? byteData = await imageToByte(image);
+                File? imageFile = await saveImage(byteData!);
+                if (imageFile != null) {
+                  context.read<ProcessingCubit>().orderConfirmationUpdate(
+                      OrderConfirmation(
+                          orderId: widget.order.orderId!, signature: imageFile),
+                      StepContinue());
+                }
               },
               label: const Text('Continue'),
             ),
@@ -75,11 +81,6 @@ class _CustomerSignatureState extends State<CustomerSignature> {
                 child: const Text('Clear'),
               ),
             ),
-            // ElevatedButton.icon(
-            //   icon: const Icon(Icons.remove_red_eye),
-            //   onPressed: _handleSaveButtonPressed,
-            //   label: const Text('View'),
-            // ),
           ])
         ]);
   }

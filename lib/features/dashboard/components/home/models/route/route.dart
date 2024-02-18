@@ -145,7 +145,7 @@ class OrderConfirmation with _$OrderConfirmation {
     @JsonKey(name: "otp") String? otp,
     @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
     // signature
-    @JsonKey(name: "Signature", includeFromJson: false) Image? signature,
+    @JsonKey(name: "Signature", includeFromJson: false) File? signature,
     // pod
     @Default(<File>[])
     @JsonKey(name: "order_images", includeFromJson: false)
