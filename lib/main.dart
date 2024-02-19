@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => orderBloc),
           BlocProvider(create: (context) => SettingsBloc()),
-          BlocProvider(create: (context) => ProcessingCubit(orderBloc,checkoutBloc)),
+          BlocProvider(
+              create: (context) => ProcessingCubit(orderBloc, checkoutBloc)),
           BlocProvider(create: (context) => MapsControllerBloc()),
           BlocProvider(create: (context) => checkoutBloc)
         ],

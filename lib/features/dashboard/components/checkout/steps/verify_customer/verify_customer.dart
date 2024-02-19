@@ -131,8 +131,9 @@ class _ByOTPState extends State<ByOTP> {
                     //     StepContinue());
                     if (_otpFormKey.currentState!.validate()) {
                       // Submit OTP
-                      context.read<ProcessingCubit>().otpValidation(
-                          otpController.text, widget.id, StepContinue());
+                      context
+                          .read<ProcessingCubit>()
+                          .otpValidation(v, widget.id, StepContinue());
                     } else {
                       showOverlayMessage(AppMessage(
                           message: "Fill in the otp", tone: MessageTone.error));

@@ -81,6 +81,14 @@ class CheckoutService {
     );
   }
 
+  HttpResult<String> updateTrip(int id, TripStatus status) {
+    return Http.post(
+      "/trips/$id",
+      {"status": status.toStringValue().toUpperCase()},
+      deserializer: (json) => json["message"],
+    );
+  }
+
   // Confirm the delivery
   HttpResult<String> confirmDelivery(
       {required OrderConfirmation confirmation}) async {

@@ -1,11 +1,13 @@
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/models/messages/app_message.dart';
+import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_view.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/empty_list.dart';
 import 'package:dayliff/utils/extensions.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/utils.dart';
@@ -72,17 +74,57 @@ class TripView extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      ListView.separated(
-                        padding: EdgeInsets.zero,
-                        itemCount: pool.orders.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => AnimateInEffect(
-                            child: OrderCard(order: pool.orders[index])),
-                        separatorBuilder: (context, index) => const Divider(
-                          color: Colors.transparent,
-                        ),
-                      ),
+                      pool.orders.isEmpty
+                          ? Container(
+                              width: MediaQuery.sizeOf(context).width,
+                              padding: const EdgeInsets.all(32),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                              constraints: const BoxConstraints(maxHeight: 200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  BlocBuilder<OrderBloc, OrderState>(
+                                    builder: (context, state) {
+                                      return state.status ==
+                                              ServiceStatus.loading
+                                          ? const CircularProgressIndicator()
+                                          : const SizedBox.shrink();
+                                    },
+                                  ),
+                                  Text(
+                                    "No orders in assigned for this trip",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  TextButton.icon(
+                                      onPressed: () {
+                                        context
+                                            .read<OrderBloc>()
+                                            .add(RefreshRoutes());
+                                      },
+                                      icon: const Icon(
+                                          FontAwesomeIcons.arrowRotateLeft),
+                                      label: const Text("refresh"))
+                                ],
+                              ),
+                            )
+                          : ListView.separated(
+                              padding: EdgeInsets.zero,
+                              itemCount: pool.orders.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => AnimateInEffect(
+                                  child: OrderCard(order: pool.orders[index])),
+                              separatorBuilder: (context, index) =>
+                                  const Divider(
+                                color: Colors.transparent,
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -102,9 +144,12 @@ class OrderCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (order.status == OrderStatus.COMPLETED) {
-          showOverlayMessage(AppMessage(
+          showOverlayMessage(
+            AppMessage(
               message: "This order has been delivered successfully!",
-              tone: MessageTone.success));
+              tone: MessageTone.success,
+            ),
+          );
         } else if (order.status == OrderStatus.CANCELLED) {
           showOverlayMessage(AppMessage(
               message: "This order has been cancelled!",

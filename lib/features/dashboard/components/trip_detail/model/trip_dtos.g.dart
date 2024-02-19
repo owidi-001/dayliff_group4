@@ -28,6 +28,7 @@ const _$TripStatusEnumMap = {
   TripStatus.ACTIVE: 'ACTIVE',
   TripStatus.INCOMPLETE: 'INCOMPLETE',
   TripStatus.COMPLETED: 'COMPLETED',
+  TripStatus.CANCELLED: 'CANCELLED',
 };
 
 _$LatLng_Impl _$$LatLng_ImplFromJson(Map<String, dynamic> json) =>
@@ -72,7 +73,7 @@ Map<String, dynamic> _$$StartNavigationRequestImplToJson(
     };
 
 const _$OrderStatusEnumMap = {
-  OrderStatus.INCOMPLETE: 'INCOMPLETE',
+  OrderStatus.SCHEDULED: 'SCHEDULED',
   OrderStatus.ACTIVE: 'ACTIVE',
   OrderStatus.COMPLETED: 'COMPLETED',
   OrderStatus.CANCELLED: 'CANCELLED',

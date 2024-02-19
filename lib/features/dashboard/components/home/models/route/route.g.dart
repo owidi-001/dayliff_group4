@@ -55,6 +55,7 @@ const _$TripStatusEnumMap = {
   TripStatus.ACTIVE: 'ACTIVE',
   TripStatus.INCOMPLETE: 'INCOMPLETE',
   TripStatus.COMPLETED: 'COMPLETED',
+  TripStatus.CANCELLED: 'CANCELLED',
 };
 
 _$DriverImpl _$$DriverImplFromJson(Map<String, dynamic> json) => _$DriverImpl(
@@ -104,7 +105,7 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     };
 
 const _$OrderStatusEnumMap = {
-  OrderStatus.INCOMPLETE: 'INCOMPLETE',
+  OrderStatus.SCHEDULED: 'SCHEDULED',
   OrderStatus.ACTIVE: 'ACTIVE',
   OrderStatus.COMPLETED: 'COMPLETED',
   OrderStatus.CANCELLED: 'CANCELLED',

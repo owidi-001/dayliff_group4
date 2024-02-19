@@ -27,7 +27,7 @@ Color getStatusColor(OrderStatus status) {
       return Colors.green;
     // case OrderStatus.PARTIAL:
     //   return Colors.black;
-    case OrderStatus.INCOMPLETE:
+    case OrderStatus.SCHEDULED:
       return Colors.deepOrange;
     default:
       return Colors.blue;
@@ -42,7 +42,7 @@ IconData getStatusIcon(OrderStatus status) {
       return Icons.check;
     // case OrderStatus.PARTIAL:
     //   return Icons.incomplete_circle;
-    case OrderStatus.INCOMPLETE:
+    case OrderStatus.SCHEDULED:
       return Icons.pending;
     default:
       return Icons.access_time;
@@ -62,7 +62,7 @@ Future<Uint8List?> imageToByte(ui.Image image) async {
     }
     return null;
   } catch (e) {
-    print("Error converting image to bytes: $e");
+    debugPrint("Error converting image to bytes: $e");
     return null;
   }
 }
@@ -75,7 +75,7 @@ Future<File?> saveImage(Uint8List bytes) async {
     await imageFile.writeAsBytes(bytes);
     return imageFile;
   } catch (e) {
-    print("Error saving image: $e");
+    debugPrint("Error saving image: $e");
     return null;
   }
 }

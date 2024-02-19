@@ -144,12 +144,13 @@ class ProcessingCubit extends Cubit<ProcessingState> {
     });
 
     final res = await _service.startHandover(
-        payload: StartHandoverRequest(
-            coordinates: LatLng_(
-                latitude: coordinates!.latitude,
-                longitude: coordinates!.longitude),
-            status: OrderStatus.ACTIVE,
-            orderId: id));
+      payload: StartHandoverRequest(
+          coordinates: LatLng_(
+              latitude: coordinates!.latitude,
+              longitude: coordinates!.longitude),
+          status: OrderStatus.ACTIVE,
+          orderId: id),
+    );
 
     // Handle response
     res.when(onError: (error) {
@@ -227,6 +228,10 @@ class ProcessingCubit extends Cubit<ProcessingState> {
             .firstWhere((element) => element.orderId == confirmation.orderId);
         order = order.copyWith(status: OrderStatus.COMPLETED);
 
+        if (state.selectedTrip!.orders
+            .every((order) => order.status == OrderStatus.COMPLETED)) {
+          completeTrip(state.selectedTrip!.id, TripStatus.COMPLETED);
+        }
         // TODO! Check this
         // Update in state
         // _orderBloc.add(
@@ -238,6 +243,28 @@ class ProcessingCubit extends Cubit<ProcessingState> {
       }
       // Confirm checkout
       _checkOutBloc.add(checkoutEvent);
+    });
+  }
+
+  void completeTrip(int id, TripStatus status) async {
+    final res = await _service.updateTrip(id, status);
+    res.when(onError: (error) {
+      emit(
+        state.copyWith(
+          status: ServiceStatus.submissionFailure,
+          message: AppMessage(
+            message: error.error,
+            tone: MessageTone.error,
+          ),
+        ),
+      );
+    }, onSuccess: (data) {
+      emit(
+        state.copyWith(
+          status: ServiceStatus.submissionSuccess,
+          message: AppMessage(message: data, tone: MessageTone.success),
+        ),
+      );
     });
   }
 }

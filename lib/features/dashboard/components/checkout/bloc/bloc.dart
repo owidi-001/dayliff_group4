@@ -12,7 +12,11 @@ part 'state.dart';
 class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckOutBloc() : super(const CheckoutState()) {
 // Change step
-    on<UpdateStep>((event, emit) => emit(state.copyWith(step: event.step)));
+    on<UpdateStep>(
+      (event, emit) => emit(
+        state.copyWith(step: event.step),
+      ),
+    );
 
     on<StepContinue>(
       (event, emit) => emit(
@@ -24,6 +28,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         state.copyWith(step: state.step - 1),
       ),
     );
+
     on<StepComplete>((event, emit) {
       emit(
         state.copyWith(
@@ -32,7 +37,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
                 tone: MessageTone.success),
             checkoutSuccess: true),
       );
-  
+
       // clear state
       emit(const CheckoutState());
     });

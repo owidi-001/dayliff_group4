@@ -9,26 +9,26 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { INCOMPLETE, ACTIVE, COMPLETED, CANCELLED }
+enum OrderStatus { SCHEDULED, ACTIVE, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
     switch (this) {
       case OrderStatus.ACTIVE:
-        return 'On Transit';
+        return 'Active';
       case OrderStatus.COMPLETED:
         return 'Completed';
       case OrderStatus.CANCELLED:
         return 'Cancelled';
-      case OrderStatus.INCOMPLETE:
-        return 'Incomplete';
+      case OrderStatus.SCHEDULED:
+        return 'Scheduled';
       default:
         throw Exception('Unknown order status');
     }
   }
 }
 
-enum TripStatus { ACTIVE, INCOMPLETE, COMPLETED }
+enum TripStatus { ACTIVE, INCOMPLETE, COMPLETED, CANCELLED }
 
 extension TripStatusExtension on TripStatus {
   String toStringValue() {
@@ -39,6 +39,8 @@ extension TripStatusExtension on TripStatus {
         return 'InComplete';
       case TripStatus.COMPLETED:
         return 'Completed';
+      case TripStatus.CANCELLED:
+        return 'Cancelled';
       default:
         throw Exception('Unknown route status');
     }
@@ -192,7 +194,7 @@ Trip dummyTrip() {
         customerName: 'John Smith',
         customerPhone: '123-456-7890',
         orderDate: DateTime.now(),
-        status: OrderStatus.INCOMPLETE,
+        status: OrderStatus.SCHEDULED,
       ),
       // Add more orders if needed
     ],
