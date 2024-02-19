@@ -1870,7 +1870,9 @@ mixin _$OrderConfirmation {
   @JsonKey(name: "od_scan", includeFromJson: false)
   File? get odScan => throw _privateConstructorUsedError; // comments
   @JsonKey(name: "comments")
-  String? get comments => throw _privateConstructorUsedError;
+  String? get comments => throw _privateConstructorUsedError; // status
+  @JsonKey(name: "order_status")
+  String? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1892,7 +1894,8 @@ abstract class $OrderConfirmationCopyWith<$Res> {
       @JsonKey(name: "order_images", includeFromJson: false)
       List<File> orderImages,
       @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
-      @JsonKey(name: "comments") String? comments});
+      @JsonKey(name: "comments") String? comments,
+      @JsonKey(name: "order_status") String? status});
 }
 
 /// @nodoc
@@ -1915,6 +1918,7 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
     Object? orderImages = null,
     Object? odScan = freezed,
     Object? comments = freezed,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       orderId: null == orderId
@@ -1945,6 +1949,10 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -1965,7 +1973,8 @@ abstract class _$$OrderConfirmationImplCopyWith<$Res>
       @JsonKey(name: "order_images", includeFromJson: false)
       List<File> orderImages,
       @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
-      @JsonKey(name: "comments") String? comments});
+      @JsonKey(name: "comments") String? comments,
+      @JsonKey(name: "order_status") String? status});
 }
 
 /// @nodoc
@@ -1986,6 +1995,7 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
     Object? orderImages = null,
     Object? odScan = freezed,
     Object? comments = freezed,
+    Object? status = freezed,
   }) {
     return _then(_$OrderConfirmationImpl(
       orderId: null == orderId
@@ -2016,6 +2026,10 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2033,7 +2047,8 @@ class _$OrderConfirmationImpl
       @JsonKey(name: "order_images", includeFromJson: false)
       final List<File> orderImages = const <File>[],
       @JsonKey(name: "od_scan", includeFromJson: false) this.odScan,
-      @JsonKey(name: "comments") this.comments})
+      @JsonKey(name: "comments") this.comments,
+      @JsonKey(name: "order_status") this.status})
       : _orderImages = orderImages;
 
   factory _$OrderConfirmationImpl.fromJson(Map<String, dynamic> json) =>
@@ -2072,10 +2087,14 @@ class _$OrderConfirmationImpl
   @override
   @JsonKey(name: "comments")
   final String? comments;
+// status
+  @override
+  @JsonKey(name: "order_status")
+  final String? status;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, odScan: $odScan, comments: $comments)';
+    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, odScan: $odScan, comments: $comments, status: $status)';
   }
 
   @override
@@ -2089,7 +2108,8 @@ class _$OrderConfirmationImpl
       ..add(DiagnosticsProperty('signature', signature))
       ..add(DiagnosticsProperty('orderImages', orderImages))
       ..add(DiagnosticsProperty('odScan', odScan))
-      ..add(DiagnosticsProperty('comments', comments));
+      ..add(DiagnosticsProperty('comments', comments))
+      ..add(DiagnosticsProperty('status', status));
   }
 
   @override
@@ -2107,7 +2127,8 @@ class _$OrderConfirmationImpl
                 .equals(other._orderImages, _orderImages) &&
             (identical(other.odScan, odScan) || other.odScan == odScan) &&
             (identical(other.comments, comments) ||
-                other.comments == comments));
+                other.comments == comments) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
@@ -2120,7 +2141,8 @@ class _$OrderConfirmationImpl
       signature,
       const DeepCollectionEquality().hash(_orderImages),
       odScan,
-      comments);
+      comments,
+      status);
 
   @JsonKey(ignore: true)
   @override
@@ -2147,8 +2169,9 @@ abstract class _OrderConfirmation implements OrderConfirmation {
       @JsonKey(name: "order_images", includeFromJson: false)
       final List<File> orderImages,
       @JsonKey(name: "od_scan", includeFromJson: false) final File? odScan,
-      @JsonKey(name: "comments")
-      final String? comments}) = _$OrderConfirmationImpl;
+      @JsonKey(name: "comments") final String? comments,
+      @JsonKey(name: "order_status")
+      final String? status}) = _$OrderConfirmationImpl;
 
   factory _OrderConfirmation.fromJson(Map<String, dynamic> json) =
       _$OrderConfirmationImpl.fromJson;
@@ -2174,6 +2197,9 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   @override // comments
   @JsonKey(name: "comments")
   String? get comments;
+  @override // status
+  @JsonKey(name: "order_status")
+  String? get status;
   @override
   @JsonKey(ignore: true)
   _$$OrderConfirmationImplCopyWith<_$OrderConfirmationImpl> get copyWith =>

@@ -9,6 +9,7 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -125,9 +126,17 @@ class _ByOTPState extends State<ByOTP> {
                   // errorAnimationController: errorController,
                   controller: otpController,
                   onCompleted: (v) {
-                    context.read<ProcessingCubit>().orderConfirmationUpdate(
-                        OrderConfirmation(orderId: widget.id, otp: v),
-                        StepContinue());
+                    // context.read<ProcessingCubit>().orderConfirmationUpdate(
+                    //     OrderConfirmation(orderId: widget.id, otp: v),
+                    //     StepContinue());
+                    if (_otpFormKey.currentState!.validate()) {
+                      // Submit OTP
+                      context.read<ProcessingCubit>().otpValidation(
+                          otpController.text, widget.id, StepContinue());
+                    } else {
+                      showOverlayMessage(AppMessage(
+                          message: "Fill in the otp", tone: MessageTone.error));
+                    }
                   },
 
                   onChanged: (value) {
@@ -157,10 +166,8 @@ class _ByOTPState extends State<ByOTP> {
                 onPressed: () {
                   if (_otpFormKey.currentState!.validate()) {
                     // Submit OTP
-                    context.read<ProcessingCubit>().orderConfirmationUpdate(
-                        OrderConfirmation(
-                            orderId: widget.id, otp: otpController.text),
-                        StepContinue());
+                    context.read<ProcessingCubit>().otpValidation(
+                        otpController.text, widget.id, StepContinue());
                   } else {
                     showOverlayMessage(AppMessage(
                         message: "Fill in the otp", tone: MessageTone.error));
@@ -196,37 +203,56 @@ class ByID extends StatelessWidget {
               textAlign: TextAlign.left,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            state.idPhoto != null
-                ? Image.file(
-                    state.idPhoto!,
-                    fit: BoxFit.contain,
-                  )
-                : const SizedBox.shrink(),
-            const SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: () async {
-                // TODO
-                final XFile? image =
-                    await picker.pickImage(source: ImageSource.camera);
-                if (image != null) {
-                  // Add image captured to state
-                  context.read<CheckOutBloc>().add(
-                        IDProof(
-                          image: File(image.path),
+            Container(
+              margin: const EdgeInsets.only(top: 16),
+              height: 150,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.primary),
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context).colorScheme.primary.withOpacity(.1),
+              ),
+              child: state.idPhoto != null
+                  ? Image.file(
+                      state.idPhoto!,
+                      fit: BoxFit.cover,
+                    )
+                  : Center(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () async {
+                          final XFile? image = await picker.pickImage(
+                              source: ImageSource.camera,
+                              maxHeight: 512,
+                              maxWidth: 1024,
+                              preferredCameraDevice: CameraDevice.rear,
+                              imageQuality: 50);
+                          if (image != null) {
+                            // Add image captured to state
+                            context.read<CheckOutBloc>().add(
+                                  IDProof(
+                                    image: File(image.path),
+                                  ),
+                                );
+                          }
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.camera,
+                          size: 48,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
-                      );
-                }
-              },
-              icon: const Icon(Icons.document_scanner),
-              label: const Text('Capture'),
+                      ),
+                    ),
             ),
             const SizedBox(
-              height: 32,
+              height: 8,
             ),
-            Row(
-              children: [
-                state.idPhoto != null
-                    ? ElevatedButton.icon(
+            state.idPhoto != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
                         onPressed: () {
                           if (state.otp == null && state.idPhoto == null) {
                             showOverlayMessage(
@@ -249,12 +275,34 @@ class ByID extends StatelessWidget {
                                     StepContinue());
                           }
                         },
-                        icon: const Icon(Icons.check),
-                        label: const Text("Save & Continue"),
-                      )
-                    : const SizedBox.shrink(),
-              ],
-            ),
+                        icon: const Icon(
+                          FontAwesomeIcons.cloudArrowUp,
+                          size: 16,
+                        ),
+                        label: const Text("Continue"),
+                      ),
+                      TextButton.icon(
+                          onPressed: () async {
+                            final XFile? image = await picker.pickImage(
+                                source: ImageSource.camera,
+                                maxHeight: 512,
+                                maxWidth: 1024,
+                                preferredCameraDevice: CameraDevice.rear,
+                                imageQuality: 50);
+                            if (image != null) {
+                              // Add image captured to state
+                              context.read<CheckOutBloc>().add(
+                                    IDProof(
+                                      image: File(image.path),
+                                    ),
+                                  );
+                            }
+                          },
+                          icon: const Icon(FontAwesomeIcons.cameraRotate),
+                          label: const Text("Re-capture"))
+                    ],
+                  )
+                : const SizedBox.shrink(),
           ],
         );
       },

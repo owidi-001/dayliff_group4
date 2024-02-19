@@ -48,15 +48,15 @@ class _OrderCompletionState extends State<OrderCompletion> {
               showOverlayMessage(state.message!);
             }
 
-            if (state.status == ServiceStatus.submissionInProgress) {
-              showDialog(
-                  context: context,
-                  builder: (context) => const Dialog(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ));
-            }
+            // if (state.status == ServiceStatus.submissionInProgress) {
+            //   showDialog(
+            //       context: context,
+            //       builder: (context) => const Dialog(
+            //             child: Center(
+            //               child: CircularProgressIndicator(),
+            //             ),
+            //           ));
+            // }
           },
           listenWhen: (previous, current) =>
               previous.message != current.message ||
@@ -88,7 +88,6 @@ class _OrderCompletionState extends State<OrderCompletion> {
                   //   switch (stepState) {
                   //     case StepState.complete:
                   //       return Icon(FontAwesomeIcons.check);
-
                   //     default:
                   //       return Icon(FontAwesomeIcons.)
                   //   }
@@ -148,14 +147,28 @@ class _OrderCompletionState extends State<OrderCompletion> {
                     ),
                     Step(
                       isActive: state.step >= 2,
-                      title: Text(
-                        "Proof of delivery",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: StaticColors.primary),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Proof of delivery",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: StaticColors.primary),
+                          ),
+                          Text(
+                            "${state.orderImages.length}/5",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: StaticColors.primary),
+                          )
+                        ],
                       ),
                       content: Container(
                           alignment: Alignment.centerLeft,

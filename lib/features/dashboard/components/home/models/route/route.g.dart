@@ -52,9 +52,9 @@ Map<String, dynamic> _$$TripImplToJson(_$TripImpl instance) =>
     };
 
 const _$TripStatusEnumMap = {
-  TripStatus.Active: 'Active',
-  TripStatus.Incomplete: 'Incomplete',
-  TripStatus.Complete: 'Complete',
+  TripStatus.ACTIVE: 'ACTIVE',
+  TripStatus.INCOMPLETE: 'INCOMPLETE',
+  TripStatus.COMPLETED: 'COMPLETED',
 };
 
 _$DriverImpl _$$DriverImplFromJson(Map<String, dynamic> json) => _$DriverImpl(
@@ -104,10 +104,10 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     };
 
 const _$OrderStatusEnumMap = {
-  OrderStatus.Incomplete: 'Incomplete',
-  OrderStatus.Active: 'Active',
-  OrderStatus.Completed: 'Completed',
-  OrderStatus.Cancelled: 'Cancelled',
+  OrderStatus.INCOMPLETE: 'INCOMPLETE',
+  OrderStatus.ACTIVE: 'ACTIVE',
+  OrderStatus.COMPLETED: 'COMPLETED',
+  OrderStatus.CANCELLED: 'CANCELLED',
 };
 
 _$AddressImpl _$$AddressImplFromJson(Map<String, dynamic> json) =>
@@ -164,6 +164,7 @@ _$OrderConfirmationImpl _$$OrderConfirmationImplFromJson(
       orderId: json['order_id'] as int,
       otp: json['otp'] as String?,
       comments: json['comments'] as String?,
+      status: json['order_status'] as String?,
     );
 
 Map<String, dynamic> _$$OrderConfirmationImplToJson(
@@ -172,4 +173,5 @@ Map<String, dynamic> _$$OrderConfirmationImplToJson(
       'order_id': instance.orderId,
       'otp': instance.otp,
       'comments': instance.comments,
+      'order_status': instance.status,
     };

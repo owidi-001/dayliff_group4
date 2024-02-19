@@ -1,4 +1,5 @@
 import 'package:dayliff/data/local/local.dart';
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
@@ -6,6 +7,7 @@ import 'package:dayliff/features/dashboard/components/home/models/route/route.da
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_view.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/extensions.dart';
+import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/utils.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
@@ -99,11 +101,21 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-            context: context,
-            builder: (context) => OrderDialog(
-                  order: order,
-                ));
+        if (order.status == OrderStatus.COMPLETED) {
+          showOverlayMessage(AppMessage(
+              message: "This order has been delivered successfully!",
+              tone: MessageTone.success));
+        } else if (order.status == OrderStatus.CANCELLED) {
+          showOverlayMessage(AppMessage(
+              message: "This order has been cancelled!",
+              tone: MessageTone.warning));
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) => OrderDialog(
+                    order: order,
+                  ));
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -115,13 +127,13 @@ class OrderCard extends StatelessWidget {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(
-                "ID: ${order.orderId!}",
+                "ID: ${order.orderId!}".toUpperCase(),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                     color: StaticColors.primary),
               ),
-              subtitle: Text("To: ${order.destination!.name}"),
+              subtitle: Text("To: ${order.destination!.name!.capitalize()}"),
               trailing: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -148,14 +160,15 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Divider(
+            Divider(
               height: 0,
+              color: Theme.of(context).colorScheme.primary.withOpacity(.2),
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const Icon(FontAwesomeIcons.user),
               title: Text(
-                order.customerName,
+                order.customerName.capitalize(),
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
@@ -168,7 +181,13 @@ class OrderCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      AppUtility.makeCall(order.customerName);
+                      if (order.status == OrderStatus.COMPLETED) {
+                        showOverlayMessage(AppMessage(
+                            message: "Communication with client is disabled",
+                            tone: MessageTone.error));
+                      } else {
+                        AppUtility.makeCall(order.customerName);
+                      }
                     },
                     child: CircleAvatar(
                         child: Icon(
@@ -256,7 +275,7 @@ class OrderDialog extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(FontAwesomeIcons.user),
                 title: Text(
-                  order.customerName,
+                  order.customerName.capitalize(),
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
@@ -290,7 +309,7 @@ class OrderDialog extends StatelessWidget {
                     .copyWith(color: Colors.grey),
               ),
               subtitle: Text(
-                order.destination!.name!,
+                order.destination!.name!.capitalize(),
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
@@ -363,7 +382,10 @@ class OrderDialog extends StatelessWidget {
                                               builder: (context) =>
                                                   StartHandOver(order: order));
                                         },
-                                        icon: const Icon(FontAwesomeIcons.map),
+                                        icon: const Icon(
+                                          FontAwesomeIcons.map,
+                                          size: 16,
+                                        ),
                                         hint: "Open maps to location"),
                                   ),
                                   Padding(
@@ -477,7 +499,7 @@ class _StartHandOverState extends State<StartHandOver> {
                     .copyWith(color: Colors.grey),
               ),
               subtitle: Text(
-                widget.order.destination!.name!,
+                widget.order.destination!.name!.capitalize(),
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
@@ -520,7 +542,7 @@ class _StartHandOverState extends State<StartHandOver> {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(FontAwesomeIcons.user),
                 title: Text(
-                  widget.order.customerName,
+                  widget.order.customerName.capitalize(),
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!

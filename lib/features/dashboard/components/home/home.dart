@@ -5,7 +5,7 @@ import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/home/widgets/complete_card.dart';
+import 'package:dayliff/features/dashboard/components/home/widgets/complete_trip_card.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_tile.dart';
 import 'package:dayliff/features/dashboard/components/settings/settings.dart';
 import 'package:dayliff/utils/constants.dart';
@@ -15,6 +15,9 @@ import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:dayliff/features/dashboard/components/home/models/route/route.dart'
+    as route;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -182,26 +185,73 @@ class CompleteOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ListView.builder(
-            scrollDirection: Axis.vertical,
+    if (context.read<OrderBloc>().state.status == ServiceStatus.initial) {
+      context.read<OrderBloc>().add(StartOrderBloc());
+    }
+    return SingleChildScrollView(child: BlocBuilder<OrderBloc, OrderState>(
+      builder: (context, state) {
+        if (state.status == ServiceStatus.loading) {
+          return ListView.separated(
+            padding: const EdgeInsets.only(top: 16),
             shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: 5,
-            itemBuilder: (context, index) => AnimateInEffect(
-              keepAlive: true,
-              intervalStart: index / 5,
-              child: const CompleteCard(),
+            itemBuilder: (context, index) => const TripTileShadow(),
+            separatorBuilder: (context, index) => const Divider(
+              color: Colors.transparent,
             ),
+          );
+        }
+        if (state.status == ServiceStatus.loadingFailure) {
+          return ErrorContainerWidget(
+            description: "Failed to load completed trips",
+            onRefresh: () => context.read<OrderBloc>().add(StartOrderBloc()),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            // Refresh orders
+            context.read<OrderBloc>().add(RefreshRoutes());
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  final trips = state.trips
+                      .where(
+                          (element) => element.status == TripStatus.COMPLETED)
+                      .toList();
+                  return trips.isNotEmpty
+                      ? ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          itemCount: trips.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) => AnimateInEffect(
+                            keepAlive: true,
+                            intervalStart: index / trips.length,
+                            child: CompletedCard(
+                              trip: trips[index],
+                            ),
+                          ),
+                          separatorBuilder: (context, index) => const Divider(
+                            color: Colors.transparent,
+                          ),
+                        )
+                      : EmptyListWidget(
+                          description: "No completed trips found",
+                          onRefresh: () =>
+                              context.read<OrderBloc>().add(RefreshRoutes()),
+                        );
+                },
+              ),
+            ],
           ),
-          SizedBox(
-            height: AppBar().preferredSize.height,
-          )
-        ],
-      ),
-    );
+        );
+      },
+    ));
   }
 }
 
@@ -246,7 +296,7 @@ class Schedules extends StatelessWidget {
                 builder: (context, state) {
                   return state.trips
                           .where(
-                              (element) => element.status == TripStatus.Active)
+                              (element) => element.status == TripStatus.ACTIVE)
                           .isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
@@ -267,14 +317,14 @@ class Schedules extends StatelessWidget {
                 builder: (context, state) {
                   return state.trips
                           .where(
-                              (element) => element.status == TripStatus.Active)
+                              (element) => element.status == TripStatus.ACTIVE)
                           .isNotEmpty
                       ? AnimateInEffect(
                           keepAlive: true,
                           intervalStart: 0,
                           child: TripTile(
                             trip: state.trips.firstWhere((element) =>
-                                element.status == TripStatus.Active),
+                                element.status == route.TripStatus.ACTIVE),
                           ),
                         )
                       : const SizedBox.shrink();
@@ -294,7 +344,7 @@ class Schedules extends StatelessWidget {
                           .copyWith(color: StaticColors.dark),
                     ),
                     Text(
-                      "${state.trips.where((element) => element.status == TripStatus.Complete).length}/${state.trips.length} Completed",
+                      "${state.trips.where((element) => element.status == TripStatus.COMPLETED).length}/${state.trips.length} Completed",
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
@@ -307,14 +357,16 @@ class Schedules extends StatelessWidget {
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
                   return state.trips
-                          .where(
-                              (element) => element.status != TripStatus.Active)
+                          .where((element) =>
+                              element.status != TripStatus.ACTIVE &&
+                              element.status != TripStatus.COMPLETED)
                           .isNotEmpty
                       ? ListView.separated(
                           padding: EdgeInsets.zero,
                           itemCount: state.trips
                               .where((element) =>
-                                  element.status != TripStatus.Active)
+                                  element.status != route.TripStatus.ACTIVE &&
+                                  element.status != route.TripStatus.COMPLETED)
                               .length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
@@ -324,7 +376,8 @@ class Schedules extends StatelessWidget {
                             child: TripTile(
                               trip: state.trips
                                   .where((element) =>
-                                      element.status != TripStatus.Active)
+                                      element.status != TripStatus.ACTIVE &&
+                                      element.status != TripStatus.COMPLETED)
                                   .toList()[index],
                             ),
                           ),

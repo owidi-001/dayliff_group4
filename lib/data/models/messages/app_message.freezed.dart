@@ -167,3 +167,163 @@ abstract class _AppMessage implements AppMessage {
   _$$AppMessageImplCopyWith<_$AppMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+CustomSms _$CustomSmsFromJson(Map<String, dynamic> json) {
+  return _CustomSms.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CustomSms {
+  String get message => throw _privateConstructorUsedError;
+  @JsonKey(name: "phone")
+  String get receipient => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CustomSmsCopyWith<CustomSms> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CustomSmsCopyWith<$Res> {
+  factory $CustomSmsCopyWith(CustomSms value, $Res Function(CustomSms) then) =
+      _$CustomSmsCopyWithImpl<$Res, CustomSms>;
+  @useResult
+  $Res call({String message, @JsonKey(name: "phone") String receipient});
+}
+
+/// @nodoc
+class _$CustomSmsCopyWithImpl<$Res, $Val extends CustomSms>
+    implements $CustomSmsCopyWith<$Res> {
+  _$CustomSmsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+    Object? receipient = null,
+  }) {
+    return _then(_value.copyWith(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      receipient: null == receipient
+          ? _value.receipient
+          : receipient // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CustomSmsImplCopyWith<$Res>
+    implements $CustomSmsCopyWith<$Res> {
+  factory _$$CustomSmsImplCopyWith(
+          _$CustomSmsImpl value, $Res Function(_$CustomSmsImpl) then) =
+      __$$CustomSmsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String message, @JsonKey(name: "phone") String receipient});
+}
+
+/// @nodoc
+class __$$CustomSmsImplCopyWithImpl<$Res>
+    extends _$CustomSmsCopyWithImpl<$Res, _$CustomSmsImpl>
+    implements _$$CustomSmsImplCopyWith<$Res> {
+  __$$CustomSmsImplCopyWithImpl(
+      _$CustomSmsImpl _value, $Res Function(_$CustomSmsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+    Object? receipient = null,
+  }) {
+    return _then(_$CustomSmsImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      receipient: null == receipient
+          ? _value.receipient
+          : receipient // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CustomSmsImpl implements _CustomSms {
+  _$CustomSmsImpl(
+      {required this.message,
+      @JsonKey(name: "phone") required this.receipient});
+
+  factory _$CustomSmsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CustomSmsImplFromJson(json);
+
+  @override
+  final String message;
+  @override
+  @JsonKey(name: "phone")
+  final String receipient;
+
+  @override
+  String toString() {
+    return 'CustomSms(message: $message, receipient: $receipient)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CustomSmsImpl &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.receipient, receipient) ||
+                other.receipient == receipient));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, message, receipient);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CustomSmsImplCopyWith<_$CustomSmsImpl> get copyWith =>
+      __$$CustomSmsImplCopyWithImpl<_$CustomSmsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CustomSmsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CustomSms implements CustomSms {
+  factory _CustomSms(
+          {required final String message,
+          @JsonKey(name: "phone") required final String receipient}) =
+      _$CustomSmsImpl;
+
+  factory _CustomSms.fromJson(Map<String, dynamic> json) =
+      _$CustomSmsImpl.fromJson;
+
+  @override
+  String get message;
+  @override
+  @JsonKey(name: "phone")
+  String get receipient;
+  @override
+  @JsonKey(ignore: true)
+  _$$CustomSmsImplCopyWith<_$CustomSmsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

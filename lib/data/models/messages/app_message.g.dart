@@ -24,3 +24,15 @@ const _$MessageToneEnumMap = {
   MessageTone.warning: 'warning',
   MessageTone.info: 'info',
 };
+
+_$CustomSmsImpl _$$CustomSmsImplFromJson(Map<String, dynamic> json) =>
+    _$CustomSmsImpl(
+      message: json['message'] as String,
+      receipient: json['phone'] as String,
+    );
+
+Map<String, dynamic> _$$CustomSmsImplToJson(_$CustomSmsImpl instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'phone': instance.receipient,
+    };

@@ -63,26 +63,28 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     // update trip
     on<UpdateTrip>((event, emit) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           trips: state.trips
               .map((e) => e.id == event.trip.id ? event.trip : e)
-              .toList()));
-    });
-
-
-    // update order
-    on<UpdateOrder>((event, emit) {
-      final Trip trip =
-          state.trips.firstWhere((element) => element.id == event.order.trip);
-      add(
-        UpdateTrip(
-          trip: trip.copyWith(
-            orders: trip.orders
-                .map((e) => e.orderId == event.order.orderId ? event.order : e)
-                .toList(),
-          ),
+              .toList(),
         ),
       );
     });
+
+    // // update order
+    // on<UpdateOrder>((event, emit) {
+    //   final Trip trip =
+    //       state.trips.firstWhere((element) => element.id == event.order.trip);
+    //   add(
+    //     UpdateTrip(
+    //       trip: trip.copyWith(
+    //         orders: trip.orders
+    //             .map((e) => e.orderId == event.order.orderId ? event.order : e)
+    //             .toList(),
+    //       ),
+    //     ),
+    //   );
+    // });
   }
 }

@@ -7,7 +7,9 @@ class ProcessingState extends Equatable {
   final AppMessage? message;
   final OrderConfirmation? confirmation;
   // events notifier
-  final bool? startTripSuccess;
+  final bool startTripSuccess;
+  final bool completeTripSuccess;
+  final bool serviceStarted;
 
   const ProcessingState(
       {this.status = ServiceStatus.initial,
@@ -15,7 +17,9 @@ class ProcessingState extends Equatable {
       this.selectedOrder,
       this.message,
       this.confirmation,
-      this.startTripSuccess = false});
+      this.startTripSuccess = false,
+      this.completeTripSuccess = false,
+      this.serviceStarted = false});
 
   ProcessingState copyWith(
       {AppMessage? message,
@@ -23,10 +27,14 @@ class ProcessingState extends Equatable {
       Trip? selectedTrip,
       Order? selectedOrder,
       OrderConfirmation? confirmation,
-      bool? startTripSuccess}) {
+      bool? startTripSuccess,
+      bool? completeTripSuccess,
+      bool? serviceStarted}) {
     return ProcessingState(
       message: message,
-      startTripSuccess: startTripSuccess,
+      startTripSuccess: startTripSuccess ?? false,
+      serviceStarted: serviceStarted ?? false,
+      completeTripSuccess: completeTripSuccess ?? false,
       status: status ?? this.status,
       selectedOrder: selectedOrder ?? this.selectedOrder,
       selectedTrip: selectedTrip ?? this.selectedTrip,
@@ -35,6 +43,14 @@ class ProcessingState extends Equatable {
   }
 
   @override
-  List<dynamic> get props =>
-      [message, status, selectedOrder, selectedTrip, confirmation];
+  List<dynamic> get props => [
+        message,
+        status,
+        selectedOrder,
+        selectedTrip,
+        startTripSuccess,
+        serviceStarted,
+        completeTripSuccess,
+        confirmation
+      ];
 }

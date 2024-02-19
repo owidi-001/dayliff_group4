@@ -1,4 +1,5 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
+import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
@@ -239,8 +240,7 @@ class _LoginFormState extends State<LoginForm> {
               frameBuilder: (BuildContext context, Widget child, int? frame,
                   bool? wasSynchronouslyLoaded) {
                 return Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark),
+                    decoration: const BoxDecoration(color: Colors.black),
                     child: child);
               },
               // loadingBuilder: (BuildContext context, Widget child,
@@ -401,18 +401,25 @@ class _LoginFormState extends State<LoginForm> {
                             const SizedBox(
                               height: 16,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: PrimaryButton(
-                                  hint: "Login",
-                                  onTap: () {
-                                    if (formKey.currentState!.validate()) {
-                                      context.read<AuthBloc>().add(LoginEvent(
-                                          email: emailController.text,
-                                          password: passwordController.text));
-                                    }
-                                  }),
+                            BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: PrimaryButton(
+                                    hint: "Login",
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<AuthBloc>().add(LoginEvent(
+                                            email: emailController.text,
+                                            password: passwordController.text));
+                                      }
+                                    },
+                                    isLoading: state.status ==
+                                        ServiceStatus.submissionInProgress,
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: 17,

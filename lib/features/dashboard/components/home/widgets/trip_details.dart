@@ -21,7 +21,7 @@ class TripDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ProcessingCubit, ProcessingState>(
       listener: (context, state) {
-        if (state.startTripSuccess != null && state.startTripSuccess!) {
+        if (state.startTripSuccess) {
           Navigator.of(context).pop();
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -236,23 +236,25 @@ class TripDetails extends StatelessWidget {
                 child: BlocBuilder<ProcessingCubit, ProcessingState>(
                   builder: (context, state) {
                     return PrimaryButton(
-                        hint: trip.status == TripStatus.Active
+                        hint: trip.status == TripStatus.ACTIVE
                             ? "Continue"
                             : "Start trip",
                         onTap: () {
-                          if (trip.status != TripStatus.Active &&
+                          if (trip.status != TripStatus.ACTIVE &&
                               context
                                   .read<OrderBloc>()
                                   .state
                                   .trips
-                                  .where((e) => e.status == TripStatus.Active)
+                                  .where((e) => e.status == TripStatus.ACTIVE)
                                   .isNotEmpty) {
                             showOverlayMessage(
                               AppMessage(
                                   message: "You already have an active trip",
                                   tone: MessageTone.warning),
                             );
-                          } else if (trip.status == TripStatus.Active) {
+                          } else if (trip.status == TripStatus.ACTIVE) {
+                            // select the trip
+                            context.read<ProcessingCubit>().selectTrip(trip.id);
                             // Go to next page
                             Navigator.of(context).pop();
                             Navigator.of(context).push(
@@ -294,13 +296,13 @@ class StopperWidget extends StatelessWidget {
           title: const Text("Origin"),
           subtitle: Text(trip.origin!.name!),
           content: Container(),
-          isActive: trip.status != TripStatus.Complete,
+          isActive: trip.status != TripStatus.COMPLETED,
         ),
         Step(
           title: const Text("Destination"),
           subtitle: Text(trip.destination?.name ?? "No order destination"),
           content: Container(),
-          isActive: trip.status == TripStatus.Complete,
+          isActive: trip.status == TripStatus.COMPLETED,
         ),
       ],
       controlsBuilder: (context, details) => const SizedBox.shrink(),

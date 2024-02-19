@@ -8,11 +8,11 @@ import 'package:path_provider/path_provider.dart'; // Import this package
 
 Color getTripStatusColor(TripStatus status) {
   switch (status) {
-    case TripStatus.Incomplete:
+    case TripStatus.INCOMPLETE:
       return Colors.deepOrange;
-    case TripStatus.Active:
+    case TripStatus.ACTIVE:
       return Colors.blue;
-    case TripStatus.Complete:
+    case TripStatus.COMPLETED:
       return Colors.green;
     default:
       return Colors.blue;
@@ -21,13 +21,13 @@ Color getTripStatusColor(TripStatus status) {
 
 Color getStatusColor(OrderStatus status) {
   switch (status) {
-    case OrderStatus.Cancelled:
+    case OrderStatus.CANCELLED:
       return Colors.red;
-    case OrderStatus.Completed:
+    case OrderStatus.COMPLETED:
       return Colors.green;
     // case OrderStatus.PARTIAL:
     //   return Colors.black;
-    case OrderStatus.Incomplete:
+    case OrderStatus.INCOMPLETE:
       return Colors.deepOrange;
     default:
       return Colors.blue;
@@ -36,13 +36,13 @@ Color getStatusColor(OrderStatus status) {
 
 IconData getStatusIcon(OrderStatus status) {
   switch (status) {
-    case OrderStatus.Cancelled:
+    case OrderStatus.CANCELLED:
       return Icons.error;
-    case OrderStatus.Completed:
+    case OrderStatus.COMPLETED:
       return Icons.check;
     // case OrderStatus.PARTIAL:
     //   return Icons.incomplete_circle;
-    case OrderStatus.Incomplete:
+    case OrderStatus.INCOMPLETE:
       return Icons.pending;
     default:
       return Icons.access_time;

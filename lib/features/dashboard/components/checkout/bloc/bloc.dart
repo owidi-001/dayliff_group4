@@ -26,8 +26,13 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     );
     on<StepComplete>((event, emit) {
       emit(
-        state.copyWith(message: AppMessage(message: "Delivery completed successfully", tone: MessageTone.success)),
+        state.copyWith(
+            message: AppMessage(
+                message: "Delivery completed successfully",
+                tone: MessageTone.success),
+            checkoutSuccess: true),
       );
+  
       // clear state
       emit(const CheckoutState());
     });

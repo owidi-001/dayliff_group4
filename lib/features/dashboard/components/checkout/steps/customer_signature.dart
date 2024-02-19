@@ -7,6 +7,7 @@ import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class CustomerSignature extends StatefulWidget {
@@ -61,7 +62,10 @@ class _CustomerSignatureState extends State<CustomerSignature> {
           const SizedBox(height: 10),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
             ElevatedButton.icon(
-              icon: const Icon(Icons.check),
+              icon: const Icon(
+                FontAwesomeIcons.cloudArrowUp,
+                size: 16,
+              ),
               onPressed: () async {
                 ui.Image image = await _signaturePadKey.currentState!.toImage();
                 Uint8List? byteData = await imageToByte(image);

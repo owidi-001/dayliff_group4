@@ -72,8 +72,17 @@ class CheckoutService {
     );
   }
 
+  // validate otp
+  HttpResult<String> validateOtp(String code, int id) {
+    return Http.post(
+      "/delivery-confirmations/verify-otp",
+      {"otp": code, "id": id},
+      deserializer: (json) => json,
+    );
+  }
+
   // Confirm the delivery
-  HttpResult<Order> confirmDelivery(
+  HttpResult<String> confirmDelivery(
       {required OrderConfirmation confirmation}) async {
     FormData data = FormData.fromMap(confirmation.toJson());
 
@@ -111,7 +120,7 @@ class CheckoutService {
     return Http.put(
       "/deliveryconfirmations/${confirmation.orderId}",
       data,
-      deserializer: (json) => Order.fromJson(json),
+      deserializer: (json) => json["message"],
     );
   }
 }

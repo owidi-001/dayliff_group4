@@ -104,15 +104,16 @@ class RouteOrders extends StatelessWidget {
                       onTap: () {
                         // show dialog
                         showModalBottomSheet(
-                            // enableDrag: false,
-                            showDragHandle: true,
-                            isDismissible: true,
-                            useRootNavigator: true,
-                            useSafeArea: true,
-                            context: context,
-                            builder: (context) => OrderDialog(
-                                order: trip.orders[index],
-                                routeName: trip.origin!.name!));
+                          // enableDrag: false,
+                          showDragHandle: true,
+                          isDismissible: true,
+                          useRootNavigator: true,
+                          useSafeArea: true,
+                          context: context,
+                          builder: (context) => OrderDialog(
+                              order: trip.orders[index],
+                              routeName: trip.origin!.name!),
+                        );
                       },
                       child: CircleAvatar(
                           backgroundColor: StaticColors.primary,

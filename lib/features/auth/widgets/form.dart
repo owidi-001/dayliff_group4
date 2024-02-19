@@ -7,11 +7,13 @@ class PrimaryButton extends StatelessWidget {
       {super.key,
       required this.hint,
       required this.onTap,
-      this.isLoading = false});
+      this.isLoading = false,
+      this.trailing});
 
   final String hint;
   final Function() onTap;
   final bool isLoading;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,13 @@ class PrimaryButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(hint),
-          isLoading
-              ? const CircularProgressIndicator()
-              : const Icon(FontAwesomeIcons.arrowRight)
+          trailing != null
+              ? trailing!
+              : isLoading
+                  ? CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    )
+                  : const Icon(FontAwesomeIcons.arrowRight)
         ],
       ),
     );

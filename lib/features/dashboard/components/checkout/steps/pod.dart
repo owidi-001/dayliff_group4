@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
-import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,23 +21,53 @@ class PODWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            // BlocBuilder<CheckOutBloc, CheckoutState>(
+            //   builder: (context, state) {
+            //     if (state.orderImages.isNotEmpty) {
+            //       return SizedBox(
+            //         height: 150,
+            //         child: ListView.builder(
+            //           itemCount: state.orderImages.length,
+            //           scrollDirection: Axis.horizontal,
+            //           physics: const NeverScrollableScrollPhysics(),
+            //           shrinkWrap: true,
+            //           itemBuilder: (context, index) => Container(
+            //             margin: const EdgeInsets.only(right: 16),
+            //             constraints:
+            //                 const BoxConstraints(maxHeight: 150, maxWidth: 150),
+            //             child: Image.file(
+            //               state.orderImages[index],
+            //               fit: BoxFit.contain,
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     }
+            //     return const SizedBox.shrink();
+            //   },
+            // ),
             BlocBuilder<CheckOutBloc, CheckoutState>(
               builder: (context, state) {
                 if (state.orderImages.isNotEmpty) {
                   return SizedBox(
-                    height: 150,
-                    child: ListView.builder(
+                    height: 300, // Adjust height as needed
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 16, // Spacing between columns
+                        mainAxisSpacing: 16, // Spacing between rows
+                      ),
                       itemCount: state.orderImages.length,
-                      scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) => Container(
-                        margin: const EdgeInsets.only(right: 16),
+                        decoration: BoxDecoration(border: Border.all()),
                         constraints:
                             const BoxConstraints(maxHeight: 150, maxWidth: 150),
                         child: Image.file(
                           state.orderImages[index],
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -48,59 +76,57 @@ class PODWidget extends StatelessWidget {
                 return const SizedBox.shrink();
               },
             ),
+
             const SizedBox(
               height: 16,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    // TODO
-                    final XFile? image =
-                        await picker.pickImage(source: ImageSource.camera);
-                    if (image != null) {
-                      // Add image captured to state
-                      context.read<CheckOutBloc>().add(
-                            SaveCapturedImage(
-                              image: File(image.path),
-                            ),
-                          );
-                    }
-                  },
-                  icon: Icon(state.orderImages.isEmpty
-                      ? Icons.document_scanner
-                      : FontAwesomeIcons.plus),
-                  label: Text(
-                      state.orderImages.isEmpty ? 'Capture' : "Add another"),
-                ),
+                state.orderImages.length < 5
+                    ? ElevatedButton.icon(
+                        onPressed: () async {
+                          final XFile? image = await picker.pickImage(
+                              source: ImageSource.camera,
+                              maxHeight: 1024,
+                              maxWidth: 1024,
+                              preferredCameraDevice: CameraDevice.rear,
+                              imageQuality: 50);
+                          if (image != null) {
+                            context.read<CheckOutBloc>().add(
+                                  SaveCapturedImage(
+                                    image: File(image.path),
+                                  ),
+                                );
+                          }
+                        },
+                        icon: Icon(state.orderImages.isEmpty
+                            ? FontAwesomeIcons.camera
+                            : FontAwesomeIcons.plus),
+                        label:
+                            Text(state.orderImages.isEmpty ? 'Capture' : "Add"),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
             Row(
               children: [
-                state.orderImages.isNotEmpty
+                state.orderImages.isNotEmpty && state.orderImages.length == 5
                     ? ElevatedButton.icon(
                         onPressed: () {
-                          if (state.orderImages.isEmpty) {
-                            showOverlayMessage(AppMessage(
-                                message:
-                                    "Please capture one or more order images",
-                                tone: MessageTone.warning));
-                          } else {
-                            context
-                                .read<ProcessingCubit>()
-                                .orderConfirmationUpdate(
-                                    OrderConfirmation(
-                                        orderId: order.orderId!,
-                                        orderImages: context
-                                            .read<CheckOutBloc>()
-                                            .state
-                                            .orderImages),
-                                    StepContinue());
-                          }
+                          context
+                              .read<ProcessingCubit>()
+                              .orderConfirmationUpdate(
+                                  OrderConfirmation(
+                                      orderId: order.orderId!,
+                                      orderImages: context
+                                          .read<CheckOutBloc>()
+                                          .state
+                                          .orderImages),
+                                  StepContinue());
                         },
-                        icon: const Icon(Icons.check),
-                        label: const Text("Save & Continue"),
+                        icon: const Icon(FontAwesomeIcons.cloudArrowUp),
+                        label: const Text("Continue"),
                       )
                     : const SizedBox.shrink(),
               ],

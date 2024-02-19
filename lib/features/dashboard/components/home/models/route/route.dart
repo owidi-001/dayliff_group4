@@ -2,7 +2,6 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
@@ -10,18 +9,18 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { Incomplete, Active, Completed, Cancelled }
+enum OrderStatus { INCOMPLETE, ACTIVE, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
     switch (this) {
-      case OrderStatus.Active:
+      case OrderStatus.ACTIVE:
         return 'On Transit';
-      case OrderStatus.Completed:
+      case OrderStatus.COMPLETED:
         return 'Completed';
-      case OrderStatus.Cancelled:
+      case OrderStatus.CANCELLED:
         return 'Cancelled';
-      case OrderStatus.Incomplete:
+      case OrderStatus.INCOMPLETE:
         return 'Incomplete';
       default:
         throw Exception('Unknown order status');
@@ -29,16 +28,16 @@ extension OrderStatusExtension on OrderStatus {
   }
 }
 
-enum TripStatus { Active, Incomplete, Complete }
+enum TripStatus { ACTIVE, INCOMPLETE, COMPLETED }
 
 extension TripStatusExtension on TripStatus {
   String toStringValue() {
     switch (this) {
-      case TripStatus.Active:
+      case TripStatus.ACTIVE:
         return 'Active';
-      case TripStatus.Incomplete:
-        return 'In Complete';
-      case TripStatus.Complete:
+      case TripStatus.INCOMPLETE:
+        return 'InComplete';
+      case TripStatus.COMPLETED:
         return 'Completed';
       default:
         throw Exception('Unknown route status');
@@ -154,8 +153,48 @@ class OrderConfirmation with _$OrderConfirmation {
     @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
     // comments
     @JsonKey(name: "comments") String? comments,
+    // status
+    @JsonKey(name: "order_status") String? status,
   }) = _OrderConfirmation;
 
   factory OrderConfirmation.fromJson(Map<String, Object?> json) =>
       _$OrderConfirmationFromJson(json);
+}
+
+Trip dummyTrip() {
+  return Trip(
+    id: 1,
+    route: const Route(routeId: 123, name: 'Dummy Route'),
+    driver: const Driver(id: 1, license: 'ABC123'),
+    vehicle: const Vehicle(
+      vehicleId: 1,
+      plateNumber: 'XYZ456',
+      make: 'Toyota',
+      model: 'Camry',
+      type: 'Sedan',
+      tonnage: '1 ton',
+    ),
+    courier:
+        const Courrier(id: 1, name: 'John Doe', description: 'Delivery person'),
+    origin: const Address(name: 'Origin Address', lat: 123.456, long: 789.123),
+    destination:
+        const Address(name: 'Destination Address', lat: 456.789, long: 321.654),
+    distance: '10 km',
+    duration: 60,
+    status: TripStatus.ACTIVE,
+    date: DateTime.now(),
+    orders: [
+      Order(
+        orderId: 1,
+        trip: 1,
+        destination: const Address(
+            name: 'Customer Address', lat: 654.321, long: 987.654),
+        customerName: 'John Smith',
+        customerPhone: '123-456-7890',
+        orderDate: DateTime.now(),
+        status: OrderStatus.INCOMPLETE,
+      ),
+      // Add more orders if needed
+    ],
+  );
 }

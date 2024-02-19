@@ -25,9 +25,9 @@ Map<String, dynamic> _$$StartTripRequestImplToJson(
     };
 
 const _$TripStatusEnumMap = {
-  TripStatus.Active: 'Active',
-  TripStatus.Incomplete: 'Incomplete',
-  TripStatus.Complete: 'Complete',
+  TripStatus.ACTIVE: 'ACTIVE',
+  TripStatus.INCOMPLETE: 'INCOMPLETE',
+  TripStatus.COMPLETED: 'COMPLETED',
 };
 
 _$LatLng_Impl _$$LatLng_ImplFromJson(Map<String, dynamic> json) =>
@@ -72,10 +72,10 @@ Map<String, dynamic> _$$StartNavigationRequestImplToJson(
     };
 
 const _$OrderStatusEnumMap = {
-  OrderStatus.Incomplete: 'Incomplete',
-  OrderStatus.Active: 'Active',
-  OrderStatus.Completed: 'Completed',
-  OrderStatus.Cancelled: 'Cancelled',
+  OrderStatus.INCOMPLETE: 'INCOMPLETE',
+  OrderStatus.ACTIVE: 'ACTIVE',
+  OrderStatus.COMPLETED: 'COMPLETED',
+  OrderStatus.CANCELLED: 'CANCELLED',
 };
 
 _$StartNavigationResponseImpl _$$StartNavigationResponseImplFromJson(

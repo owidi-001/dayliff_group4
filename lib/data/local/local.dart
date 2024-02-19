@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:dayliff/data/models/auth/login.dart';
-import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/utils/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_intent_plus/android_intent.dart';
@@ -99,23 +97,6 @@ class AppUtility {
   // Capitalize text
   static String capitalize(String text) {
     return "${text[0].toUpperCase()}${text.substring(1)}";
-  }
-
-  static Color getStatusColor(OrderStatus status, context) {
-    switch (status) {
-      case OrderStatus.Incomplete:
-        return Colors.deepOrange;
-      case OrderStatus.Active:
-        return StaticColors.primary;
-      case OrderStatus.Completed:
-        return Colors.green;
-      // case OrderStatus.PARTIAL:
-      //   return Colors.brown;
-      case OrderStatus.Cancelled:
-        return Colors.red;
-      default:
-        return StaticColors.primary;
-    }
   }
 
 // Launch caller

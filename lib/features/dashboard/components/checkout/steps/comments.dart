@@ -18,6 +18,7 @@ class DeliveryComments extends StatelessWidget {
         TextFormField(
           controller: commentsController,
           maxLines: 3,
+          textInputAction: TextInputAction.done,
           onSaved: (value) {
             context.read<CheckOutBloc>().add(CommentsChanged(comment: value));
           },
@@ -37,6 +38,8 @@ class DeliveryComments extends StatelessWidget {
                     OrderConfirmation(
                       orderId: order.orderId!,
                       comments: commentsController.text,
+                      status:
+                          OrderStatus.COMPLETED.toStringValue().toUpperCase(),
                     ),
                     StepComplete());
               },

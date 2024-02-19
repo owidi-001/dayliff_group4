@@ -19,8 +19,8 @@ class UpdateTrip extends OrderEvent {
 
 
 
-class UpdateOrder extends OrderEvent {
-  final Order order;
+// class UpdateOrder extends OrderEvent {
+//   final Order order;
 
-  const UpdateOrder({required this.order});
-}
+//   const UpdateOrder({required this.order});
+// }

@@ -15,3 +15,15 @@ class AppMessage with _$AppMessage {
   factory AppMessage.fromJson(Map<String, dynamic> json) =>
       _$AppMessageFromJson(json);
 }
+
+// CUstom messages
+@freezed
+class CustomSms with _$CustomSms {
+  factory CustomSms({
+    required String message,
+    @JsonKey(name: "phone") required String receipient,
+  }) = _CustomSms;
+
+  factory CustomSms.fromJson(Map<String, dynamic> json) =>
+      _$CustomSmsFromJson(json);
+}

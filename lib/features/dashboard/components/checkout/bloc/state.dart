@@ -44,7 +44,7 @@ class CheckoutState extends Equatable {
         otp: otp ?? this.otp,
         idPhoto: idPhoto ?? idPhoto,
         comment: comment ?? this.comment,
-        checkoutSuccess: checkoutSuccess ?? this.checkoutSuccess,
+        checkoutSuccess: checkoutSuccess ?? false,
         dnote: dnote ?? this.dnote,
         step: step ?? this.step);
   }

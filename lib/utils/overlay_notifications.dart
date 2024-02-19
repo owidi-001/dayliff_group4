@@ -1,10 +1,13 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-void showOverlayMessage(AppMessage message) {
+void showOverlayMessage(AppMessage message, {bool isLoading = false}) {
   showSimpleNotification(Text(message.message),
-      background: getMessageTone(message.tone));
+      background: getMessageTone(message.tone),
+      trailing: _getTrailing(message.tone),
+      autoDismiss: !isLoading);
 }
 
 Color getMessageTone(MessageTone tone) {
@@ -17,5 +20,18 @@ Color getMessageTone(MessageTone tone) {
       return Colors.red;
     default:
       return Colors.black;
+  }
+}
+
+Widget _getTrailing(MessageTone tone) {
+  switch (tone) {
+    case MessageTone.success:
+      return const Icon(FontAwesomeIcons.check);
+    case MessageTone.warning:
+      return const Icon(FontAwesomeIcons.triangleExclamation);
+    case MessageTone.error:
+      return const Icon(FontAwesomeIcons.exclamation);
+    default:
+      return const Icon(FontAwesomeIcons.info);
   }
 }
