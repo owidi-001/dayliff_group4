@@ -49,6 +49,19 @@ IconData getStatusIcon(OrderStatus status) {
   }
 }
 
+int orderStatusPriority(OrderStatus status) {
+  switch (status) {
+    case OrderStatus.ACTIVE:
+      return 1;
+    case OrderStatus.SCHEDULED:
+      return 2;
+    case OrderStatus.COMPLETED:
+      return 3;
+    case OrderStatus.CANCELLED:
+      return 4;
+  }
+}
+
 String formatDate(DateTime date) {
   return DateFormat('EEEE, MMMM d, y').format(date);
 }

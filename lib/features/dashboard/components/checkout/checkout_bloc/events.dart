@@ -7,7 +7,19 @@ abstract class CheckoutEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class StartCheckOutBloc extends CheckoutEvent {}
+class UpdateStep extends CheckoutEvent {
+  final int step;
+  const UpdateStep({required this.step});
+
+  @override
+  List<Object?> get props => [step];
+}
+
+class StepContinue extends CheckoutEvent {}
+
+class StepComplete extends CheckoutEvent {}
+
+class StepCancelled extends CheckoutEvent {}
 
 class SaveCapturedImage extends CheckoutEvent {
   final File image;
@@ -26,6 +38,7 @@ class ScanOD extends CheckoutEvent {
   @override
   List<Object?> get props => [image];
 }
+
 class IDProof extends CheckoutEvent {
   final File image;
 
@@ -55,27 +68,3 @@ class CommentsChanged extends CheckoutEvent {
 
   const CommentsChanged({this.comment});
 }
-
-class VerifyOTP extends CheckoutEvent {
-  final String code;
-
-  const VerifyOTP({required this.code});
-
-  @override
-  List<Object?> get props => [code];
-}
-
-class ConfirmDelivery extends CheckoutEvent {}
-
-class UpdateStep extends CheckoutEvent {
-  final int step;
-  const UpdateStep({required this.step});
-
-  @override
-  List<Object?> get props => [step];
-}
-
-class StepContinue extends CheckoutEvent {}
-class StepComplete extends CheckoutEvent {}
-
-class StepCancelled extends CheckoutEvent {}

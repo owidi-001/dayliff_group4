@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
@@ -76,18 +74,20 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
 
     // // update order
-    // on<UpdateOrder>((event, emit) {
-    //   final Trip trip =
-    //       state.trips.firstWhere((element) => element.id == event.order.trip);
-    //   add(
-    //     UpdateTrip(
-    //       trip: trip.copyWith(
-    //         orders: trip.orders
-    //             .map((e) => e.orderId == event.order.orderId ? event.order : e)
-    //             .toList(),
-    //       ),
-    //     ),
-    //   );
-    // });
+    on<UpdateOrder>((event, emit) {
+      // get the trip
+      final Trip trip =
+          state.trips.firstWhere((element) => element.id == event.order.trip);
+      // Update the trip
+      add(
+        UpdateTrip(
+          trip: trip.copyWith(
+            orders: trip.orders
+                .map((e) => e.orderId == event.order.orderId ? event.order : e)
+                .toList(),
+          ),
+        ),
+      );
+    });
   }
 }

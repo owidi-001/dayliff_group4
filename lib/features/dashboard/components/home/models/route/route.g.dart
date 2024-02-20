@@ -83,7 +83,7 @@ Map<String, dynamic> _$$RouteImplToJson(_$RouteImpl instance) =>
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
       orderId: json['id'] as int,
       bcOrderNumber: json['bc_order_number'] as String,
-      trip: json['trip_id'] as int?,
+      trip: json['Trip_id'] as int,
       destination: json['destination_address'] == null
           ? null
           : Address.fromJson(
@@ -100,7 +100,7 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     <String, dynamic>{
       'id': instance.orderId,
       'bc_order_number': instance.bcOrderNumber,
-      'trip_id': instance.trip,
+      'Trip_id': instance.trip,
       'destination_address': instance.destination,
       'customer_name': instance.customerName,
       'customer_phone': instance.customerPhone,

@@ -89,7 +89,7 @@ class Order with _$Order {
   const factory Order({
     @JsonKey(name: "id") required int orderId,
     @JsonKey(name: "bc_order_number") required String bcOrderNumber,
-    @JsonKey(name: "trip_id") int? trip,
+    @JsonKey(name: "Trip_id") required int trip,
     @JsonKey(name: "destination_address") Address? destination,
     @JsonKey(name: "customer_name") required String customerName,
     @JsonKey(name: "customer_phone") required String customerPhone,

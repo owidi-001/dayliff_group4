@@ -882,8 +882,8 @@ mixin _$Order {
   int get orderId => throw _privateConstructorUsedError;
   @JsonKey(name: "bc_order_number")
   String get bcOrderNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: "trip_id")
-  int? get trip => throw _privateConstructorUsedError;
+  @JsonKey(name: "Trip_id")
+  int get trip => throw _privateConstructorUsedError;
   @JsonKey(name: "destination_address")
   Address? get destination => throw _privateConstructorUsedError;
   @JsonKey(name: "customer_name")
@@ -912,7 +912,7 @@ abstract class $OrderCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "id") int orderId,
       @JsonKey(name: "bc_order_number") String bcOrderNumber,
-      @JsonKey(name: "trip_id") int? trip,
+      @JsonKey(name: "Trip_id") int trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
@@ -939,7 +939,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   $Res call({
     Object? orderId = null,
     Object? bcOrderNumber = null,
-    Object? trip = freezed,
+    Object? trip = null,
     Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
@@ -957,10 +957,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.bcOrderNumber
           : bcOrderNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      trip: freezed == trip
+      trip: null == trip
           ? _value.trip
           : trip // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       destination: freezed == destination
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
@@ -1015,7 +1015,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "id") int orderId,
       @JsonKey(name: "bc_order_number") String bcOrderNumber,
-      @JsonKey(name: "trip_id") int? trip,
+      @JsonKey(name: "Trip_id") int trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
@@ -1041,7 +1041,7 @@ class __$$OrderImplCopyWithImpl<$Res>
   $Res call({
     Object? orderId = null,
     Object? bcOrderNumber = null,
-    Object? trip = freezed,
+    Object? trip = null,
     Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
@@ -1059,10 +1059,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.bcOrderNumber
           : bcOrderNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      trip: freezed == trip
+      trip: null == trip
           ? _value.trip
           : trip // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       destination: freezed == destination
           ? _value.destination
           : destination // ignore: cast_nullable_to_non_nullable
@@ -1101,7 +1101,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   const _$OrderImpl(
       {@JsonKey(name: "id") required this.orderId,
       @JsonKey(name: "bc_order_number") required this.bcOrderNumber,
-      @JsonKey(name: "trip_id") this.trip,
+      @JsonKey(name: "Trip_id") required this.trip,
       @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "customer_name") required this.customerName,
       @JsonKey(name: "customer_phone") required this.customerPhone,
@@ -1120,8 +1120,8 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   @JsonKey(name: "bc_order_number")
   final String bcOrderNumber;
   @override
-  @JsonKey(name: "trip_id")
-  final int? trip;
+  @JsonKey(name: "Trip_id")
+  final int trip;
   @override
   @JsonKey(name: "destination_address")
   final Address? destination;
@@ -1223,7 +1223,7 @@ abstract class _Order implements Order {
   const factory _Order(
       {@JsonKey(name: "id") required final int orderId,
       @JsonKey(name: "bc_order_number") required final String bcOrderNumber,
-      @JsonKey(name: "trip_id") final int? trip,
+      @JsonKey(name: "Trip_id") required final int trip,
       @JsonKey(name: "destination_address") final Address? destination,
       @JsonKey(name: "customer_name") required final String customerName,
       @JsonKey(name: "customer_phone") required final String customerPhone,
@@ -1242,8 +1242,8 @@ abstract class _Order implements Order {
   @JsonKey(name: "bc_order_number")
   String get bcOrderNumber;
   @override
-  @JsonKey(name: "trip_id")
-  int? get trip;
+  @JsonKey(name: "Trip_id")
+  int get trip;
   @override
   @JsonKey(name: "destination_address")
   Address? get destination;

@@ -253,8 +253,6 @@ class TripDetails extends StatelessWidget {
                                   tone: MessageTone.warning),
                             );
                           } else if (trip.status == TripStatus.ACTIVE) {
-                            // select the trip
-                            context.read<ProcessingCubit>().selectTrip(trip.id);
                             // Go to next page
                             Navigator.of(context).pop();
                             Navigator.of(context).push(

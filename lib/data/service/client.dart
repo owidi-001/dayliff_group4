@@ -1,7 +1,7 @@
 part of 'service.dart';
 
 class AuthService {
-  HttpResult<LoginResponse> login(LoginData request) => Http.post(
+  HttpResult<LoginResponse> login(LoginData request) async => Http.post(
         "login",
         request.toJson(),
         deserializer: (json) => LoginResponse.fromJson(json),
@@ -20,11 +20,11 @@ class AuthService {
         return value;
       });
 
-  HttpResult<dynamic> changePassword(String current, String newP) {
+  HttpResult<dynamic> changePassword(String current, String newP) async {
     return Http.post("change-password", {"current": current, "new": newP});
   }
 
-  HttpResult<String> updateProfile(ProfileData request) {
+  HttpResult<String> updateProfile(ProfileData request) async {
     return Http.put(
       "users/${AuthenticationRepository.instance.user?.id}",
       request.toJson(),
@@ -34,7 +34,7 @@ class AuthService {
 }
 
 class OrderService {
-  HttpResult<List<Trip>> all() => Http.get(
+  HttpResult<List<Trip>> all() async => Http.get(
         "userdetails/${AuthenticationRepository.instance.user?.id}",
         deserializer: (data) =>
             List<Trip>.from(data.map((e) => Trip.fromJson(e)).toList()),
@@ -73,10 +73,10 @@ class CheckoutService {
   }
 
   // validate otp
-  HttpResult<String> validateOtp(String code, int id) {
+  HttpResult<String> validateOtp(String code, int id) async {
     return Http.post(
       "/delivery-confirmations/verify-otp",
-      {"otp": code, "id": id},
+      {"otp": code, "order_id": id},
       deserializer: (json) => json,
     );
   }
@@ -85,12 +85,12 @@ class CheckoutService {
     debugPrint("The completed order: $status");
     return Http.put(
       "/orders/$id",
-      {"status": status.toStringValue().toUpperCase()},
+      {"order_status": status.toStringValue().toUpperCase()},
       deserializer: (json) => json["message"],
     );
   }
 
-  HttpResult<String> updateTrip(int id, TripStatus status) {
+  HttpResult<String> updateTrip(int id, TripStatus status) async {
     debugPrint("The completed trip: $status");
     return Http.put(
       "/trips/$id",

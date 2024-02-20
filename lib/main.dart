@@ -1,3 +1,5 @@
+import 'package:dayliff/data/repository/auth_repository.dart';
+import 'package:dayliff/data/repository/location_repository.dart';
 import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
@@ -22,7 +24,22 @@ void main() async {
   kNotificationSlideDuration = const Duration(milliseconds: 500);
   kNotificationDuration = const Duration(milliseconds: 1500);
 
-  runApp(const MyApp());
+  // Initialize location streamer
+  await LocationStreamer.instance.initialize(); // Initialize LocationStreamer
+
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => LocationStreamer.instance,
+        ),
+        RepositoryProvider(
+          create: (context) => AuthenticationRepository.instance,
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +56,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => orderBloc),
           BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(
-              create: (context) => ProcessingCubit(orderBloc, checkoutBloc)),
+              create: (context) => ProcessingCubit(
+                  orderBloc, checkoutBloc, LocationStreamer.instance)),
           BlocProvider(create: (context) => MapsControllerBloc()),
           BlocProvider(create: (context) => checkoutBloc)
         ],

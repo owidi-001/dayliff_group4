@@ -11,7 +11,7 @@ part 'state.dart';
 
 class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckOutBloc() : super(const CheckoutState()) {
-// Change step
+    // Change step
     on<UpdateStep>(
       (event, emit) => emit(
         state.copyWith(step: event.step),

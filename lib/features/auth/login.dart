@@ -27,10 +27,10 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
 
-    setState(() {
-      emailController.text = "smusebe@dayliff.com";
-      passwordController.text = "password";
-    });
+    // setState(() {
+    //   emailController.text = "smusebe@dayliff.com";
+    //   passwordController.text = "password";
+    // });
   }
 
   @override

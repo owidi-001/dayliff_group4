@@ -2,8 +2,6 @@ part of "bloc.dart";
 
 class ProcessingState extends Equatable {
   final ServiceStatus status;
-  final Trip? selectedTrip;
-  final Order? selectedOrder;
   final AppMessage? message;
   final OrderConfirmation? confirmation;
   // events notifier
@@ -14,8 +12,6 @@ class ProcessingState extends Equatable {
 
   const ProcessingState(
       {this.status = ServiceStatus.initial,
-      this.selectedTrip,
-      this.selectedOrder,
       this.message,
       this.confirmation,
       this.startTripSuccess = false,
@@ -26,8 +22,6 @@ class ProcessingState extends Equatable {
   ProcessingState copyWith(
       {AppMessage? message,
       ServiceStatus? status,
-      Trip? selectedTrip,
-      Order? selectedOrder,
       OrderConfirmation? confirmation,
       bool? startTripSuccess,
       bool? completeTripSuccess,
@@ -40,8 +34,6 @@ class ProcessingState extends Equatable {
       serviceStarted: serviceStarted ?? false,
       completeTripSuccess: completeTripSuccess ?? false,
       status: status ?? this.status,
-      selectedOrder: selectedOrder ?? this.selectedOrder,
-      selectedTrip: selectedTrip ?? this.selectedTrip,
       confirmation: confirmation ?? this.confirmation,
     );
   }
@@ -50,8 +42,6 @@ class ProcessingState extends Equatable {
   List<dynamic> get props => [
         message,
         status,
-        selectedOrder,
-        selectedTrip,
         startTripSuccess,
         startNavigationSuccess,
         serviceStarted,

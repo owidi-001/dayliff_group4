@@ -1,4 +1,5 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
+import 'package:dayliff/data/repository/location_repository.dart';
 import 'package:dayliff/data/repository/notifications_messages.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
@@ -9,7 +10,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 part 'state.dart';
 
@@ -17,35 +17,41 @@ class ProcessingCubit extends Cubit<ProcessingState> {
   final CheckoutService _service = service<CheckoutService>();
   final OrderBloc _orderBloc;
   final CheckOutBloc _checkOutBloc;
-  ProcessingCubit(this._orderBloc, this._checkOutBloc)
+  final LocationStreamer _locationStreamer;
+  ProcessingCubit(this._orderBloc, this._checkOutBloc, this._locationStreamer)
       : super(const ProcessingState());
+
+  Trip _getTripById(int id) {
+    return _orderBloc.state.trips.firstWhere((element) => element.id == id);
+  }
+
+  Order _getOrderById(int id) {
+    final orders = _orderBloc.state.trips.expand((element) => element.orders);
+    return orders.firstWhere((element) => element.orderId == id);
+  }
 
   // Start trip
   void startTrip(int tripId) async {
-    // select trip
-    selectTrip(tripId);
     // Find trip
-    final trip =
-        _orderBloc.state.trips.firstWhere((element) => element.id == tripId);
-    // Select trip
+    final trip = _getTripById(tripId);
+
+    // Mark trip as active
     emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-    LatLng coordinates = LatLng(trip.origin!.lat!, trip.origin!.long!);
-    // Set to current location
-    await getCurrentLocation().then((value) {
-      if (value != null) {
-        coordinates = LatLng(value.latitude!, value.longitude!);
-      }
-    });
-    // start coordinates
+
+    final LatLng? currentLocation = _locationStreamer.currentLocation;
+
+    // send coordinates
     final res = await _service.startTrip(
       payload: StartTripRequest(
         tripId: trip.id,
         coordinates: LatLng_(
-            latitude: coordinates.latitude, longitude: coordinates.longitude),
+            latitude: currentLocation?.latitude,
+            longitude: currentLocation?.longitude),
         status: TripStatus.ACTIVE,
         startTime: DateTime.now(),
       ),
     );
+
     // Handle response
     res.when(onError: (error) {
       emit(
@@ -54,118 +60,97 @@ class ProcessingCubit extends Cubit<ProcessingState> {
             message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
     }, onSuccess: (data) {
-      // Add trip to state
+      // Update trip
+      _orderBloc.add(UpdateTrip(
+          trip: _getTripById(tripId).copyWith(status: TripStatus.ACTIVE)));
+      // Update state
       emit(
         state.copyWith(
             status: ServiceStatus.submissionSuccess,
-            selectedTrip: trip.copyWith(status: TripStatus.ACTIVE),
             message: AppMessage(
               message: data.message,
               tone: MessageTone.success,
             ),
             startTripSuccess: true),
       );
-      _orderBloc
-          .add(UpdateTrip(trip: trip.copyWith(status: TripStatus.ACTIVE)));
     });
-  }
-
-  // Order selected
-  void selectOrder(int id) {
-    // add selected to state
-    emit(state.copyWith(
-        selectedOrder: state.selectedTrip!.orders
-            .firstWhere((element) => element.orderId == id)));
-  }
-
-// Trip selected
-  void selectTrip(int id) {
-    // add selected to state
-    emit(state.copyWith(
-        selectedTrip:
-            _orderBloc.state.trips.firstWhere((element) => element.id == id)));
   }
 
   // Start navigation
   void startNavigation(int id) async {
-    final Order order = state.selectedTrip!.orders
-        .firstWhere((element) => element.orderId == id);
+    final order = _getOrderById(id);
+    final trip = _getTripById(order.trip);
 
-    emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-    LatLng? coordinates;
-    if (order.destination != null) {
-      coordinates = LatLng(order.destination!.lat!, order.destination!.long!);
-    }
-    try {
-      // Set to current location
-      await getCurrentLocation().then((value) {
-        if (value != null) {
-          coordinates = LatLng(value.latitude!, value.longitude!);
-        }
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    if (trip.orders.where((e) => e.status == OrderStatus.ACTIVE).isNotEmpty) {
+      emit(
+        state.copyWith(
+          message: AppMessage(
+              message: "You already have an incomplete active order.",
+              tone: MessageTone.warning),
+        ),
+      );
+    } else {
+      emit(state.copyWith(status: ServiceStatus.submissionInProgress));
 
-    // start coordinates
-    final res = await _service.startNavigation(
-      payload: StartNavigationRequest(
-          orderId: order.orderId,
+      final LatLng? currentLocation = _locationStreamer.currentLocation;
+
+      // send coordinates
+      final res = await _service.startNavigation(
+        payload: StartNavigationRequest(
+          orderId: id,
           coordinates: LatLng_(
-              latitude: coordinates?.latitude,
-              longitude: coordinates?.longitude),
+              latitude: currentLocation?.latitude,
+              longitude: currentLocation?.longitude),
           status: OrderStatus.ACTIVE,
-          timestartnavigation: DateTime.now()),
-    );
-    // Handle response
-    res.when(onError: (error) {
-      emit(
-        state.copyWith(
-            status: ServiceStatus.submissionFailure,
-            message: AppMessage(message: error.error, tone: MessageTone.error)),
-      );
-    }, onSuccess: (data) {
-      emit(
-        state.copyWith(
-            status: ServiceStatus.submissionSuccess,
-            selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
-            message: AppMessage(message: data, tone: MessageTone.success),
-            startNavigationSuccess: true),
+          timestartnavigation: DateTime.now(),
+        ),
       );
 
-      //  Update routes in the background
-      _orderBloc.add(RefreshRoutes());
-      // Notify the customer
-      MessageNotificationsRepository.instance.sendTextMessage(
-          order.customerPhone,
-          """Exciting news! Your delivery is now on its way to your doorstep. Our team is committed to ensuring a swift and secure delivery experience for you.
+      // Handle response
+      res.when(onError: (error) {
+        emit(
+          state.copyWith(
+              status: ServiceStatus.submissionFailure,
+              message:
+                  AppMessage(message: error.error, tone: MessageTone.error)),
+        );
+      }, onSuccess: (data) {
+        emit(
+          state.copyWith(
+              status: ServiceStatus.submissionSuccess,
+              message: AppMessage(message: data, tone: MessageTone.success),
+              startNavigationSuccess: true),
+        );
+
+        //  Update order
+        _orderBloc.add(
+            UpdateOrder(order: order.copyWith(status: OrderStatus.ACTIVE)));
+
+        // Notify the customer
+        MessageNotificationsRepository.instance.sendTextMessage(
+            order.recipientPhone,
+            """Exciting news! Your delivery is now on its way to your doorstep.
 For real-time tracking, click [Tracking Link] to monitor the progress of your package.
 Thank you for choosing Davis & Shirtliff we appreciate your trust in our service.""");
-    });
+      });
+    }
   }
 
   // Begin handover
   void beginHandover(int id) async {
-    final Order order = state.selectedTrip!.orders
-        .firstWhere((element) => element.orderId == id);
-
     emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-    LatLng? coordinates;
-    // Set to current location
-    await getCurrentLocation().then((value) {
-      if (value != null) {
-        coordinates = LatLng(value.latitude!, value.longitude!);
-      }
-    });
+
+    final LatLng? currentLocation = _locationStreamer.currentLocation;
 
     final res = await _service.startHandover(
       payload: StartHandoverRequest(
-          coordinates: LatLng_(
-              latitude: coordinates?.latitude,
-              longitude: coordinates?.longitude),
-          status: OrderStatus.ACTIVE,
-          orderId: id,
-          time: DateTime.now()),
+        coordinates: LatLng_(
+            latitude: currentLocation?.latitude,
+            longitude: currentLocation?.longitude),
+        status: OrderStatus.ACTIVE,
+        orderId: id,
+        time: DateTime.now(),
+      ),
     );
 
     // Handle response
@@ -180,15 +165,13 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
       emit(
         state.copyWith(
             status: ServiceStatus.submissionSuccess,
-            selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
             message: AppMessage(message: data, tone: MessageTone.success),
             serviceStarted: true),
       );
 
-      // TODO! Check this
-      // Update order in routes
-      // _orderBloc.add(UpdateOrder(order: order));
-      _orderBloc.add(RefreshRoutes());
+      // TODO! Add status for handover
+      //  _orderBloc
+      //     .add(UpdateOrder(order: order.copyWith(status: OrderStatus.ACTIVE)));
     });
   }
 
@@ -232,10 +215,10 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
     res.when(onError: (error) {
       emit(
         state.copyWith(
-            status: ServiceStatus.submissionInProgress,
+            status: ServiceStatus.submissionFailure,
             message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
-    }, onSuccess: (data) {
+    }, onSuccess: (data) async {
       emit(
         state.copyWith(
           status: ServiceStatus.submissionSuccess,
@@ -243,38 +226,49 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
         ),
       );
 
-      // Emit chekout event
+      // Emit checkout event
       if (isComplete) {
+        final order = _getOrderById(confirmation.orderId);
         // Mark the order as complete
-        _service.updateOrder(confirmation.orderId, OrderStatus.COMPLETED);
-        // Update the order
-        // var order = state.selectedTrip!.orders
-        //     .firstWhere((element) => element.orderId == confirmation.orderId);
-        // order = order.copyWith(status: OrderStatus.COMPLETED);
-        emit(state.copyWith(
-            selectedOrder:
-                state.selectedOrder!.copyWith(status: OrderStatus.COMPLETED)));
-        // update order in trip
-        var trip = state.selectedTrip!.copyWith(
-            orders: state.selectedTrip!.orders
-                .map((e) => e.orderId == state.selectedOrder!.orderId
-                    ? state.selectedOrder!
-                    : e)
-                .toList());
-        // update state
-        emit(state.copyWith(selectedTrip: trip));
+        final _res = await _service.updateOrder(
+            confirmation.orderId, OrderStatus.COMPLETED);
 
-        if (state.selectedTrip!.orders
-            .every((order) => order.status == OrderStatus.COMPLETED)) {
+        _res.when(onError: (error) {
+          //TODO! Do something retry
+          debugPrint(error.error);
+        }, onSuccess: (data) {
+          // Update the order
+          _orderBloc.add(
+            UpdateOrder(
+              order: order.copyWith(status: OrderStatus.COMPLETED),
+            ),
+          );
+          // Get trip after update
+          var trip = _getTripById(order.trip);
+
+          // Update trip
+          trip = trip.copyWith(
+              orders: trip.orders
+                  .map((e) => e.orderId == order.orderId
+                      ? order.copyWith(status: OrderStatus.COMPLETED)
+                      : e)
+                  .toList());
+          _orderBloc.add(UpdateTrip(trip: trip));
+
+          // Complete trip
+          final bool isAllComplete = trip.orders
+              .every((order) => order.status == OrderStatus.COMPLETED);
+
+          print("Current trip: ${trip.toJson()}");
+
           debugPrint(
-              "All orders in trip: ${state.selectedTrip?.id} is complete");
-          completeTrip(state.selectedTrip!.id, TripStatus.COMPLETED);
-        }
-
-        // Update trip
-        _orderBloc.add(UpdateTrip(
-            trip: state.selectedTrip!.copyWith(status: TripStatus.COMPLETED)));
-        _orderBloc.add(RefreshRoutes());
+              "All orders for trip:${trip.id} is complete: $isAllComplete");
+          if (isAllComplete) {
+            debugPrint("All or ders in trip: ${trip.id} is complete");
+            //  Complete trip
+            completeTrip(trip.id, TripStatus.COMPLETED);
+          }
+        });
       }
       // Confirm checkout
       _checkOutBloc.add(checkoutEvent);
@@ -298,21 +292,26 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
       debugPrint("Trip completed successfully");
       emit(
         state.copyWith(
-          status: ServiceStatus.submissionSuccess,
-          message: AppMessage(message: data, tone: MessageTone.success),
+            status: ServiceStatus.submissionSuccess,
+            message: AppMessage(
+              message: data,
+              tone: MessageTone.success,
+            ),
+            completeTripSuccess: true),
+      );
+
+      // Update trip
+      _orderBloc.add(
+        UpdateTrip(
+          trip: _getTripById(id).copyWith(status: TripStatus.COMPLETED),
         ),
       );
-    });
-    debugPrint("Refreshing routes");
-    // Refresh trips
-    _orderBloc.add(RefreshRoutes());
-  }
-}
 
-Future<LocationData?> getCurrentLocation() async {
-  Location location = Location();
-  location.getLocation().then((location) {
-    return location;
-  });
-  return null;
+      // Checkout complete
+      _checkOutBloc.add(StepComplete());
+
+      // Refresh trips
+      _orderBloc.add(RefreshRoutes());
+    });
+  }
 }

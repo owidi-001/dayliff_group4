@@ -50,9 +50,6 @@ class _DashboardState extends State<Dashboard> {
         statusBarColor: StaticColors.primary,
       ),
     );
-    return const Scaffold(
-      backgroundColor: Colors.grey,
-      body: Home(),
-    );
+    return const Home();
   }
 }
