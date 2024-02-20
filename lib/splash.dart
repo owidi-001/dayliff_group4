@@ -1,5 +1,5 @@
 import 'package:dayliff/data/local/local.dart';
-import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/features/auth/welcome.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,26 +24,23 @@ class PODWidget extends StatelessWidget {
             BlocBuilder<CheckOutBloc, CheckoutState>(
               builder: (context, state) {
                 if (state.orderImages.isNotEmpty) {
-                  return SizedBox(
-                    height: 300, // Adjust height as needed
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns
-                        crossAxisSpacing: 16, // Spacing between columns
-                        mainAxisSpacing: 16, // Spacing between rows
-                      ),
-                      itemCount: state.orderImages.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => Container(
-                        decoration: BoxDecoration(border: Border.all()),
-                        constraints:
-                            const BoxConstraints(maxHeight: 150, maxWidth: 150),
-                        child: Image.file(
-                          state.orderImages[index],
-                          fit: BoxFit.cover,
-                        ),
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Number of columns
+                      crossAxisSpacing: 16, // Spacing between columns
+                      mainAxisSpacing: 16, // Spacing between rows
+                    ),
+                    itemCount: state.orderImages.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => Container(
+                      decoration: BoxDecoration(border: Border.all()),
+                      constraints:
+                          const BoxConstraints(maxHeight: 150, maxWidth: 150),
+                      child: Image.file(
+                        state.orderImages[index],
+                        fit: BoxFit.cover,
                       ),
                     ),
                   );

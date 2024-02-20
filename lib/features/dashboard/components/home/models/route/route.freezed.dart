@@ -880,6 +880,8 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 mixin _$Order {
   @JsonKey(name: "id")
   int get orderId => throw _privateConstructorUsedError;
+  @JsonKey(name: "bc_order_number")
+  String get bcOrderNumber => throw _privateConstructorUsedError;
   @JsonKey(name: "trip_id")
   int? get trip => throw _privateConstructorUsedError;
   @JsonKey(name: "destination_address")
@@ -888,6 +890,10 @@ mixin _$Order {
   String get customerName => throw _privateConstructorUsedError;
   @JsonKey(name: "customer_phone")
   String get customerPhone => throw _privateConstructorUsedError;
+  @JsonKey(name: "recipient_name")
+  String get recipientName => throw _privateConstructorUsedError;
+  @JsonKey(name: "recipient_phone")
+  String get recipientPhone => throw _privateConstructorUsedError;
   @JsonKey(name: "order_date")
   DateTime get orderDate => throw _privateConstructorUsedError;
   @JsonKey(name: "order_status")
@@ -905,10 +911,13 @@ abstract class $OrderCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int orderId,
+      @JsonKey(name: "bc_order_number") String bcOrderNumber,
       @JsonKey(name: "trip_id") int? trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
+      @JsonKey(name: "recipient_name") String recipientName,
+      @JsonKey(name: "recipient_phone") String recipientPhone,
       @JsonKey(name: "order_date") DateTime orderDate,
       @JsonKey(name: "order_status") OrderStatus status});
 
@@ -929,10 +938,13 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @override
   $Res call({
     Object? orderId = null,
+    Object? bcOrderNumber = null,
     Object? trip = freezed,
     Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
+    Object? recipientName = null,
+    Object? recipientPhone = null,
     Object? orderDate = null,
     Object? status = null,
   }) {
@@ -941,6 +953,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as int,
+      bcOrderNumber: null == bcOrderNumber
+          ? _value.bcOrderNumber
+          : bcOrderNumber // ignore: cast_nullable_to_non_nullable
+              as String,
       trip: freezed == trip
           ? _value.trip
           : trip // ignore: cast_nullable_to_non_nullable
@@ -956,6 +972,14 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
       customerPhone: null == customerPhone
           ? _value.customerPhone
           : customerPhone // ignore: cast_nullable_to_non_nullable
+              as String,
+      recipientName: null == recipientName
+          ? _value.recipientName
+          : recipientName // ignore: cast_nullable_to_non_nullable
+              as String,
+      recipientPhone: null == recipientPhone
+          ? _value.recipientPhone
+          : recipientPhone // ignore: cast_nullable_to_non_nullable
               as String,
       orderDate: null == orderDate
           ? _value.orderDate
@@ -990,10 +1014,13 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int orderId,
+      @JsonKey(name: "bc_order_number") String bcOrderNumber,
       @JsonKey(name: "trip_id") int? trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
       @JsonKey(name: "customer_phone") String customerPhone,
+      @JsonKey(name: "recipient_name") String recipientName,
+      @JsonKey(name: "recipient_phone") String recipientPhone,
       @JsonKey(name: "order_date") DateTime orderDate,
       @JsonKey(name: "order_status") OrderStatus status});
 
@@ -1013,10 +1040,13 @@ class __$$OrderImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? orderId = null,
+    Object? bcOrderNumber = null,
     Object? trip = freezed,
     Object? destination = freezed,
     Object? customerName = null,
     Object? customerPhone = null,
+    Object? recipientName = null,
+    Object? recipientPhone = null,
     Object? orderDate = null,
     Object? status = null,
   }) {
@@ -1025,6 +1055,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as int,
+      bcOrderNumber: null == bcOrderNumber
+          ? _value.bcOrderNumber
+          : bcOrderNumber // ignore: cast_nullable_to_non_nullable
+              as String,
       trip: freezed == trip
           ? _value.trip
           : trip // ignore: cast_nullable_to_non_nullable
@@ -1040,6 +1074,14 @@ class __$$OrderImplCopyWithImpl<$Res>
       customerPhone: null == customerPhone
           ? _value.customerPhone
           : customerPhone // ignore: cast_nullable_to_non_nullable
+              as String,
+      recipientName: null == recipientName
+          ? _value.recipientName
+          : recipientName // ignore: cast_nullable_to_non_nullable
+              as String,
+      recipientPhone: null == recipientPhone
+          ? _value.recipientPhone
+          : recipientPhone // ignore: cast_nullable_to_non_nullable
               as String,
       orderDate: null == orderDate
           ? _value.orderDate
@@ -1058,10 +1100,13 @@ class __$$OrderImplCopyWithImpl<$Res>
 class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   const _$OrderImpl(
       {@JsonKey(name: "id") required this.orderId,
+      @JsonKey(name: "bc_order_number") required this.bcOrderNumber,
       @JsonKey(name: "trip_id") this.trip,
       @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "customer_name") required this.customerName,
       @JsonKey(name: "customer_phone") required this.customerPhone,
+      @JsonKey(name: "recipient_name") required this.recipientName,
+      @JsonKey(name: "recipient_phone") required this.recipientPhone,
       @JsonKey(name: "order_date") required this.orderDate,
       @JsonKey(name: "order_status") required this.status});
 
@@ -1071,6 +1116,9 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   @override
   @JsonKey(name: "id")
   final int orderId;
+  @override
+  @JsonKey(name: "bc_order_number")
+  final String bcOrderNumber;
   @override
   @JsonKey(name: "trip_id")
   final int? trip;
@@ -1084,6 +1132,12 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   @JsonKey(name: "customer_phone")
   final String customerPhone;
   @override
+  @JsonKey(name: "recipient_name")
+  final String recipientName;
+  @override
+  @JsonKey(name: "recipient_phone")
+  final String recipientPhone;
+  @override
   @JsonKey(name: "order_date")
   final DateTime orderDate;
   @override
@@ -1092,7 +1146,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Order(orderId: $orderId, trip: $trip, destination: $destination, customerName: $customerName, customerPhone: $customerPhone, orderDate: $orderDate, status: $status)';
+    return 'Order(orderId: $orderId, bcOrderNumber: $bcOrderNumber, trip: $trip, destination: $destination, customerName: $customerName, customerPhone: $customerPhone, recipientName: $recipientName, recipientPhone: $recipientPhone, orderDate: $orderDate, status: $status)';
   }
 
   @override
@@ -1101,10 +1155,13 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
     properties
       ..add(DiagnosticsProperty('type', 'Order'))
       ..add(DiagnosticsProperty('orderId', orderId))
+      ..add(DiagnosticsProperty('bcOrderNumber', bcOrderNumber))
       ..add(DiagnosticsProperty('trip', trip))
       ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('customerName', customerName))
       ..add(DiagnosticsProperty('customerPhone', customerPhone))
+      ..add(DiagnosticsProperty('recipientName', recipientName))
+      ..add(DiagnosticsProperty('recipientPhone', recipientPhone))
       ..add(DiagnosticsProperty('orderDate', orderDate))
       ..add(DiagnosticsProperty('status', status));
   }
@@ -1115,6 +1172,8 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.bcOrderNumber, bcOrderNumber) ||
+                other.bcOrderNumber == bcOrderNumber) &&
             (identical(other.trip, trip) || other.trip == trip) &&
             (identical(other.destination, destination) ||
                 other.destination == destination) &&
@@ -1122,6 +1181,10 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
                 other.customerName == customerName) &&
             (identical(other.customerPhone, customerPhone) ||
                 other.customerPhone == customerPhone) &&
+            (identical(other.recipientName, recipientName) ||
+                other.recipientName == recipientName) &&
+            (identical(other.recipientPhone, recipientPhone) ||
+                other.recipientPhone == recipientPhone) &&
             (identical(other.orderDate, orderDate) ||
                 other.orderDate == orderDate) &&
             (identical(other.status, status) || other.status == status));
@@ -1129,8 +1192,18 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, orderId, trip, destination,
-      customerName, customerPhone, orderDate, status);
+  int get hashCode => Object.hash(
+      runtimeType,
+      orderId,
+      bcOrderNumber,
+      trip,
+      destination,
+      customerName,
+      customerPhone,
+      recipientName,
+      recipientPhone,
+      orderDate,
+      status);
 
   @JsonKey(ignore: true)
   @override
@@ -1148,20 +1221,26 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
 abstract class _Order implements Order {
   const factory _Order(
-          {@JsonKey(name: "id") required final int orderId,
-          @JsonKey(name: "trip_id") final int? trip,
-          @JsonKey(name: "destination_address") final Address? destination,
-          @JsonKey(name: "customer_name") required final String customerName,
-          @JsonKey(name: "customer_phone") required final String customerPhone,
-          @JsonKey(name: "order_date") required final DateTime orderDate,
-          @JsonKey(name: "order_status") required final OrderStatus status}) =
-      _$OrderImpl;
+      {@JsonKey(name: "id") required final int orderId,
+      @JsonKey(name: "bc_order_number") required final String bcOrderNumber,
+      @JsonKey(name: "trip_id") final int? trip,
+      @JsonKey(name: "destination_address") final Address? destination,
+      @JsonKey(name: "customer_name") required final String customerName,
+      @JsonKey(name: "customer_phone") required final String customerPhone,
+      @JsonKey(name: "recipient_name") required final String recipientName,
+      @JsonKey(name: "recipient_phone") required final String recipientPhone,
+      @JsonKey(name: "order_date") required final DateTime orderDate,
+      @JsonKey(name: "order_status")
+      required final OrderStatus status}) = _$OrderImpl;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
   @override
   @JsonKey(name: "id")
   int get orderId;
+  @override
+  @JsonKey(name: "bc_order_number")
+  String get bcOrderNumber;
   @override
   @JsonKey(name: "trip_id")
   int? get trip;
@@ -1174,6 +1253,12 @@ abstract class _Order implements Order {
   @override
   @JsonKey(name: "customer_phone")
   String get customerPhone;
+  @override
+  @JsonKey(name: "recipient_name")
+  String get recipientName;
+  @override
+  @JsonKey(name: "recipient_phone")
+  String get recipientPhone;
   @override
   @JsonKey(name: "order_date")
   DateTime get orderDate;

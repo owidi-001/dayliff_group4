@@ -88,10 +88,13 @@ class Route with _$Route {
 class Order with _$Order {
   const factory Order({
     @JsonKey(name: "id") required int orderId,
+    @JsonKey(name: "bc_order_number") required String bcOrderNumber,
     @JsonKey(name: "trip_id") int? trip,
     @JsonKey(name: "destination_address") Address? destination,
     @JsonKey(name: "customer_name") required String customerName,
     @JsonKey(name: "customer_phone") required String customerPhone,
+    @JsonKey(name: "recipient_name") required String recipientName,
+    @JsonKey(name: "recipient_phone") required String recipientPhone,
     @JsonKey(name: "order_date") required DateTime orderDate,
     @JsonKey(name: "order_status") required OrderStatus status,
   }) = _Order;

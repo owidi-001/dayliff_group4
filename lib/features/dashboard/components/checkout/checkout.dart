@@ -1,5 +1,5 @@
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/comments.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/customer_signature.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/pod.dart';
@@ -7,7 +7,7 @@ import 'package:dayliff/features/dashboard/components/checkout/steps/scan_od.dar
 import 'package:dayliff/features/dashboard/components/checkout/steps/verify_customer/verify_customer.dart';
 import 'package:dayliff/features/dashboard/components/checkout/widgets/count_timer.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';

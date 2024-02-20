@@ -1,6 +1,7 @@
-import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+
+import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +42,8 @@ class DeliveryComments extends StatelessWidget {
                       status:
                           OrderStatus.COMPLETED.toStringValue().toUpperCase(),
                     ),
-                    StepComplete());
+                    StepComplete(),
+                    isComplete: true);
               },
               icon: const Icon(Icons.check),
               label: const Text("Complete delivery"),

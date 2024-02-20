@@ -1,9 +1,9 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
-import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/trip_view.dart';
 import 'package:dayliff/utils/extensions.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';

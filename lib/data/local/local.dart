@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_intent_plus/android_intent.dart';
@@ -101,6 +102,7 @@ class AppUtility {
 
 // Launch caller
   static Future<void> makeCall(String phoneNumber) async {
+    debugPrint("Called Phone: $phoneNumber");
     final Uri launchUri = Uri(
       scheme: 'tel',
       path: phoneNumber,

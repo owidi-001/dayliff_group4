@@ -29,6 +29,7 @@ setUpService() {
   service.registerLazySingleton<CheckoutService>(() => CheckoutService());
   service.registerLazySingleton<FirebaseClientService>(
       () => FirebaseClientService());
+  service.registerLazySingleton<TextMessageService>(() => TextMessageService());
 }
 
 enum ServiceStatus {

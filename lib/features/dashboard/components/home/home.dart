@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/auth/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
+import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/complete_trip_card.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_tile.dart';
 import 'package:dayliff/features/dashboard/components/settings/settings.dart';

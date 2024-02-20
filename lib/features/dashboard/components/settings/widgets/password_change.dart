@@ -28,6 +28,7 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
               children: [
                 TextFormField(
                   controller: _currentPassword,
+                  textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your current password';
@@ -42,6 +43,7 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
                 ),
                 TextFormField(
                   controller: _newPassword,
+                  textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'New password is required';
@@ -61,7 +63,7 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
                       return 'Confirm your password';
                     }
 
-                    if (_newPassword.text != _currentPassword.text) {
+                    if (_newPassword.text != _confirmPassword.text) {
                       return 'Password mismatch';
                     }
 
@@ -98,7 +100,7 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
                 Navigator.of(context).pop();
               }
             },
-            child: const Text("Save"))
+            child: const Text("Change"))
       ],
     );
   }

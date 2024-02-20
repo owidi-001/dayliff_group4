@@ -81,8 +81,18 @@ class CheckoutService {
     );
   }
 
+  HttpResult<String> updateOrder(int id, OrderStatus status) {
+    debugPrint("The completed order: $status");
+    return Http.put(
+      "/orders/$id",
+      {"status": status.toStringValue().toUpperCase()},
+      deserializer: (json) => json["message"],
+    );
+  }
+
   HttpResult<String> updateTrip(int id, TripStatus status) {
-    return Http.post(
+    debugPrint("The completed trip: $status");
+    return Http.put(
       "/trips/$id",
       {"status": status.toStringValue().toUpperCase()},
       deserializer: (json) => json["message"],
@@ -177,5 +187,16 @@ class FirebaseClientService {
         }
       }
     }
+  }
+}
+
+class TextMessageService {
+  // Send message
+  HttpResult<dynamic> sendMessage(String to, String message) async {
+    return Http.post(
+      "/sms",
+      {"message": message, "phone": to},
+      deserializer: (json) => json,
+    );
   }
 }

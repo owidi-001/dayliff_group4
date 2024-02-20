@@ -2,7 +2,7 @@ import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/handover_dialog.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/extensions.dart';

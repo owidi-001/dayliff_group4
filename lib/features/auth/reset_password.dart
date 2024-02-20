@@ -1,4 +1,5 @@
-import 'package:dayliff/features/auth/bloc/bloc.dart';
+
+import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/base.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:flutter/material.dart';

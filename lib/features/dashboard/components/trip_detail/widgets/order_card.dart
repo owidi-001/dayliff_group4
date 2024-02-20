@@ -58,7 +58,7 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "#. ${order.orderId}".toUpperCase(),
+                  order.bcOrderNumber.toUpperCase(),
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -130,7 +130,7 @@ class OrderCard extends StatelessWidget {
                               message: "Communication with client is disabled",
                               tone: MessageTone.error));
                         } else {
-                          AppUtility.makeCall(order.customerName);
+                          AppUtility.makeCall(order.recipientPhone);
                         }
                       },
                       child: CircleAvatar(

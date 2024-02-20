@@ -1,5 +1,5 @@
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
 import 'package:dayliff/features/dashboard/base.dart';
@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
     super.initState();
 
     setState(() {
-      emailController.text = "jopa@dayliff.com";
+      emailController.text = "smusebe@dayliff.com";
       passwordController.text = "password";
     });
   }

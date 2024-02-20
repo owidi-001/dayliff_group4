@@ -1,6 +1,6 @@
 import 'package:dayliff/data/models/auth/login.dart';
 import 'package:dayliff/data/repository/auth_repository.dart';
-import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

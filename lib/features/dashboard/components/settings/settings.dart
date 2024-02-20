@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dayliff/data/repository/auth_repository.dart';
-import 'package:dayliff/features/auth/bloc/bloc.dart';
+import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/features/auth/login.dart';
-import 'package:dayliff/features/dashboard/components/settings/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/settings/settings_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/password_change.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/settings_tabs.dart';
 import 'package:dayliff/features/dashboard/components/settings/widgets/update_form.dart';

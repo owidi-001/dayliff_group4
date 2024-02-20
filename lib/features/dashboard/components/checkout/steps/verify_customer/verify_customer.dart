@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dayliff/data/models/messages/app_message.dart';
-import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/verify_customer/verify_cubit.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';

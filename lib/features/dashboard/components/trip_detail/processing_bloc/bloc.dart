@@ -1,8 +1,9 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
+import 'package:dayliff/data/repository/notifications_messages.dart';
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/dashboard/components/checkout/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
+import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/model/trip_dtos.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -134,6 +135,12 @@ class ProcessingCubit extends Cubit<ProcessingState> {
 
       //  Update routes in the background
       _orderBloc.add(RefreshRoutes());
+      // Notify the customer
+      MessageNotificationsRepository.instance.sendTextMessage(
+          order.customerPhone,
+          """Exciting news! Your delivery is now on its way to your doorstep. Our team is committed to ensuring a swift and secure delivery experience for you.
+For real-time tracking, click [Tracking Link] to monitor the progress of your package.
+Thank you for choosing Davis & Shirtliff we appreciate your trust in our service.""");
     });
   }
 
@@ -165,12 +172,14 @@ class ProcessingCubit extends Cubit<ProcessingState> {
     res.when(onError: (error) {
       emit(
         state.copyWith(
+            status: ServiceStatus.submissionFailure,
             message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
     }, onSuccess: (data) {
       // add update to state
       emit(
         state.copyWith(
+            status: ServiceStatus.submissionSuccess,
             selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
             message: AppMessage(message: data, tone: MessageTone.success),
             serviceStarted: true),
@@ -211,7 +220,8 @@ class ProcessingCubit extends Cubit<ProcessingState> {
 
   // Validate customer
   void orderConfirmationUpdate(
-      OrderConfirmation confirmation, CheckoutEvent checkoutEvent) async {
+      OrderConfirmation confirmation, CheckoutEvent checkoutEvent,
+      {bool isComplete = false}) async {
     emit(
       state.copyWith(
           status: ServiceStatus.submissionInProgress,
@@ -226,28 +236,44 @@ class ProcessingCubit extends Cubit<ProcessingState> {
             message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
     }, onSuccess: (data) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           status: ServiceStatus.submissionSuccess,
-          message: AppMessage(message: data, tone: MessageTone.success)));
+          message: AppMessage(message: data, tone: MessageTone.success),
+        ),
+      );
 
       // Emit chekout event
-      if (checkoutEvent == StepComplete()) {
+      if (isComplete) {
+        // Mark the order as complete
+        _service.updateOrder(confirmation.orderId, OrderStatus.COMPLETED);
         // Update the order
-        var order = state.selectedTrip!.orders
-            .firstWhere((element) => element.orderId == confirmation.orderId);
-        order = order.copyWith(status: OrderStatus.COMPLETED);
+        // var order = state.selectedTrip!.orders
+        //     .firstWhere((element) => element.orderId == confirmation.orderId);
+        // order = order.copyWith(status: OrderStatus.COMPLETED);
+        emit(state.copyWith(
+            selectedOrder:
+                state.selectedOrder!.copyWith(status: OrderStatus.COMPLETED)));
+        // update order in trip
+        var trip = state.selectedTrip!.copyWith(
+            orders: state.selectedTrip!.orders
+                .map((e) => e.orderId == state.selectedOrder!.orderId
+                    ? state.selectedOrder!
+                    : e)
+                .toList());
+        // update state
+        emit(state.copyWith(selectedTrip: trip));
 
         if (state.selectedTrip!.orders
             .every((order) => order.status == OrderStatus.COMPLETED)) {
+          debugPrint(
+              "All orders in trip: ${state.selectedTrip?.id} is complete");
           completeTrip(state.selectedTrip!.id, TripStatus.COMPLETED);
         }
-        // TODO! Check this
-        // Update in state
-        // _orderBloc.add(
-        //     UpdateOrder(order: order.copyWith(status: OrderStatus.COMPLETED)));
 
         // Update trip
-        // _orderBloc.add(UpdateTrip(trip: state.selectedTrip!));
+        _orderBloc.add(UpdateTrip(
+            trip: state.selectedTrip!.copyWith(status: TripStatus.COMPLETED)));
         _orderBloc.add(RefreshRoutes());
       }
       // Confirm checkout
@@ -256,6 +282,7 @@ class ProcessingCubit extends Cubit<ProcessingState> {
   }
 
   void completeTrip(int id, TripStatus status) async {
+    debugPrint("Complete trip function $id, $status");
     final res = await _service.updateTrip(id, status);
     res.when(onError: (error) {
       emit(
@@ -268,6 +295,7 @@ class ProcessingCubit extends Cubit<ProcessingState> {
         ),
       );
     }, onSuccess: (data) {
+      debugPrint("Trip completed successfully");
       emit(
         state.copyWith(
           status: ServiceStatus.submissionSuccess,
@@ -275,6 +303,9 @@ class ProcessingCubit extends Cubit<ProcessingState> {
         ),
       );
     });
+    debugPrint("Refreshing routes");
+    // Refresh trips
+    _orderBloc.add(RefreshRoutes());
   }
 }
 

@@ -82,6 +82,7 @@ Map<String, dynamic> _$$RouteImplToJson(_$RouteImpl instance) =>
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
       orderId: json['id'] as int,
+      bcOrderNumber: json['bc_order_number'] as String,
       trip: json['trip_id'] as int?,
       destination: json['destination_address'] == null
           ? null
@@ -89,6 +90,8 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
               json['destination_address'] as Map<String, dynamic>),
       customerName: json['customer_name'] as String,
       customerPhone: json['customer_phone'] as String,
+      recipientName: json['recipient_name'] as String,
+      recipientPhone: json['recipient_phone'] as String,
       orderDate: DateTime.parse(json['order_date'] as String),
       status: $enumDecode(_$OrderStatusEnumMap, json['order_status']),
     );
@@ -96,10 +99,13 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     <String, dynamic>{
       'id': instance.orderId,
+      'bc_order_number': instance.bcOrderNumber,
       'trip_id': instance.trip,
       'destination_address': instance.destination,
       'customer_name': instance.customerName,
       'customer_phone': instance.customerPhone,
+      'recipient_name': instance.recipientName,
+      'recipient_phone': instance.recipientPhone,
       'order_date': instance.orderDate.toIso8601String(),
       'order_status': _$OrderStatusEnumMap[instance.status]!,
     };

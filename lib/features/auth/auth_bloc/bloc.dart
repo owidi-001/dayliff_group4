@@ -56,13 +56,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<LogoutEvent>((event, emit) {
-      // emit(state.copyWith(
-      //   status: ServiceStatus.initial,
-      //   loginSuccess: false,
-      //   user: null,
-      //   token: null,
-      //   resetFlag: true,
-      // ));
       // Save to repository
       AuthenticationRepository.instance.logout();
     });
