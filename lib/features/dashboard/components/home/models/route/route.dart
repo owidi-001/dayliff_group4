@@ -1,4 +1,3 @@
-// This file is "main.dart"
 // ignore_for_file: invalid_annotation_target
 
 import 'dart:io';
@@ -88,7 +87,7 @@ class Route with _$Route {
 @freezed
 class Order with _$Order {
   const factory Order({
-    @JsonKey(name: "id") int? orderId,
+    @JsonKey(name: "id") required int orderId,
     @JsonKey(name: "trip_id") int? trip,
     @JsonKey(name: "destination_address") Address? destination,
     @JsonKey(name: "customer_name") required String customerName,
@@ -161,42 +160,4 @@ class OrderConfirmation with _$OrderConfirmation {
 
   factory OrderConfirmation.fromJson(Map<String, Object?> json) =>
       _$OrderConfirmationFromJson(json);
-}
-
-Trip dummyTrip() {
-  return Trip(
-    id: 1,
-    route: const Route(routeId: 123, name: 'Dummy Route'),
-    driver: const Driver(id: 1, license: 'ABC123'),
-    vehicle: const Vehicle(
-      vehicleId: 1,
-      plateNumber: 'XYZ456',
-      make: 'Toyota',
-      model: 'Camry',
-      type: 'Sedan',
-      tonnage: '1 ton',
-    ),
-    courier:
-        const Courrier(id: 1, name: 'John Doe', description: 'Delivery person'),
-    origin: const Address(name: 'Origin Address', lat: 123.456, long: 789.123),
-    destination:
-        const Address(name: 'Destination Address', lat: 456.789, long: 321.654),
-    distance: '10 km',
-    duration: 60,
-    status: TripStatus.ACTIVE,
-    date: DateTime.now(),
-    orders: [
-      Order(
-        orderId: 1,
-        trip: 1,
-        destination: const Address(
-            name: 'Customer Address', lat: 654.321, long: 987.654),
-        customerName: 'John Smith',
-        customerPhone: '123-456-7890',
-        orderDate: DateTime.now(),
-        status: OrderStatus.SCHEDULED,
-      ),
-      // Add more orders if needed
-    ],
-  );
 }

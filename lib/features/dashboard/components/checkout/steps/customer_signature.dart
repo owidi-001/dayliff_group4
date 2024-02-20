@@ -73,7 +73,7 @@ class _CustomerSignatureState extends State<CustomerSignature> {
                 if (imageFile != null) {
                   context.read<ProcessingCubit>().orderConfirmationUpdate(
                       OrderConfirmation(
-                          orderId: widget.order.orderId!, signature: imageFile),
+                          orderId: widget.order.orderId, signature: imageFile),
                       StepContinue());
                 }
               },

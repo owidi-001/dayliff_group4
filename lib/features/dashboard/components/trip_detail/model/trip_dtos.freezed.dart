@@ -591,6 +591,7 @@ mixin _$StartNavigationRequest {
   int get orderId => throw _privateConstructorUsedError;
   @JsonKey(name: "origin_address")
   LatLng_ get coordinates => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_status")
   OrderStatus get status => throw _privateConstructorUsedError;
   DateTime get timestartnavigation => throw _privateConstructorUsedError;
 
@@ -609,7 +610,7 @@ abstract class $StartNavigationRequestCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "origin_address") LatLng_ coordinates,
-      OrderStatus status,
+      @JsonKey(name: "order_status") OrderStatus status,
       DateTime timestartnavigation});
 
   $LatLng_CopyWith<$Res> get coordinates;
@@ -675,7 +676,7 @@ abstract class _$$StartNavigationRequestImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "origin_address") LatLng_ coordinates,
-      OrderStatus status,
+      @JsonKey(name: "order_status") OrderStatus status,
       DateTime timestartnavigation});
 
   @override
@@ -729,7 +730,7 @@ class _$StartNavigationRequestImpl
   _$StartNavigationRequestImpl(
       {@JsonKey(name: "order_id") required this.orderId,
       @JsonKey(name: "origin_address") required this.coordinates,
-      required this.status,
+      @JsonKey(name: "order_status") required this.status,
       required this.timestartnavigation});
 
   factory _$StartNavigationRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -742,6 +743,7 @@ class _$StartNavigationRequestImpl
   @JsonKey(name: "origin_address")
   final LatLng_ coordinates;
   @override
+  @JsonKey(name: "order_status")
   final OrderStatus status;
   @override
   final DateTime timestartnavigation;
@@ -799,7 +801,7 @@ abstract class _StartNavigationRequest implements StartNavigationRequest {
   factory _StartNavigationRequest(
           {@JsonKey(name: "order_id") required final int orderId,
           @JsonKey(name: "origin_address") required final LatLng_ coordinates,
-          required final OrderStatus status,
+          @JsonKey(name: "order_status") required final OrderStatus status,
           required final DateTime timestartnavigation}) =
       _$StartNavigationRequestImpl;
 
@@ -813,6 +815,7 @@ abstract class _StartNavigationRequest implements StartNavigationRequest {
   @JsonKey(name: "origin_address")
   LatLng_ get coordinates;
   @override
+  @JsonKey(name: "order_status")
   OrderStatus get status;
   @override
   DateTime get timestartnavigation;
@@ -828,10 +831,12 @@ StartHandoverRequest _$StartHandoverRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$StartHandoverRequest {
-  @JsonKey(name: "")
+  @JsonKey(name: "order_id")
   int get orderId => throw _privateConstructorUsedError;
   LatLng_ get coordinates => throw _privateConstructorUsedError;
   OrderStatus get status => throw _privateConstructorUsedError;
+  @JsonKey(name: "timestarthandover")
+  DateTime get time => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -846,9 +851,10 @@ abstract class $StartHandoverRequestCopyWith<$Res> {
       _$StartHandoverRequestCopyWithImpl<$Res, StartHandoverRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: "") int orderId,
+      {@JsonKey(name: "order_id") int orderId,
       LatLng_ coordinates,
-      OrderStatus status});
+      OrderStatus status,
+      @JsonKey(name: "timestarthandover") DateTime time});
 
   $LatLng_CopyWith<$Res> get coordinates;
 }
@@ -870,6 +876,7 @@ class _$StartHandoverRequestCopyWithImpl<$Res,
     Object? orderId = null,
     Object? coordinates = null,
     Object? status = null,
+    Object? time = null,
   }) {
     return _then(_value.copyWith(
       orderId: null == orderId
@@ -884,6 +891,10 @@ class _$StartHandoverRequestCopyWithImpl<$Res,
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OrderStatus,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -905,9 +916,10 @@ abstract class _$$StartHandoverRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "") int orderId,
+      {@JsonKey(name: "order_id") int orderId,
       LatLng_ coordinates,
-      OrderStatus status});
+      OrderStatus status,
+      @JsonKey(name: "timestarthandover") DateTime time});
 
   @override
   $LatLng_CopyWith<$Res> get coordinates;
@@ -927,6 +939,7 @@ class __$$StartHandoverRequestImplCopyWithImpl<$Res>
     Object? orderId = null,
     Object? coordinates = null,
     Object? status = null,
+    Object? time = null,
   }) {
     return _then(_$StartHandoverRequestImpl(
       orderId: null == orderId
@@ -941,6 +954,10 @@ class __$$StartHandoverRequestImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OrderStatus,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -951,24 +968,28 @@ class _$StartHandoverRequestImpl
     with DiagnosticableTreeMixin
     implements _StartHandoverRequest {
   const _$StartHandoverRequestImpl(
-      {@JsonKey(name: "") required this.orderId,
+      {@JsonKey(name: "order_id") required this.orderId,
       required this.coordinates,
-      required this.status});
+      required this.status,
+      @JsonKey(name: "timestarthandover") required this.time});
 
   factory _$StartHandoverRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$StartHandoverRequestImplFromJson(json);
 
   @override
-  @JsonKey(name: "")
+  @JsonKey(name: "order_id")
   final int orderId;
   @override
   final LatLng_ coordinates;
   @override
   final OrderStatus status;
+  @override
+  @JsonKey(name: "timestarthandover")
+  final DateTime time;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StartHandoverRequest(orderId: $orderId, coordinates: $coordinates, status: $status)';
+    return 'StartHandoverRequest(orderId: $orderId, coordinates: $coordinates, status: $status, time: $time)';
   }
 
   @override
@@ -978,7 +999,8 @@ class _$StartHandoverRequestImpl
       ..add(DiagnosticsProperty('type', 'StartHandoverRequest'))
       ..add(DiagnosticsProperty('orderId', orderId))
       ..add(DiagnosticsProperty('coordinates', coordinates))
-      ..add(DiagnosticsProperty('status', status));
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('time', time));
   }
 
   @override
@@ -989,12 +1011,14 @@ class _$StartHandoverRequestImpl
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.coordinates, coordinates) ||
                 other.coordinates == coordinates) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.time, time) || other.time == time));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, orderId, coordinates, status);
+  int get hashCode =>
+      Object.hash(runtimeType, orderId, coordinates, status, time);
 
   @JsonKey(ignore: true)
   @override
@@ -1014,174 +1038,27 @@ class _$StartHandoverRequestImpl
 
 abstract class _StartHandoverRequest implements StartHandoverRequest {
   const factory _StartHandoverRequest(
-      {@JsonKey(name: "") required final int orderId,
-      required final LatLng_ coordinates,
-      required final OrderStatus status}) = _$StartHandoverRequestImpl;
+          {@JsonKey(name: "order_id") required final int orderId,
+          required final LatLng_ coordinates,
+          required final OrderStatus status,
+          @JsonKey(name: "timestarthandover") required final DateTime time}) =
+      _$StartHandoverRequestImpl;
 
   factory _StartHandoverRequest.fromJson(Map<String, dynamic> json) =
       _$StartHandoverRequestImpl.fromJson;
 
   @override
-  @JsonKey(name: "")
+  @JsonKey(name: "order_id")
   int get orderId;
   @override
   LatLng_ get coordinates;
   @override
   OrderStatus get status;
   @override
+  @JsonKey(name: "timestarthandover")
+  DateTime get time;
+  @override
   @JsonKey(ignore: true)
   _$$StartHandoverRequestImplCopyWith<_$StartHandoverRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-StartHandoverResponse _$StartHandoverResponseFromJson(
-    Map<String, dynamic> json) {
-  return _StartHandoverResponse.fromJson(json);
-}
-
-/// @nodoc
-mixin _$StartHandoverResponse {
-  String get message => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $StartHandoverResponseCopyWith<StartHandoverResponse> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $StartHandoverResponseCopyWith<$Res> {
-  factory $StartHandoverResponseCopyWith(StartHandoverResponse value,
-          $Res Function(StartHandoverResponse) then) =
-      _$StartHandoverResponseCopyWithImpl<$Res, StartHandoverResponse>;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$StartHandoverResponseCopyWithImpl<$Res,
-        $Val extends StartHandoverResponse>
-    implements $StartHandoverResponseCopyWith<$Res> {
-  _$StartHandoverResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_value.copyWith(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$StartHandoverResponseImplCopyWith<$Res>
-    implements $StartHandoverResponseCopyWith<$Res> {
-  factory _$$StartHandoverResponseImplCopyWith(
-          _$StartHandoverResponseImpl value,
-          $Res Function(_$StartHandoverResponseImpl) then) =
-      __$$StartHandoverResponseImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class __$$StartHandoverResponseImplCopyWithImpl<$Res>
-    extends _$StartHandoverResponseCopyWithImpl<$Res,
-        _$StartHandoverResponseImpl>
-    implements _$$StartHandoverResponseImplCopyWith<$Res> {
-  __$$StartHandoverResponseImplCopyWithImpl(_$StartHandoverResponseImpl _value,
-      $Res Function(_$StartHandoverResponseImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_$StartHandoverResponseImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$StartHandoverResponseImpl
-    with DiagnosticableTreeMixin
-    implements _StartHandoverResponse {
-  const _$StartHandoverResponseImpl({required this.message});
-
-  factory _$StartHandoverResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$StartHandoverResponseImplFromJson(json);
-
-  @override
-  final String message;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StartHandoverResponse(message: $message)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'StartHandoverResponse'))
-      ..add(DiagnosticsProperty('message', message));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$StartHandoverResponseImpl &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$StartHandoverResponseImplCopyWith<_$StartHandoverResponseImpl>
-      get copyWith => __$$StartHandoverResponseImplCopyWithImpl<
-          _$StartHandoverResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StartHandoverResponseImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _StartHandoverResponse implements StartHandoverResponse {
-  const factory _StartHandoverResponse({required final String message}) =
-      _$StartHandoverResponseImpl;
-
-  factory _StartHandoverResponse.fromJson(Map<String, dynamic> json) =
-      _$StartHandoverResponseImpl.fromJson;
-
-  @override
-  String get message;
-  @override
-  @JsonKey(ignore: true)
-  _$$StartHandoverResponseImplCopyWith<_$StartHandoverResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

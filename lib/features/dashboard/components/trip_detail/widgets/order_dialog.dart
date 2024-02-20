@@ -123,7 +123,7 @@ class OrderDialog extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: Text(
-                  "#${order.orderId!}",
+                  "#${order.orderId}",
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -233,7 +233,7 @@ class OrderDialog extends StatelessWidget {
                         // Make order active
                         context
                             .read<ProcessingCubit>()
-                            .startNavigation(order.orderId!);
+                            .startNavigation(order.orderId);
                       },
                       isLoading:
                           state.status == ServiceStatus.submissionInProgress,

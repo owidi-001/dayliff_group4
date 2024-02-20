@@ -109,7 +109,7 @@ class ProcessingCubit extends Cubit<ProcessingState> {
     // start coordinates
     final res = await _service.startNavigation(
       payload: StartNavigationRequest(
-          orderId: order.orderId!,
+          orderId: order.orderId,
           coordinates: LatLng_(
               latitude: coordinates?.latitude,
               longitude: coordinates?.longitude),
@@ -154,10 +154,11 @@ class ProcessingCubit extends Cubit<ProcessingState> {
     final res = await _service.startHandover(
       payload: StartHandoverRequest(
           coordinates: LatLng_(
-              latitude: coordinates!.latitude,
-              longitude: coordinates!.longitude),
+              latitude: coordinates?.latitude,
+              longitude: coordinates?.longitude),
           status: OrderStatus.ACTIVE,
-          orderId: id),
+          orderId: id,
+          time: DateTime.now()),
     );
 
     // Handle response
@@ -170,9 +171,9 @@ class ProcessingCubit extends Cubit<ProcessingState> {
       // add update to state
       emit(
         state.copyWith(
-          selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
-          message: AppMessage(message: data.message, tone: MessageTone.success),
-        ),
+            selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
+            message: AppMessage(message: data, tone: MessageTone.success),
+            serviceStarted: true),
       );
 
       // TODO! Check this

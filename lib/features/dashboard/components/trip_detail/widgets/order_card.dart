@@ -58,7 +58,7 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "#. ${order.orderId!}".toUpperCase(),
+                  "#. ${order.orderId}".toUpperCase(),
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,

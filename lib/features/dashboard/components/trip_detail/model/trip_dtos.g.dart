@@ -61,7 +61,7 @@ _$StartNavigationRequestImpl _$$StartNavigationRequestImplFromJson(
       orderId: json['order_id'] as int,
       coordinates:
           LatLng_.fromJson(json['origin_address'] as Map<String, dynamic>),
-      status: $enumDecode(_$OrderStatusEnumMap, json['status']),
+      status: $enumDecode(_$OrderStatusEnumMap, json['order_status']),
       timestartnavigation:
           DateTime.parse(json['timestartnavigation'] as String),
     );
@@ -71,7 +71,7 @@ Map<String, dynamic> _$$StartNavigationRequestImplToJson(
     <String, dynamic>{
       'order_id': instance.orderId,
       'origin_address': instance.coordinates,
-      'status': _$OrderStatusEnumMap[instance.status]!,
+      'order_status': _$OrderStatusEnumMap[instance.status]!,
       'timestartnavigation': instance.timestartnavigation.toIso8601String(),
     };
 
@@ -85,28 +85,18 @@ const _$OrderStatusEnumMap = {
 _$StartHandoverRequestImpl _$$StartHandoverRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$StartHandoverRequestImpl(
-      orderId: json[''] as int,
+      orderId: json['order_id'] as int,
       coordinates:
           LatLng_.fromJson(json['coordinates'] as Map<String, dynamic>),
       status: $enumDecode(_$OrderStatusEnumMap, json['status']),
+      time: DateTime.parse(json['timestarthandover'] as String),
     );
 
 Map<String, dynamic> _$$StartHandoverRequestImplToJson(
         _$StartHandoverRequestImpl instance) =>
     <String, dynamic>{
-      '': instance.orderId,
+      'order_id': instance.orderId,
       'coordinates': instance.coordinates,
       'status': _$OrderStatusEnumMap[instance.status]!,
-    };
-
-_$StartHandoverResponseImpl _$$StartHandoverResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$StartHandoverResponseImpl(
-      message: json['message'] as String,
-    );
-
-Map<String, dynamic> _$$StartHandoverResponseImplToJson(
-        _$StartHandoverResponseImpl instance) =>
-    <String, dynamic>{
-      'message': instance.message,
+      'timestarthandover': instance.time.toIso8601String(),
     };

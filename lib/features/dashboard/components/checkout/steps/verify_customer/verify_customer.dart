@@ -62,9 +62,9 @@ class _VerifyCustomerState extends State<VerifyCustomer> {
             switchInCurve: Curves.easeInOutSine,
             // switchOutCurve: Curves.easeInOutBack,
             child: _character == VerificationMeans.OTP
-                ? ByOTP(id: widget.order.orderId!)
+                ? ByOTP(id: widget.order.orderId)
                 : ByID(
-                    id: widget.order.orderId!,
+                    id: widget.order.orderId,
                   ))
       ],
     );

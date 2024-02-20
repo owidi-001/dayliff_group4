@@ -65,7 +65,7 @@ class ODScanWidget extends StatelessWidget {
                               .read<ProcessingCubit>()
                               .orderConfirmationUpdate(
                                   OrderConfirmation(
-                                      orderId: order.orderId!,
+                                      orderId: order.orderId,
                                       odScan: context
                                           .read<CheckOutBloc>()
                                           .state

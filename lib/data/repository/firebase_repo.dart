@@ -16,9 +16,9 @@ class FirebasePushNotification {
 
   Future<void> initialize() async {
     await Firebase.initializeApp(
-      // TODO! Uncomment once firebase options is generated
-      // options: DefaultFirebaseOptions.currentPlatform,
-    );
+        // TODO! Uncomment once firebase options is generated
+        // options: DefaultFirebaseOptions.currentPlatform,
+        );
     await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,

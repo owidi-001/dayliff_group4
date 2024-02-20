@@ -48,7 +48,7 @@ class StartNavigationRequest with _$StartNavigationRequest {
   factory StartNavigationRequest(
       {@JsonKey(name: "order_id") required int orderId,
       @JsonKey(name: "origin_address") required LatLng_ coordinates,
-      required OrderStatus status,
+      @JsonKey(name: "order_status") required OrderStatus status,
       required DateTime timestartnavigation}) = _StartNavigationRequest;
 
   factory StartNavigationRequest.fromJson(Map<String, Object?> json) =>
@@ -59,19 +59,21 @@ class StartNavigationRequest with _$StartNavigationRequest {
 @freezed
 class StartHandoverRequest with _$StartHandoverRequest {
   const factory StartHandoverRequest(
-      {@JsonKey(name: "") required int orderId,
-      required LatLng_ coordinates,
-      required OrderStatus status}) = _StartHandoverRequest;
+          {@JsonKey(name: "order_id") required int orderId,
+          required LatLng_ coordinates,
+          required OrderStatus status,
+          @JsonKey(name: "timestarthandover") required DateTime time}) =
+      _StartHandoverRequest;
 
   factory StartHandoverRequest.fromJson(Map<String, Object?> json) =>
       _$StartHandoverRequestFromJson(json);
 }
 
-@freezed
-class StartHandoverResponse with _$StartHandoverResponse {
-  const factory StartHandoverResponse({required String message}) =
-      _StartHandoverResponse;
+// @freezed
+// class StartHandoverResponse with _$StartHandoverResponse {
+//   const factory StartHandoverResponse({required String message}) =
+//       _StartHandoverResponse;
 
-  factory StartHandoverResponse.fromJson(Map<String, Object?> json) =>
-      _$StartHandoverResponseFromJson(json);
-}
+//   factory StartHandoverResponse.fromJson(Map<String, Object?> json) =>
+//       _$StartHandoverResponseFromJson(json);
+// }

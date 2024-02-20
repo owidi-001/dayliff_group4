@@ -81,7 +81,7 @@ Map<String, dynamic> _$$RouteImplToJson(_$RouteImpl instance) =>
     };
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
-      orderId: json['id'] as int?,
+      orderId: json['id'] as int,
       trip: json['trip_id'] as int?,
       destination: json['destination_address'] == null
           ? null

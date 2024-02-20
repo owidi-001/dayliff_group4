@@ -879,7 +879,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Order {
   @JsonKey(name: "id")
-  int? get orderId => throw _privateConstructorUsedError;
+  int get orderId => throw _privateConstructorUsedError;
   @JsonKey(name: "trip_id")
   int? get trip => throw _privateConstructorUsedError;
   @JsonKey(name: "destination_address")
@@ -904,7 +904,7 @@ abstract class $OrderCopyWith<$Res> {
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
   $Res call(
-      {@JsonKey(name: "id") int? orderId,
+      {@JsonKey(name: "id") int orderId,
       @JsonKey(name: "trip_id") int? trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
@@ -928,7 +928,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = freezed,
+    Object? orderId = null,
     Object? trip = freezed,
     Object? destination = freezed,
     Object? customerName = null,
@@ -937,10 +937,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? status = null,
   }) {
     return _then(_value.copyWith(
-      orderId: freezed == orderId
+      orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       trip: freezed == trip
           ? _value.trip
           : trip // ignore: cast_nullable_to_non_nullable
@@ -989,7 +989,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "id") int? orderId,
+      {@JsonKey(name: "id") int orderId,
       @JsonKey(name: "trip_id") int? trip,
       @JsonKey(name: "destination_address") Address? destination,
       @JsonKey(name: "customer_name") String customerName,
@@ -1012,7 +1012,7 @@ class __$$OrderImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = freezed,
+    Object? orderId = null,
     Object? trip = freezed,
     Object? destination = freezed,
     Object? customerName = null,
@@ -1021,10 +1021,10 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? status = null,
   }) {
     return _then(_$OrderImpl(
-      orderId: freezed == orderId
+      orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       trip: freezed == trip
           ? _value.trip
           : trip // ignore: cast_nullable_to_non_nullable
@@ -1057,7 +1057,7 @@ class __$$OrderImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   const _$OrderImpl(
-      {@JsonKey(name: "id") this.orderId,
+      {@JsonKey(name: "id") required this.orderId,
       @JsonKey(name: "trip_id") this.trip,
       @JsonKey(name: "destination_address") this.destination,
       @JsonKey(name: "customer_name") required this.customerName,
@@ -1070,7 +1070,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @override
   @JsonKey(name: "id")
-  final int? orderId;
+  final int orderId;
   @override
   @JsonKey(name: "trip_id")
   final int? trip;
@@ -1148,7 +1148,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
 abstract class _Order implements Order {
   const factory _Order(
-          {@JsonKey(name: "id") final int? orderId,
+          {@JsonKey(name: "id") required final int orderId,
           @JsonKey(name: "trip_id") final int? trip,
           @JsonKey(name: "destination_address") final Address? destination,
           @JsonKey(name: "customer_name") required final String customerName,
@@ -1161,7 +1161,7 @@ abstract class _Order implements Order {
 
   @override
   @JsonKey(name: "id")
-  int? get orderId;
+  int get orderId;
   @override
   @JsonKey(name: "trip_id")
   int? get trip;

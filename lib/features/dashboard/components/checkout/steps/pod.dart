@@ -21,31 +21,6 @@ class PODWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // BlocBuilder<CheckOutBloc, CheckoutState>(
-            //   builder: (context, state) {
-            //     if (state.orderImages.isNotEmpty) {
-            //       return SizedBox(
-            //         height: 150,
-            //         child: ListView.builder(
-            //           itemCount: state.orderImages.length,
-            //           scrollDirection: Axis.horizontal,
-            //           physics: const NeverScrollableScrollPhysics(),
-            //           shrinkWrap: true,
-            //           itemBuilder: (context, index) => Container(
-            //             margin: const EdgeInsets.only(right: 16),
-            //             constraints:
-            //                 const BoxConstraints(maxHeight: 150, maxWidth: 150),
-            //             child: Image.file(
-            //               state.orderImages[index],
-            //               fit: BoxFit.contain,
-            //             ),
-            //           ),
-            //         ),
-            //       );
-            //     }
-            //     return const SizedBox.shrink();
-            //   },
-            // ),
             BlocBuilder<CheckOutBloc, CheckoutState>(
               builder: (context, state) {
                 if (state.orderImages.isNotEmpty) {
@@ -76,7 +51,6 @@ class PODWidget extends StatelessWidget {
                 return const SizedBox.shrink();
               },
             ),
-
             const SizedBox(
               height: 16,
             ),
@@ -118,7 +92,7 @@ class PODWidget extends StatelessWidget {
                               .read<ProcessingCubit>()
                               .orderConfirmationUpdate(
                                   OrderConfirmation(
-                                      orderId: order.orderId!,
+                                      orderId: order.orderId,
                                       orderImages: context
                                           .read<CheckOutBloc>()
                                           .state

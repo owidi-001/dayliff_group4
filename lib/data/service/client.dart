@@ -56,19 +56,19 @@ class CheckoutService {
   HttpResult<String> startNavigation(
       {required StartNavigationRequest payload}) async {
     return Http.put(
-      "/deliveryconfirmations/${payload.orderId}",
+      "/orders/${payload.orderId}",
       payload.toJson(),
       deserializer: (json) => json["message"],
     );
   }
 
   // Start handover service
-  HttpResult<StartHandoverResponse> startHandover(
+  HttpResult<String> startHandover(
       {required StartHandoverRequest payload}) async {
     return Http.put(
-      "/start-handover/",
+      "/orders/${payload.orderId}",
       payload.toJson(),
-      deserializer: (json) => json,
+      deserializer: (json) => json["message"],
     );
   }
 

@@ -36,7 +36,7 @@ class DeliveryComments extends StatelessWidget {
               onPressed: () {
                 context.read<ProcessingCubit>().orderConfirmationUpdate(
                     OrderConfirmation(
-                      orderId: order.orderId!,
+                      orderId: order.orderId,
                       comments: commentsController.text,
                       status:
                           OrderStatus.COMPLETED.toStringValue().toUpperCase(),
