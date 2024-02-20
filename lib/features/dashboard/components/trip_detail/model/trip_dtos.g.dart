@@ -33,8 +33,8 @@ const _$TripStatusEnumMap = {
 
 _$LatLng_Impl _$$LatLng_ImplFromJson(Map<String, dynamic> json) =>
     _$LatLng_Impl(
-      latitude: (json['lat'] as num).toDouble(),
-      longitude: (json['long'] as num).toDouble(),
+      latitude: (json['lat'] as num?)?.toDouble(),
+      longitude: (json['long'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$LatLng_ImplToJson(_$LatLng_Impl instance) =>
@@ -60,16 +60,19 @@ _$StartNavigationRequestImpl _$$StartNavigationRequestImplFromJson(
     _$StartNavigationRequestImpl(
       orderId: json['order_id'] as int,
       coordinates:
-          LatLng_.fromJson(json['coordinates'] as Map<String, dynamic>),
+          LatLng_.fromJson(json['origin_address'] as Map<String, dynamic>),
       status: $enumDecode(_$OrderStatusEnumMap, json['status']),
+      timestartnavigation:
+          DateTime.parse(json['timestartnavigation'] as String),
     );
 
 Map<String, dynamic> _$$StartNavigationRequestImplToJson(
         _$StartNavigationRequestImpl instance) =>
     <String, dynamic>{
       'order_id': instance.orderId,
-      'coordinates': instance.coordinates,
+      'origin_address': instance.coordinates,
       'status': _$OrderStatusEnumMap[instance.status]!,
+      'timestartnavigation': instance.timestartnavigation.toIso8601String(),
     };
 
 const _$OrderStatusEnumMap = {
@@ -78,18 +81,6 @@ const _$OrderStatusEnumMap = {
   OrderStatus.COMPLETED: 'COMPLETED',
   OrderStatus.CANCELLED: 'CANCELLED',
 };
-
-_$StartNavigationResponseImpl _$$StartNavigationResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$StartNavigationResponseImpl(
-      message: json['message'] as String,
-    );
-
-Map<String, dynamic> _$$StartNavigationResponseImplToJson(
-        _$StartNavigationResponseImpl instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-    };
 
 _$StartHandoverRequestImpl _$$StartHandoverRequestImplFromJson(
         Map<String, dynamic> json) =>

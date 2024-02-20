@@ -9,6 +9,7 @@ class ProcessingState extends Equatable {
   // events notifier
   final bool startTripSuccess;
   final bool completeTripSuccess;
+  final bool startNavigationSuccess;
   final bool serviceStarted;
 
   const ProcessingState(
@@ -19,6 +20,7 @@ class ProcessingState extends Equatable {
       this.confirmation,
       this.startTripSuccess = false,
       this.completeTripSuccess = false,
+      this.startNavigationSuccess = false,
       this.serviceStarted = false});
 
   ProcessingState copyWith(
@@ -29,10 +31,12 @@ class ProcessingState extends Equatable {
       OrderConfirmation? confirmation,
       bool? startTripSuccess,
       bool? completeTripSuccess,
+      bool? startNavigationSuccess,
       bool? serviceStarted}) {
     return ProcessingState(
       message: message,
       startTripSuccess: startTripSuccess ?? false,
+      startNavigationSuccess: startNavigationSuccess ?? false,
       serviceStarted: serviceStarted ?? false,
       completeTripSuccess: completeTripSuccess ?? false,
       status: status ?? this.status,
@@ -49,6 +53,7 @@ class ProcessingState extends Equatable {
         selectedOrder,
         selectedTrip,
         startTripSuccess,
+        startNavigationSuccess,
         serviceStarted,
         completeTripSuccess,
         confirmation

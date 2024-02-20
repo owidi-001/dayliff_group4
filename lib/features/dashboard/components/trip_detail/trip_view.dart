@@ -1,21 +1,15 @@
-import 'package:dayliff/data/local/local.dart';
-import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
-import 'package:dayliff/features/auth/widgets/form.dart';
-import 'package:dayliff/features/dashboard/components/checkout/checkout.dart';
 import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
-import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_view.dart';
+import 'package:dayliff/features/dashboard/components/trip_detail/widgets/order_card.dart';
 import 'package:dayliff/utils/constants.dart';
-import 'package:dayliff/utils/empty_list.dart';
 import 'package:dayliff/utils/extensions.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
-import 'package:dayliff/utils/utils.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TripView extends StatelessWidget {
   const TripView({super.key, required this.routeId});
@@ -29,608 +23,135 @@ class TripView extends StatelessWidget {
         .trips
         .firstWhere((route) => route.id == routeId);
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("${pool.route.name} route".capitalize()),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ProcessingCubit, ProcessingState>(
+          listener: (context, state) {
+            if (state.message != null) {
+              showOverlayMessage(state.message!);
+            }
+          },
+          listenWhen: (previous, current) =>
+              previous.message != current.message,
         ),
-        backgroundColor: const Color.fromRGBO(238, 238, 238, 1),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height / 2),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(16)),
-              child: Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: StaticColors.onPrimary,
-                      borderRadius: BorderRadius.circular(16)),
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.sizeOf(context).height / 2 -
-                          AppBar().preferredSize.height),
-                  child: MapsView(trip: pool),
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-              child: Text(
-                "Trip Deliveries",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: StaticColors.dark),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      pool.orders.isEmpty
-                          ? Container(
-                              width: MediaQuery.sizeOf(context).width,
-                              padding: const EdgeInsets.all(32),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
-                              constraints: const BoxConstraints(maxHeight: 200),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  BlocBuilder<OrderBloc, OrderState>(
-                                    builder: (context, state) {
-                                      return state.status ==
-                                              ServiceStatus.loading
-                                          ? const CircularProgressIndicator()
-                                          : const SizedBox.shrink();
-                                    },
-                                  ),
-                                  Text(
-                                    "No orders in assigned for this trip",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  TextButton.icon(
-                                      onPressed: () {
-                                        context
-                                            .read<OrderBloc>()
-                                            .add(RefreshRoutes());
-                                      },
-                                      icon: const Icon(
-                                          FontAwesomeIcons.arrowRotateLeft),
-                                      label: const Text("refresh"))
-                                ],
-                              ),
-                            )
-                          : ListView.separated(
-                              padding: EdgeInsets.zero,
-                              itemCount: pool.orders.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => AnimateInEffect(
-                                  child: OrderCard(order: pool.orders[index])),
-                              separatorBuilder: (context, index) =>
-                                  const Divider(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ));
-  }
-}
-
-class OrderCard extends StatelessWidget {
-  const OrderCard({super.key, required this.order});
-  final Order order;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (order.status == OrderStatus.COMPLETED) {
-          showOverlayMessage(
-            AppMessage(
-              message: "This order has been delivered successfully!",
-              tone: MessageTone.success,
-            ),
-          );
-        } else if (order.status == OrderStatus.CANCELLED) {
-          showOverlayMessage(AppMessage(
-              message: "This order has been cancelled!",
-              tone: MessageTone.warning));
-        } else {
-          showDialog(
-              context: context,
-              builder: (context) => OrderDialog(
-                    order: order,
-                  ));
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-            color: StaticColors.onPrimary,
-            borderRadius: BorderRadius.circular(8)),
-        child: Column(
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                "ID: ${order.orderId!}".toUpperCase(),
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: StaticColors.primary),
-              ),
-              subtitle: Text("To: ${order.destination!.name!.capitalize()}"),
-              trailing: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: getStatusColor(order.status).withOpacity(.1)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      color: getStatusColor(order.status),
-                      size: 8,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      order.status.toStringValue(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: getStatusColor(order.status)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              height: 0,
-              color: Theme.of(context).colorScheme.primary.withOpacity(.2),
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(FontAwesomeIcons.user),
-              title: Text(
-                order.customerName.capitalize(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(order.customerPhone),
-              trailing: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (order.status == OrderStatus.COMPLETED) {
-                        showOverlayMessage(AppMessage(
-                            message: "Communication with client is disabled",
-                            tone: MessageTone.error));
-                      } else {
-                        AppUtility.makeCall(order.customerName);
-                      }
-                    },
-                    child: CircleAvatar(
-                        child: Icon(
-                      FontAwesomeIcons.phone,
-                      color: StaticColors.primary,
-                    )),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        BlocListener<OrderBloc, OrderState>(
+          listener: (context, state) {
+            if (state.message != null) {
+              showOverlayMessage(state.message!);
+            }
+          },
+          listenWhen: (previous, current) =>
+              previous.message != current.message,
         ),
-      ),
-    );
-  }
-}
-
-class OrderDialog extends StatelessWidget {
-  const OrderDialog({super.key, required this.order});
-  final Order order;
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8))),
-      insetPadding: EdgeInsets.symmetric(
-          horizontal: 16, vertical: AppBar().preferredSize.height),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Title
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Order Details",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
+      ],
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("${pool.route.name} route".capitalize()),
+          ),
+          backgroundColor: const Color.fromRGBO(238, 238, 238, 1),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.sizeOf(context).height / 2),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                child: Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: StaticColors.onPrimary,
+                        borderRadius: BorderRadius.circular(16)),
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.sizeOf(context).height / 2 -
+                            AppBar().preferredSize.height),
+                    child: MapsView(trip: pool),
                   ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(FontAwesomeIcons.xmark))
-                ],
+                ),
               ),
-            ),
-            const Divider(
-              height: 4,
-            ),
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.route,
-                size: 36,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              title: Text(
-                "#${order.orderId!}",
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: StaticColors.primary),
-              ),
-              subtitle: Text(
-                formatDate(order.orderDate),
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ),
-            const Divider(
-              color: Colors.transparent,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
-                  borderRadius: BorderRadius.circular(16)),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(FontAwesomeIcons.user),
-                title: Text(
-                  order.customerName.capitalize(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                child: Text(
+                  "Trip Deliveries",
                   style: Theme.of(context)
                       .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(order.customerPhone),
-                trailing: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        AppUtility.makeCall(order.customerPhone);
-                      },
-                      child: CircleAvatar(
-                          child: Icon(
-                        FontAwesomeIcons.phone,
-                        color: StaticColors.primary,
-                      )),
-                    ),
-                  ],
+                      .titleMedium!
+                      .copyWith(color: StaticColors.dark),
                 ),
               ),
-            ),
-            ListTile(
-              title: Text(
-                "To",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.grey),
-              ),
-              subtitle: Text(
-                order.destination!.name!.capitalize(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              trailing: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: getStatusColor(order.status).withOpacity(.1)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      color: getStatusColor(order.status),
-                      size: 8,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      order.status.toStringValue(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: getStatusColor(order.status)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: PrimaryButton(
-                  hint: "Start Navigation",
-                  onTap: () {
-                    // Close this dialog
-                    Navigator.of(context).pop();
-                    // Confirm start navigations
-                    showModalBottomSheet(
-                        isDismissible: false,
-                        showDragHandle: true,
-                        useSafeArea: true,
-                        useRootNavigator: true,
-                        context: context,
-                        builder: (context) => Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8)),
-                              width: MediaQuery.sizeOf(context).width,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 32, vertical: 8),
-                                    child: PrimaryButtonIcon(
-                                        onTap: () {
-                                          // Close this bottomsheet
-                                          Navigator.of(context).pop();
-
-                                          // Start navigation
-                                          AppUtility.realTimeNavigation(
-                                            LatLng(order.destination!.lat!,
-                                                order.destination!.long!),
-                                          );
-                                          // Open start service
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  StartHandOver(order: order));
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        pool.orders.isEmpty
+                            ? Container(
+                                width: MediaQuery.sizeOf(context).width,
+                                padding: const EdgeInsets.all(32),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 200),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    BlocBuilder<OrderBloc, OrderState>(
+                                      builder: (context, state) {
+                                        return state.status ==
+                                                ServiceStatus.loading
+                                            ? const CircularProgressIndicator()
+                                            : const SizedBox.shrink();
+                                      },
+                                    ),
+                                    Text(
+                                      "No orders in assigned for this trip",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    ElevatedButton.icon(
+                                        onPressed: () {
+                                          context
+                                              .read<OrderBloc>()
+                                              .add(RefreshRoutes());
                                         },
                                         icon: const Icon(
-                                          FontAwesomeIcons.map,
-                                          size: 16,
-                                        ),
-                                        hint: "Open maps to location"),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextButton(
-                                        onPressed: () {
-                                          // Close this bottomsheet
-                                          Navigator.of(context).pop();
-                                          // Open start service
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  StartHandOver(order: order));
-                                        },
-                                        child: const Text(
-                                            "Continue without maps")),
-                                  )
-                                ],
+                                            FontAwesomeIcons.arrowRotateRight),
+                                        label: const Text("refresh"))
+                                  ],
+                                ),
+                              )
+                            : ListView.separated(
+                                padding: EdgeInsets.zero,
+                                itemCount: pool.orders.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) =>
+                                    AnimateInEffect(
+                                        child: OrderCard(
+                                            order: pool.orders[index])),
+                                separatorBuilder: (context, index) =>
+                                    const Divider(
+                                  color: Colors.transparent,
+                                ),
                               ),
-                            ));
-                  }),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class StartHandOver extends StatefulWidget {
-  const StartHandOver({super.key, required this.order});
-  final Order order;
-
-  @override
-  State<StartHandOver> createState() => _StartHandOverState();
-}
-
-class _StartHandOverState extends State<StartHandOver> {
-  bool isNavigationComplete = false;
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      insetPadding: EdgeInsets.symmetric(
-          horizontal: 16, vertical: AppBar().preferredSize.height),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Title
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Order handover",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
+                      ],
+                    ),
                   ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(FontAwesomeIcons.xmark))
-                ],
-              ),
-            ),
-            const Divider(
-                // height: 4,
                 ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(.1),
-                  borderRadius: BorderRadius.circular(8)),
-              child: const ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Icon(
-                  FontAwesomeIcons.locationDot,
-                  color: Colors.red,
-                ),
-                title: Text("Start when at destination"),
-                trailing: Icon(
-                  FontAwesomeIcons.bell,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            const Divider(
-              color: Colors.transparent,
-              // height: 4,
-            ),
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.route,
-                size: 36,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              title: Text(
-                "To",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.grey),
-              ),
-              subtitle: Text(
-                widget.order.destination!.name!.capitalize(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              trailing: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: getStatusColor(widget.order.status).withOpacity(.1)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      color: getStatusColor(widget.order.status),
-                      size: 8,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      widget.order.status.toStringValue(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: getStatusColor(widget.order.status)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
-                  borderRadius: BorderRadius.circular(16)),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(FontAwesomeIcons.user),
-                title: Text(
-                  widget.order.customerName.capitalize(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(widget.order.customerPhone),
-                trailing: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        AppUtility.makeCall(widget.order.customerPhone);
-                      },
-                      child: CircleAvatar(
-                          child: Icon(
-                        FontAwesomeIcons.phone,
-                        color: StaticColors.primary,
-                      )),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: PrimaryButton(
-                  hint: "Begin handover",
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => OrderCompletion(
-                          order: widget.order,
-                        ),
-                      ),
-                    );
-                  }),
-            ),
-          ],
-        ),
-      ),
+              )
+            ],
+          )),
     );
   }
 }

@@ -19,7 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           state.copyWith(
               status: ServiceStatus.submissionInProgress,
               message: AppMessage(
-                  message: "Authenticating driver...", tone: MessageTone.info)),
+                  message: "Authenticating driver...",
+                  tone: MessageTone.loading)),
         );
 
         final res = await _authService
@@ -69,8 +70,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UpdateProfile>((event, emit) async {
       emit(
         state.copyWith(
-            message:
-                AppMessage(message: "Updating profile", tone: MessageTone.info),
+            message: AppMessage(
+                message: "Updating profile", tone: MessageTone.loading),
             status: ServiceStatus.submissionInProgress),
       );
       final res = await _authService.updateProfile(event.data);

@@ -53,12 +53,12 @@ class CheckoutService {
   }
 
   // Start navigation
-  HttpResult<StartNavigationResponse> startNavigation(
+  HttpResult<String> startNavigation(
       {required StartNavigationRequest payload}) async {
     return Http.put(
-      "/start-navigation/",
+      "/deliveryconfirmations/${payload.orderId}",
       payload.toJson(),
-      deserializer: (json) => json,
+      deserializer: (json) => json["message"],
     );
   }
 

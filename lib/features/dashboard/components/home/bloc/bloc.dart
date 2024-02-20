@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:equatable/equatable.dart';
@@ -28,7 +29,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           onError: (error) {
             emit(
               state.copyWith(
-                  status: ServiceStatus.loadingFailure, message: error.error),
+                  status: ServiceStatus.loadingFailure,
+                  message: AppMessage(
+                      message: error.error, tone: MessageTone.error)),
             );
           },
           onSuccess: (data) {

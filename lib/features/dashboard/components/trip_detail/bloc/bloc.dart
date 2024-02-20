@@ -5,6 +5,7 @@ import 'package:dayliff/features/dashboard/components/home/bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/model/trip_dtos.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -91,40 +92,47 @@ class ProcessingCubit extends Cubit<ProcessingState> {
 
     emit(state.copyWith(status: ServiceStatus.submissionInProgress));
     LatLng? coordinates;
-    // Set to current location
-    await getCurrentLocation().then((value) {
-      if (value != null) {
-        coordinates = LatLng(value.latitude!, value.longitude!);
-      }
-    });
+    if (order.destination != null) {
+      coordinates = LatLng(order.destination!.lat!, order.destination!.long!);
+    }
+    try {
+      // Set to current location
+      await getCurrentLocation().then((value) {
+        if (value != null) {
+          coordinates = LatLng(value.latitude!, value.longitude!);
+        }
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
     // start coordinates
     final res = await _service.startNavigation(
       payload: StartNavigationRequest(
           orderId: order.orderId!,
           coordinates: LatLng_(
-              latitude: coordinates!.latitude,
-              longitude: coordinates!.longitude),
-          status: OrderStatus.ACTIVE),
+              latitude: coordinates?.latitude,
+              longitude: coordinates?.longitude),
+          status: OrderStatus.ACTIVE,
+          timestartnavigation: DateTime.now()),
     );
     // Handle response
     res.when(onError: (error) {
       emit(
         state.copyWith(
+            status: ServiceStatus.submissionFailure,
             message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
     }, onSuccess: (data) {
-      // add update to state
       emit(
         state.copyWith(
-          selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
-          message: AppMessage(message: data.message, tone: MessageTone.success),
-        ),
+            status: ServiceStatus.submissionSuccess,
+            selectedOrder: order.copyWith(status: OrderStatus.ACTIVE),
+            message: AppMessage(message: data, tone: MessageTone.success),
+            startNavigationSuccess: true),
       );
 
-      // TODO! double check this
-      // // Update order in routes
-      // _orderBloc
-      //     .add(UpdateOrder(order: order.copyWith(status: OrderStatus.ACTIVE)));
+      //  Update routes in the background
       _orderBloc.add(RefreshRoutes());
     });
   }
@@ -180,7 +188,7 @@ class ProcessingCubit extends Cubit<ProcessingState> {
         status: ServiceStatus.submissionInProgress,
         message: AppMessage(
           message: "Verifying otp...",
-          tone: MessageTone.info,
+          tone: MessageTone.loading,
         ),
       ),
     );
@@ -207,7 +215,7 @@ class ProcessingCubit extends Cubit<ProcessingState> {
       state.copyWith(
           status: ServiceStatus.submissionInProgress,
           message:
-              AppMessage(message: "Please wait...", tone: MessageTone.info)),
+              AppMessage(message: "Please wait...", tone: MessageTone.loading)),
     );
     final res = await _service.confirmDelivery(confirmation: confirmation);
     res.when(onError: (error) {

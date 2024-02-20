@@ -1,9 +1,11 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_message.freezed.dart';
 part 'app_message.g.dart';
 
-enum MessageTone { success, error, warning, info }
+enum MessageTone { success, error, warning, info, loading }
 
 @freezed
 class AppMessage with _$AppMessage {

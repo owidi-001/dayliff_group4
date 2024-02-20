@@ -58,7 +58,7 @@ class Http {
         error: ErrorHandler(error).handle(),
       );
     } on Exception catch (error) {
-      print(error);
+      debugPrint(error.toString());
       return MultipleResult.onError(
         error: Failure(error: "Unexpected error occurred"),
       );
@@ -73,7 +73,7 @@ class Http {
     Map<String, dynamic>? queryParams,
   }) async {
     try {
-      print(data);
+      debugPrint(data.toString());
       final res = await dio.post(url,
           data: data, options: options, queryParameters: queryParams);
       return MultipleResult.onSuccess(
@@ -84,7 +84,7 @@ class Http {
         error: ErrorHandler(error).handle(),
       );
     } on Exception catch (error) {
-      print(error);
+      debugPrint(error.toString());
       return MultipleResult.onError(
         error: Failure(error: "Unexpected error occurred"),
       );
@@ -107,7 +107,7 @@ class Http {
         error: ErrorHandler(error).handle(),
       );
     } on Exception catch (error) {
-      print(error);
+      debugPrint(error.toString());
       return MultipleResult.onError(
         error: Failure(error: "Unexpected error occurred"),
       );
@@ -130,7 +130,7 @@ class Http {
         error: ErrorHandler(error).handle(),
       );
     } on Exception catch (error) {
-      print(error);
+      debugPrint(error.toString());
       return MultipleResult.onError(
         error: Failure(error: "Unexpected error occurred"),
       );
@@ -152,7 +152,7 @@ class Http {
         error: ErrorHandler(error).handle(),
       );
     } on Exception catch (error) {
-      print(error);
+      debugPrint(error.toString());
       return MultipleResult.onError(
         error: Failure(error: "Unexpected error occurred"),
       );

@@ -2,7 +2,7 @@ part of 'bloc.dart';
 
 class OrderState extends Equatable {
   final List<Trip> trips;
-  final String? message;
+  final AppMessage? message;
   final ServiceStatus status;
   final List<File> orderImages;
   final Order? orderOnConfirmation;
@@ -19,7 +19,7 @@ class OrderState extends Equatable {
 
   OrderState copyWith(
       {List<Trip>? trips,
-      String? message,
+      AppMessage? message,
       Trip? activeRoute,
       ServiceStatus? status,
       List<File>? orderImages,

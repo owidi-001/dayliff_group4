@@ -20,122 +20,6 @@ class MapsView extends StatefulWidget {
 }
 
 class _MapsViewState extends State<MapsView> {
-  void ordersDialog(String value) {
-    switch (value) {
-      case 'Orders':
-        showModalBottomSheet(
-            showDragHandle: true,
-            enableDrag: true,
-            useSafeArea: true,
-            useRootNavigator: true,
-            context: context,
-            builder: (context) => Container(
-                  constraints: const BoxConstraints(minHeight: 100),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "${widget.trip.route.name} orders",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        ListView.separated(
-                          itemCount: widget.trip.orders.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => ListTile(
-                            title: Text(
-                                "Order: ${widget.trip.orders[index].orderId}"),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    text: "Name: ",
-                                    children: [
-                                      TextSpan(
-                                          text: widget
-                                              .trip.orders[index].customerName,
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor))
-                                    ],
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          color: Colors.black,
-                                        ),
-                                  ),
-                                ),
-                                RichText(
-                                    text: TextSpan(
-                                  text: "Phone: ",
-                                  children: [
-                                    TextSpan(
-                                        text: widget
-                                            .trip.orders[index].customerPhone,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary))
-                                  ],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                )),
-                                RichText(
-                                    text: TextSpan(
-                                  text: "To: ",
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                            '${widget.trip.orders[index].destination?.name}',
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary))
-                                  ],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                )),
-                              ],
-                            ),
-                            trailing: InkWell(
-                              onTap: () {
-                                // Close the dialog
-                                Navigator.of(context).pop();
-                                // Do the same thing when an icon is tapped
-                                context.read<MapsControllerBloc>().add(
-                                    MarkerTapped(widget.trip.orders[index]));
-                              },
-                              child: const CircleAvatar(
-                                  child: Icon(Icons.chevron_right)),
-                            ),
-                          ),
-                          separatorBuilder: (context, index) => const Divider(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ));
-        break;
-      case 'Close':
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     // Check if map is in initial state
@@ -152,23 +36,7 @@ class _MapsViewState extends State<MapsView> {
             state.currentLocation == null) {
           return const Center(child: LoadingIllustrator());
         }
-        // if (state.status == ServiceStatus.loadingFailure) {
-        //   // Check if permission is granted and currentLocation is available
-        //   if (state.permission == locator.LocationPermission.denied ||
-        //       state.permission == locator.LocationPermission.deniedForever ||
-        //       state.permission ==
-        //           locator.LocationPermission.unableToDetermine) {
-        //     return RetryContainer(
-        //       title: "Permission denied",
-        //       description: "Please enable location access to continue",
-        //       onTap: () {
-        //         context
-        //             .read<MapsControllerBloc>()
-        //             .add(StartMapsEvent(pool: widget.trip));
-        //       },
-        //     );
-        //   }
-        // }
+
         if (state.status == ServiceStatus.loadingSuccess &&
             state.currentLocation == null) {
           return const Scaffold(

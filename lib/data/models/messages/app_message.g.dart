@@ -23,6 +23,7 @@ const _$MessageToneEnumMap = {
   MessageTone.error: 'error',
   MessageTone.warning: 'warning',
   MessageTone.info: 'info',
+  MessageTone.loading: 'loading',
 };
 
 _$CustomSmsImpl _$$CustomSmsImplFromJson(Map<String, dynamic> json) =>

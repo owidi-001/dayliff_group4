@@ -24,8 +24,8 @@ class StartTripRequest with _$StartTripRequest {
 @freezed
 class LatLng_ with _$LatLng_ {
   const factory LatLng_({
-    @JsonKey(name: "lat") required double latitude,
-    @JsonKey(name: "long") required double longitude,
+    @JsonKey(name: "lat") double? latitude,
+    @JsonKey(name: "long") double? longitude,
   }) = _LatLng_;
 
   factory LatLng_.fromJson(Map<String, Object?> json) =>
@@ -45,22 +45,14 @@ class StartTripResponse with _$StartTripResponse {
 // Start navigation payload
 @freezed
 class StartNavigationRequest with _$StartNavigationRequest {
-  const factory StartNavigationRequest(
+  factory StartNavigationRequest(
       {@JsonKey(name: "order_id") required int orderId,
-      required LatLng_ coordinates,
-      required OrderStatus status}) = _StartNavigationRequest;
+      @JsonKey(name: "origin_address") required LatLng_ coordinates,
+      required OrderStatus status,
+      required DateTime timestartnavigation}) = _StartNavigationRequest;
 
   factory StartNavigationRequest.fromJson(Map<String, Object?> json) =>
       _$StartNavigationRequestFromJson(json);
-}
-
-@freezed
-class StartNavigationResponse with _$StartNavigationResponse {
-  const factory StartNavigationResponse({required String message}) =
-      _StartNavigationResponse;
-
-  factory StartNavigationResponse.fromJson(Map<String, Object?> json) =>
-      _$StartNavigationResponseFromJson(json);
 }
 
 // Start handover

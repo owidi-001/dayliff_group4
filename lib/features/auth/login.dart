@@ -1,4 +1,3 @@
-import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
@@ -7,7 +6,6 @@ import 'package:dayliff/features/dashboard/base.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/widgets.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -46,7 +44,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        // TODO: implement listener
         if (state.loginSuccess) {
           // Redirect to dashboard
           Navigator.of(context).pushReplacement(
@@ -255,31 +252,28 @@ class _LoginState extends State<Login> {
                                     },
                                   ),
                                   const SizedBox(
-                                    height: 17,
+                                    height: 32,
                                   ),
-                                  RichText(
-                                    text: TextSpan(
-                                        text: "Or Login using ",
-                                        children: [
-                                          TextSpan(
-                                            text: "Ad Account",
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () =>
-                                                  showOverlayMessage(AppMessage(
-                                                      message: "Coming soon",
-                                                      tone: MessageTone.info)),
-                                            style: TextStyle(
-                                              color: StaticColors.primary,
-                                            ),
-                                          )
-                                        ],
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18)),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
+                                  // RichText(
+                                  //   text: TextSpan(
+                                  //       text: "Or Login using ",
+                                  //       children: [
+                                  //         TextSpan(
+                                  //           text: "Ad Account",
+                                  //           recognizer: TapGestureRecognizer()
+                                  //             ..onTap = () =>
+                                  //                 showOverlayMessage(AppMessage(
+                                  //                     message: "Coming soon",
+                                  //                     tone: MessageTone.info)),
+                                  //           style: TextStyle(
+                                  //             color: StaticColors.primary,
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //       style: const TextStyle(
+                                  //           fontWeight: FontWeight.bold,
+                                  //           fontSize: 18)),
+                                  // ),
                                 ],
                               ),
                             ),

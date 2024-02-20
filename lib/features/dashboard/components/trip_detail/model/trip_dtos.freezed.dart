@@ -261,9 +261,9 @@ LatLng_ _$LatLng_FromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LatLng_ {
   @JsonKey(name: "lat")
-  double get latitude => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
   @JsonKey(name: "long")
-  double get longitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -276,8 +276,8 @@ abstract class $LatLng_CopyWith<$Res> {
       _$LatLng_CopyWithImpl<$Res, LatLng_>;
   @useResult
   $Res call(
-      {@JsonKey(name: "lat") double latitude,
-      @JsonKey(name: "long") double longitude});
+      {@JsonKey(name: "lat") double? latitude,
+      @JsonKey(name: "long") double? longitude});
 }
 
 /// @nodoc
@@ -293,18 +293,18 @@ class _$LatLng_CopyWithImpl<$Res, $Val extends LatLng_>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? latitude = null,
-    Object? longitude = null,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
   }) {
     return _then(_value.copyWith(
-      latitude: null == latitude
+      latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      longitude: null == longitude
+              as double?,
+      longitude: freezed == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ) as $Val);
   }
 }
@@ -317,8 +317,8 @@ abstract class _$$LatLng_ImplCopyWith<$Res> implements $LatLng_CopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "lat") double latitude,
-      @JsonKey(name: "long") double longitude});
+      {@JsonKey(name: "lat") double? latitude,
+      @JsonKey(name: "long") double? longitude});
 }
 
 /// @nodoc
@@ -332,18 +332,18 @@ class __$$LatLng_ImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? latitude = null,
-    Object? longitude = null,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
   }) {
     return _then(_$LatLng_Impl(
-      latitude: null == latitude
+      latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      longitude: null == longitude
+              as double?,
+      longitude: freezed == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ));
   }
 }
@@ -352,18 +352,18 @@ class __$$LatLng_ImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LatLng_Impl with DiagnosticableTreeMixin implements _LatLng_ {
   const _$LatLng_Impl(
-      {@JsonKey(name: "lat") required this.latitude,
-      @JsonKey(name: "long") required this.longitude});
+      {@JsonKey(name: "lat") this.latitude,
+      @JsonKey(name: "long") this.longitude});
 
   factory _$LatLng_Impl.fromJson(Map<String, dynamic> json) =>
       _$$LatLng_ImplFromJson(json);
 
   @override
   @JsonKey(name: "lat")
-  final double latitude;
+  final double? latitude;
   @override
   @JsonKey(name: "long")
-  final double longitude;
+  final double? longitude;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -410,17 +410,17 @@ class _$LatLng_Impl with DiagnosticableTreeMixin implements _LatLng_ {
 
 abstract class _LatLng_ implements LatLng_ {
   const factory _LatLng_(
-      {@JsonKey(name: "lat") required final double latitude,
-      @JsonKey(name: "long") required final double longitude}) = _$LatLng_Impl;
+      {@JsonKey(name: "lat") final double? latitude,
+      @JsonKey(name: "long") final double? longitude}) = _$LatLng_Impl;
 
   factory _LatLng_.fromJson(Map<String, dynamic> json) = _$LatLng_Impl.fromJson;
 
   @override
   @JsonKey(name: "lat")
-  double get latitude;
+  double? get latitude;
   @override
   @JsonKey(name: "long")
-  double get longitude;
+  double? get longitude;
   @override
   @JsonKey(ignore: true)
   _$$LatLng_ImplCopyWith<_$LatLng_Impl> get copyWith =>
@@ -589,8 +589,10 @@ StartNavigationRequest _$StartNavigationRequestFromJson(
 mixin _$StartNavigationRequest {
   @JsonKey(name: "order_id")
   int get orderId => throw _privateConstructorUsedError;
+  @JsonKey(name: "origin_address")
   LatLng_ get coordinates => throw _privateConstructorUsedError;
   OrderStatus get status => throw _privateConstructorUsedError;
+  DateTime get timestartnavigation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -606,8 +608,9 @@ abstract class $StartNavigationRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "order_id") int orderId,
-      LatLng_ coordinates,
-      OrderStatus status});
+      @JsonKey(name: "origin_address") LatLng_ coordinates,
+      OrderStatus status,
+      DateTime timestartnavigation});
 
   $LatLng_CopyWith<$Res> get coordinates;
 }
@@ -629,6 +632,7 @@ class _$StartNavigationRequestCopyWithImpl<$Res,
     Object? orderId = null,
     Object? coordinates = null,
     Object? status = null,
+    Object? timestartnavigation = null,
   }) {
     return _then(_value.copyWith(
       orderId: null == orderId
@@ -643,6 +647,10 @@ class _$StartNavigationRequestCopyWithImpl<$Res,
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OrderStatus,
+      timestartnavigation: null == timestartnavigation
+          ? _value.timestartnavigation
+          : timestartnavigation // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -666,8 +674,9 @@ abstract class _$$StartNavigationRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "order_id") int orderId,
-      LatLng_ coordinates,
-      OrderStatus status});
+      @JsonKey(name: "origin_address") LatLng_ coordinates,
+      OrderStatus status,
+      DateTime timestartnavigation});
 
   @override
   $LatLng_CopyWith<$Res> get coordinates;
@@ -689,6 +698,7 @@ class __$$StartNavigationRequestImplCopyWithImpl<$Res>
     Object? orderId = null,
     Object? coordinates = null,
     Object? status = null,
+    Object? timestartnavigation = null,
   }) {
     return _then(_$StartNavigationRequestImpl(
       orderId: null == orderId
@@ -703,6 +713,10 @@ class __$$StartNavigationRequestImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OrderStatus,
+      timestartnavigation: null == timestartnavigation
+          ? _value.timestartnavigation
+          : timestartnavigation // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -712,10 +726,11 @@ class __$$StartNavigationRequestImplCopyWithImpl<$Res>
 class _$StartNavigationRequestImpl
     with DiagnosticableTreeMixin
     implements _StartNavigationRequest {
-  const _$StartNavigationRequestImpl(
+  _$StartNavigationRequestImpl(
       {@JsonKey(name: "order_id") required this.orderId,
-      required this.coordinates,
-      required this.status});
+      @JsonKey(name: "origin_address") required this.coordinates,
+      required this.status,
+      required this.timestartnavigation});
 
   factory _$StartNavigationRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$StartNavigationRequestImplFromJson(json);
@@ -724,13 +739,16 @@ class _$StartNavigationRequestImpl
   @JsonKey(name: "order_id")
   final int orderId;
   @override
+  @JsonKey(name: "origin_address")
   final LatLng_ coordinates;
   @override
   final OrderStatus status;
+  @override
+  final DateTime timestartnavigation;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StartNavigationRequest(orderId: $orderId, coordinates: $coordinates, status: $status)';
+    return 'StartNavigationRequest(orderId: $orderId, coordinates: $coordinates, status: $status, timestartnavigation: $timestartnavigation)';
   }
 
   @override
@@ -740,7 +758,8 @@ class _$StartNavigationRequestImpl
       ..add(DiagnosticsProperty('type', 'StartNavigationRequest'))
       ..add(DiagnosticsProperty('orderId', orderId))
       ..add(DiagnosticsProperty('coordinates', coordinates))
-      ..add(DiagnosticsProperty('status', status));
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('timestartnavigation', timestartnavigation));
   }
 
   @override
@@ -751,12 +770,15 @@ class _$StartNavigationRequestImpl
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.coordinates, coordinates) ||
                 other.coordinates == coordinates) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.timestartnavigation, timestartnavigation) ||
+                other.timestartnavigation == timestartnavigation));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, orderId, coordinates, status);
+  int get hashCode => Object.hash(
+      runtimeType, orderId, coordinates, status, timestartnavigation);
 
   @JsonKey(ignore: true)
   @override
@@ -774,10 +796,12 @@ class _$StartNavigationRequestImpl
 }
 
 abstract class _StartNavigationRequest implements StartNavigationRequest {
-  const factory _StartNavigationRequest(
-      {@JsonKey(name: "order_id") required final int orderId,
-      required final LatLng_ coordinates,
-      required final OrderStatus status}) = _$StartNavigationRequestImpl;
+  factory _StartNavigationRequest(
+          {@JsonKey(name: "order_id") required final int orderId,
+          @JsonKey(name: "origin_address") required final LatLng_ coordinates,
+          required final OrderStatus status,
+          required final DateTime timestartnavigation}) =
+      _$StartNavigationRequestImpl;
 
   factory _StartNavigationRequest.fromJson(Map<String, dynamic> json) =
       _$StartNavigationRequestImpl.fromJson;
@@ -786,165 +810,15 @@ abstract class _StartNavigationRequest implements StartNavigationRequest {
   @JsonKey(name: "order_id")
   int get orderId;
   @override
+  @JsonKey(name: "origin_address")
   LatLng_ get coordinates;
   @override
   OrderStatus get status;
   @override
+  DateTime get timestartnavigation;
+  @override
   @JsonKey(ignore: true)
   _$$StartNavigationRequestImplCopyWith<_$StartNavigationRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-StartNavigationResponse _$StartNavigationResponseFromJson(
-    Map<String, dynamic> json) {
-  return _StartNavigationResponse.fromJson(json);
-}
-
-/// @nodoc
-mixin _$StartNavigationResponse {
-  String get message => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $StartNavigationResponseCopyWith<StartNavigationResponse> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $StartNavigationResponseCopyWith<$Res> {
-  factory $StartNavigationResponseCopyWith(StartNavigationResponse value,
-          $Res Function(StartNavigationResponse) then) =
-      _$StartNavigationResponseCopyWithImpl<$Res, StartNavigationResponse>;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$StartNavigationResponseCopyWithImpl<$Res,
-        $Val extends StartNavigationResponse>
-    implements $StartNavigationResponseCopyWith<$Res> {
-  _$StartNavigationResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_value.copyWith(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$StartNavigationResponseImplCopyWith<$Res>
-    implements $StartNavigationResponseCopyWith<$Res> {
-  factory _$$StartNavigationResponseImplCopyWith(
-          _$StartNavigationResponseImpl value,
-          $Res Function(_$StartNavigationResponseImpl) then) =
-      __$$StartNavigationResponseImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class __$$StartNavigationResponseImplCopyWithImpl<$Res>
-    extends _$StartNavigationResponseCopyWithImpl<$Res,
-        _$StartNavigationResponseImpl>
-    implements _$$StartNavigationResponseImplCopyWith<$Res> {
-  __$$StartNavigationResponseImplCopyWithImpl(
-      _$StartNavigationResponseImpl _value,
-      $Res Function(_$StartNavigationResponseImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_$StartNavigationResponseImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$StartNavigationResponseImpl
-    with DiagnosticableTreeMixin
-    implements _StartNavigationResponse {
-  const _$StartNavigationResponseImpl({required this.message});
-
-  factory _$StartNavigationResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$StartNavigationResponseImplFromJson(json);
-
-  @override
-  final String message;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StartNavigationResponse(message: $message)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'StartNavigationResponse'))
-      ..add(DiagnosticsProperty('message', message));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$StartNavigationResponseImpl &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$StartNavigationResponseImplCopyWith<_$StartNavigationResponseImpl>
-      get copyWith => __$$StartNavigationResponseImplCopyWithImpl<
-          _$StartNavigationResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StartNavigationResponseImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _StartNavigationResponse implements StartNavigationResponse {
-  const factory _StartNavigationResponse({required final String message}) =
-      _$StartNavigationResponseImpl;
-
-  factory _StartNavigationResponse.fromJson(Map<String, dynamic> json) =
-      _$StartNavigationResponseImpl.fromJson;
-
-  @override
-  String get message;
-  @override
-  @JsonKey(ignore: true)
-  _$$StartNavigationResponseImplCopyWith<_$StartNavigationResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
