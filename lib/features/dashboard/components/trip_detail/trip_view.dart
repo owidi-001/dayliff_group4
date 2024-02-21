@@ -1,4 +1,5 @@
 import 'package:dayliff/data/service/service.dart';
+import 'package:dayliff/features/dashboard/components/home/home.dart';
 import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_view.dart';
@@ -30,9 +31,18 @@ class _TripViewState extends State<TripView> {
             if (state.message != null) {
               showOverlayMessage(state.message!);
             }
+            // TODO! Thoroughly test this
+            if (state.completeTripSuccess) {
+              if (Navigator.canPop(context)) {
+                
+             Navigator.of(context).pop(); 
+              }else{
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const Home()));
+              }
+            }
           },
           listenWhen: (previous, current) =>
-              previous.message != current.message,
+              previous.message != current.message || previous.completeTripSuccess != current.completeTripSuccess,
         ),
         BlocListener<OrderBloc, OrderState>(
           listener: (context, state) {

@@ -16,70 +16,113 @@ class OrderDialog extends StatelessWidget {
   const OrderDialog({super.key, required this.order});
   final Order order;
 
+  _handleHandover(BuildContext context) {
+// Open start service
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => StartHandOver(orderId: order.orderId));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProcessingCubit, ProcessingState>(
       listener: (context, state) {
-        // TODO: implement listener
         if (state.startNavigationSuccess) {
           // Close this dialog
           Navigator.of(context).pop();
           // Confirm start navigations
           showModalBottomSheet(
-              isDismissible: false,
-              showDragHandle: true,
-              useSafeArea: true,
-              useRootNavigator: true,
-              context: context,
-              builder: (context) => Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 8),
-                          child: PrimaryButtonIcon(
-                              onTap: () {
-                                // Close this bottomsheet
-                                Navigator.of(context).pop();
-
-                                // Start navigation
-                                AppUtility.realTimeNavigation(
-                                  LatLng(order.destination!.lat!,
-                                      order.destination!.long!),
-                                );
-                                // Open start service
-                                showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        StartHandOver(order: order));
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.map,
-                                size: 16,
+            isDismissible: false,
+            showDragHandle: true,
+            useSafeArea: true,
+            useRootNavigator: true,
+            context: context,
+            builder: (context) => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              width: MediaQuery.sizeOf(context).width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Maps Actions",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                Theme.of(context).colorScheme.primary),
+                            foregroundColor: MaterialStatePropertyAll(
+                                Theme.of(context).colorScheme.onPrimary),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              hint: "Open maps to location"),
+                            ),
+                          ),
+                          onPressed: () {
+                            // Close this bottomsheet
+                            Navigator.of(context).pop();
+
+                            // Start navigation
+                            AppUtility.realTimeNavigation(
+                              LatLng(order.destination!.lat!,
+                                  order.destination!.long!),
+                            );
+                            _handleHandover(context);
+                          },
+                          child: const Text("Find route on maps"),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
-                              onPressed: () {
-                                // Close this bottomsheet
-                                Navigator.of(context).pop();
-                                // Open start service
-                                showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        StartHandOver(order: order));
-                              },
-                              child: const Text("Continue without maps")),
-                        )
-                      ],
-                    ),
-                  ));
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStatePropertyAll(
+                                Theme.of(context).colorScheme.primary),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
+                            ),
+                          ),
+                          onPressed: () {
+                            // Close this bottomsheet
+                            Navigator.of(context).pop();
+                            // Open start service
+                            _handleHandover(context);
+                          },
+                          child: const Text("Continue without maps"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: AppBar().preferredSize.height / 2,
+                  )
+                ],
+              ),
+            ),
+          );
         }
       },
       listenWhen: (previous, current) =>
@@ -123,7 +166,7 @@ class OrderDialog extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: Text(
-                  "#${order.orderId}",
+                  "#${order.bcOrderNumber}",
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,

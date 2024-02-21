@@ -204,7 +204,7 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
   // Validate customer
   void orderConfirmationUpdate(
       OrderConfirmation confirmation, CheckoutEvent checkoutEvent,
-      {bool isComplete = false}) async {
+      {bool isComplete = false, int retries = 5}) async {
     emit(
       state.copyWith(
           status: ServiceStatus.submissionInProgress,
@@ -213,11 +213,17 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
     );
     final res = await _service.confirmDelivery(confirmation: confirmation);
     res.when(onError: (error) {
-      emit(
-        state.copyWith(
-            status: ServiceStatus.submissionFailure,
-            message: AppMessage(message: error.error, tone: MessageTone.error)),
-      );
+      if (retries == 0) {
+        emit(
+          state.copyWith(
+              status: ServiceStatus.submissionFailure,
+              message:
+                  AppMessage(message: error.error, tone: MessageTone.error)),
+        );
+      } else {
+        orderConfirmationUpdate(confirmation, checkoutEvent,
+            isComplete: isComplete, retries: retries -= 1);
+      }
     }, onSuccess: (data) async {
       emit(
         state.copyWith(
@@ -228,66 +234,82 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
 
       // Emit checkout event
       if (isComplete) {
-        final order = _getOrderById(confirmation.orderId);
-        // Mark the order as complete
-        final _res = await _service.updateOrder(
-            confirmation.orderId, OrderStatus.COMPLETED);
-
-        _res.when(onError: (error) {
-          //TODO! Do something retry
-          debugPrint(error.error);
-        }, onSuccess: (data) {
-          // Update the order
-          _orderBloc.add(
-            UpdateOrder(
-              order: order.copyWith(status: OrderStatus.COMPLETED),
-            ),
-          );
-          // Get trip after update
-          var trip = _getTripById(order.trip);
-
-          // Update trip
-          trip = trip.copyWith(
-              orders: trip.orders
-                  .map((e) => e.orderId == order.orderId
-                      ? order.copyWith(status: OrderStatus.COMPLETED)
-                      : e)
-                  .toList());
-          _orderBloc.add(UpdateTrip(trip: trip));
-
-          // Complete trip
-          final bool isAllComplete = trip.orders
-              .every((order) => order.status == OrderStatus.COMPLETED);
-
-          print("Current trip: ${trip.toJson()}");
-
-          debugPrint(
-              "All orders for trip:${trip.id} is complete: $isAllComplete");
-          if (isAllComplete) {
-            debugPrint("All or ders in trip: ${trip.id} is complete");
-            //  Complete trip
-            completeTrip(trip.id, TripStatus.COMPLETED);
-          }
-        });
+        completeOrder(confirmation.orderId);
       }
       // Confirm checkout
       _checkOutBloc.add(checkoutEvent);
     });
   }
 
-  void completeTrip(int id, TripStatus status) async {
+  void completeOrder(int orderId, {int retries = 5}) async {
+    final order = _getOrderById(orderId);
+    // Mark the order as complete
+    final _res = await _service.updateOrder(
+      orderId,
+      OrderStatus.COMPLETED,
+    );
+
+    _res.when(onError: (error) {
+      if (retries == 0) {
+        emit(
+          state.copyWith(
+            status: ServiceStatus.submissionFailure,
+            message: AppMessage(
+              message: error.error,
+              tone: MessageTone.error,
+            ),
+          ),
+        );
+      } else {
+        completeOrder(orderId, retries: retries -= 1);
+      }
+    }, onSuccess: (data) {
+      // Update the order
+      _orderBloc.add(
+        UpdateOrder(
+          order: order.copyWith(status: OrderStatus.COMPLETED),
+        ),
+      );
+      // Get trip after update
+      var trip = _getTripById(order.trip);
+
+      // Update trip
+      trip = trip.copyWith(
+          orders: trip.orders
+              .map((e) => e.orderId == order.orderId
+                  ? order.copyWith(status: OrderStatus.COMPLETED)
+                  : e)
+              .toList());
+      _orderBloc.add(UpdateTrip(trip: trip));
+
+      // Complete trip
+      final bool isAllComplete =
+          trip.orders.every((order) => order.status == OrderStatus.COMPLETED);
+
+      if (isAllComplete) {
+        //  Complete trip
+        completeTrip(trip.id, TripStatus.COMPLETED);
+      }
+    });
+  }
+
+  void completeTrip(int id, TripStatus status, {int retries = 5}) async {
     debugPrint("Complete trip function $id, $status");
     final res = await _service.updateTrip(id, status);
     res.when(onError: (error) {
-      emit(
-        state.copyWith(
-          status: ServiceStatus.submissionFailure,
-          message: AppMessage(
-            message: error.error,
-            tone: MessageTone.error,
+      if (retries == 0) {
+        emit(
+          state.copyWith(
+            status: ServiceStatus.submissionFailure,
+            message: AppMessage(
+              message: error.error,
+              tone: MessageTone.error,
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        completeTrip(id, status, retries: retries -= 1);
+      }
     }, onSuccess: (data) {
       debugPrint("Trip completed successfully");
       emit(

@@ -36,15 +36,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    // final authBloc = context.read<AuthBloc>().state;
-    // // Check auth
-    // if (authBloc.status == ServiceStatus.initial ||
-    //     !authBloc.loginSuccess ||
-    //     authBloc.user == null) {
-    //   // Return to login
-    //   Navigator.of(context).pushReplacement(
-    //       MaterialPageRoute(builder: (context) => const Login()));
-    // }
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: StaticColors.primary,

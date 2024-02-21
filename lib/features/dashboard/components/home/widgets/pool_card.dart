@@ -160,25 +160,6 @@ class TripCard extends StatelessWidget {
                   ],
                 ),
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     // Update state
-              //     // context
-              //     //     .read<MapsControllerBloc>()
-              //     //     .add(StartMapsEvent(trip.route: trip.route));
-              //     // Open maps view
-              //     Navigator.of(context).push(
-              //       MaterialPageRoute(
-              //         builder: (context) => TripView(routeId: trip.route.routeId),
-              //       ),
-              //     );
-              //   },
-              //   child: CircleAvatar(
-              //     backgroundColor: StaticColors.primary,
-              //     foregroundColor: StaticColors.onPrimary,
-              //     child: const Icon(Icons.chevron_right),
-              //   ),
-              // )
             ],
           ),
         ],

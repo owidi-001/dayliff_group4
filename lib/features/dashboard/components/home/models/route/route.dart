@@ -35,7 +35,7 @@ extension TripStatusExtension on TripStatus {
       case TripStatus.ACTIVE:
         return 'Active';
       case TripStatus.INCOMPLETE:
-        return 'InComplete';
+        return 'Incomplete';
       case TripStatus.COMPLETED:
         return 'Completed';
       case TripStatus.CANCELLED:

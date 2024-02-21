@@ -2,7 +2,6 @@ import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part "events.dart";
@@ -25,12 +24,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         res.when(
           onError: (error) {
-            emit(
-              state.copyWith(
-                  status: ServiceStatus.loadingFailure,
-                  message: AppMessage(
-                      message: error.error, tone: MessageTone.error)),
-            );
+            if (event.retries == 0) {
+              emit(
+                state.copyWith(
+                    status: ServiceStatus.loadingFailure,
+                    message: AppMessage(
+                        message: error.error, tone: MessageTone.error)),
+              );
+            } else {
+              add(StartOrderBloc(retries: event.retries -= 1));
+            }
           },
           onSuccess: (data) {
             emit(
@@ -50,8 +53,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
       res.when(
         onError: (error) {
-          // Do nothing
-          debugPrint(error.error);
+          if (event.retries == 0) {
+            emit(
+              state.copyWith(
+                  status: ServiceStatus.loadingFailure,
+                  message: AppMessage(
+                      message: error.error, tone: MessageTone.error)),
+            );
+          } else {
+            add(RefreshRoutes(retries: event.retries -= 1));
+          }
         },
         onSuccess: (data) {
           return emit(state.copyWith(

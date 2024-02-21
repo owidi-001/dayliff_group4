@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
@@ -61,23 +62,33 @@ class _CustomerSignatureState extends State<CustomerSignature> {
                   maximumStrokeWidth: 4.0)),
           const SizedBox(height: 10),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-            ElevatedButton.icon(
-              icon: const Icon(
-                FontAwesomeIcons.cloudArrowUp,
-                size: 16,
-              ),
-              onPressed: () async {
-                ui.Image image = await _signaturePadKey.currentState!.toImage();
-                Uint8List? byteData = await imageToByte(image);
-                File? imageFile = await saveImage(byteData!);
-                if (imageFile != null) {
-                  context.read<ProcessingCubit>().orderConfirmationUpdate(
-                      OrderConfirmation(
-                          orderId: widget.order.orderId, signature: imageFile),
-                      StepContinue());
-                }
+            BlocBuilder<ProcessingCubit, ProcessingState>(
+              builder: (context, state) {
+                return ElevatedButton.icon(
+                  icon: const Icon(
+                    FontAwesomeIcons.cloudArrowUp,
+                    size: 16,
+                  ),
+                  onPressed: state.status == ServiceStatus.submissionInProgress
+                      ? null
+                      : () async {
+                          ui.Image image =
+                              await _signaturePadKey.currentState!.toImage();
+                          Uint8List? byteData = await imageToByte(image);
+                          File? imageFile = await saveImage(byteData!);
+                          if (imageFile != null) {
+                            context
+                                .read<ProcessingCubit>()
+                                .orderConfirmationUpdate(
+                                    OrderConfirmation(
+                                        orderId: widget.order.orderId,
+                                        signature: imageFile),
+                                    StepContinue());
+                          }
+                        },
+                  label: const Text('Continue'),
+                );
               },
-              label: const Text('Continue'),
             ),
             Expanded(
               child: TextButton(

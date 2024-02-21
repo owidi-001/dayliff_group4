@@ -86,11 +86,9 @@ class Welcome extends StatelessWidget {
                       // Login button
                       ElevatedButton(
                         onPressed: () {
-                          // // Navigate to login screen
-                          // pageController.animateToPage(1,
-                          //     duration: const Duration(milliseconds: 800),
-                          //     curve: Curves.bounceIn);
-                          Navigator.of(context).push(MaterialPageRoute(builder: ((context) => const Login())));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: ((context) => const Login())));
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: StaticColors.onPrimary,
@@ -134,7 +132,6 @@ class Welcome extends StatelessWidget {
     );
   }
 }
-
 
 // Video background
 class VideoPlayerScreen extends StatefulWidget {

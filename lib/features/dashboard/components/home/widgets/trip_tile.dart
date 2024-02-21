@@ -80,24 +80,24 @@ class TripTile extends StatelessWidget {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(color: StaticColors.primary)),
-                            TextSpan(
-                                text: " | ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: StaticColors.primary)),
-                            TextSpan(
-                                text: "${trip.duration}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: StaticColors.primary)),
-                            TextSpan(
-                                text: " mins",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: StaticColors.dark)),
+                            // TextSpan(
+                            //     text: " | ",
+                            //     style: Theme.of(context)
+                            //         .textTheme
+                            //         .bodySmall!
+                            //         .copyWith(color: StaticColors.primary)),
+                            // TextSpan(
+                            //     text: "${trip.duration}",
+                            //     style: Theme.of(context)
+                            //         .textTheme
+                            //         .bodySmall!
+                            //         .copyWith(color: StaticColors.primary)),
+                            // TextSpan(
+                            //     text: " mins",
+                            //     style: Theme.of(context)
+                            //         .textTheme
+                            //         .bodySmall!
+                            //         .copyWith(color: StaticColors.dark)),
                           ],
                         ),
                       ),

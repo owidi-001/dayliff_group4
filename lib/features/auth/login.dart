@@ -27,10 +27,10 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
 
-    // setState(() {
-    //   emailController.text = "smusebe@dayliff.com";
-    //   passwordController.text = "password";
-    // });
+    setState(() {
+      emailController.text = "smusebe@dayliff.com";
+      passwordController.text = "password";
+    });
   }
 
   @override
@@ -140,10 +140,24 @@ class _LoginState extends State<Login> {
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 16),
                                     height: 60,
-                                    child: TextField(
+                                    child: TextFormField(
                                       controller: emailController,
+                                      validator: (value) {
+                                        String emailPattern =
+                                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                                        RegExp regex = RegExp(emailPattern);
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Please enter an email';
+                                        } else if (!regex.hasMatch(value)) {
+                                          return 'Please enter a valid email';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                       style: TextStyle(
                                           color: StaticColors.onPrimary),
+                                      textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.email,
@@ -179,11 +193,30 @@ class _LoginState extends State<Login> {
                                     height: 60,
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 16),
-                                    child: TextField(
+                                    child: TextFormField(
                                       controller: passwordController,
                                       style: TextStyle(
                                           color: StaticColors.onPrimary),
                                       obscureText: obscurePass,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Please enter a password';
+                                        } else {
+                                          return null;
+                                        }
+                                        // String passwordPattern =
+                                        //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                                        // RegExp regex = RegExp(passwordPattern);
+                                        // if (value == null ||
+                                        //     value.trim().isEmpty) {
+                                        //   return 'Please enter a password';
+                                        // } else if (!regex.hasMatch(value)) {
+                                        //   return 'The password must be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, one digit, and one special character';
+                                        // } else {
+                                        //   return null;
+                                        // }
+                                      },
                                       decoration: InputDecoration(
                                         labelStyle: TextStyle(
                                             color: StaticColors.onPrimary),

@@ -13,8 +13,9 @@ class AuthService {
           },
           onSuccess: (token) {
             AppUtility().storeUserData(token);
-            service<FirebaseClientService>()
-                .sendDeviceTokenToServer(token.token);
+            // TODO! Uncomment when firebase is set up
+            // service<FirebaseClientService>()
+            //     .sendDeviceTokenToServer(token.token);
           },
         );
         return value;
@@ -77,7 +78,7 @@ class CheckoutService {
     return Http.post(
       "/delivery-confirmations/verify-otp",
       {"otp": code, "order_id": id},
-      deserializer: (json) => json,
+      deserializer: (json) => json["message"],
     );
   }
 

@@ -68,6 +68,7 @@ dependencies:
   firebase_messaging: ^14.7.15
   firebase_core: ^2.25.4
   flutter_native_splash:
+  camera: ^0.10.5+9
   
 
 dev_dependencies:
@@ -110,6 +111,15 @@ flutter:
     - assets/carousel/
     - assets/videos/
     - assets/icons/
+
+
+flutter_native_splash:
+  color: "#0082d6"
+  image: assets/logo.png
+
+  android_12:
+    color: "#0082d6"
+  fullscreen: true
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

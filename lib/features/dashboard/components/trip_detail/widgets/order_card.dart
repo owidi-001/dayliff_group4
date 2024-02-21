@@ -35,11 +35,13 @@ class OrderCard extends StatelessWidget {
           if (order.status == OrderStatus.ACTIVE) {
             // Open start service
             showDialog(
+                barrierDismissible: false,
                 context: context,
-                builder: (context) => StartHandOver(order: order));
+                builder: (context) => StartHandOver(orderId: order.orderId));
           } else {
             showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (context) => OrderDialog(
                       order: order,
                     ));

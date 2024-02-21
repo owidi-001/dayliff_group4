@@ -20,7 +20,7 @@ class CompletedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
           color: Theme.of(context).dialogBackgroundColor,
           borderRadius: BorderRadius.circular(8)),
@@ -30,7 +30,7 @@ class CompletedCard extends StatelessWidget {
         },
         contentPadding: EdgeInsets.zero,
         leading: const Icon(FontAwesomeIcons.truck),
-        title: const Text("Mombasa route"),
+        title: Text(trip.route.name),
         trailing: const Icon(FontAwesomeIcons.chevronRight),
       ),
     );

@@ -24,9 +24,6 @@ void main() async {
   kNotificationSlideDuration = const Duration(milliseconds: 500);
   kNotificationDuration = const Duration(milliseconds: 1500);
 
-  // Initialize location streamer
-  await LocationStreamer.instance.initialize(); // Initialize LocationStreamer
-
   runApp(
     MultiRepositoryProvider(
       providers: [

@@ -31,17 +31,23 @@ class ErrorHandler {
               case 401:
                 // Go to login
                 return Failure(
-                    error: error.response?.data["error"] ?? 'Unauthorized');
+                    error: error.response?.data["error"] ??
+                        error.response?.data["message"] ??
+                        'Unauthorized');
               case 403:
                 return Failure(
-                    error: error.response?.data["error"] ?? 'Forbidden');
+                    error: error.response?.data["error"] ??
+                        error.response?.data["message"] ??
+                        'Forbidden');
               case 404:
                 return Failure(
-                    error:
-                        error.response?.data["error"] ?? 'Resource not found');
+                    error: error.response?.data["error"] ??
+                        error.response?.data["message"] ??
+                        'Resource not found');
               case 412:
                 return Failure(
-                  error: error.response!.data["error"],
+                  error: error.response!.data["error"] ??
+                      error.response?.data["message"],
                   precondition: error.response?.data["precondition"],
                   description: error.response?.data["description"],
                   value: error.response?.data["value"],
@@ -49,13 +55,15 @@ class ErrorHandler {
               case 500:
                 return Failure(
                   error: error.response?.data["error"] ??
+                      error.response?.data["message"] ??
                       'An error occured! Our team is resolving this!',
                 );
 
               default:
                 return Failure(
-                    error:
-                        error.response?.data["error"] ?? 'Error: $statusCode');
+                    error: error.response?.data["error"] ??
+                        error.response?.data["message"] ??
+                        'Error: $statusCode');
             }
           default:
             return Failure(

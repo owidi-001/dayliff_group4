@@ -1,4 +1,4 @@
-
+import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
@@ -33,20 +33,29 @@ class DeliveryComments extends StatelessWidget {
         ),
         Row(
           children: [
-            ElevatedButton.icon(
-              onPressed: () {
-                context.read<ProcessingCubit>().orderConfirmationUpdate(
-                    OrderConfirmation(
-                      orderId: order.orderId,
-                      comments: commentsController.text,
-                      status:
-                          OrderStatus.COMPLETED.toStringValue().toUpperCase(),
-                    ),
-                    StepComplete(),
-                    isComplete: true);
+            BlocBuilder<ProcessingCubit, ProcessingState>(
+              builder: (context, state) {
+                return ElevatedButton.icon(
+                  onPressed: state.status == ServiceStatus.submissionInProgress
+                      ? null
+                      : () {
+                          context
+                              .read<ProcessingCubit>()
+                              .orderConfirmationUpdate(
+                                  OrderConfirmation(
+                                    orderId: order.orderId,
+                                    comments: commentsController.text,
+                                    status: OrderStatus.COMPLETED
+                                        .toStringValue()
+                                        .toUpperCase(),
+                                  ),
+                                  StepComplete(),
+                                  isComplete: true);
+                        },
+                  icon: const Icon(Icons.check),
+                  label: const Text("Complete delivery"),
+                );
               },
-              icon: const Icon(Icons.check),
-              label: const Text("Complete delivery"),
             ),
           ],
         ),

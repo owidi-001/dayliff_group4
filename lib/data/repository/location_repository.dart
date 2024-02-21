@@ -4,7 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class LocationStreamer {
-  LocationStreamer._();
+  LocationStreamer._() {
+    initialize(); // Call initialize() when LocationStreamer instance is created
+  }
+
   static LocationStreamer instance = LocationStreamer._();
   final _controller = StreamController<LatLng?>.broadcast();
 
@@ -13,7 +16,6 @@ class LocationStreamer {
   final Location _location = Location();
 
   Stream<LatLng?> get stream {
-    initialize(); // Initialize location stream when getter is accessed
     return _controller.stream.asBroadcastStream();
   }
 

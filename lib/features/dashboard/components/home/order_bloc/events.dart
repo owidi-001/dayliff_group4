@@ -7,9 +7,15 @@ abstract class OrderEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class StartOrderBloc extends OrderEvent {}
+class StartOrderBloc extends OrderEvent {
+  int retries;
+  StartOrderBloc({this.retries = 5});
+}
 
-class RefreshRoutes extends OrderEvent {}
+class RefreshRoutes extends OrderEvent {
+  int retries;
+  RefreshRoutes({this.retries = 5});
+}
 
 class UpdateTrip extends OrderEvent {
   final Trip trip;

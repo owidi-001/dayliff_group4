@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
@@ -60,39 +61,47 @@ class ODScanWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton.icon(
-                        onPressed: () {
-                          context
-                              .read<ProcessingCubit>()
-                              .orderConfirmationUpdate(
-                                  OrderConfirmation(
-                                      orderId: order.orderId,
-                                      odScan: context
-                                          .read<CheckOutBloc>()
-                                          .state
-                                          .dnote),
-                                  StepContinue());
-                        },
+                        onPressed:
+                            state.status == ServiceStatus.submissionInProgress
+                                ? null
+                                : () {
+                                    context
+                                        .read<ProcessingCubit>()
+                                        .orderConfirmationUpdate(
+                                            OrderConfirmation(
+                                                orderId: order.orderId,
+                                                odScan: context
+                                                    .read<CheckOutBloc>()
+                                                    .state
+                                                    .dnote),
+                                            StepContinue());
+                                  },
                         icon: const Icon(FontAwesomeIcons.cloudArrowUp),
                         label: const Text("Continue"),
                       ),
                       state.dnote != null
                           ? TextButton.icon(
-                              onPressed: () async {
-                                final XFile? image = await picker.pickImage(
-                                    source: ImageSource.camera,
-                                    maxHeight: 1024,
-                                    maxWidth: 1024,
-                                    preferredCameraDevice: CameraDevice.rear,
-                                    imageQuality: 50);
-                                if (image != null) {
-                                  // Add image captured to state
-                                  context.read<CheckOutBloc>().add(
-                                        ScanOD(
-                                          image: File(image.path),
-                                        ),
-                                      );
-                                }
-                              },
+                              onPressed: state.status ==
+                                      ServiceStatus.submissionInProgress
+                                  ? null
+                                  : () async {
+                                      final XFile? image =
+                                          await picker.pickImage(
+                                              source: ImageSource.camera,
+                                              maxHeight: 1024,
+                                              maxWidth: 1024,
+                                              preferredCameraDevice:
+                                                  CameraDevice.rear,
+                                              imageQuality: 50);
+                                      if (image != null) {
+                                        // Add image captured to state
+                                        context.read<CheckOutBloc>().add(
+                                              ScanOD(
+                                                image: File(image.path),
+                                              ),
+                                            );
+                                      }
+                                    },
                               icon: const Icon(FontAwesomeIcons.cameraRotate),
                               label: const Text("re-scan"))
                           : const SizedBox.shrink()
