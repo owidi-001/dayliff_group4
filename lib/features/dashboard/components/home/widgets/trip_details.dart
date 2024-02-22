@@ -73,7 +73,7 @@ class TripDetails extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: Text(
-                  trip.route.name.capitalize(),
+                  trip.name ?? trip.route.name.capitalize(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 subtitle: Text(

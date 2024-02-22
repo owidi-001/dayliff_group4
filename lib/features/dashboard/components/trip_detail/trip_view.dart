@@ -34,15 +34,16 @@ class _TripViewState extends State<TripView> {
             // TODO! Thoroughly test this
             if (state.completeTripSuccess) {
               if (Navigator.canPop(context)) {
-                
-             Navigator.of(context).pop(); 
-              }else{
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const Home()));
+                Navigator.of(context).pop();
+              } else {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const Home()));
               }
             }
           },
           listenWhen: (previous, current) =>
-              previous.message != current.message || previous.completeTripSuccess != current.completeTripSuccess,
+              previous.message != current.message ||
+              previous.completeTripSuccess != current.completeTripSuccess,
         ),
         BlocListener<OrderBloc, OrderState>(
           listener: (context, state) {

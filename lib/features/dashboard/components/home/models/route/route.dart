@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { SCHEDULED, ACTIVE, COMPLETED, CANCELLED }
+enum OrderStatus { INCOMPLETE,SCHEDULED, ACTIVE, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
@@ -21,6 +21,8 @@ extension OrderStatusExtension on OrderStatus {
         return 'Cancelled';
       case OrderStatus.SCHEDULED:
         return 'Scheduled';
+      case OrderStatus.INCOMPLETE:
+        return 'Incomplete';
       default:
         throw Exception('Unknown order status');
     }
@@ -51,6 +53,7 @@ class Trip with _$Trip {
   const factory Trip(
       {@JsonKey(name: "trip_id") required int id,
       @JsonKey(name: "route") required Route route,
+      @JsonKey(name: "trip_name") required String? name,
       @JsonKey(name: "driver") Driver? driver,
       @JsonKey(name: "vehicle") Vehicle? vehicle,
       @JsonKey(name: "courier") Courrier? courier,

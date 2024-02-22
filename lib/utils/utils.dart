@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart'; // Import this package
 Color getTripStatusColor(TripStatus status) {
   switch (status) {
     case TripStatus.INCOMPLETE:
-      return Colors.deepOrange;
+      return const Color.fromRGBO(255, 87, 34, 1);
     case TripStatus.ACTIVE:
       return Colors.blue;
     case TripStatus.COMPLETED:
@@ -53,7 +53,7 @@ int orderStatusPriority(OrderStatus status) {
   switch (status) {
     case OrderStatus.ACTIVE:
       return 1;
-    case OrderStatus.SCHEDULED:
+    case OrderStatus.SCHEDULED || OrderStatus.INCOMPLETE:
       return 2;
     case OrderStatus.COMPLETED:
       return 3;

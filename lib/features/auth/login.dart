@@ -42,6 +42,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    // reset all states
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.loginSuccess) {

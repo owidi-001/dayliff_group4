@@ -392,6 +392,9 @@ class Schedules extends StatelessWidget {
                         );
                 },
               ),
+              SizedBox(
+                height: AppBar().preferredSize.height,
+              )
             ],
           ),
         );

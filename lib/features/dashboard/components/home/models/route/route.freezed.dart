@@ -24,6 +24,8 @@ mixin _$Trip {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: "route")
   Route get route => throw _privateConstructorUsedError;
+  @JsonKey(name: "trip_name")
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "driver")
   Driver? get driver => throw _privateConstructorUsedError;
   @JsonKey(name: "vehicle")
@@ -56,6 +58,7 @@ abstract class $TripCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "trip_id") int id,
       @JsonKey(name: "route") Route route,
+      @JsonKey(name: "trip_name") String? name,
       @JsonKey(name: "driver") Driver? driver,
       @JsonKey(name: "vehicle") Vehicle? vehicle,
       @JsonKey(name: "courier") Courrier? courier,
@@ -90,6 +93,7 @@ class _$TripCopyWithImpl<$Res, $Val extends Trip>
   $Res call({
     Object? id = null,
     Object? route = null,
+    Object? name = freezed,
     Object? driver = freezed,
     Object? vehicle = freezed,
     Object? courier = freezed,
@@ -110,6 +114,10 @@ class _$TripCopyWithImpl<$Res, $Val extends Trip>
           ? _value.route
           : route // ignore: cast_nullable_to_non_nullable
               as Route,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       driver: freezed == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
@@ -232,6 +240,7 @@ abstract class _$$TripImplCopyWith<$Res> implements $TripCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "trip_id") int id,
       @JsonKey(name: "route") Route route,
+      @JsonKey(name: "trip_name") String? name,
       @JsonKey(name: "driver") Driver? driver,
       @JsonKey(name: "vehicle") Vehicle? vehicle,
       @JsonKey(name: "courier") Courrier? courier,
@@ -269,6 +278,7 @@ class __$$TripImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? route = null,
+    Object? name = freezed,
     Object? driver = freezed,
     Object? vehicle = freezed,
     Object? courier = freezed,
@@ -289,6 +299,10 @@ class __$$TripImplCopyWithImpl<$Res>
           ? _value.route
           : route // ignore: cast_nullable_to_non_nullable
               as Route,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       driver: freezed == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
@@ -339,6 +353,7 @@ class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
   const _$TripImpl(
       {@JsonKey(name: "trip_id") required this.id,
       @JsonKey(name: "route") required this.route,
+      @JsonKey(name: "trip_name") required this.name,
       @JsonKey(name: "driver") this.driver,
       @JsonKey(name: "vehicle") this.vehicle,
       @JsonKey(name: "courier") this.courier,
@@ -360,6 +375,9 @@ class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
   @override
   @JsonKey(name: "route")
   final Route route;
+  @override
+  @JsonKey(name: "trip_name")
+  final String? name;
   @override
   @JsonKey(name: "driver")
   final Driver? driver;
@@ -397,7 +415,7 @@ class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Trip(id: $id, route: $route, driver: $driver, vehicle: $vehicle, courier: $courier, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, date: $date, orders: $orders)';
+    return 'Trip(id: $id, route: $route, name: $name, driver: $driver, vehicle: $vehicle, courier: $courier, origin: $origin, destination: $destination, distance: $distance, duration: $duration, status: $status, date: $date, orders: $orders)';
   }
 
   @override
@@ -407,6 +425,7 @@ class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
       ..add(DiagnosticsProperty('type', 'Trip'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('route', route))
+      ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('driver', driver))
       ..add(DiagnosticsProperty('vehicle', vehicle))
       ..add(DiagnosticsProperty('courier', courier))
@@ -426,6 +445,7 @@ class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
             other is _$TripImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.route, route) || other.route == route) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.driver, driver) || other.driver == driver) &&
             (identical(other.vehicle, vehicle) || other.vehicle == vehicle) &&
             (identical(other.courier, courier) || other.courier == courier) &&
@@ -447,6 +467,7 @@ class _$TripImpl with DiagnosticableTreeMixin implements _Trip {
       runtimeType,
       id,
       route,
+      name,
       driver,
       vehicle,
       courier,
@@ -476,6 +497,7 @@ abstract class _Trip implements Trip {
   const factory _Trip(
       {@JsonKey(name: "trip_id") required final int id,
       @JsonKey(name: "route") required final Route route,
+      @JsonKey(name: "trip_name") required final String? name,
       @JsonKey(name: "driver") final Driver? driver,
       @JsonKey(name: "vehicle") final Vehicle? vehicle,
       @JsonKey(name: "courier") final Courrier? courier,
@@ -495,6 +517,9 @@ abstract class _Trip implements Trip {
   @override
   @JsonKey(name: "route")
   Route get route;
+  @override
+  @JsonKey(name: "trip_name")
+  String? get name;
   @override
   @JsonKey(name: "driver")
   Driver? get driver;

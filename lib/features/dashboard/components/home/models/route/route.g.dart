@@ -9,6 +9,7 @@ part of 'route.dart';
 _$TripImpl _$$TripImplFromJson(Map<String, dynamic> json) => _$TripImpl(
       id: json['trip_id'] as int,
       route: Route.fromJson(json['route'] as Map<String, dynamic>),
+      name: json['trip_name'] as String?,
       driver: json['driver'] == null
           ? null
           : Driver.fromJson(json['driver'] as Map<String, dynamic>),
@@ -39,6 +40,7 @@ Map<String, dynamic> _$$TripImplToJson(_$TripImpl instance) =>
     <String, dynamic>{
       'trip_id': instance.id,
       'route': instance.route,
+      'trip_name': instance.name,
       'driver': instance.driver,
       'vehicle': instance.vehicle,
       'courier': instance.courier,
@@ -111,6 +113,7 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     };
 
 const _$OrderStatusEnumMap = {
+  OrderStatus.INCOMPLETE: 'INCOMPLETE',
   OrderStatus.SCHEDULED: 'SCHEDULED',
   OrderStatus.ACTIVE: 'ACTIVE',
   OrderStatus.COMPLETED: 'COMPLETED',

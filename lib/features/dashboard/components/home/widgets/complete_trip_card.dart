@@ -30,7 +30,7 @@ class CompletedCard extends StatelessWidget {
         },
         contentPadding: EdgeInsets.zero,
         leading: const Icon(FontAwesomeIcons.truck),
-        title: Text(trip.route.name),
+        title: Text(trip.name ?? trip.route.name),
         trailing: const Icon(FontAwesomeIcons.chevronRight),
       ),
     );
@@ -83,7 +83,7 @@ class CompletedTripDetails extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               title: Text(
-                trip.route.name.capitalize(),
+                trip.name ?? trip.route.name.capitalize(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               subtitle: Text(

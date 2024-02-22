@@ -3,6 +3,7 @@ import 'package:dayliff/features/dashboard/components/home/widgets/trip_details.
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/extensions.dart';
 import 'package:dayliff/utils/skeleton_widget.dart';
+import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -41,7 +42,7 @@ class TripTile extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(horizontal: 8),
               leading: const Icon(Icons.fire_truck),
               title: Text(
-                trip.route.name.capitalize(),
+                trip.name ?? trip.route.name.capitalize(),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: StaticColors.primary,
                     ),
@@ -58,11 +59,12 @@ class TripTile extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
                         child: Icon(
                           Icons.circle,
                           size: 8,
+                          color: getTripStatusColor(trip.status),
                         ),
                       ),
                       RichText(
@@ -80,24 +82,6 @@ class TripTile extends StatelessWidget {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(color: StaticColors.primary)),
-                            // TextSpan(
-                            //     text: " | ",
-                            //     style: Theme.of(context)
-                            //         .textTheme
-                            //         .bodySmall!
-                            //         .copyWith(color: StaticColors.primary)),
-                            // TextSpan(
-                            //     text: "${trip.duration}",
-                            //     style: Theme.of(context)
-                            //         .textTheme
-                            //         .bodySmall!
-                            //         .copyWith(color: StaticColors.primary)),
-                            // TextSpan(
-                            //     text: " mins",
-                            //     style: Theme.of(context)
-                            //         .textTheme
-                            //         .bodySmall!
-                            //         .copyWith(color: StaticColors.dark)),
                           ],
                         ),
                       ),
