@@ -53,6 +53,7 @@ class OrderCard extends StatelessWidget {
               color: StaticColors.onPrimary,
               borderRadius: BorderRadius.circular(8)),
           child: ExpansionTile(
+            shape: const Border(),
             controller: controller,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
