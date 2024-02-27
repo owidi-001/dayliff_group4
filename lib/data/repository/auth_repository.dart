@@ -59,31 +59,10 @@ class AuthenticationRepository {
     }
   }
 
-  // Future<File?> getProfilePicture() async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     String? base64Image = prefs.getString(_profilePictureKey);
-  //     if (base64Image != null) {
-  //       List<int> bytes = base64Decode(base64Image);
-  //       // Create a temporary file to store the decoded bytes
-  //       File imageFile =
-  //           File('${(await getTemporaryDirectory()).path}/profile_picture.jpg');
-  //       await imageFile.writeAsBytes(bytes);
-  //       return imageFile;
-  //     } else {
-  //       return null; // No profile picture saved
-  //     }
-  //   } catch (e) {
-  //     // Handle error
-  //     print('Error retrieving profile picture: $e');
-  //     return null;
-  //   }
-  // }
-
-  void logout() {
+  void logout() async {
     _status = AuthenticationStatus.unauthenticated;
     _controller.add(_status);
     // Clear data
-    AppUtility().clearUserData();
+    await AppUtility().clearUserData();
   }
 }

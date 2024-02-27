@@ -11,6 +11,7 @@ import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class StartHandOver extends StatefulWidget {
   const StartHandOver({super.key, required this.orderId});
@@ -79,37 +80,35 @@ class _StartHandOverState extends State<StartHandOver> {
                   const Divider(
                       // height: 4,
                       ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(.1),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Icon(
-                        FontAwesomeIcons.bell,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      title: Text(
-                        "Begin when at destination",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontWeight: FontWeight.bold)
-                            .copyWith(
-                                color: Theme.of(context).colorScheme.primary),
-                      ),
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.transparent,
-                    // height: 4,
-                  ),
+                  // Container(
+                  //   padding:
+                  //       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  //   margin: const EdgeInsets.symmetric(horizontal: 16),
+                  //   decoration: BoxDecoration(
+                  //       color: Theme.of(context)
+                  //           .colorScheme
+                  //           .primary
+                  //           .withOpacity(.1),
+                  //       borderRadius: BorderRadius.circular(8)),
+                  //   child: ListTile(
+                  //     onTap: ,
+                  //     contentPadding: EdgeInsets.zero,
+                  //     leading: Icon(
+                  //       FontAwesomeIcons.map,
+                  //       color: Theme.of(context).colorScheme.primary,
+                  //     ),
+                  //     title: Text(
+                  //       "Use maps",
+                  //       style: Theme.of(context)
+                  //           .textTheme
+                  //           .titleSmall!
+                  //           .copyWith(fontWeight: FontWeight.bold)
+                  //           .copyWith(
+                  //               color: Theme.of(context).colorScheme.primary),
+                  //     ),
+                  //   ),
+                  // ),
+
                   ListTile(
                     leading: Icon(
                       FontAwesomeIcons.route,
@@ -191,6 +190,24 @@ class _StartHandOverState extends State<StartHandOver> {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.transparent,
+                    // height: 4,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      AppUtility.realTimeNavigation(
+                        LatLng(
+                            order.destination!.lat!, order.destination!.long!),
+                      );
+                    },
+                    leading: const Icon(FontAwesomeIcons.map),
+                    title: const Text("Navigate on maps"),
+                    trailing: Icon(
+                      FontAwesomeIcons.arrowRight,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
 

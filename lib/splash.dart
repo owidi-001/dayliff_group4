@@ -1,9 +1,8 @@
 import 'package:dayliff/data/local/local.dart';
 import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
-import 'package:dayliff/features/auth/welcome.dart';
-import 'package:dayliff/features/dashboard/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -44,15 +43,9 @@ class _SplashState extends State<Splash> {
     if (userData != null && mounted) {
       debugPrint(userData.toJson().toString());
       context.read<AuthBloc>().add(LocalLogin(data: userData));
-      // Navigate to dashboard
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const Dashboard()));
+      context.goNamed("dashboard");
     } else if (mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const Welcome(),
-        ),
-      );
+      context.goNamed("welcome");
     }
   }
 }

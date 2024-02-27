@@ -79,14 +79,6 @@ class _OrderCompletionState extends State<OrderCompletion> {
                         child: CircularProgressIndicator(),
                       ),
                     Stepper(
-                      // stepIconBuilder: (stepIndex, stepState) {
-                      //   switch (stepState) {
-                      //     case StepState.complete:
-                      //       return Icon(FontAwesomeIcons.check);
-                      //     default:
-                      //       return Icon(FontAwesomeIcons.)
-                      //   }
-                      // },
                       controlsBuilder:
                           (BuildContext context, ControlsDetails details) {
                         return const SizedBox.shrink();
@@ -107,7 +99,11 @@ class _OrderCompletionState extends State<OrderCompletion> {
                               .add(UpdateStep(step: state.step + 1));
                         }
                       },
-                      onStepTapped: null, // Do nothing
+                      onStepTapped: (step) {
+                        context
+                            .read<CheckOutBloc>()
+                            .add(UpdateStep(step: step));
+                      }, // Do nothing
                       // steps: getSteps(),
                       steps: [
                         Step(

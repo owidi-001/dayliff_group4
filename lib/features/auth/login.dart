@@ -1,8 +1,9 @@
+import 'package:dayliff/data/repository/auth_repository.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/auth/auth_bloc/bloc.dart';
 import 'package:dayliff/features/auth/reset_password.dart';
 import 'package:dayliff/features/auth/widgets/form.dart';
-import 'package:dayliff/features/dashboard/base.dart';
+import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/widgets.dart';
@@ -27,9 +28,10 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
 
-    setState(() {
-      emailController.text = "smusebe@dayliff.com";
-      passwordController.text = "password";
+    context.read<AuthenticationRepository>().stream.listen((event) {
+      if (event == AuthenticationStatus.unauthenticated) {
+        context.read<OrderBloc>().add(ResetOrders());
+      }
     });
   }
 
@@ -42,24 +44,13 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    // reset all states
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.loginSuccess) {
-          // Redirect to dashboard
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const Dashboard(),
-            ),
-          );
-        }
         if (state.message != null) {
           showOverlayMessage(state.message!);
         }
       },
-      listenWhen: (previous, current) =>
-          previous.loginSuccess != current.loginSuccess ||
-          previous.message != current.message,
+      listenWhen: (previous, current) => previous.message != current.message,
       child: Scaffold(
         body: AnimateInEffect(
           child: Container(
@@ -206,17 +197,6 @@ class _LoginState extends State<Login> {
                                         } else {
                                           return null;
                                         }
-                                        // String passwordPattern =
-                                        //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-                                        // RegExp regex = RegExp(passwordPattern);
-                                        // if (value == null ||
-                                        //     value.trim().isEmpty) {
-                                        //   return 'Please enter a password';
-                                        // } else if (!regex.hasMatch(value)) {
-                                        //   return 'The password must be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, one digit, and one special character';
-                                        // } else {
-                                        //   return null;
-                                        // }
                                       },
                                       decoration: InputDecoration(
                                         labelStyle: TextStyle(
@@ -288,26 +268,6 @@ class _LoginState extends State<Login> {
                                   const SizedBox(
                                     height: 32,
                                   ),
-                                  // RichText(
-                                  //   text: TextSpan(
-                                  //       text: "Or Login using ",
-                                  //       children: [
-                                  //         TextSpan(
-                                  //           text: "Ad Account",
-                                  //           recognizer: TapGestureRecognizer()
-                                  //             ..onTap = () =>
-                                  //                 showOverlayMessage(AppMessage(
-                                  //                     message: "Coming soon",
-                                  //                     tone: MessageTone.info)),
-                                  //           style: TextStyle(
-                                  //             color: StaticColors.primary,
-                                  //           ),
-                                  //         )
-                                  //       ],
-                                  //       style: const TextStyle(
-                                  //           fontWeight: FontWeight.bold,
-                                  //           fontSize: 18)),
-                                  // ),
                                 ],
                               ),
                             ),

@@ -25,7 +25,6 @@ class Settings extends StatelessWidget {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.message != null) {
-       
               showOverlayMessage(state.message!);
             }
           },

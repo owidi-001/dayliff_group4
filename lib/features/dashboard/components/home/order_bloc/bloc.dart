@@ -73,6 +73,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       );
     });
 
+    on<ResetOrders>((event, emit) => const OrderState());
+
     // update trip
     on<UpdateTrip>((event, emit) {
       emit(

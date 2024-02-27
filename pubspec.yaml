@@ -69,6 +69,7 @@ dependencies:
   firebase_core: ^2.25.4
   flutter_native_splash:
   camera: ^0.10.5+9
+  go_router: ^13.2.0
   
 
 dev_dependencies:

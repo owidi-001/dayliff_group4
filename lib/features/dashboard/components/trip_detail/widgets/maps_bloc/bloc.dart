@@ -110,20 +110,41 @@ class MapsControllerBloc extends Bloc<MapsEvent, MapsState> {
     // draw lines
     on<DrawMarkerPolylines>((event, emit) async {
       final polylines = <Polyline>[];
-      // Draw order polylines
+
+      LatLng? previousDestination;
+
       for (var destination in state.markers) {
-        await _addressService
-            .polyline(state.startPoint!.position, destination.position)
-            .then((value) {
-          value.when(onError: (error) {
-            emit(state.copyWith(
-                message: AppMessage(
-                    message: "Route not determined", tone: MessageTone.info)));
-          }, onSuccess: (data) {
-            polylines.addAll(data);
+        if (previousDestination != null) {
+          await _addressService
+              .polyline(previousDestination, destination.position)
+              .then((value) {
+            value.when(onError: (error) {
+              emit(state.copyWith(
+                  message: AppMessage(
+                      message: "Route not determined",
+                      tone: MessageTone.info)));
+            }, onSuccess: (data) {
+              polylines.addAll(data);
+            });
           });
-        });
+        }
+        previousDestination = destination.position;
       }
+
+      // // Draw order polylines
+      // for (var destination in state.markers) {
+      //   await _addressService
+      //       .polyline(state.startPoint!.position, destination.position)
+      //       .then((value) {
+      //     value.when(onError: (error) {
+      //       emit(state.copyWith(
+      //           message: AppMessage(
+      //               message: "Route not determined", tone: MessageTone.info)));
+      //     }, onSuccess: (data) {
+      //       polylines.addAll(data);
+      //     });
+      //   });
+      // }
 
       // Draw from current location to pick up
       await _addressService

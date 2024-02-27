@@ -17,6 +17,8 @@ class RefreshRoutes extends OrderEvent {
   RefreshRoutes({this.retries = 5});
 }
 
+class ResetOrders extends OrderEvent {}
+
 class UpdateTrip extends OrderEvent {
   final Trip trip;
 

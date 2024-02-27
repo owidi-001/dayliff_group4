@@ -149,7 +149,7 @@ class AppUtility {
     return null;
   }
 
-  void clearUserData() async {
+  clearUserData() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
   }

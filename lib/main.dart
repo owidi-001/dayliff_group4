@@ -7,8 +7,8 @@ import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart'
 import 'package:dayliff/features/dashboard/components/settings/settings_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/widgets/maps_bloc/bloc.dart';
-import 'package:dayliff/splash.dart';
 import 'package:dayliff/utils/constants.dart';
+import 'package:dayliff/utils/router_conf.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,14 +59,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => checkoutBloc)
         ],
         child: OverlaySupport.global(
-          child: MaterialApp(
+          child: MaterialApp.router(
             title: 'Dayliff cargoflow',
             debugShowCheckedModeBanner: false,
-            // theme: ThemeData(
-            //   colorScheme:
-            //       ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
-            //   useMaterial3: true,
-            // ),
             theme: ThemeData(
               colorScheme:
                   ColorScheme.fromSeed(seedColor: const Color(0xff0082d6)),
@@ -105,7 +100,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: const Splash(),
+            routerConfig: router,
           ),
         ));
   }
