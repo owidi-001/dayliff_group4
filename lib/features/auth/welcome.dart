@@ -3,6 +3,7 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
 class Welcome extends StatelessWidget {
@@ -86,9 +87,7 @@ class Welcome extends StatelessWidget {
                       // Login button
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: ((context) => const Login())));
+                          context.goNamed("login");
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: StaticColors.onPrimary,

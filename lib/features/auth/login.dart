@@ -51,248 +51,231 @@ class _LoginState extends State<Login> {
         }
       },
       listenWhen: (previous, current) => previous.message != current.message,
-      child: Scaffold(
-        body: AnimateInEffect(
-          child: Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/carousel/5.jpg"),
-                  fit: BoxFit.cover,
-                ),
-                color: Colors.black),
-            child: Stack(
-              fit: StackFit.expand,
+      child: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/carousel/5.jpg"),
+              fit: BoxFit.cover,
+            ),
+            color: Colors.black),
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              // mainAxisSize: MainAxisSize.min,
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Spacer(),
-                    AnimateInEffect(
-                      keepAlive: true,
-                      intervalStart: 0,
-                      child: GlassmorphicContainer(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        width: double.infinity,
-                        height: 400,
-                        borderRadius: 20,
-                        blur: 20,
-                        alignment: Alignment.bottomCenter,
-                        border: 0,
-                        linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            const Color(0xFFffffff).withOpacity(0.1),
-                            const Color(0xFFFFFFFF).withOpacity(0.05),
-                          ],
-                          stops: const [0.1, 1],
-                        ),
-                        borderGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            const Color(0xFFffffff).withOpacity(0.5),
-                            const Color((0xFFFFFFFF)).withOpacity(0.5),
-                          ],
-                        ),
-                        child: Form(
-                          key: formKey,
-                          child: Center(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const SizedBox(
-                                    height: 30,
+                SizedBox(
+                  height: AppBar().preferredSize.height,
+                ),
+                AnimateInEffect(
+                  keepAlive: true,
+                  intervalStart: 0,
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height: 100,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).width / 2,
+                ),
+                AnimateInEffect(
+                  keepAlive: true,
+                  intervalStart: 0,
+                  child: GlassmorphicContainer(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                    ),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    width: double.infinity,
+                    height: 400,
+                    borderRadius: 20,
+                    blur: 20,
+                    alignment: Alignment.bottomCenter,
+                    border: 0,
+                    linearGradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFFffffff).withOpacity(0.1),
+                        const Color(0xFFFFFFFF).withOpacity(0.05),
+                      ],
+                      stops: const [0.1, 1],
+                    ),
+                    borderGradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFFffffff).withOpacity(0.5),
+                        const Color((0xFFFFFFFF)).withOpacity(0.5),
+                      ],
+                    ),
+                    child: Form(
+                      key: formKey,
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Login",
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: StaticColors.onPrimary),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Please Login to Your Account",
+                              style: TextStyle(
+                                color: StaticColors.onPrimary.withOpacity(.6),
+                                fontSize: 15,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              height: 60,
+                              child: TextFormField(
+                                controller: emailController,
+                                validator: (value) {
+                                  String emailPattern =
+                                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                                  RegExp regex = RegExp(emailPattern);
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Please enter an email';
+                                  } else if (!regex.hasMatch(value)) {
+                                    return 'Please enter a valid email';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                style: TextStyle(color: StaticColors.onPrimary),
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.email,
+                                    color:
+                                        StaticColors.onPrimary.withOpacity(.6),
                                   ),
-                                  Text(
-                                    "Login",
-                                    style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
+                                  labelText: "Email Address",
+                                  labelStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  hintStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  border: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    borderSide: BorderSide(
                                         color: StaticColors.onPrimary),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: StaticColors
+                                            .onPrimary), // Brighter color when focused
                                   ),
-                                  Text(
-                                    "Please Login to Your Account",
-                                    style: TextStyle(
-                                      color: StaticColors.onPrimary
-                                          .withOpacity(.6),
-                                      fontSize: 15,
-                                    ),
+                                  focusColor: StaticColors.onPrimary,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Container(
+                              height: 60,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                controller: passwordController,
+                                style: TextStyle(color: StaticColors.onPrimary),
+                                obscureText: obscurePass,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Please enter a password';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  labelStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  hintStyle:
+                                      TextStyle(color: StaticColors.onPrimary),
+                                  border: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
                                   ),
-                                  const SizedBox(
-                                    height: 30,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: StaticColors
+                                            .onPrimary), // Brighter color when focused
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    height: 60,
-                                    child: TextFormField(
-                                      controller: emailController,
-                                      validator: (value) {
-                                        String emailPattern =
-                                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                                        RegExp regex = RegExp(emailPattern);
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'Please enter an email';
-                                        } else if (!regex.hasMatch(value)) {
-                                          return 'Please enter a valid email';
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      style: TextStyle(
-                                          color: StaticColors.onPrimary),
-                                      textInputAction: TextInputAction.next,
-                                      decoration: InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.email,
-                                          color: StaticColors.onPrimary
-                                              .withOpacity(.6),
-                                        ),
-                                        labelText: "Email Address",
-                                        labelStyle: TextStyle(
-                                            color: StaticColors.onPrimary),
-                                        hintStyle: TextStyle(
-                                            color: StaticColors.onPrimary),
-                                        border: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(8)),
-                                          borderSide: BorderSide(
-                                              color: StaticColors.onPrimary),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(8)),
-                                          borderSide: BorderSide(
-                                              color: StaticColors
-                                                  .onPrimary), // Brighter color when focused
-                                        ),
-                                        focusColor: StaticColors.onPrimary,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Container(
-                                    height: 60,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: TextFormField(
-                                      controller: passwordController,
-                                      style: TextStyle(
-                                          color: StaticColors.onPrimary),
-                                      obscureText: obscurePass,
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'Please enter a password';
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        labelStyle: TextStyle(
-                                            color: StaticColors.onPrimary),
-                                        hintStyle: TextStyle(
-                                            color: StaticColors.onPrimary),
-                                        border: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(8)),
-                                          borderSide: BorderSide(
-                                              color: StaticColors
-                                                  .onPrimary), // Brighter color when focused
-                                        ),
-                                        focusColor: StaticColors.onPrimary,
-                                        suffixIcon: TextButton(
-                                          onPressed: () {
-                                            // Navigate to reset password screen
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ResetPassword(),
-                                              ),
-                                            );
-                                          },
-                                          child: Text(
-                                            "Forgot Password?",
-                                            style: TextStyle(
-                                                color: StaticColors.onPrimary
-                                                    .withOpacity(.6)),
-                                          ),
-                                        ),
-                                        labelText: "Password",
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  BlocBuilder<AuthBloc, AuthState>(
-                                    builder: (context, state) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                        child: PrimaryButton(
-                                          hint: "Login",
-                                          onTap: () {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              context.read<AuthBloc>().add(
-                                                  LoginEvent(
-                                                      email:
-                                                          emailController.text,
-                                                      password:
-                                                          passwordController
-                                                              .text));
-                                            }
-                                          },
-                                          isLoading: state.status ==
-                                              ServiceStatus
-                                                  .submissionInProgress,
+                                  focusColor: StaticColors.onPrimary,
+                                  suffixIcon: TextButton(
+                                    onPressed: () {
+                                      // Navigate to reset password screen
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ResetPassword(),
                                         ),
                                       );
                                     },
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: TextStyle(
+                                          color: StaticColors.onPrimary
+                                              .withOpacity(.6)),
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    height: 32,
-                                  ),
-                                ],
+                                  labelText: "Password",
+                                ),
                               ),
                             ),
-                          ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: PrimaryButton(
+                                    hint: "Login",
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<AuthBloc>().add(LoginEvent(
+                                            email: emailController.text,
+                                            password: passwordController.text));
+                                      }
+                                    },
+                                    isLoading: state.status ==
+                                        ServiceStatus.submissionInProgress,
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              height: 32,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: AppBar().preferredSize.height,
-                    )
-                  ],
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: AppBar().preferredSize.height,
-                  child: // Company logo
-                      AnimateInEffect(
-                    keepAlive: true,
-                    intervalStart: 0,
-                    child: Image.asset(
-                      'assets/logo.png',
-                      height: 100,
-                    ),
                   ),
+                ),
+                SizedBox(
+                  height: AppBar().preferredSize.height,
                 )
               ],
             ),

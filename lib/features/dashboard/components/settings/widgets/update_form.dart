@@ -21,10 +21,10 @@ class _UpdateProfileDialogState extends State<UpdateProfileDialog> {
   void initState() {
 
     super.initState();
-    final _user = AuthenticationRepository.instance.user;
-    _name.text = _user?.name ?? "";
-    _email.text = _user?.email ?? "";
-    _phone.text = _user?.phoneNumber ?? "";
+    final user = AuthenticationRepository.instance.user;
+    _name.text = user?.name ?? "";
+    _email.text = user?.email ?? "";
+    _phone.text = user?.phoneNumber ?? "";
   }
 
   @override
@@ -33,7 +33,7 @@ class _UpdateProfileDialogState extends State<UpdateProfileDialog> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8))),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.sizeOf(context).width,
         child: Form(
             key: _formKey,

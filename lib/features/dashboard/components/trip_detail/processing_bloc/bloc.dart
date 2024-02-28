@@ -244,12 +244,12 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
   void completeOrder(int orderId, {int retries = 5}) async {
     final order = _getOrderById(orderId);
     // Mark the order as complete
-    final _res = await _service.updateOrder(
+    final res = await _service.updateOrder(
       orderId,
       OrderStatus.COMPLETED,
     );
 
-    _res.when(onError: (error) {
+    res.when(onError: (error) {
       if (retries == 0) {
         emit(
           state.copyWith(
