@@ -79,6 +79,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                         child: CircularProgressIndicator(),
                       ),
                     Stepper(
+                      type: StepperType.vertical,
                       controlsBuilder:
                           (BuildContext context, ControlsDetails details) {
                         return const SizedBox.shrink();
@@ -92,7 +93,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                         }
                       },
                       onStepContinue: () {
-                        bool isLastStep = (state.step == 5);
+                        bool isLastStep = (state.step == 4);
                         if (!isLastStep) {
                           context
                               .read<CheckOutBloc>()
@@ -114,8 +115,11 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: StaticColors.primary),
+                                  fontWeight: FontWeight.bold,
+                                  color: state.maxStep >= 0
+                                      ? StaticColors.primary
+                                      : StaticColors.dark,
+                                ),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,
@@ -123,32 +127,19 @@ class _OrderCompletionState extends State<OrderCompletion> {
                         ),
                         Step(
                           isActive: state.step >= 1,
-                          title: Text(
-                            "Customer Signing",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: StaticColors.primary),
-                          ),
-                          content: Container(
-                              alignment: Alignment.centerLeft,
-                              child: CustomerSignature(order: order)),
-                        ),
-                        Step(
-                          isActive: state.step >= 2,
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Proof of delivery",
+                                "Photo of Delivered Items",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
                                     .copyWith(
                                         fontWeight: FontWeight.bold,
-                                        color: StaticColors.primary),
+                                        color: state.maxStep >= 1
+                                            ? StaticColors.primary
+                                            : StaticColors.dark),
                               ),
                               Text(
                                 "${state.orderImages.length}/5",
@@ -166,7 +157,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                               child: PODWidget(order: order)),
                         ),
                         Step(
-                          isActive: state.step >= 3,
+                          isActive: state.step >= 2,
                           title: Text(
                             "Scan Delivery Note",
                             style: Theme.of(context)
@@ -174,11 +165,30 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .titleMedium!
                                 .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: StaticColors.primary),
+                                    color: state.maxStep >= 2
+                                        ? StaticColors.primary
+                                        : StaticColors.dark),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,
                               child: ODScanWidget(order: order)),
+                        ),
+                        Step(
+                          isActive: state.step >= 3,
+                          title: Text(
+                            "Customer Signing",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: state.maxStep >= 3
+                                        ? StaticColors.primary
+                                        : StaticColors.dark),
+                          ),
+                          content: Container(
+                              alignment: Alignment.centerLeft,
+                              child: CustomerSignature(order: order)),
                         ),
                         Step(
                           isActive: state.step >= 4,
@@ -189,7 +199,9 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .titleMedium!
                                 .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: StaticColors.primary),
+                                    color: state.maxStep >= 4
+                                        ? StaticColors.primary
+                                        : StaticColors.dark),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,

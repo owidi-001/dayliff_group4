@@ -836,7 +836,7 @@ mixin _$StartHandoverRequest {
   LatLng_ get coordinates => throw _privateConstructorUsedError;
   OrderStatus get status => throw _privateConstructorUsedError;
   @JsonKey(name: "timestarthandover")
-  DateTime get time => throw _privateConstructorUsedError;
+  DateTime? get time => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -854,7 +854,7 @@ abstract class $StartHandoverRequestCopyWith<$Res> {
       {@JsonKey(name: "order_id") int orderId,
       LatLng_ coordinates,
       OrderStatus status,
-      @JsonKey(name: "timestarthandover") DateTime time});
+      @JsonKey(name: "timestarthandover") DateTime? time});
 
   $LatLng_CopyWith<$Res> get coordinates;
 }
@@ -876,7 +876,7 @@ class _$StartHandoverRequestCopyWithImpl<$Res,
     Object? orderId = null,
     Object? coordinates = null,
     Object? status = null,
-    Object? time = null,
+    Object? time = freezed,
   }) {
     return _then(_value.copyWith(
       orderId: null == orderId
@@ -891,10 +891,10 @@ class _$StartHandoverRequestCopyWithImpl<$Res,
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OrderStatus,
-      time: null == time
+      time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 
@@ -919,7 +919,7 @@ abstract class _$$StartHandoverRequestImplCopyWith<$Res>
       {@JsonKey(name: "order_id") int orderId,
       LatLng_ coordinates,
       OrderStatus status,
-      @JsonKey(name: "timestarthandover") DateTime time});
+      @JsonKey(name: "timestarthandover") DateTime? time});
 
   @override
   $LatLng_CopyWith<$Res> get coordinates;
@@ -939,7 +939,7 @@ class __$$StartHandoverRequestImplCopyWithImpl<$Res>
     Object? orderId = null,
     Object? coordinates = null,
     Object? status = null,
-    Object? time = null,
+    Object? time = freezed,
   }) {
     return _then(_$StartHandoverRequestImpl(
       orderId: null == orderId
@@ -954,10 +954,10 @@ class __$$StartHandoverRequestImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OrderStatus,
-      time: null == time
+      time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -967,7 +967,7 @@ class __$$StartHandoverRequestImplCopyWithImpl<$Res>
 class _$StartHandoverRequestImpl
     with DiagnosticableTreeMixin
     implements _StartHandoverRequest {
-  const _$StartHandoverRequestImpl(
+  _$StartHandoverRequestImpl(
       {@JsonKey(name: "order_id") required this.orderId,
       required this.coordinates,
       required this.status,
@@ -985,7 +985,7 @@ class _$StartHandoverRequestImpl
   final OrderStatus status;
   @override
   @JsonKey(name: "timestarthandover")
-  final DateTime time;
+  final DateTime? time;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -1037,11 +1037,11 @@ class _$StartHandoverRequestImpl
 }
 
 abstract class _StartHandoverRequest implements StartHandoverRequest {
-  const factory _StartHandoverRequest(
+  factory _StartHandoverRequest(
           {@JsonKey(name: "order_id") required final int orderId,
           required final LatLng_ coordinates,
           required final OrderStatus status,
-          @JsonKey(name: "timestarthandover") required final DateTime time}) =
+          @JsonKey(name: "timestarthandover") required final DateTime? time}) =
       _$StartHandoverRequestImpl;
 
   factory _StartHandoverRequest.fromJson(Map<String, dynamic> json) =
@@ -1056,7 +1056,7 @@ abstract class _StartHandoverRequest implements StartHandoverRequest {
   OrderStatus get status;
   @override
   @JsonKey(name: "timestarthandover")
-  DateTime get time;
+  DateTime? get time;
   @override
   @JsonKey(ignore: true)
   _$$StartHandoverRequestImplCopyWith<_$StartHandoverRequestImpl>

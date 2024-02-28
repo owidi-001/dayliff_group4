@@ -17,6 +17,8 @@ class PODWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ImagePicker picker = ImagePicker();
     return BlocBuilder<CheckOutBloc, CheckoutState>(
+      buildWhen: (previous, current) =>
+          previous.orderImages != current.orderImages,
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

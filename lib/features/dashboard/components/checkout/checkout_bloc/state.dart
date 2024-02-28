@@ -4,7 +4,7 @@ class CheckoutState extends Equatable {
   final AppMessage? message;
   final ServiceStatus status;
   final List<File> orderImages;
-  final File? dnote;
+  final List<File> dnote;
   final File? idPhoto;
   final Order? order;
   final String? otp;
@@ -18,7 +18,7 @@ class CheckoutState extends Equatable {
       this.status = ServiceStatus.initial,
       this.orderImages = const [],
       this.order,
-      this.dnote,
+      this.dnote = const [],
       this.idPhoto,
       this.otp,
       this.comment,
@@ -31,7 +31,7 @@ class CheckoutState extends Equatable {
       AppMessage? message,
       ServiceStatus? status,
       List<File>? orderImages,
-      File? dnote,
+      List<File>? dnote,
       File? idPhoto,
       Order? order,
       String? otp,

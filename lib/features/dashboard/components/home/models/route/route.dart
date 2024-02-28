@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { INCOMPLETE,SCHEDULED, ACTIVE, COMPLETED, CANCELLED }
+enum OrderStatus { INCOMPLETE, SCHEDULED, ACTIVE, COMPLETED, CANCELLED }
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
@@ -157,7 +157,9 @@ class OrderConfirmation with _$OrderConfirmation {
     @JsonKey(name: "order_images", includeFromJson: false)
     List<File> orderImages,
     // od
-    @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+    @Default(<File>[])
+    @JsonKey(name: "od_scan", includeFromJson: false)
+    List<File> dnote,
     // comments
     @JsonKey(name: "comments") String? comments,
     // status

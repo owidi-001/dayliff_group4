@@ -90,7 +90,9 @@ _$StartHandoverRequestImpl _$$StartHandoverRequestImplFromJson(
       coordinates:
           LatLng_.fromJson(json['coordinates'] as Map<String, dynamic>),
       status: $enumDecode(_$OrderStatusEnumMap, json['status']),
-      time: DateTime.parse(json['timestarthandover'] as String),
+      time: json['timestarthandover'] == null
+          ? null
+          : DateTime.parse(json['timestarthandover'] as String),
     );
 
 Map<String, dynamic> _$$StartHandoverRequestImplToJson(
@@ -99,5 +101,5 @@ Map<String, dynamic> _$$StartHandoverRequestImplToJson(
       'order_id': instance.orderId,
       'coordinates': instance.coordinates,
       'status': _$OrderStatusEnumMap[instance.status]!,
-      'timestarthandover': instance.time.toIso8601String(),
+      'timestarthandover': instance.time?.toIso8601String(),
     };

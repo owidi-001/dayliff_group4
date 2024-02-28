@@ -54,7 +54,8 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       emit(state.copyWith(orderImages: [event.image, ...state.orderImages]));
     });
 
-    on<ScanOD>((event, emit) => emit(state.copyWith(dnote: event.image)));
+    on<ScanOD>((event, emit) =>
+        emit(state.copyWith(dnote: [event.image, ...state.dnote])));
     on<IDProof>((event, emit) => emit(state.copyWith(idPhoto: event.image)));
 
     // Remove image

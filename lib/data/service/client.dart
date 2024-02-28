@@ -68,7 +68,7 @@ class CheckoutService {
       {required StartHandoverRequest payload}) async {
     return Http.put(
       "/orders/${payload.orderId}",
-      payload.toJson(),
+      payload.copyWith(time: DateTime.now()).toJson(),
       deserializer: (json) => json["message"],
     );
   }
@@ -119,9 +119,16 @@ class CheckoutService {
       data.files.add(MapEntry('signature', signature));
     }
     // OD scan upload
-    if (confirmation.odScan != null) {
-      var odScan = await MultipartFile.fromFile(confirmation.odScan!.path);
-      data.files.add(MapEntry('od_scan', odScan));
+    if (confirmation.dnote.isNotEmpty) {
+      List<File> dnote = confirmation.dnote;
+
+      for (int i = 0; i < dnote.length; i++) {
+        File image = dnote[i];
+        var orderImage = await MultipartFile.fromFile(
+          image.path,
+        );
+        data.files.add(MapEntry('od_scan', orderImage));
+      }
     }
     // Proof of delivery
     if (confirmation.orderImages.isNotEmpty) {

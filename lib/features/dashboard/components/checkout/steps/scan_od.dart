@@ -22,92 +22,164 @@ class ODScanWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            state.dnote != null
-                ? Image.file(
-                    state.dnote!,
-                    fit: BoxFit.contain,
+            state.dnote.isNotEmpty
+                ? GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Number of columns
+                      crossAxisSpacing: 16, // Spacing between columns
+                      mainAxisSpacing: 16, // Spacing between rows
+                    ),
+                    itemCount: state.dnote.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onLongPress: () {
+                        showDialog(
+                          context: context,
+                          // showDragHandle: true,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              insetPadding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: AppBar().preferredSize.height),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxHeight:
+                                        MediaQuery.sizeOf(context).width),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16, top: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Remove image",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon: const Icon(
+                                                  FontAwesomeIcons.xmark))
+                                        ],
+                                      ),
+                                    ),
+                                    const Divider(
+                                      height: 4,
+                                      color: Colors.transparent,
+                                    ),
+                                    Expanded(
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            child: Image.file(
+                                              state.dnote[index],
+                                              fit: BoxFit.fitWidth,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    ButtonBar(
+                                      alignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .error)),
+                                          onPressed: () {
+                                            context.read<CheckOutBloc>().add(
+                                                RemoveCaptured(index: index));
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Delete'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(border: Border.all()),
+                        constraints:
+                            const BoxConstraints(maxHeight: 150, maxWidth: 150),
+                        child: Image.file(
+                          state.dnote[index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   )
                 : const SizedBox.shrink(),
             const SizedBox(
               height: 16,
             ),
-            state.dnote == null
-                ? ElevatedButton.icon(
-                    onPressed: () async {
-                      final XFile? image = await picker.pickImage(
-                          source: ImageSource.camera,
-                          maxHeight: 1024,
-                          maxWidth: 1024,
-                          preferredCameraDevice: CameraDevice.rear,
-                          imageQuality: 50);
-                      if (image != null) {
-                        // Add image captured to state
-                        context.read<CheckOutBloc>().add(
-                              ScanOD(
-                                image: File(image.path),
-                              ),
-                            );
-                      }
-                    },
-                    icon: const Icon(Icons.document_scanner),
-                    label: const Text('Scan'),
-                  )
-                : const SizedBox.shrink(),
-            const SizedBox(
-              width: 16,
-            ),
-            state.dnote != null
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed:
-                            state.status == ServiceStatus.submissionInProgress
-                                ? null
-                                : () {
-                                    context
-                                        .read<ProcessingCubit>()
-                                        .orderConfirmationUpdate(
-                                            OrderConfirmation(
-                                                orderId: order.orderId,
-                                                odScan: context
-                                                    .read<CheckOutBloc>()
-                                                    .state
-                                                    .dnote),
-                                            StepContinue());
-                                  },
-                        icon: const Icon(FontAwesomeIcons.cloudArrowUp),
-                        label: const Text("Continue"),
-                      ),
-                      state.dnote != null
-                          ? TextButton.icon(
-                              onPressed: state.status ==
-                                      ServiceStatus.submissionInProgress
-                                  ? null
-                                  : () async {
-                                      final XFile? image =
-                                          await picker.pickImage(
-                                              source: ImageSource.camera,
-                                              maxHeight: 1024,
-                                              maxWidth: 1024,
-                                              preferredCameraDevice:
-                                                  CameraDevice.rear,
-                                              imageQuality: 50);
-                                      if (image != null) {
-                                        // Add image captured to state
-                                        context.read<CheckOutBloc>().add(
-                                              ScanOD(
-                                                image: File(image.path),
-                                              ),
-                                            );
-                                      }
-                                    },
-                              icon: const Icon(FontAwesomeIcons.cameraRotate),
-                              label: const Text("re-scan"))
-                          : const SizedBox.shrink()
-                    ],
-                  )
-                : const SizedBox.shrink()
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (state.dnote.isNotEmpty)
+                  ElevatedButton.icon(
+                    onPressed:
+                        state.status == ServiceStatus.submissionInProgress
+                            ? null
+                            : () {
+                                context
+                                    .read<ProcessingCubit>()
+                                    .orderConfirmationUpdate(
+                                        OrderConfirmation(
+                                            orderId: order.orderId,
+                                            dnote: context
+                                                .read<CheckOutBloc>()
+                                                .state
+                                                .dnote),
+                                        StepContinue());
+                              },
+                    icon: const Icon(FontAwesomeIcons.cloudArrowUp),
+                    label: const Text("Continue"),
+                  ),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    final XFile? image = await picker.pickImage(
+                        source: ImageSource.camera,
+                        maxHeight: 1024,
+                        maxWidth: 1024,
+                        preferredCameraDevice: CameraDevice.rear,
+                        imageQuality: 50);
+                    if (image != null) {
+                      context.read<CheckOutBloc>().add(
+                            ScanOD(
+                              image: File(image.path),
+                            ),
+                          );
+                    }
+                  },
+                  icon: Icon(state.dnote.isEmpty
+                      ? FontAwesomeIcons.camera
+                      : FontAwesomeIcons.plus),
+                  label: Text(state.dnote.isEmpty ? 'Capture' : "Add"),
+                )
+              ],
+            )
           ],
         );
       },

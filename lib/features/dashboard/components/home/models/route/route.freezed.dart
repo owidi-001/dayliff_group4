@@ -1978,7 +1978,7 @@ mixin _$OrderConfirmation {
   @JsonKey(name: "order_images", includeFromJson: false)
   List<File> get orderImages => throw _privateConstructorUsedError; // od
   @JsonKey(name: "od_scan", includeFromJson: false)
-  File? get odScan => throw _privateConstructorUsedError; // comments
+  List<File> get dnote => throw _privateConstructorUsedError; // comments
   @JsonKey(name: "comments")
   String? get comments => throw _privateConstructorUsedError; // status
   @JsonKey(name: "order_status")
@@ -2003,7 +2003,7 @@ abstract class $OrderConfirmationCopyWith<$Res> {
       @JsonKey(name: "Signature", includeFromJson: false) File? signature,
       @JsonKey(name: "order_images", includeFromJson: false)
       List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+      @JsonKey(name: "od_scan", includeFromJson: false) List<File> dnote,
       @JsonKey(name: "comments") String? comments,
       @JsonKey(name: "order_status") String? status});
 }
@@ -2026,7 +2026,7 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
     Object? receiverId = freezed,
     Object? signature = freezed,
     Object? orderImages = null,
-    Object? odScan = freezed,
+    Object? dnote = null,
     Object? comments = freezed,
     Object? status = freezed,
   }) {
@@ -2051,10 +2051,10 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
           ? _value.orderImages
           : orderImages // ignore: cast_nullable_to_non_nullable
               as List<File>,
-      odScan: freezed == odScan
-          ? _value.odScan
-          : odScan // ignore: cast_nullable_to_non_nullable
-              as File?,
+      dnote: null == dnote
+          ? _value.dnote
+          : dnote // ignore: cast_nullable_to_non_nullable
+              as List<File>,
       comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -2082,7 +2082,7 @@ abstract class _$$OrderConfirmationImplCopyWith<$Res>
       @JsonKey(name: "Signature", includeFromJson: false) File? signature,
       @JsonKey(name: "order_images", includeFromJson: false)
       List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) File? odScan,
+      @JsonKey(name: "od_scan", includeFromJson: false) List<File> dnote,
       @JsonKey(name: "comments") String? comments,
       @JsonKey(name: "order_status") String? status});
 }
@@ -2103,7 +2103,7 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
     Object? receiverId = freezed,
     Object? signature = freezed,
     Object? orderImages = null,
-    Object? odScan = freezed,
+    Object? dnote = null,
     Object? comments = freezed,
     Object? status = freezed,
   }) {
@@ -2128,10 +2128,10 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
           ? _value._orderImages
           : orderImages // ignore: cast_nullable_to_non_nullable
               as List<File>,
-      odScan: freezed == odScan
-          ? _value.odScan
-          : odScan // ignore: cast_nullable_to_non_nullable
-              as File?,
+      dnote: null == dnote
+          ? _value._dnote
+          : dnote // ignore: cast_nullable_to_non_nullable
+              as List<File>,
       comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -2156,10 +2156,12 @@ class _$OrderConfirmationImpl
       @JsonKey(name: "Signature", includeFromJson: false) this.signature,
       @JsonKey(name: "order_images", includeFromJson: false)
       final List<File> orderImages = const <File>[],
-      @JsonKey(name: "od_scan", includeFromJson: false) this.odScan,
+      @JsonKey(name: "od_scan", includeFromJson: false)
+      final List<File> dnote = const <File>[],
       @JsonKey(name: "comments") this.comments,
       @JsonKey(name: "order_status") this.status})
-      : _orderImages = orderImages;
+      : _orderImages = orderImages,
+        _dnote = dnote;
 
   factory _$OrderConfirmationImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderConfirmationImplFromJson(json);
@@ -2190,9 +2192,16 @@ class _$OrderConfirmationImpl
   }
 
 // od
+  final List<File> _dnote;
+// od
   @override
   @JsonKey(name: "od_scan", includeFromJson: false)
-  final File? odScan;
+  List<File> get dnote {
+    if (_dnote is EqualUnmodifiableListView) return _dnote;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dnote);
+  }
+
 // comments
   @override
   @JsonKey(name: "comments")
@@ -2204,7 +2213,7 @@ class _$OrderConfirmationImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, odScan: $odScan, comments: $comments, status: $status)';
+    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, dnote: $dnote, comments: $comments, status: $status)';
   }
 
   @override
@@ -2217,7 +2226,7 @@ class _$OrderConfirmationImpl
       ..add(DiagnosticsProperty('receiverId', receiverId))
       ..add(DiagnosticsProperty('signature', signature))
       ..add(DiagnosticsProperty('orderImages', orderImages))
-      ..add(DiagnosticsProperty('odScan', odScan))
+      ..add(DiagnosticsProperty('dnote', dnote))
       ..add(DiagnosticsProperty('comments', comments))
       ..add(DiagnosticsProperty('status', status));
   }
@@ -2235,7 +2244,7 @@ class _$OrderConfirmationImpl
                 other.signature == signature) &&
             const DeepCollectionEquality()
                 .equals(other._orderImages, _orderImages) &&
-            (identical(other.odScan, odScan) || other.odScan == odScan) &&
+            const DeepCollectionEquality().equals(other._dnote, _dnote) &&
             (identical(other.comments, comments) ||
                 other.comments == comments) &&
             (identical(other.status, status) || other.status == status));
@@ -2250,7 +2259,7 @@ class _$OrderConfirmationImpl
       receiverId,
       signature,
       const DeepCollectionEquality().hash(_orderImages),
-      odScan,
+      const DeepCollectionEquality().hash(_dnote),
       comments,
       status);
 
@@ -2278,7 +2287,7 @@ abstract class _OrderConfirmation implements OrderConfirmation {
       @JsonKey(name: "Signature", includeFromJson: false) final File? signature,
       @JsonKey(name: "order_images", includeFromJson: false)
       final List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) final File? odScan,
+      @JsonKey(name: "od_scan", includeFromJson: false) final List<File> dnote,
       @JsonKey(name: "comments") final String? comments,
       @JsonKey(name: "order_status")
       final String? status}) = _$OrderConfirmationImpl;
@@ -2303,7 +2312,7 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   List<File> get orderImages;
   @override // od
   @JsonKey(name: "od_scan", includeFromJson: false)
-  File? get odScan;
+  List<File> get dnote;
   @override // comments
   @JsonKey(name: "comments")
   String? get comments;
