@@ -1,5 +1,6 @@
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
 import 'package:dayliff/features/dashboard/components/home/widgets/trip_details.dart';
+import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/extensions.dart';
 import 'package:dayliff/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,15 @@ class CompletedCard extends StatelessWidget {
           _showCompleteDialog(context);
         },
         contentPadding: EdgeInsets.zero,
-        leading: const Icon(FontAwesomeIcons.truck),
-        title: Text(trip.name ?? trip.route.name),
-        trailing: const Icon(FontAwesomeIcons.chevronRight),
+        leading: Icon(
+          FontAwesomeIcons.truck,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        title: Text((trip.name ?? trip.route.name).capitalize()),
+        trailing: Icon(
+          FontAwesomeIcons.chevronRight,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }
@@ -51,6 +58,7 @@ class CompletedTripDetails extends StatelessWidget {
           horizontal: 16, vertical: AppBar().preferredSize.height),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title
             Padding(
@@ -92,15 +100,25 @@ class CompletedTripDetails extends StatelessWidget {
               ),
             ),
             const Divider(
-              color: Colors.transparent,
+                // color: Colors.transparent,
+                ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "summary".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: StaticColors.dark),
+              ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
-                  borderRadius: BorderRadius.circular(16)),
+              // margin: const EdgeInsets.symmetric(horizontal: 16),
+              // padding: const EdgeInsets.only(bottom: 8),
+              // decoration: BoxDecoration(
+              //     border:
+              //         Border.all(width: 1, color: Colors.grey.withOpacity(.5)),
+              //     borderRadius: BorderRadius.circular(16)),
               child: Column(
                 children: [
                   Row(
@@ -235,14 +253,134 @@ class CompletedTripDetails extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(
-              color: Colors.transparent,
+
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Addresses".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: StaticColors.dark),
+              ),
             ),
             Center(
               child: StopperWidget(
                 trip: trip,
               ),
             ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Orders".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: StaticColors.dark),
+              ),
+            ),
+            ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => ExpansionTile(
+                      shape: const Border(),
+                      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      childrenPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            trip.orders[index].bcOrderNumber.toUpperCase(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: StaticColors.primary),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: getStatusColor(trip.orders[index].status)
+                                    .withOpacity(.1)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.circle,
+                                  color:
+                                      getStatusColor(trip.orders[index].status),
+                                  size: 8,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  trip.orders[index].status.toStringValue(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: getStatusColor(
+                                              trip.orders[index].status)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      children: <Widget>[
+                        Text(
+                          "Deliver to:",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: StaticColors.primary),
+                        ),
+                        Text(
+                            trip.orders[index].destination!.name!.capitalize()),
+                        Divider(
+                          height: 4,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(.2),
+                        ),
+                        Text(
+                          "Receipient:",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: StaticColors.primary),
+                        ),
+                        ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            trip.orders[index].customerName.capitalize(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(trip.orders[index].customerPhone),
+                        ),
+                      ],
+                    ),
+                separatorBuilder: (context, index) => const Divider(
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+                itemCount: trip.orders.length)
           ],
         ),
       ),
