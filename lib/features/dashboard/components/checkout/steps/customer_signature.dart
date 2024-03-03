@@ -86,7 +86,7 @@ class _CustomerSignatureState extends State<CustomerSignature> {
                                     StepContinue());
                           }
                         },
-                  label: const Text('Continue'),
+                  label: const Text('Upload'),
                 );
               },
             ),

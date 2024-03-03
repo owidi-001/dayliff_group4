@@ -13,21 +13,14 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckOutBloc() : super(const CheckoutState()) {
     // Change step
     on<UpdateStep>((event, emit) {
-      if (state.maxStep < event.step) {
-        emit(state.copyWith(
-            message: AppMessage(
-                message: "Complete the steps before this first.",
-                tone: MessageTone.error)));
-      } else {
-        emit(
-          state.copyWith(step: event.step),
-        );
-      }
+      emit(
+        state.copyWith(step: event.step),
+      );
     });
 
     on<StepContinue>(
       (event, emit) => emit(
-        state.copyWith(step: state.step + 1, maxStep: state.step + 1),
+        state.copyWith(step: state.step + 1),
       ),
     );
     on<StepCancelled>(
@@ -57,13 +50,6 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<ScanOD>((event, emit) =>
         emit(state.copyWith(dnote: [event.image, ...state.dnote])));
     on<IDProof>((event, emit) => emit(state.copyWith(idPhoto: event.image)));
-
-    // Remove image
-    on<RemoveCaptured>((event, emit) {
-      final files = state.orderImages;
-      files.removeAt(event.index);
-      emit(state.copyWith(orderImages: files));
-    });
 
     // Save/update otp
     on<OtpChanged>((event, emit) {

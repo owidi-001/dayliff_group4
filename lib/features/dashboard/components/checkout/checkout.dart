@@ -12,6 +12,7 @@ import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderCompletion extends StatefulWidget {
   final int orderId;
@@ -47,10 +48,19 @@ class _OrderCompletionState extends State<OrderCompletion> {
             if (state.message != null) {
               showOverlayMessage(state.message!);
             }
+            // TODO! Thoroughly test this
+            if (state.completeTripSuccess) {
+              if (Navigator.canPop(context)) {
+                Navigator.of(context).pop();
+              } else {
+                context.goNamed("dashboard");
+              }
+            }
           },
           listenWhen: (previous, current) =>
               previous.message != current.message ||
-              previous.status != current.status,
+              previous.status != current.status ||
+              previous.completeTripSuccess != current.completeTripSuccess,
         )
       ],
       child: BlocBuilder<OrderBloc, OrderState>(
@@ -115,11 +125,8 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: state.maxStep >= 0
-                                      ? StaticColors.primary
-                                      : StaticColors.dark,
-                                ),
+                                    fontWeight: FontWeight.bold,
+                                    color: StaticColors.primary),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,
@@ -137,9 +144,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                     .titleMedium!
                                     .copyWith(
                                         fontWeight: FontWeight.bold,
-                                        color: state.maxStep >= 1
-                                            ? StaticColors.primary
-                                            : StaticColors.dark),
+                                        color: StaticColors.primary),
                               ),
                               Text(
                                 "${state.orderImages.length}/5",
@@ -165,9 +170,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .titleMedium!
                                 .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: state.maxStep >= 2
-                                        ? StaticColors.primary
-                                        : StaticColors.dark),
+                                    color: StaticColors.primary),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,
@@ -182,9 +185,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .titleMedium!
                                 .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: state.maxStep >= 3
-                                        ? StaticColors.primary
-                                        : StaticColors.dark),
+                                    color: StaticColors.primary),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,
@@ -199,9 +200,7 @@ class _OrderCompletionState extends State<OrderCompletion> {
                                 .titleMedium!
                                 .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: state.maxStep >= 4
-                                        ? StaticColors.primary
-                                        : StaticColors.dark),
+                                    color: StaticColors.primary),
                           ),
                           content: Container(
                               alignment: Alignment.centerLeft,

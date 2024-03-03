@@ -59,27 +59,24 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      name: "login",
-      path: '/login',
+        name: "login",
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) {
+          return const Login();
+        }),
+    GoRoute(
+      name: "dashboard",
+      path: '/dashboard',
       builder: (BuildContext context, GoRouterState state) {
-        return const Login();
+        return const Dashboard();
       },
-      routes: <RouteBase>[
-        GoRoute(
-          name: "dashboard",
-          path: 'dashboard',
-          builder: (BuildContext context, GoRouterState state) {
-            return const Dashboard();
-          },
-        ),
-        GoRoute(
-          name: "settings",
-          path: 'settings',
-          builder: (BuildContext context, GoRouterState state) {
-            return const Settings();
-          },
-        ),
-      ],
+    ),
+    GoRoute(
+      name: "settings",
+      path: '/settings',
+      builder: (BuildContext context, GoRouterState state) {
+        return const Settings();
+      },
     ),
   ],
 );

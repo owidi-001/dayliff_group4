@@ -35,100 +35,13 @@ class PODWidget extends StatelessWidget {
                     itemCount: state.orderImages.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onLongPress: () {
-                        showDialog(
-                          context: context,
-                          // showDragHandle: true,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              insetPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: AppBar().preferredSize.height),
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                    maxHeight:
-                                        MediaQuery.sizeOf(context).width),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 16, right: 16, top: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Remove image",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium!
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              icon: const Icon(
-                                                  FontAwesomeIcons.xmark))
-                                        ],
-                                      ),
-                                    ),
-                                    const Divider(
-                                      height: 4,
-                                      color: Colors.transparent,
-                                    ),
-                                    Expanded(
-                                      child: Stack(
-                                        children: [
-                                          Positioned.fill(
-                                            child: Image.file(
-                                              state.orderImages[index],
-                                              fit: BoxFit.fitWidth,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    ButtonBar(
-                                      alignment: MainAxisAlignment.end,
-                                      children: [
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStatePropertyAll(
-                                                      Theme.of(context)
-                                                          .colorScheme
-                                                          .error)),
-                                          onPressed: () {
-                                            context.read<CheckOutBloc>().add(
-                                                RemoveCaptured(index: index));
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Delete'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(border: Border.all()),
-                        constraints:
-                            const BoxConstraints(maxHeight: 150, maxWidth: 150),
-                        child: Image.file(
-                          state.orderImages[index],
-                          fit: BoxFit.cover,
-                        ),
+                    itemBuilder: (context, index) => Container(
+                      decoration: BoxDecoration(border: Border.all()),
+                      constraints:
+                          const BoxConstraints(maxHeight: 150, maxWidth: 150),
+                      child: Image.file(
+                        state.orderImages[index],
+                        fit: BoxFit.cover,
                       ),
                     ),
                   )

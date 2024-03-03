@@ -11,7 +11,6 @@ class CheckoutState extends Equatable {
   final String? comment;
   final bool checkoutSuccess;
   final int step;
-  final int maxStep;
 
   const CheckoutState(
       {this.message,
@@ -23,8 +22,7 @@ class CheckoutState extends Equatable {
       this.otp,
       this.comment,
       this.checkoutSuccess = false,
-      this.step = 0,
-      this.maxStep = 0});
+      this.step = 0});
 
   CheckoutState copyWith(
       {List<Trip>? pools,
@@ -37,8 +35,8 @@ class CheckoutState extends Equatable {
       String? otp,
       String? comment,
       bool? checkoutSuccess,
-      int? step,
-      int? maxStep}) {
+      int? step
+      }) {
     return CheckoutState(
       message: message,
       status: status ?? this.status,
@@ -50,7 +48,6 @@ class CheckoutState extends Equatable {
       checkoutSuccess: checkoutSuccess ?? false,
       dnote: dnote ?? this.dnote,
       step: step ?? this.step,
-      maxStep: maxStep ?? this.maxStep,
     );
   }
 
@@ -65,7 +62,6 @@ class CheckoutState extends Equatable {
         comment,
         checkoutSuccess,
         step,
-        maxStep,
         dnote
       ];
 }

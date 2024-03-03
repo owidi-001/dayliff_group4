@@ -53,7 +53,7 @@ int orderStatusPriority(OrderStatus status) {
   switch (status) {
     case OrderStatus.ACTIVE:
       return 1;
-    case OrderStatus.SCHEDULED || OrderStatus.INCOMPLETE:
+    case OrderStatus.SCHEDULED || OrderStatus.INCOMPLETE || OrderStatus.PENDING:
       return 2;
     case OrderStatus.COMPLETED:
       return 3;

@@ -48,14 +48,6 @@ class IDProof extends CheckoutEvent {
   List<Object?> get props => [image];
 }
 
-class RemoveCaptured extends CheckoutEvent {
-  final int index;
-
-  const RemoveCaptured({required this.index});
-
-  @override
-  List<Object?> get props => [index];
-}
 
 class OtpChanged extends CheckoutEvent {
   final String? otp;

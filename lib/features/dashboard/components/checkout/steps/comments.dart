@@ -1,3 +1,4 @@
+import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
@@ -36,22 +37,28 @@ class DeliveryComments extends StatelessWidget {
             BlocBuilder<ProcessingCubit, ProcessingState>(
               builder: (context, state) {
                 return ElevatedButton.icon(
-                  onPressed: state.status == ServiceStatus.submissionInProgress
-                      ? null
-                      : () {
-                          context
-                              .read<ProcessingCubit>()
-                              .orderConfirmationUpdate(
-                                  OrderConfirmation(
-                                    orderId: order.orderId,
-                                    comments: commentsController.text,
-                                    status: OrderStatus.COMPLETED
-                                        .toStringValue()
-                                        .toUpperCase(),
-                                  ),
-                                  StepComplete(),
-                                  isComplete: true);
-                        },
+                  onPressed: () {
+                    if (state.status == ServiceStatus.submissionInProgress) {
+                      return;
+                    } else if (!canComplete(state)) {
+                      //  Show warning message
+                      context.read<ProcessingCubit>().sendTextMessage(AppMessage(
+                          message:
+                              "Submit all steps to complete order confirmation",
+                          tone: MessageTone.error));
+                    } else {
+                      context.read<ProcessingCubit>().orderConfirmationUpdate(
+                          OrderConfirmation(
+                            orderId: order.orderId,
+                            comments: commentsController.text,
+                            status: OrderStatus.COMPLETED
+                                .toStringValue()
+                                .toUpperCase(),
+                          ),
+                          StepComplete(),
+                          isComplete: true);
+                    }
+                  },
                   icon: const Icon(Icons.check),
                   label: const Text("Complete delivery"),
                 );
@@ -61,5 +68,14 @@ class DeliveryComments extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  bool canComplete(ProcessingState state) {
+    return state.confirmation != null &&
+        (state.confirmation!.otp != null ||
+            state.confirmation!.receiverId != null) &&
+        (state.confirmation!.signature != null) &&
+        (state.confirmation!.orderImages.isNotEmpty) &&
+        state.confirmation!.dnote.isNotEmpty;
   }
 }

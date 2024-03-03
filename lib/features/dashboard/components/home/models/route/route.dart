@@ -8,7 +8,14 @@ import 'package:flutter/foundation.dart';
 part 'route.freezed.dart';
 part 'route.g.dart';
 
-enum OrderStatus { INCOMPLETE, SCHEDULED, ACTIVE, COMPLETED, CANCELLED }
+enum OrderStatus {
+  PENDING,
+  INCOMPLETE,
+  SCHEDULED,
+  ACTIVE,
+  COMPLETED,
+  CANCELLED
+}
 
 extension OrderStatusExtension on OrderStatus {
   String toStringValue() {
@@ -21,7 +28,7 @@ extension OrderStatusExtension on OrderStatus {
         return 'Cancelled';
       case OrderStatus.SCHEDULED:
         return 'Scheduled';
-      case OrderStatus.INCOMPLETE:
+      case OrderStatus.INCOMPLETE || OrderStatus.PENDING:
         return 'Incomplete';
       default:
         throw Exception('Unknown order status');

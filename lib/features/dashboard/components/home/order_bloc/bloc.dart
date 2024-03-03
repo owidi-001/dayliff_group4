@@ -49,6 +49,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     // Refresh
     on<RefreshRoutes>((event, emit) async {
+      emit(state.copyWith(
+          message: AppMessage(
+              message: "Refreshing trips", tone: MessageTone.loading)));
       final res = await _orderService.all();
 
       res.when(

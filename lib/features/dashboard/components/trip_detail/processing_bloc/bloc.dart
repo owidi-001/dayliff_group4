@@ -168,10 +168,6 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
             message: AppMessage(message: data, tone: MessageTone.success),
             serviceStarted: true),
       );
-
-      // TODO! Add status for handover
-      //  _orderBloc
-      //     .add(UpdateOrder(order: order.copyWith(status: OrderStatus.ACTIVE)));
     });
   }
 
@@ -335,5 +331,9 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
       // Refresh trips
       _orderBloc.add(RefreshRoutes());
     });
+  }
+
+  void sendTextMessage(AppMessage message) {
+    emit(state.copyWith(message: message));
   }
 }

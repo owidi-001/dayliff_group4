@@ -76,6 +76,7 @@ Map<String, dynamic> _$$StartNavigationRequestImplToJson(
     };
 
 const _$OrderStatusEnumMap = {
+  OrderStatus.PENDING: 'PENDING',
   OrderStatus.INCOMPLETE: 'INCOMPLETE',
   OrderStatus.SCHEDULED: 'SCHEDULED',
   OrderStatus.ACTIVE: 'ACTIVE',
