@@ -13,9 +13,8 @@ class AuthService {
           },
           onSuccess: (token) {
             AppUtility().storeUserData(token);
-            // TODO! Uncomment when firebase is set up
-            // service<FirebaseClientService>()
-            //     .sendDeviceTokenToServer(token.token);
+            service<FirebaseClientService>()
+                .sendDeviceTokenToServer(token.token);
           },
         );
         return value;
@@ -185,7 +184,7 @@ class FirebaseClientService {
     final dio = Dio(options);
     if (token != null && authToken != null) {
       try {
-        await dio.post("/fcm-token/", data: {"fcm_token": token});
+        await dio.post("register/", data: {"firebasetokenfield": token});
         if (kDebugMode) {
           print('Device Token Sent to Server');
         }

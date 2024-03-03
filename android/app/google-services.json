@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "358373943684",
+    "project_id": "daylivery-6336b",
+    "storage_bucket": "daylivery-6336b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358373943684:android:ef6270e1054f093cb395d1",
+        "android_client_info": {
+          "package_name": "com.example.dayliff"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQRtEMpKppGKFpZ8FHcYYY5uMAxBY5oNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
