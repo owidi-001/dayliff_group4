@@ -12,7 +12,10 @@ class AuthService {
             // Handle in blocs
           },
           onSuccess: (token) {
+            // Store user data
             AppUtility().storeUserData(token);
+            // Sending firebase token
+            print("Sending device token to server");
             service<FirebaseClientService>()
                 .sendDeviceTokenToServer(token.token);
           },
@@ -142,7 +145,7 @@ class CheckoutService {
       }
     }
 
-    return Http.put(
+    return Http.post(
       "/deliveryconfirmations/${confirmation.orderId}",
       data,
       deserializer: (json) => json["message"],
@@ -170,6 +173,7 @@ class MapsService {
 // Firebase service
 class FirebaseClientService {
   Future<void> sendDeviceTokenToServer([String? deviceToken]) async {
+    print("RECEIVED TOKEN IS: ${deviceToken}");
     String? token = await FirebaseMessaging.instance.getToken();
     String? authToken =
         deviceToken ?? AuthenticationRepository.instance.authToken;
@@ -183,8 +187,9 @@ class FirebaseClientService {
 
     final dio = Dio(options);
     if (token != null && authToken != null) {
+      FormData data = FormData.fromMap({"firebasetokenfield": token});
       try {
-        await dio.post("register/", data: {"firebasetokenfield": token});
+        await dio.post("/register/", data: data);
         if (kDebugMode) {
           print('Device Token Sent to Server');
         }
