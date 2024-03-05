@@ -164,6 +164,9 @@ class _ByOTPState extends State<ByOTP> {
               ElevatedButton.icon(
                 onPressed: () {
                   if (_otpFormKey.currentState!.validate()) {
+                    context
+                        .read<CheckOutBloc>()
+                        .add(OtpChanged(otp: otpController.text));
                     // Submit OTP
                     context.read<ProcessingCubit>().otpValidation(
                         otpController.text, widget.id, StepContinue());

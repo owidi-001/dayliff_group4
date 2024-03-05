@@ -167,20 +167,20 @@ class _StartHandOverState extends State<StartHandOver> {
                       contentPadding: EdgeInsets.zero,
                       leading: const Icon(FontAwesomeIcons.user),
                       title: Text(
-                        order.customerName.capitalize(),
+                        order.recipientName.capitalize(),
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(order.customerPhone),
+                      subtitle: Text(order.recipientPhone),
                       trailing: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           GestureDetector(
                             onTap: () {
-                              AppUtility.makeCall(order.customerPhone);
+                              AppUtility.makeCall(order.recipientPhone);
                             },
                             child: CircleAvatar(
                                 child: Icon(

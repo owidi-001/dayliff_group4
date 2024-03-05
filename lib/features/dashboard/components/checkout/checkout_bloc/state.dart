@@ -3,12 +3,13 @@ part of 'bloc.dart';
 class CheckoutState extends Equatable {
   final AppMessage? message;
   final ServiceStatus status;
+  final File? idPhoto;
+  final String? otp;
+  final File? signature;
   final List<File> orderImages;
   final List<File> dnote;
-  final File? idPhoto;
-  final Order? order;
-  final String? otp;
   final String? comment;
+  final Order? order;
   final bool checkoutSuccess;
   final int step;
 
@@ -19,6 +20,7 @@ class CheckoutState extends Equatable {
       this.order,
       this.dnote = const [],
       this.idPhoto,
+      this.signature,
       this.otp,
       this.comment,
       this.checkoutSuccess = false,
@@ -28,22 +30,23 @@ class CheckoutState extends Equatable {
       {List<Trip>? pools,
       AppMessage? message,
       ServiceStatus? status,
+      File? idPhoto,
+      String? otp,
       List<File>? orderImages,
       List<File>? dnote,
-      File? idPhoto,
+      File? signature,
       Order? order,
-      String? otp,
       String? comment,
       bool? checkoutSuccess,
-      int? step
-      }) {
+      int? step}) {
     return CheckoutState(
       message: message,
       status: status ?? this.status,
       orderImages: orderImages ?? this.orderImages,
       order: order ?? this.order,
       otp: otp ?? this.otp,
-      idPhoto: idPhoto ?? idPhoto,
+      idPhoto: idPhoto ?? this.idPhoto,
+      signature: signature ?? this.signature,
       comment: comment ?? this.comment,
       checkoutSuccess: checkoutSuccess ?? false,
       dnote: dnote ?? this.dnote,
@@ -59,6 +62,7 @@ class CheckoutState extends Equatable {
         order,
         otp,
         idPhoto,
+        signature,
         comment,
         checkoutSuccess,
         step,

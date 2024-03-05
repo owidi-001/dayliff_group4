@@ -77,6 +77,11 @@ class _CustomerSignatureState extends State<CustomerSignature> {
                           Uint8List? byteData = await imageToByte(image);
                           File? imageFile = await saveImage(byteData!);
                           if (imageFile != null) {
+                            // Save to checkout
+                            context
+                                .read<CheckOutBloc>()
+                                .add(SignatureChanged(file: imageFile));
+                            // Submit
                             context
                                 .read<ProcessingCubit>()
                                 .orderConfirmationUpdate(

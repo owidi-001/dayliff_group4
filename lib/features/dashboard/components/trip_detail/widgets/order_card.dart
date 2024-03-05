@@ -47,6 +47,7 @@ class OrderCard extends StatelessWidget {
                     ));
           }
         }
+      
       },
       child: Container(
           decoration: BoxDecoration(
@@ -115,13 +116,13 @@ class OrderCard extends StatelessWidget {
                 dense: true,
                 contentPadding: EdgeInsets.zero,
                 title: Text(
-                  order.customerName.capitalize(),
+                  order.recipientName.capitalize(),
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(order.customerPhone),
+                subtitle: Text(order.recipientPhone),
                 trailing: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,

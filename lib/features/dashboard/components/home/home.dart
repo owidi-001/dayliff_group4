@@ -11,6 +11,7 @@ import 'package:dayliff/features/dashboard/components/settings/settings.dart';
 import 'package:dayliff/utils/constants.dart';
 import 'package:dayliff/utils/empty_list.dart';
 import 'package:dayliff/utils/error_container.dart';
+import 'package:dayliff/utils/overlay_notifications.dart';
 import 'package:dayliff/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,141 +40,149 @@ class _HomeState extends State<Home> {
       length: 2,
       initialIndex: 0,
       animationDuration: const Duration(milliseconds: 800),
-      child: SafeArea(
-          child: Scaffold(
-        // drawerEnableOpenDragGesture: false,
-        // endDrawer: const Drawer(),
-        backgroundColor: Colors.grey.shade200,
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              foregroundColor: StaticColors.onPrimary,
-              title: Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      AppUtility.greetingMessage(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: StaticColors.onPrimary),
-                    ),
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        return Text(
-                          AppUtility.capitalize(state.user?.name ?? ''),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: StaticColors.onPrimary),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 24, top: 16 / 2),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const Settings(),
-                        ),
-                      );
-                    },
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.VonrDB-IhcujNlSbZz99PwHaHa%26pid%3DApi&f=1&ipt=746611e2bfbd9c7ea58f09760890a1ddc5415d56a4f0ba06eb1a4633c5701bd9&ipo=images',
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        radius: 22,
-                        backgroundImage: imageProvider,
+      child: BlocListener<OrderBloc, OrderState>(
+        listener: (context, state) {
+          if (state.message != null) {
+            showOverlayMessage(state.message!);
+          }
+        },
+        listenWhen: (previous, current) => previous.message != current.message,
+        child: SafeArea(
+            child: Scaffold(
+          // drawerEnableOpenDragGesture: false,
+          // endDrawer: const Drawer(),
+          backgroundColor: Colors.grey.shade200,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                foregroundColor: StaticColors.onPrimary,
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        AppUtility.greetingMessage(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: StaticColors.onPrimary),
                       ),
-                      placeholder: (context, url) => CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        radius: 22,
-                        child: const Icon(Icons.person),
-                      ),
-                      errorWidget: (context, url, error) => CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        radius: 22,
-                        child: const Icon(Icons.error),
-                      ),
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                    ),
+                      BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          return Text(
+                            AppUtility.capitalize(state.user?.name ?? ''),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: StaticColors.onPrimary),
+                          );
+                        },
+                      )
+                    ],
                   ),
                 ),
-              ],
-              expandedHeight: AppBar().preferredSize.height * 3.5,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: StaticColors.onPrimary.withOpacity(.2)),
-                      child: ListTile(
-                        // tileColor: StaticColors.onPrimary,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 8),
-                        title: Text(
-                          onDuty ? "Driver available" : "Not available",
-                          style: TextStyle(color: StaticColors.onPrimary),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 24, top: 16 / 2),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const Settings(),
+                          ),
+                        );
+                      },
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.VonrDB-IhcujNlSbZz99PwHaHa%26pid%3DApi&f=1&ipt=746611e2bfbd9c7ea58f09760890a1ddc5415d56a4f0ba06eb1a4633c5701bd9&ipo=images',
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          radius: 22,
+                          backgroundImage: imageProvider,
                         ),
-                        trailing: CupertinoSwitch(
-                            value: onDuty,
-                            onChanged: (bool value) {
-                              setState(() {
-                                onDuty = value;
-                              });
-                            }),
+                        placeholder: (context, url) => CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          radius: 22,
+                          child: const Icon(Icons.person),
+                        ),
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          radius: 22,
+                          child: const Icon(Icons.error),
+                        ),
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(
-                      height: AppBar().preferredSize.height,
-                    )
-                  ],
-                ),
-              ),
-              bottom: TabBar(
-                  // isScrollable: true,
-                  indicatorColor: StaticColors.onPrimary.withOpacity(.8),
-                  tabs: [
-                    Tab(
-                        child: Text(
-                      "To Do",
-                      style: TextStyle(color: StaticColors.onPrimary),
-                    )),
-                    Tab(
-                      child: Text(
-                        "Completed",
-                        style: TextStyle(color: StaticColors.onPrimary),
+                  ),
+                ],
+                expandedHeight: AppBar().preferredSize.height * 3.5,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: StaticColors.onPrimary.withOpacity(.2)),
+                        child: ListTile(
+                          // tileColor: StaticColors.onPrimary,
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 8),
+                          title: Text(
+                            onDuty ? "Driver available" : "Not available",
+                            style: TextStyle(color: StaticColors.onPrimary),
+                          ),
+                          trailing: CupertinoSwitch(
+                              value: onDuty,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  onDuty = value;
+                                });
+                              }),
+                        ),
                       ),
-                    )
-                  ]),
-            ),
-            const SliverFillRemaining(
-              child: TabBarView(children: [
-                Schedules(),
-                // Returns
-                CompleteOrders(),
-              ]),
-            )
-          ],
-        ),
-      )),
+                      SizedBox(
+                        height: AppBar().preferredSize.height,
+                      )
+                    ],
+                  ),
+                ),
+                bottom: TabBar(
+                    // isScrollable: true,
+                    indicatorColor: StaticColors.onPrimary.withOpacity(.8),
+                    tabs: [
+                      Tab(
+                          child: Text(
+                        "To Do",
+                        style: TextStyle(color: StaticColors.onPrimary),
+                      )),
+                      Tab(
+                        child: Text(
+                          "Completed",
+                          style: TextStyle(color: StaticColors.onPrimary),
+                        ),
+                      )
+                    ]),
+              ),
+              const SliverFillRemaining(
+                child: TabBarView(children: [
+                  Schedules(),
+                  // Returns
+                  CompleteOrders(),
+                ]),
+              )
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

@@ -40,7 +40,8 @@ class DeliveryComments extends StatelessWidget {
                   onPressed: () {
                     if (state.status == ServiceStatus.submissionInProgress) {
                       return;
-                    } else if (!canComplete(state)) {
+                    } else if (!canComplete(
+                        context.read<CheckOutBloc>().state)) {
                       //  Show warning message
                       context.read<ProcessingCubit>().sendTextMessage(AppMessage(
                           message:
@@ -70,12 +71,10 @@ class DeliveryComments extends StatelessWidget {
     );
   }
 
-  bool canComplete(ProcessingState state) {
-    return state.confirmation != null &&
-        (state.confirmation!.otp != null ||
-            state.confirmation!.receiverId != null) &&
-        (state.confirmation!.signature != null) &&
-        (state.confirmation!.orderImages.isNotEmpty) &&
-        state.confirmation!.dnote.isNotEmpty;
+  bool canComplete(CheckoutState state) {
+    return (state.otp != null || state.idPhoto != null) &&
+        (state.signature != null) &&
+        (state.orderImages.isNotEmpty) &&
+        state.dnote.isNotEmpty;
   }
 }

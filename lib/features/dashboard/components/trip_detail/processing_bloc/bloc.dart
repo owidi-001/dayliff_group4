@@ -79,61 +79,49 @@ class ProcessingCubit extends Cubit<ProcessingState> {
   // Start navigation
   void startNavigation(int id) async {
     final order = _getOrderById(id);
-    final trip = _getTripById(order.trip);
 
-    if (trip.orders.where((e) => e.status == OrderStatus.ACTIVE).isNotEmpty) {
+    emit(state.copyWith(status: ServiceStatus.submissionInProgress));
+
+    final LatLng? currentLocation = _locationStreamer.currentLocation;
+
+    // send coordinates
+    final res = await _service.startNavigation(
+      payload: StartNavigationRequest(
+        orderId: id,
+        coordinates: LatLng_(
+            latitude: currentLocation?.latitude,
+            longitude: currentLocation?.longitude),
+        status: OrderStatus.ACTIVE,
+        timestartnavigation: DateTime.now(),
+      ),
+    );
+
+    // Handle response
+    res.when(onError: (error) {
       emit(
         state.copyWith(
-          message: AppMessage(
-              message: "You already have an incomplete active order.",
-              tone: MessageTone.warning),
-        ),
+            status: ServiceStatus.submissionFailure,
+            message: AppMessage(message: error.error, tone: MessageTone.error)),
       );
-    } else {
-      emit(state.copyWith(status: ServiceStatus.submissionInProgress));
-
-      final LatLng? currentLocation = _locationStreamer.currentLocation;
-
-      // send coordinates
-      final res = await _service.startNavigation(
-        payload: StartNavigationRequest(
-          orderId: id,
-          coordinates: LatLng_(
-              latitude: currentLocation?.latitude,
-              longitude: currentLocation?.longitude),
-          status: OrderStatus.ACTIVE,
-          timestartnavigation: DateTime.now(),
-        ),
+    }, onSuccess: (data) {
+      emit(
+        state.copyWith(
+            status: ServiceStatus.submissionSuccess,
+            message: AppMessage(message: data, tone: MessageTone.success),
+            startNavigationSuccess: true),
       );
 
-      // Handle response
-      res.when(onError: (error) {
-        emit(
-          state.copyWith(
-              status: ServiceStatus.submissionFailure,
-              message:
-                  AppMessage(message: error.error, tone: MessageTone.error)),
-        );
-      }, onSuccess: (data) {
-        emit(
-          state.copyWith(
-              status: ServiceStatus.submissionSuccess,
-              message: AppMessage(message: data, tone: MessageTone.success),
-              startNavigationSuccess: true),
-        );
+      //  Update order
+      _orderBloc
+          .add(UpdateOrder(order: order.copyWith(status: OrderStatus.ACTIVE)));
 
-        //  Update order
-        _orderBloc.add(
-            UpdateOrder(order: order.copyWith(status: OrderStatus.ACTIVE)));
-
-        // Notify the customer
-        MessageNotificationsRepository.instance.sendTextMessage(
-            order.recipientPhone,
-            """Exciting news! Your delivery is now on its way to your doorstep.
+      // Notify the customer
+      MessageNotificationsRepository.instance.sendTextMessage(
+          order.recipientPhone,
+          """Exciting news! Your delivery is now on its way to your doorstep.
 For real-time tracking, click [Tracking Link] to monitor the progress of your package.
 Thank you for choosing Davis & Shirtliff we appreciate your trust in our service.""");
-      });
-    }
+    });
   }
 
   // Begin handover

@@ -366,13 +366,13 @@ class CompletedTripDetails extends StatelessWidget {
                           dense: true,
                           contentPadding: EdgeInsets.zero,
                           title: Text(
-                            trip.orders[index].customerName.capitalize(),
+                            trip.orders[index].recipientName.capitalize(),
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text(trip.orders[index].customerPhone),
+                          subtitle: Text(trip.orders[index].recipientPhone),
                         ),
                       ],
                     ),

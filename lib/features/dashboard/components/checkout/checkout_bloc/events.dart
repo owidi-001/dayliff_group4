@@ -48,6 +48,11 @@ class IDProof extends CheckoutEvent {
   List<Object?> get props => [image];
 }
 
+class SignatureChanged extends CheckoutEvent {
+  final File file;
+
+  const SignatureChanged({required this.file});
+}
 
 class OtpChanged extends CheckoutEvent {
   final String? otp;
