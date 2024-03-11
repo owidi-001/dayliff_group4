@@ -158,17 +158,18 @@ class OrderConfirmation with _$OrderConfirmation {
     @JsonKey(name: "otp") String? otp,
     @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
     // signature
-    @JsonKey(name: "Signature", includeFromJson: false) File? signature,
+    @JsonKey(name: "recipientsignature", includeFromJson: false)
+    File? signature,
     // pod
     @Default(<File>[])
-    @JsonKey(name: "order_images", includeFromJson: false)
+    @JsonKey(name: "dodphoto", includeFromJson: false)
     List<File> orderImages,
     // od
     @Default(<File>[])
-    @JsonKey(name: "od_scan", includeFromJson: false)
+    @JsonKey(name: "dodscan", includeFromJson: false)
     List<File> dnote,
     // comments
-    @JsonKey(name: "comments") String? comments,
+    @JsonKey(name: "handovercomments") String? comments,
     // status
     @JsonKey(name: "order_status") String? status,
   }) = _OrderConfirmation;

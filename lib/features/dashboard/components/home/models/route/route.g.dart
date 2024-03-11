@@ -174,7 +174,7 @@ _$OrderConfirmationImpl _$$OrderConfirmationImplFromJson(
     _$OrderConfirmationImpl(
       orderId: json['order_id'] as int,
       otp: json['otp'] as String?,
-      comments: json['comments'] as String?,
+      comments: json['handovercomments'] as String?,
       status: json['order_status'] as String?,
     );
 
@@ -183,6 +183,6 @@ Map<String, dynamic> _$$OrderConfirmationImplToJson(
     <String, dynamic>{
       'order_id': instance.orderId,
       'otp': instance.otp,
-      'comments': instance.comments,
+      'handovercomments': instance.comments,
       'order_status': instance.status,
     };

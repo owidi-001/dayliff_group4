@@ -1973,13 +1973,13 @@ mixin _$OrderConfirmation {
   String? get otp => throw _privateConstructorUsedError;
   @JsonKey(name: "receiver_id", includeFromJson: false)
   File? get receiverId => throw _privateConstructorUsedError; // signature
-  @JsonKey(name: "Signature", includeFromJson: false)
+  @JsonKey(name: "recipientsignature", includeFromJson: false)
   File? get signature => throw _privateConstructorUsedError; // pod
-  @JsonKey(name: "order_images", includeFromJson: false)
+  @JsonKey(name: "dodphoto", includeFromJson: false)
   List<File> get orderImages => throw _privateConstructorUsedError; // od
-  @JsonKey(name: "od_scan", includeFromJson: false)
+  @JsonKey(name: "dodscan", includeFromJson: false)
   List<File> get dnote => throw _privateConstructorUsedError; // comments
-  @JsonKey(name: "comments")
+  @JsonKey(name: "handovercomments")
   String? get comments => throw _privateConstructorUsedError; // status
   @JsonKey(name: "order_status")
   String? get status => throw _privateConstructorUsedError;
@@ -2000,11 +2000,11 @@ abstract class $OrderConfirmationCopyWith<$Res> {
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "otp") String? otp,
       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-      @JsonKey(name: "order_images", includeFromJson: false)
-      List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) List<File> dnote,
-      @JsonKey(name: "comments") String? comments,
+      @JsonKey(name: "recipientsignature", includeFromJson: false)
+      File? signature,
+      @JsonKey(name: "dodphoto", includeFromJson: false) List<File> orderImages,
+      @JsonKey(name: "dodscan", includeFromJson: false) List<File> dnote,
+      @JsonKey(name: "handovercomments") String? comments,
       @JsonKey(name: "order_status") String? status});
 }
 
@@ -2079,11 +2079,11 @@ abstract class _$$OrderConfirmationImplCopyWith<$Res>
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "otp") String? otp,
       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) File? signature,
-      @JsonKey(name: "order_images", includeFromJson: false)
-      List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) List<File> dnote,
-      @JsonKey(name: "comments") String? comments,
+      @JsonKey(name: "recipientsignature", includeFromJson: false)
+      File? signature,
+      @JsonKey(name: "dodphoto", includeFromJson: false) List<File> orderImages,
+      @JsonKey(name: "dodscan", includeFromJson: false) List<File> dnote,
+      @JsonKey(name: "handovercomments") String? comments,
       @JsonKey(name: "order_status") String? status});
 }
 
@@ -2153,12 +2153,13 @@ class _$OrderConfirmationImpl
       {@JsonKey(name: "order_id") required this.orderId,
       @JsonKey(name: "otp") this.otp,
       @JsonKey(name: "receiver_id", includeFromJson: false) this.receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) this.signature,
-      @JsonKey(name: "order_images", includeFromJson: false)
+      @JsonKey(name: "recipientsignature", includeFromJson: false)
+      this.signature,
+      @JsonKey(name: "dodphoto", includeFromJson: false)
       final List<File> orderImages = const <File>[],
-      @JsonKey(name: "od_scan", includeFromJson: false)
+      @JsonKey(name: "dodscan", includeFromJson: false)
       final List<File> dnote = const <File>[],
-      @JsonKey(name: "comments") this.comments,
+      @JsonKey(name: "handovercomments") this.comments,
       @JsonKey(name: "order_status") this.status})
       : _orderImages = orderImages,
         _dnote = dnote;
@@ -2178,13 +2179,13 @@ class _$OrderConfirmationImpl
   final File? receiverId;
 // signature
   @override
-  @JsonKey(name: "Signature", includeFromJson: false)
+  @JsonKey(name: "recipientsignature", includeFromJson: false)
   final File? signature;
 // pod
   final List<File> _orderImages;
 // pod
   @override
-  @JsonKey(name: "order_images", includeFromJson: false)
+  @JsonKey(name: "dodphoto", includeFromJson: false)
   List<File> get orderImages {
     if (_orderImages is EqualUnmodifiableListView) return _orderImages;
     // ignore: implicit_dynamic_type
@@ -2195,7 +2196,7 @@ class _$OrderConfirmationImpl
   final List<File> _dnote;
 // od
   @override
-  @JsonKey(name: "od_scan", includeFromJson: false)
+  @JsonKey(name: "dodscan", includeFromJson: false)
   List<File> get dnote {
     if (_dnote is EqualUnmodifiableListView) return _dnote;
     // ignore: implicit_dynamic_type
@@ -2204,7 +2205,7 @@ class _$OrderConfirmationImpl
 
 // comments
   @override
-  @JsonKey(name: "comments")
+  @JsonKey(name: "handovercomments")
   final String? comments;
 // status
   @override
@@ -2284,11 +2285,12 @@ abstract class _OrderConfirmation implements OrderConfirmation {
       @JsonKey(name: "otp") final String? otp,
       @JsonKey(name: "receiver_id", includeFromJson: false)
       final File? receiverId,
-      @JsonKey(name: "Signature", includeFromJson: false) final File? signature,
-      @JsonKey(name: "order_images", includeFromJson: false)
+      @JsonKey(name: "recipientsignature", includeFromJson: false)
+      final File? signature,
+      @JsonKey(name: "dodphoto", includeFromJson: false)
       final List<File> orderImages,
-      @JsonKey(name: "od_scan", includeFromJson: false) final List<File> dnote,
-      @JsonKey(name: "comments") final String? comments,
+      @JsonKey(name: "dodscan", includeFromJson: false) final List<File> dnote,
+      @JsonKey(name: "handovercomments") final String? comments,
       @JsonKey(name: "order_status")
       final String? status}) = _$OrderConfirmationImpl;
 
@@ -2305,16 +2307,16 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   @JsonKey(name: "receiver_id", includeFromJson: false)
   File? get receiverId;
   @override // signature
-  @JsonKey(name: "Signature", includeFromJson: false)
+  @JsonKey(name: "recipientsignature", includeFromJson: false)
   File? get signature;
   @override // pod
-  @JsonKey(name: "order_images", includeFromJson: false)
+  @JsonKey(name: "dodphoto", includeFromJson: false)
   List<File> get orderImages;
   @override // od
-  @JsonKey(name: "od_scan", includeFromJson: false)
+  @JsonKey(name: "dodscan", includeFromJson: false)
   List<File> get dnote;
   @override // comments
-  @JsonKey(name: "comments")
+  @JsonKey(name: "handovercomments")
   String? get comments;
   @override // status
   @JsonKey(name: "order_status")
