@@ -68,8 +68,8 @@ class CheckoutService {
   // Start handover service
   HttpResult<String> startHandover(
       {required StartHandoverRequest payload}) async {
-    return Http.put(
-      "/orders/${payload.orderId}",
+    return Http.post(
+      "/deliveryconfirmations/${payload.orderId}",
       payload.copyWith(time: DateTime.now()).toJson(),
       deserializer: (json) => json["message"],
     );
@@ -118,7 +118,7 @@ class CheckoutService {
     if (confirmation.signature != null) {
       var signature =
           await MultipartFile.fromFile(confirmation.signature!.path);
-      data.files.add(MapEntry('signature', signature));
+      data.files.add(MapEntry('recipientsignature', signature));
     }
     // OD scan upload
     if (confirmation.dnote.isNotEmpty) {
@@ -129,7 +129,7 @@ class CheckoutService {
         var orderImage = await MultipartFile.fromFile(
           image.path,
         );
-        data.files.add(MapEntry('od_scan', orderImage));
+        data.files.add(MapEntry('dodscan', orderImage));
       }
     }
     // Proof of delivery
@@ -141,7 +141,7 @@ class CheckoutService {
         var orderImage = await MultipartFile.fromFile(
           image.path,
         );
-        data.files.add(MapEntry('images', orderImage));
+        data.files.add(MapEntry('dodphoto', orderImage));
       }
     }
 

@@ -118,7 +118,7 @@ class ProcessingCubit extends Cubit<ProcessingState> {
       // Notify the customer
       MessageNotificationsRepository.instance.sendTextMessage(
           order.recipientPhone,
-          """Exciting news! Your delivery is now on its way to your doorstep.
+          """Your delivery is now on its way to your doorstep.
 For real-time tracking, click [Tracking Link] to monitor the progress of your package.
 Thank you for choosing Davis & Shirtliff we appreciate your trust in our service.""");
     });

@@ -240,19 +240,20 @@ class TripDetails extends StatelessWidget {
                             ? "Continue"
                             : "Start trip",
                         onTap: () {
-                          if (trip.status != TripStatus.ACTIVE &&
-                              context
-                                  .read<OrderBloc>()
-                                  .state
-                                  .trips
-                                  .where((e) => e.status == TripStatus.ACTIVE)
-                                  .isNotEmpty) {
-                            showOverlayMessage(
-                              AppMessage(
-                                  message: "You already have an active trip",
-                                  tone: MessageTone.warning),
-                            );
-                          } else if (trip.status == TripStatus.ACTIVE) {
+                          // if (trip.status != TripStatus.ACTIVE &&
+                          //     context
+                          //         .read<OrderBloc>()
+                          //         .state
+                          //         .trips
+                          //         .where((e) => e.status == TripStatus.ACTIVE)
+                          //         .isNotEmpty) {
+                          //   showOverlayMessage(
+                          //     AppMessage(
+                          //         message: "You already have an active trip",
+                          //         tone: MessageTone.warning),
+                          //   );
+                          // } else 
+                          if (trip.status == TripStatus.ACTIVE) {
                             // Go to next page
                             Navigator.of(context).pop();
                             Navigator.of(context).push(

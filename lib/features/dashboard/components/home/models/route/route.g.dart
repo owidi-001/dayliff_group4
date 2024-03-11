@@ -176,6 +176,10 @@ _$OrderConfirmationImpl _$$OrderConfirmationImplFromJson(
       otp: json['otp'] as String?,
       comments: json['handovercomments'] as String?,
       status: json['order_status'] as String?,
+      timeCompleted: json['timestartcompleted'] == null
+          ? null
+          : DateTime.parse(json['timestartcompleted'] as String),
+      coordinates: json['dlocation_cordinates'] as String?,
     );
 
 Map<String, dynamic> _$$OrderConfirmationImplToJson(
@@ -185,4 +189,6 @@ Map<String, dynamic> _$$OrderConfirmationImplToJson(
       'otp': instance.otp,
       'handovercomments': instance.comments,
       'order_status': instance.status,
+      'timestartcompleted': instance.timeCompleted?.toIso8601String(),
+      'dlocation_cordinates': instance.coordinates,
     };

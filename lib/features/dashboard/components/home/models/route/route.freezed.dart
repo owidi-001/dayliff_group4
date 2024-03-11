@@ -1982,7 +1982,12 @@ mixin _$OrderConfirmation {
   @JsonKey(name: "handovercomments")
   String? get comments => throw _privateConstructorUsedError; // status
   @JsonKey(name: "order_status")
-  String? get status => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError; // time completed
+  @JsonKey(name: "timestartcompleted")
+  DateTime? get timeCompleted =>
+      throw _privateConstructorUsedError; // Completed destination
+  @JsonKey(name: "dlocation_cordinates")
+  String? get coordinates => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2005,7 +2010,9 @@ abstract class $OrderConfirmationCopyWith<$Res> {
       @JsonKey(name: "dodphoto", includeFromJson: false) List<File> orderImages,
       @JsonKey(name: "dodscan", includeFromJson: false) List<File> dnote,
       @JsonKey(name: "handovercomments") String? comments,
-      @JsonKey(name: "order_status") String? status});
+      @JsonKey(name: "order_status") String? status,
+      @JsonKey(name: "timestartcompleted") DateTime? timeCompleted,
+      @JsonKey(name: "dlocation_cordinates") String? coordinates});
 }
 
 /// @nodoc
@@ -2029,6 +2036,8 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
     Object? dnote = null,
     Object? comments = freezed,
     Object? status = freezed,
+    Object? timeCompleted = freezed,
+    Object? coordinates = freezed,
   }) {
     return _then(_value.copyWith(
       orderId: null == orderId
@@ -2063,6 +2072,14 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
+      timeCompleted: freezed == timeCompleted
+          ? _value.timeCompleted
+          : timeCompleted // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      coordinates: freezed == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -2084,7 +2101,9 @@ abstract class _$$OrderConfirmationImplCopyWith<$Res>
       @JsonKey(name: "dodphoto", includeFromJson: false) List<File> orderImages,
       @JsonKey(name: "dodscan", includeFromJson: false) List<File> dnote,
       @JsonKey(name: "handovercomments") String? comments,
-      @JsonKey(name: "order_status") String? status});
+      @JsonKey(name: "order_status") String? status,
+      @JsonKey(name: "timestartcompleted") DateTime? timeCompleted,
+      @JsonKey(name: "dlocation_cordinates") String? coordinates});
 }
 
 /// @nodoc
@@ -2106,6 +2125,8 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
     Object? dnote = null,
     Object? comments = freezed,
     Object? status = freezed,
+    Object? timeCompleted = freezed,
+    Object? coordinates = freezed,
   }) {
     return _then(_$OrderConfirmationImpl(
       orderId: null == orderId
@@ -2140,6 +2161,14 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
+      timeCompleted: freezed == timeCompleted
+          ? _value.timeCompleted
+          : timeCompleted // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      coordinates: freezed == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2160,7 +2189,9 @@ class _$OrderConfirmationImpl
       @JsonKey(name: "dodscan", includeFromJson: false)
       final List<File> dnote = const <File>[],
       @JsonKey(name: "handovercomments") this.comments,
-      @JsonKey(name: "order_status") this.status})
+      @JsonKey(name: "order_status") this.status,
+      @JsonKey(name: "timestartcompleted") this.timeCompleted,
+      @JsonKey(name: "dlocation_cordinates") this.coordinates})
       : _orderImages = orderImages,
         _dnote = dnote;
 
@@ -2211,10 +2242,18 @@ class _$OrderConfirmationImpl
   @override
   @JsonKey(name: "order_status")
   final String? status;
+// time completed
+  @override
+  @JsonKey(name: "timestartcompleted")
+  final DateTime? timeCompleted;
+// Completed destination
+  @override
+  @JsonKey(name: "dlocation_cordinates")
+  final String? coordinates;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, dnote: $dnote, comments: $comments, status: $status)';
+    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, dnote: $dnote, comments: $comments, status: $status, timeCompleted: $timeCompleted, coordinates: $coordinates)';
   }
 
   @override
@@ -2229,7 +2268,9 @@ class _$OrderConfirmationImpl
       ..add(DiagnosticsProperty('orderImages', orderImages))
       ..add(DiagnosticsProperty('dnote', dnote))
       ..add(DiagnosticsProperty('comments', comments))
-      ..add(DiagnosticsProperty('status', status));
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('timeCompleted', timeCompleted))
+      ..add(DiagnosticsProperty('coordinates', coordinates));
   }
 
   @override
@@ -2248,7 +2289,11 @@ class _$OrderConfirmationImpl
             const DeepCollectionEquality().equals(other._dnote, _dnote) &&
             (identical(other.comments, comments) ||
                 other.comments == comments) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.timeCompleted, timeCompleted) ||
+                other.timeCompleted == timeCompleted) &&
+            (identical(other.coordinates, coordinates) ||
+                other.coordinates == coordinates));
   }
 
   @JsonKey(ignore: true)
@@ -2262,7 +2307,9 @@ class _$OrderConfirmationImpl
       const DeepCollectionEquality().hash(_orderImages),
       const DeepCollectionEquality().hash(_dnote),
       comments,
-      status);
+      status,
+      timeCompleted,
+      coordinates);
 
   @JsonKey(ignore: true)
   @override
@@ -2291,8 +2338,10 @@ abstract class _OrderConfirmation implements OrderConfirmation {
       final List<File> orderImages,
       @JsonKey(name: "dodscan", includeFromJson: false) final List<File> dnote,
       @JsonKey(name: "handovercomments") final String? comments,
-      @JsonKey(name: "order_status")
-      final String? status}) = _$OrderConfirmationImpl;
+      @JsonKey(name: "order_status") final String? status,
+      @JsonKey(name: "timestartcompleted") final DateTime? timeCompleted,
+      @JsonKey(name: "dlocation_cordinates")
+      final String? coordinates}) = _$OrderConfirmationImpl;
 
   factory _OrderConfirmation.fromJson(Map<String, dynamic> json) =
       _$OrderConfirmationImpl.fromJson;
@@ -2321,6 +2370,12 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   @override // status
   @JsonKey(name: "order_status")
   String? get status;
+  @override // time completed
+  @JsonKey(name: "timestartcompleted")
+  DateTime? get timeCompleted;
+  @override // Completed destination
+  @JsonKey(name: "dlocation_cordinates")
+  String? get coordinates;
   @override
   @JsonKey(ignore: true)
   _$$OrderConfirmationImplCopyWith<_$OrderConfirmationImpl> get copyWith =>

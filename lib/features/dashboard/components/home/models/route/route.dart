@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:dayliff/features/dashboard/components/trip_detail/model/trip_dtos.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -172,6 +173,10 @@ class OrderConfirmation with _$OrderConfirmation {
     @JsonKey(name: "handovercomments") String? comments,
     // status
     @JsonKey(name: "order_status") String? status,
+    // time completed
+    @JsonKey(name: "timestartcompleted") DateTime? timeCompleted,
+    // Completed destination
+    @JsonKey(name: "dlocation_cordinates") String? coordinates,
   }) = _OrderConfirmation;
 
   factory OrderConfirmation.fromJson(Map<String, Object?> json) =>
