@@ -59,7 +59,7 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
     on<ScanOD>((event, emit) =>
         emit(state.copyWith(dnote: [event.image, ...state.dnote])));
-    
+
     // on<IDProof>((event, emit) => emit(state.copyWith(idPhoto: event.image)));
 
     on<SignatureChanged>(
@@ -68,6 +68,15 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     // Save/update comments
     on<CommentsChanged>((event, emit) {
       emit(state.copyWith(comment: event.comment));
+    });
+
+    // delete pod images
+    on<RemovePODImage>((event, emit) {
+      final images = state.orderImages;
+      images.removeAt(event.index);
+      
+      emit(state.copyWith(orderImages: images));
+      
     });
   }
 }

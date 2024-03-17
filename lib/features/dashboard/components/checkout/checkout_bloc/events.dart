@@ -65,3 +65,10 @@ class CommentsChanged extends CheckoutEvent {
 
   const CommentsChanged({this.comment});
 }
+
+// new events
+class RemovePODImage extends CheckoutEvent {
+  final int index;
+
+  const RemovePODImage({required this.index});
+}

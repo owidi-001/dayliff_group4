@@ -17,9 +17,8 @@ class PODWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ImagePicker picker = ImagePicker();
     return BlocBuilder<CheckOutBloc, CheckoutState>(
-      buildWhen: (previous, current) =>
-          previous.orderImages != current.orderImages,
       builder: (context, state) {
+        // print(object)
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -28,21 +27,77 @@ class PODWidget extends StatelessWidget {
                 ? GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Number of columns
-                      crossAxisSpacing: 16, // Spacing between columns
-                      mainAxisSpacing: 16, // Spacing between rows
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
                     ),
-                    itemCount: state.orderImages.length,
+                    itemCount:
+                        context.read<CheckOutBloc>().state.orderImages.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => Container(
-                      decoration: BoxDecoration(border: Border.all()),
-                      constraints:
-                          const BoxConstraints(maxHeight: 150, maxWidth: 150),
-                      child: Image.file(
-                        state.orderImages[index],
-                        fit: BoxFit.cover,
-                      ),
+                    itemBuilder: (context, index) => Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(border: Border.all()),
+                            constraints: const BoxConstraints(
+                                maxHeight: 150, maxWidth: 150),
+                            child: Image.file(
+                              context
+                                  .read<CheckOutBloc>()
+                                  .state
+                                  .orderImages[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 8,
+                          child: IconButton(
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.white)),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    title: const Text('Delete Confirmation'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this image?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          print("Removing image at ${index}");
+                                          // Delete image with the mathcing index from state storage
+                                          context.read<CheckOutBloc>().add(
+                                              RemovePODImage(index: index));
+                                          // Close the dialog
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Delete',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error)),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.remove),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : const SizedBox.shrink(),
@@ -61,13 +116,14 @@ class PODWidget extends StatelessWidget {
                                 context
                                     .read<ProcessingCubit>()
                                     .orderConfirmationUpdate(
-                                        OrderConfirmation(
-                                            orderId: order.orderId,
-                                            orderImages: context
-                                                .read<CheckOutBloc>()
-                                                .state
-                                                .orderImages),
-                                        StepContinue());
+                                      OrderConfirmation(
+                                          orderId: order.orderId,
+                                          orderImages: context
+                                              .read<CheckOutBloc>()
+                                              .state
+                                              .orderImages),
+                                      StepContinue(),
+                                    );
                               },
                     icon: const Icon(FontAwesomeIcons.cloudArrowUp),
                     label: const Text("Continue"),
