@@ -47,6 +47,9 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       emit(state.copyWith(idPhoto: event.image));
     });
 
+    on<IDNumberChanged>(
+        (event, emit) => emit(state.copyWith(idNumber: event.idNumber)));
+
     // Save/update otp
     on<OtpChanged>((event, emit) {
       emit(state.copyWith(otp: event.otp));
@@ -60,8 +63,6 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<ScanOD>((event, emit) =>
         emit(state.copyWith(dnote: [event.image, ...state.dnote])));
 
-    // on<IDProof>((event, emit) => emit(state.copyWith(idPhoto: event.image)));
-
     on<SignatureChanged>(
         (event, emit) => emit(state.copyWith(signature: event.file)));
 
@@ -74,9 +75,16 @@ class CheckOutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<RemovePODImage>((event, emit) {
       final images = state.orderImages;
       images.removeAt(event.index);
-      
+
       emit(state.copyWith(orderImages: images));
-      
+    });
+
+    // Delete scanned dnote scan
+    on<RemoveDNoteImage>((event, emit) {
+      final images = state.dnote;
+      images.removeAt(event.index);
+
+      emit(state.copyWith(dnote: images));
     });
   }
 }

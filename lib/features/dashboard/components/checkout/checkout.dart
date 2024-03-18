@@ -3,7 +3,7 @@ import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/blo
 import 'package:dayliff/features/dashboard/components/checkout/steps/comments.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/customer_signature.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/pod.dart';
-import 'package:dayliff/features/dashboard/components/checkout/steps/scan_od.dart';
+import 'package:dayliff/features/dashboard/components/checkout/steps/scan_dnote.dart';
 import 'package:dayliff/features/dashboard/components/checkout/steps/verify_customer/verify_customer.dart';
 import 'package:dayliff/features/dashboard/components/checkout/widgets/count_timer.dart';
 import 'package:dayliff/features/dashboard/components/home/order_bloc/bloc.dart';

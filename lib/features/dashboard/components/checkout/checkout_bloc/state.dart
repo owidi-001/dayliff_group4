@@ -4,6 +4,7 @@ class CheckoutState extends Equatable {
   final AppMessage? message;
   final ServiceStatus status;
   final File? idPhoto;
+  final String? idNumber;
   final String? otp;
   final File? signature;
   final List<File> orderImages;
@@ -20,6 +21,7 @@ class CheckoutState extends Equatable {
       this.order,
       this.dnote = const [],
       this.idPhoto,
+      this.idNumber,
       this.signature,
       this.otp,
       this.comment,
@@ -31,6 +33,7 @@ class CheckoutState extends Equatable {
       AppMessage? message,
       ServiceStatus? status,
       File? idPhoto,
+      String? idNumber,
       String? otp,
       List<File>? orderImages,
       List<File>? dnote,
@@ -46,6 +49,7 @@ class CheckoutState extends Equatable {
       order: order ?? this.order,
       otp: otp ?? this.otp,
       idPhoto: idPhoto ?? this.idPhoto,
+      idNumber: idNumber ?? this.idNumber,
       signature: signature ?? this.signature,
       comment: comment ?? this.comment,
       checkoutSuccess: checkoutSuccess ?? false,
@@ -62,6 +66,7 @@ class CheckoutState extends Equatable {
         order,
         otp,
         idPhoto,
+        idNumber,
         signature,
         comment,
         checkoutSuccess,

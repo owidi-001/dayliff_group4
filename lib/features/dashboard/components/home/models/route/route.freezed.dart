@@ -1971,6 +1971,8 @@ mixin _$OrderConfirmation {
   int get orderId => throw _privateConstructorUsedError; // validation
   @JsonKey(name: "otp")
   String? get otp => throw _privateConstructorUsedError;
+  @JsonKey(name: "id_number")
+  String? get idNumber => throw _privateConstructorUsedError;
   @JsonKey(name: "receiver_id", includeFromJson: false)
   File? get receiverId => throw _privateConstructorUsedError; // signature
   @JsonKey(name: "recipientsignature", includeFromJson: false)
@@ -2004,6 +2006,7 @@ abstract class $OrderConfirmationCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "otp") String? otp,
+      @JsonKey(name: "id_number") String? idNumber,
       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
       @JsonKey(name: "recipientsignature", includeFromJson: false)
       File? signature,
@@ -2030,6 +2033,7 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
   $Res call({
     Object? orderId = null,
     Object? otp = freezed,
+    Object? idNumber = freezed,
     Object? receiverId = freezed,
     Object? signature = freezed,
     Object? orderImages = null,
@@ -2047,6 +2051,10 @@ class _$OrderConfirmationCopyWithImpl<$Res, $Val extends OrderConfirmation>
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
+              as String?,
+      idNumber: freezed == idNumber
+          ? _value.idNumber
+          : idNumber // ignore: cast_nullable_to_non_nullable
               as String?,
       receiverId: freezed == receiverId
           ? _value.receiverId
@@ -2095,6 +2103,7 @@ abstract class _$$OrderConfirmationImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "order_id") int orderId,
       @JsonKey(name: "otp") String? otp,
+      @JsonKey(name: "id_number") String? idNumber,
       @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
       @JsonKey(name: "recipientsignature", includeFromJson: false)
       File? signature,
@@ -2119,6 +2128,7 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
   $Res call({
     Object? orderId = null,
     Object? otp = freezed,
+    Object? idNumber = freezed,
     Object? receiverId = freezed,
     Object? signature = freezed,
     Object? orderImages = null,
@@ -2136,6 +2146,10 @@ class __$$OrderConfirmationImplCopyWithImpl<$Res>
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
+              as String?,
+      idNumber: freezed == idNumber
+          ? _value.idNumber
+          : idNumber // ignore: cast_nullable_to_non_nullable
               as String?,
       receiverId: freezed == receiverId
           ? _value.receiverId
@@ -2181,6 +2195,7 @@ class _$OrderConfirmationImpl
   const _$OrderConfirmationImpl(
       {@JsonKey(name: "order_id") required this.orderId,
       @JsonKey(name: "otp") this.otp,
+      @JsonKey(name: "id_number") this.idNumber,
       @JsonKey(name: "receiver_id", includeFromJson: false) this.receiverId,
       @JsonKey(name: "recipientsignature", includeFromJson: false)
       this.signature,
@@ -2205,6 +2220,9 @@ class _$OrderConfirmationImpl
   @override
   @JsonKey(name: "otp")
   final String? otp;
+  @override
+  @JsonKey(name: "id_number")
+  final String? idNumber;
   @override
   @JsonKey(name: "receiver_id", includeFromJson: false)
   final File? receiverId;
@@ -2253,7 +2271,7 @@ class _$OrderConfirmationImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'OrderConfirmation(orderId: $orderId, otp: $otp, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, dnote: $dnote, comments: $comments, status: $status, timeCompleted: $timeCompleted, coordinates: $coordinates)';
+    return 'OrderConfirmation(orderId: $orderId, otp: $otp, idNumber: $idNumber, receiverId: $receiverId, signature: $signature, orderImages: $orderImages, dnote: $dnote, comments: $comments, status: $status, timeCompleted: $timeCompleted, coordinates: $coordinates)';
   }
 
   @override
@@ -2263,6 +2281,7 @@ class _$OrderConfirmationImpl
       ..add(DiagnosticsProperty('type', 'OrderConfirmation'))
       ..add(DiagnosticsProperty('orderId', orderId))
       ..add(DiagnosticsProperty('otp', otp))
+      ..add(DiagnosticsProperty('idNumber', idNumber))
       ..add(DiagnosticsProperty('receiverId', receiverId))
       ..add(DiagnosticsProperty('signature', signature))
       ..add(DiagnosticsProperty('orderImages', orderImages))
@@ -2280,6 +2299,8 @@ class _$OrderConfirmationImpl
             other is _$OrderConfirmationImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.otp, otp) || other.otp == otp) &&
+            (identical(other.idNumber, idNumber) ||
+                other.idNumber == idNumber) &&
             (identical(other.receiverId, receiverId) ||
                 other.receiverId == receiverId) &&
             (identical(other.signature, signature) ||
@@ -2302,6 +2323,7 @@ class _$OrderConfirmationImpl
       runtimeType,
       orderId,
       otp,
+      idNumber,
       receiverId,
       signature,
       const DeepCollectionEquality().hash(_orderImages),
@@ -2330,6 +2352,7 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   const factory _OrderConfirmation(
       {@JsonKey(name: "order_id") required final int orderId,
       @JsonKey(name: "otp") final String? otp,
+      @JsonKey(name: "id_number") final String? idNumber,
       @JsonKey(name: "receiver_id", includeFromJson: false)
       final File? receiverId,
       @JsonKey(name: "recipientsignature", includeFromJson: false)
@@ -2352,6 +2375,9 @@ abstract class _OrderConfirmation implements OrderConfirmation {
   @override // validation
   @JsonKey(name: "otp")
   String? get otp;
+  @override
+  @JsonKey(name: "id_number")
+  String? get idNumber;
   @override
   @JsonKey(name: "receiver_id", includeFromJson: false)
   File? get receiverId;

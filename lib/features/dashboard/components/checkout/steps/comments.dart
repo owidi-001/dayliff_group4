@@ -1,9 +1,7 @@
 import 'package:dayliff/data/models/messages/app_message.dart';
-import 'package:dayliff/data/repository/location_repository.dart';
 import 'package:dayliff/data/service/service.dart';
 import 'package:dayliff/features/dashboard/components/checkout/checkout_bloc/bloc.dart';
 import 'package:dayliff/features/dashboard/components/home/models/route/route.dart';
-import 'package:dayliff/features/dashboard/components/trip_detail/model/trip_dtos.dart';
 import 'package:dayliff/features/dashboard/components/trip_detail/processing_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,19 +48,10 @@ class DeliveryComments extends StatelessWidget {
                               "Submit all steps to complete order confirmation",
                           tone: MessageTone.error));
                     } else {
-                      // final currentLocation =
-                      //     LocationStreamer.instance.currentLocation;
-                      // final locationString = LatLng_(
-                      //         latitude: currentLocation?.latitude,
-                      //         longitude: currentLocation?.longitude)
-                      //     .toJson()
-                      //     .toString();
-                      // print("The received location string: ${locationString}");
                       context.read<ProcessingCubit>().orderConfirmationUpdate(
                           OrderConfirmation(
                             orderId: order.orderId,
                             comments: commentsController.text,
-                            // coordinates: locationString,
                             timeCompleted: DateTime.now(),
                             status: OrderStatus.COMPLETED
                                 .toStringValue()

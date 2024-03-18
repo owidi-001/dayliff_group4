@@ -9,10 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PODWidget extends StatelessWidget {
+class PODWidget extends StatefulWidget {
   const PODWidget({super.key, required this.order});
   final Order order;
 
+  @override
+  State<PODWidget> createState() => _PODWidgetState();
+}
+
+class _PODWidgetState extends State<PODWidget> {
   @override
   Widget build(BuildContext context) {
     final ImagePicker picker = ImagePicker();
@@ -66,7 +71,7 @@ class PODWidget extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(8)),
                                     title: const Text('Delete Confirmation'),
                                     content: const Text(
-                                        'Are you sure you want to delete this image?'),
+                                        'Are you sure you want to delete this POD image?'),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
@@ -76,11 +81,8 @@ class PODWidget extends StatelessWidget {
                                       ),
                                       TextButton(
                                         onPressed: () {
-                                          print("Removing image at ${index}");
-                                          // Delete image with the mathcing index from state storage
                                           context.read<CheckOutBloc>().add(
                                               RemovePODImage(index: index));
-                                          // Close the dialog
                                           Navigator.of(context).pop();
                                         },
                                         child: Text('Delete',
@@ -117,7 +119,7 @@ class PODWidget extends StatelessWidget {
                                     .read<ProcessingCubit>()
                                     .orderConfirmationUpdate(
                                       OrderConfirmation(
-                                          orderId: order.orderId,
+                                          orderId: widget.order.orderId,
                                           orderImages: context
                                               .read<CheckOutBloc>()
                                               .state

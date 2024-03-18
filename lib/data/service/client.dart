@@ -84,8 +84,23 @@ class CheckoutService {
     );
   }
 
+  HttpResult<String> validateId(String? idNumber, File? id, int orderId) async {
+    FormData data = FormData.fromMap({"id_number": idNumber});
+    // Receives id upload
+    if (id != null) {
+      var receiverId = await MultipartFile.fromFile(id.path);
+      data.files.add(MapEntry('receiver_id', receiverId));
+    }
+    return Http.post(
+      "/deliveryconfirmations/$orderId",
+      data,
+      deserializer: (json) => json["message"],
+    );
+  }
+
   HttpResult<String> updateOrder(int id, OrderStatus status) {
     debugPrint("The completed order: $status");
+
     return Http.put(
       "/orders/$id",
       {"order_status": status.toStringValue().toUpperCase()},
@@ -95,6 +110,7 @@ class CheckoutService {
 
   HttpResult<String> updateTrip(int id, TripStatus status) async {
     debugPrint("The completed trip: $status");
+
     return Http.put(
       "/trips/$id",
       {"status": status.toStringValue().toUpperCase()},
@@ -108,12 +124,6 @@ class CheckoutService {
     FormData data = FormData.fromMap(confirmation.toJson());
 
     // Check for all image case
-    // Receives id upload
-    if (confirmation.receiverId != null) {
-      var receiverId =
-          await MultipartFile.fromFile(confirmation.receiverId!.path);
-      data.files.add(MapEntry('receiver_id', receiverId));
-    }
     // Customers signature upload
     if (confirmation.signature != null) {
       var signature =

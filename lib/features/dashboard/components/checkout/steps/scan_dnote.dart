@@ -9,10 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ODScanWidget extends StatelessWidget {
+class ODScanWidget extends StatefulWidget {
   const ODScanWidget({super.key, required this.order});
   final Order order;
 
+  @override
+  State<ODScanWidget> createState() => _ODScanWidgetState();
+}
+
+class _ODScanWidgetState extends State<ODScanWidget> {
   @override
   Widget build(BuildContext context) {
     final ImagePicker picker = ImagePicker();
@@ -33,14 +38,61 @@ class ODScanWidget extends StatelessWidget {
                     itemCount: state.dnote.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => Container(
-                      decoration: BoxDecoration(border: Border.all()),
-                      constraints:
-                          const BoxConstraints(maxHeight: 150, maxWidth: 150),
-                      child: Image.file(
-                        state.dnote[index],
-                        fit: BoxFit.cover,
-                      ),
+                    itemBuilder: (context, index) => Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(border: Border.all()),
+                          constraints: const BoxConstraints(
+                              maxHeight: 150, maxWidth: 150),
+                          child: Image.file(
+                            state.dnote[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          right: 8,
+                          child: IconButton(
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.white)),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    title: const Text('Delete Confirmation'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this D-Note image?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          context.read<CheckOutBloc>().add(
+                                              RemoveDNoteImage(index: index));
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Delete',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error)),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.remove),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : const SizedBox.shrink(),
@@ -60,7 +112,7 @@ class ODScanWidget extends StatelessWidget {
                                     .read<ProcessingCubit>()
                                     .orderConfirmationUpdate(
                                         OrderConfirmation(
-                                            orderId: order.orderId,
+                                            orderId: widget.order.orderId,
                                             dnote: context
                                                 .read<CheckOutBloc>()
                                                 .state

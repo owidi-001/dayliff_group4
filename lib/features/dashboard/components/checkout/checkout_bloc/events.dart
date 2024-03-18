@@ -47,6 +47,14 @@ class IDProof extends CheckoutEvent {
   @override
   List<Object?> get props => [image];
 }
+class IDNumberChanged extends CheckoutEvent {
+  final String idNumber;
+
+  const IDNumberChanged({required this.idNumber});
+
+  @override
+  List<Object?> get props => [idNumber];
+}
 
 class SignatureChanged extends CheckoutEvent {
   final File file;
@@ -71,4 +79,10 @@ class RemovePODImage extends CheckoutEvent {
   final int index;
 
   const RemovePODImage({required this.index});
+}
+
+class RemoveDNoteImage extends CheckoutEvent {
+  final int index;
+
+  const RemoveDNoteImage({required this.index});
 }

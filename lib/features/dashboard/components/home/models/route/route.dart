@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:dayliff/features/dashboard/components/trip_detail/model/trip_dtos.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -157,6 +156,7 @@ class OrderConfirmation with _$OrderConfirmation {
     @JsonKey(name: "order_id") required int orderId,
     // validation
     @JsonKey(name: "otp") String? otp,
+    @JsonKey(name: "id_number") String? idNumber,
     @JsonKey(name: "receiver_id", includeFromJson: false) File? receiverId,
     // signature
     @JsonKey(name: "recipientsignature", includeFromJson: false)

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dayliff/data/models/messages/app_message.dart';
 import 'package:dayliff/data/repository/location_repository.dart';
 import 'package:dayliff/data/repository/notifications_messages.dart';
@@ -171,6 +173,33 @@ Thank you for choosing Davis & Shirtliff we appreciate your trust in our service
     );
 
     final res = await _service.validateOtp(code, id);
+    res.when(onError: (error) {
+      emit(
+        state.copyWith(
+            status: ServiceStatus.submissionFailure,
+            message: AppMessage(message: error.error, tone: MessageTone.error)),
+      );
+    }, onSuccess: (data) {
+      emit(state.copyWith(
+          status: ServiceStatus.submissionSuccess,
+          message: AppMessage(message: data, tone: MessageTone.success)));
+      _checkOutBloc.add(checkoutEvent);
+    });
+  }
+
+  void idValidation(String? code, File? id, int confirmationId,
+      CheckoutEvent checkoutEvent) async {
+    emit(
+      state.copyWith(
+        status: ServiceStatus.submissionInProgress,
+        message: AppMessage(
+          message: "Verifying id...",
+          tone: MessageTone.loading,
+        ),
+      ),
+    );
+
+    final res = await _service.validateId(code, id, confirmationId);
     res.when(onError: (error) {
       emit(
         state.copyWith(
